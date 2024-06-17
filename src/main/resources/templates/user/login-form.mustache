@@ -1,0 +1,74 @@
+{{> layout/header}}
+<style>
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f8f9fa;
+    }
+    .login-container {
+        width: 100%;
+        max-width: 400px;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+    .login-container h2 {
+        margin-bottom: 20px;
+    }
+    .login-button {
+        width: 100%;
+        margin-top: 20px;
+        padding: 10px;
+        font-size: 18px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: nowrap;
+        color: white;
+    }
+    .login-button img {
+        margin-right: 10px;
+        height: 24px;
+    }
+    .naver-button {
+        background-color: #1ec800;
+    }
+    .kakao-button {
+        background-color: #ffeb00;
+    }
+    .guest-booking-button {
+        background-color: #4b1b3a; /* 로고 메인 색상 */
+    }
+    .button-group {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+</style>
+
+<div class="login-container">
+    <h2>로그인</h2>
+    <div class="button-group">
+        <!-- 네이버 로그인 버튼 -->
+        <button type="button" class="btn login-button naver-button" onclick="location.href='NAVER_OAUTH_URL'">
+            <img src="네이버_로고.png" alt=" " onerror="this.onerror=null; this.src='기본_이미지.png';"> 네이버 로그인
+        </button>
+        <!-- 카카오 로그인 버튼 -->
+        <button type="button" class="btn login-button kakao-button" onclick="location.href='KAKAO_OAUTH_URL'">
+            <img src="카카오_로고.png" alt=" " onerror="this.onerror=null; this.src='기본_이미지.png';"> 카카오 로그인
+        </button>
+        <!-- 비회원 예매 버튼 -->
+        <button type="button" class="btn login-button guest-booking-button" onclick="location.href='GUEST_BOOKING_URL'">비회원 예매</button>
+    </div>
+</div>
+
+<!-- jQuery and Bootstrap Bundle with Popper -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{{> layout/footer}}

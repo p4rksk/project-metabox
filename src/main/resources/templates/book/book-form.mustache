@@ -1,0 +1,357 @@
+{{> layout/header}}
+
+<style>
+    body {
+        background-color: #ffffff;
+    }
+    .container {
+        margin-top: 50px;
+        max-width: 1200px;
+    }
+    .list-box, .info-box, .notice-box {
+        background: #f0f0f0; /* 카드 내부 배경을 회색으로 변경 */
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+    }
+    .list-container {
+        display: flex;
+        justify-content: center;
+        flex-wrap: nowrap;
+        margin-bottom: 20px;
+    }
+    .list-group {
+        margin: 0;
+        border-right: 1px solid #ddd;
+        flex: 1;
+        min-width: 250px;
+        text-align: center;
+        background-color: #f0f0f0; /* 리스트 배경을 회색으로 변경 */
+        color: black;
+    }
+    .list-group-item {
+        cursor: pointer;
+        background-color: #f0f0f0; /* 리스트 아이템 배경을 회색으로 변경 */
+        color: black;
+        padding: 10px 0; /* 높이를 글자에 맞게 조정 */
+    }
+    .list-group-item.active {
+        background-color: #c8c8e0;
+        color: black;
+    }
+    .list-title {
+        font-size: 18px;
+        font-weight: bold;
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+        background-color: #4E0929; /* 리스트 제목 배경을 버건디 색상으로 변경 */
+        color: white;
+        text-align: center;
+    }
+    .schedule-table {
+        margin-top: 10px;
+    }
+    .schedule-table td {
+        padding: 5px;
+    }
+    .list-group-item.selected {
+        border: 1px solid red;
+        color: red;
+    }
+    .info-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        flex-wrap: wrap;
+    }
+    .info-box {
+        border: 1px solid #000;
+        padding: 10px;
+        margin: 0 10px;
+        text-align: left;
+        flex: 1;
+        min-height: 150px;
+        position: relative;
+    }
+    .date-button {
+        flex: 1;
+        margin: 0;
+        border: 1px solid #ddd;
+        border-radius: 0;
+        text-align: center;
+    }
+    .info-bar {
+        background-color: #1c1c1c;
+        color: white;
+        padding: 5px 0; /* 패딩을 줄여서 세로 크기 조정 */
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        z-index: 1000; /* 높여서 info-bar가 푸터 위에 오도록 설정 */
+    }
+    .info-bar .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .info-bar .movie-info {
+        display: flex;
+        align-items: center;
+    }
+    .info-bar .movie-info img {
+        width: 50px;
+        height: 75px;
+        margin-right: 15px;
+    }
+    .info-bar .movie-info .details {
+        display: flex;
+        flex-direction: column;
+    }
+    .info-bar .movie-info .details span {
+        margin-bottom: 5px;
+    }
+    .info-bar .btn-nav {
+        background-color: #333;
+        color: white;
+        border: none;
+        padding: 5px 10px; /* 패딩을 줄여서 버튼 크기 조정 */
+        border-radius: 5px;
+    }
+    .info-bar .btn-nav:hover {
+        background-color: #555;
+    }
+    @media (max-width: 992px) {
+        .list-container {
+            flex-direction: column;
+        }
+        .list-group {
+            border-right: none;
+            border-bottom: 1px solid #ddd;
+        }
+    }
+    @media (max-width: 576px) {
+        .list-group {
+            min-width: 100%;
+            border-bottom: none;
+        }
+    }
+</style>
+
+<div class="container">
+    <!-- 리스트를 담는 박스 -->
+    <div class="list-box">
+        <!-- 리스트 컨테이너 -->
+        <div class="list-container">
+            <!-- 첫 번째 리스트 -->
+            <div>
+                <div class="list-title">지역</div>
+                <ul id="main-list" class="list-group">
+                    <li class="list-group-item" data-options="강남, 강변, 건대입구, 구로, 대학로, 동대문, 등촌, 명동, 명동역 씨네라이브러리, 미아, 방학, 불광, 상봉, 성신여대입구, 송파, 수유">서울(23)</li>
+                    <li class="list-group-item" data-options="Option 4, Option 5, Option 6">경기/인천(47)</li>
+                    <li class="list-group-item" data-options="Option 7, Option 8, Option 9">충청/대전(11)</li>
+                    <li class="list-group-item" data-options="Option 10, Option 11, Option 12">전라/광주(11)</li>
+                    <li class="list-group-item" data-options="Option 13, Option 14, Option 15">경북/대구(16)</li>
+                    <li class="list-group-item" data-options="Option 16, Option 17, Option 18">경남/부산/울산(23)</li>
+                    <li class="list-group-item" data-options="Option 19, Option 20">강원(4)</li>
+                    <li class="list-group-item" data-options="Option 21, Option 22">제주(2)</li>
+                </ul>
+            </div>
+            <!-- 두 번째 리스트 -->
+            <div>
+                <div class="list-title">상영관</div>
+                <ul id="sub-list" class="list-group">
+                    <!-- 옵션이 동적으로 추가됩니다 -->
+                </ul>
+            </div>
+            <!-- 세 번째 리스트 -->
+            <div>
+                <div class="list-title">영화</div>
+                <ul id="movie-list" class="list-group">
+                    <!-- 영화가 동적으로 추가됩니다 -->
+                </ul>
+            </div>
+            <!-- 네 번째 리스트 -->
+            <div>
+                <div class="list-title">영화 시간표</div>
+                <div id="date-list" class="d-flex">
+                    <!-- 날짜가 동적으로 추가됩니다 -->
+                </div>
+                <ul id="schedule-list" class="list-group">
+                    <!-- 시간표가 동적으로 추가됩니다 -->
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 하단 바 -->
+<div class="info-bar">
+    <div class="container">
+        <button class="btn-nav">영화선택</button>
+        <div class="movie-info">
+            <img src="/img/insideout.jpg" alt="영화 포스터">
+            <div class="details">
+                <span>인사이드아웃2</span>
+                <span>2D(자막)</span>
+                <span>전체 관람가</span>
+            </div>
+        </div>
+        <div class="movie-details">
+            <span>극장: CGV 미아</span><br>
+            <span>일시: 2024.6.21(금) 19:20</span><br>
+            <span>상영관: 3관 10층 (Laser)</span><br>
+            <span>인원: </span>
+        </div>
+        <button class="btn-nav">결제선택</button>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const mainList = document.getElementById('main-list');
+        const subList = document.getElementById('sub-list');
+        const movieList = document.getElementById('movie-list');
+        const dateList = document.getElementById('date-list');
+        const scheduleList = document.getElementById('schedule-list');
+        const selectSeatButton = document.getElementById('select-seat-button');
+
+        let selectedMain = '';
+        let selectedSub = '';
+        let selectedMovie = '';
+        let selectedDate = '';
+        let selectedSchedule = '';
+
+        mainList.addEventListener('click', function (event) {
+            if (event.target.tagName === 'LI') {
+                const options = event.target.getAttribute('data-options').split(', ');
+                subList.innerHTML = ''; // 이전 옵션들을 지웁니다
+                movieList.innerHTML = ''; // 이전 영화를 지웁니다
+                dateList.innerHTML = ''; // 이전 날짜를 지웁니다
+                scheduleList.innerHTML = ''; // 이전 시간표를 지웁니다
+                selectedMain = event.target.textContent;
+
+                // 선택된 항목을 강조 표시합니다
+                document.querySelectorAll('#main-list .list-group-item').forEach(item => item.classList.remove('active', 'selected'));
+                event.target.classList.add('active', 'selected');
+
+                options.forEach(option => {
+                    const listItem = document.createElement('li');
+                    listItem.className = 'list-group-item';
+                    listItem.textContent = option;
+                    listItem.setAttribute('data-movies', '인사이드아웃2, 하이재킹, 북극백화점의안내원, 핸섬가이즈,프리실라, 드라이브, 캣퍼슨, 타로, 존오브인터레스트');
+                    subList.appendChild(listItem);
+                });
+
+                updateSelectedInfo();
+            }
+        });
+
+        subList.addEventListener('click', function (event) {
+            if (event.target.tagName === 'LI') {
+                const movies = event.target.getAttribute('data-movies').split(', ');
+                movieList.innerHTML = ''; // 이전 영화를 지웁니다
+                dateList.innerHTML = ''; // 이전 날짜를 지웁니다
+                scheduleList.innerHTML = ''; // 이전 시간표를 지웁니다
+                selectedSub = event.target.textContent;
+
+                // 선택된 항목을 강조 표시합니다
+                document.querySelectorAll('#sub-list .list-group-item').forEach(item => item.classList.remove('active', 'selected'));
+                event.target.classList.add('active', 'selected');
+
+                movies.forEach(movie => {
+                    const listItem = document.createElement('li');
+                    listItem.className = 'list-group-item';
+                    listItem.textContent = movie;
+                    listItem.setAttribute('data-dates', '17 월, 18 화, 19 수, 20 목, 21 금, 22 토, 23 일');
+                    movieList.appendChild(listItem);
+                });
+
+                updateSelectedInfo();
+            }
+        });
+
+        movieList.addEventListener('click', function (event) {
+            if (event.target.tagName === 'LI') {
+                const dates = event.target.getAttribute('data-dates').split(', ');
+                dateList.innerHTML = ''; // 이전 날짜를 지웁니다
+                scheduleList.innerHTML = ''; // 이전 시간표를 지웁니다
+                selectedMovie = event.target.textContent;
+
+                // 선택된 항목을 강조 표시합니다
+                document.querySelectorAll('#movie-list .list-group-item').forEach(item => item.classList.remove('active', 'selected'));
+                event.target.classList.add('active', 'selected');
+
+                dates.forEach(date => {
+                    const dateButton = document.createElement('button');
+                    dateButton.className = 'btn btn-light date-button';
+                    dateButton.textContent = date;
+                    dateButton.addEventListener('click', function () {
+                        selectedDate = date;
+                        document.querySelectorAll('.date-button').forEach(item => item.classList.remove('active'));
+                        dateButton.classList.add('active');
+                        updateScheduleList();
+                        updateSelectedInfo();
+                    });
+                    dateList.appendChild(dateButton);
+                });
+
+                updateSelectedInfo();
+            }
+        });
+
+        function updateScheduleList() {
+            if (selectedDate) {
+                const times = ['10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00'];
+                scheduleList.innerHTML = '';
+                times.forEach(time => {
+                    const listItem = document.createElement('li');
+                    listItem.className = 'list-group-item';
+                    listItem.textContent = time;
+                    listItem.addEventListener('click', function () {
+                        selectedSchedule = time;
+                        document.querySelectorAll('#schedule-list .list-group-item').forEach(item => item.classList.remove('active', 'selected'));
+                        listItem.classList.add('active', 'selected');
+                        updateSelectedInfo();
+                    });
+                    scheduleList.appendChild(listItem);
+                });
+            }
+        }
+
+        function updateSelectedInfo() {
+            // Update selected information dynamically
+        }
+
+        selectSeatButton.addEventListener('click', function () {
+            const data = {
+                selectedMain: selectedMain,
+                selectedSub: selectedSub,
+                selectedMovie: selectedMovie,
+                selectedDate: selectedDate,
+                selectedSchedule: selectedSchedule
+            };
+
+            fetch('next_page.html', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Success:', data);
+                        // 페이지 이동 등 원하는 동작 수행
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                    });
+        });
+    });
+</script>
+{{> layout/footer}}
