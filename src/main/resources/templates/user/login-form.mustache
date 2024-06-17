@@ -1,11 +1,11 @@
 {{> layout/header}}
 <style>
-    body {
+    .login-container-box {
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100vh;
-        background-color: #f8f9fa;
+        margin-bottom: 30px;
+        margin-top: 30px;
     }
     .login-container {
         width: 100%;
@@ -50,22 +50,24 @@
         align-items: center;
     }
 </style>
-
-<div class="login-container">
-    <h2>로그인</h2>
-    <div class="button-group">
-        <!-- 네이버 로그인 버튼 -->
-        <button type="button" class="btn login-button naver-button" onclick="location.href='NAVER_OAUTH_URL'">
-            <img src="네이버_로고.png" alt=" " onerror="this.onerror=null; this.src='기본_이미지.png';"> 네이버 로그인
-        </button>
-        <!-- 카카오 로그인 버튼 -->
-        <button type="button" class="btn login-button kakao-button" onclick="location.href='KAKAO_OAUTH_URL'">
-            <img src="카카오_로고.png" alt=" " onerror="this.onerror=null; this.src='기본_이미지.png';"> 카카오 로그인
-        </button>
-        <!-- 비회원 예매 버튼 -->
-        <button type="button" class="btn login-button guest-booking-button" onclick="location.href='GUEST_BOOKING_URL'">비회원 예매</button>
+<div class="login-container-box">
+    <div class="login-container">
+        <h2>로그인</h2>
+        <div class="button-group">
+            <!-- 네이버 로그인 버튼 -->
+            <button type="button" class="btn login-button naver-button" onclick="location.href='NAVER_OAUTH_URL'">
+                <img src="네이버_로고.png" alt=" " onerror="this.onerror=null; this.src='기본_이미지.png';"> 네이버 로그인
+            </button>
+            <!-- 카카오 로그인 버튼 -->
+            <button type="button" class="btn login-button kakao-button" onclick="location.href='KAKAO_OAUTH_URL'">
+                <img src="카카오_로고.png" alt=" " onerror="this.onerror=null; this.src='기본_이미지.png';"> 카카오 로그인
+            </button>
+            <!-- 비회원 예매 버튼 -->
+            <button type="button" class="btn login-button guest-booking-button" onclick="location.href='GUEST_BOOKING_URL'">비회원 예매</button>
+        </div>
     </div>
 </div>
+
 
 <!-- jQuery and Bootstrap Bundle with Popper -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

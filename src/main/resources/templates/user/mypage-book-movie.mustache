@@ -4,54 +4,65 @@
         background-color: #fff;
         font-family: 'Arial', sans-serif;
     }
+
     .profile-card {
-        max-width: 900px;
-        margin: 20px auto;
-        padding: 20px;
+        max-width: 100%;
+        margin: 20px 10px;
+        padding: 30px;
         background-color: #f8f9fa;
         border: 1px solid #ddd;
         border-radius: 10px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         text-align: left;
     }
+
     .profile-card img {
         width: 100px;
         height: 100px;
         border-radius: 50%;
         background-color: #ddd;
     }
+
     .profile-card .header {
         display: flex;
         align-items: center;
         margin-bottom: 20px;
     }
+
     .profile-card .header .info {
         margin-left: 20px;
     }
+
     .profile-card .header .info h3 {
         margin: 0;
         font-weight: 600;
     }
+
     .profile-card .header .info p {
         margin: 5px 0;
     }
+
     .profile-card .points, .profile-card .vip-points {
         margin-bottom: 20px;
     }
+
     .profile-card .points h4, .profile-card .vip-points h4 {
         font-weight: bold;
         display: flex;
         justify-content: space-between;
     }
+
     .profile-card .points p, .profile-card .vip-points p {
         margin: 0;
         font-size: 1rem;
     }
+
     .profile-card .grid {
         display: flex;
         justify-content: space-between;
         margin-top: 20px;
     }
+
     .profile-card .grid div {
         flex: 1;
         margin: 0 5px;
@@ -63,29 +74,35 @@
         justify-content: center;
         background-color: #f1f1f1;
     }
+
     .profile-card .grid .setting {
         background-color: #343a40;
         color: white;
         font-size: 0.9rem;
         cursor: pointer;
     }
+
     .sidebar {
         border-right: 1px solid #ddd;
         padding-right: 20px;
     }
+
     .sidebar h5 {
         margin-top: 20px;
         font-weight: bold;
     }
+
     .sidebar ul {
         padding-left: 0;
         list-style: none;
     }
+
     .sidebar ul li {
         padding: 10px 0;
         cursor: pointer;
         transition: color 0.3s;
     }
+
     .sidebar ul li:hover {
         color: #007bff;
     }
@@ -94,26 +111,25 @@
     .text-danger {
         color: #dc3545 !important;
     }
+
     .my-3 {
         margin-top: 1rem !important;
         margin-bottom: 1rem !important;
     }
+
     .movie-chart img {
         width: 100%;
         height: auto;
     }
+
     .rating {
         display: flex;
         align-items: center;
     }
+
     .rating span {
         margin-right: 5px;
     }
-    .nav {
-        justify-content: center;
-        margin-top: 1rem;
-    }
-
 
     /* 취소 내역 */
     .table {
@@ -230,17 +246,13 @@
         </div>
     </div>
 
-    <div class="row mt-4">
+    <div class="row mt-5">
         <div class="col-md-3 sidebar">
             <ul>
                 <li><h5>MY HOME</h5></li>
                 <li>나의 예매내역</li>
-                <li>회원정보</li>
-                <li style="margin-left: 10%;">회원정보 수정</li>
-                <li style="margin-left: 10%;">회원탈퇴</li>
-                <li>나의 문의내역</li>
-                <li style="margin-left: 10%;">1:1 문의</li>
-                <li style="margin-left: 10%;">분실물 문의</li>
+                <li>회원탈퇴</li>
+                <li>1:1 문의</li>
             </ul>
         </div>
         <div class="col-md-9">
@@ -248,7 +260,8 @@
                 <h5 style="font-weight: bolder;">나의 예매내역</h5>
             </div>
             <div class="my-3 d-flex align-items-center justify-content-between">
-                <p class="mb-0" style="font-size: 15px; margin-top: -2%">지난 <span class="text-danger">1개월</span>까지의 예매내역을 확인하실 수 있습니다.</p>
+                <p class="mb-0" style="font-size: 15px; margin-top: -2%">지난 <span class="text-danger">1개월</span>까지의
+                    예매내역을 확인하실 수 있습니다.</p>
                 <button class="custom-button" style="margin-top: -5%; font-weight: bolder;">내가 본 영화</button>
             </div>
 
@@ -265,7 +278,8 @@
             </div>
 
             <br>
-            <hr style="height: 1px; background-color: rgb(209, 209, 209);"><br>
+            <hr style="height: 1px; background-color: rgb(209, 209, 209);">
+            <br>
 
             <div style="background-color: #F1F1F1; text-align: center;"><h5 class="my-3">TODAY BEST 무비차트</h5></div>
             <div id="carouselExampleControls" class="carousel slide movie-chart" data-ride="carousel">
@@ -277,7 +291,6 @@
                                 <p class="mt-3" style="font-weight: bolder;">인사이드 아웃 2</p>
                                 <div class="rating">
                                     <span>예매율 60.8%</span>
-                                    <span>👍 97%</span>
                                 </div>
                                 <p>2024.06.12 개봉</p>
                             </div>
@@ -286,7 +299,6 @@
                                 <p class="mt-3" style="font-weight: bolder;">하이재킹</p>
                                 <div class="rating">
                                     <span>예매율 8.0%</span>
-                                    <span>👍 99%</span>
                                 </div>
                                 <p>2024.06.21 개봉</p>
                             </div>
@@ -295,7 +307,6 @@
                                 <p class="mt-3" style="font-weight: bolder;">핸섬가이즈</p>
                                 <div class="rating">
                                     <span>예매율 3.0%</span>
-                                    <span>👍 95%</span>
                                 </div>
                                 <p>2024.06.26 개봉</p>
                             </div>
@@ -337,6 +348,5 @@
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 {{> layout/footer}}

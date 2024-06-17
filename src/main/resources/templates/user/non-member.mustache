@@ -1,13 +1,7 @@
 {{> layout/header}}
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
 <style>
-    body {
-        background-color: #f7f7f7;
-    }
-    .container {
-        margin-top: 50px;
-        max-width: 800px;
-    }
+
     .info-box, .notice-box, .consent-box {
         background: white;
         padding: 30px;
@@ -15,29 +9,32 @@
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         margin-bottom: 20px;
     }
+
     .btn-custom {
         background-color: #ff5a5a;
         color: white;
-        width: 100%;
+        width: 50%;
+        margin-left: 275px;
     }
+
     .form-group {
         margin-bottom: 15px;
     }
+
     .form-control, .form-select {
         height: calc(1.5em + 1rem + 2px);
         padding: 0.5rem 1rem;
         font-size: 1rem;
     }
-    .input-group-text {
-        background-color: white;
-        border: none;
-    }
+
     .input-group {
         position: relative;
     }
+
     .input-group input {
         padding-left: 45px;
     }
+
     .input-group .icon {
         position: absolute;
         left: 15px;
@@ -45,62 +42,35 @@
         transform: translateY(-50%);
         color: #ced4da;
     }
-    .gender-group {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-    .gender-group .btn {
-        width: 32%;
-    }
-    .navbar-brand img {
-        height: 40px;
-    }
-    .footer {
-        background-color: #4E0929;
-        padding: 20px 0;
-    }
-    .footer .footer-links {
-        display: flex;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        margin-bottom: 20px;
-    }
-    .footer .footer-links a {
-        color: #6c757d;
-        margin-right: 15px;
-        text-decoration: none;
-    }
-    .footer .footer-info {
-        color: #6c757d;
-        font-size: 0.9rem;
-    }
-    .footer .footer-info p {
-        margin: 0;
-    }
+
     .notice-box {
         border: 1px solid #ddd;
         padding: 20px;
         border-radius: 5px;
         background-color: #f9f9f9;
     }
+
     .consent-table {
         width: 100%;
         margin-top: 20px;
         border-collapse: collapse;
     }
+
     .consent-table th, .consent-table td {
         border: 1px solid #ddd;
         padding: 10px;
         text-align: center;
     }
+
     .consent-table th {
         background-color: #f2f2f2;
     }
+
     .consent-note {
         margin-top: 10px;
         font-size: 0.9rem;
     }
+
     .consent-link {
         color: red;
         text-decoration: underline;
@@ -199,7 +169,5 @@
 </div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 {{> layout/footer}}
