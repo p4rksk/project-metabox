@@ -20,11 +20,15 @@
     border-bottom: 1px solid #dadada;
 }
 
-.navbar-brand img {
-    height: 100px;
-    width: 300px;
+.navbar-brand-logo{
+    width: 200px;
+    height: 100%;
 }
-
+.navbar-brand-footer{
+    width: 150px;
+    height: 100%;
+    margin-right: 30px;
+}
 .navbar-nav .nav-link {
     /* color: black; */
     font-weight: bold;

@@ -1,0 +1,239 @@
+{{> layout/header}}
+<style>
+    body {
+        background-color: #fff;
+        font-family: 'Arial', sans-serif;
+    }
+    .profile-card {
+        max-width: 900px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #f8f9fa;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: left;
+    }
+    .profile-card img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background-color: #ddd;
+    }
+    .profile-card .header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+    .profile-card .header .info {
+        margin-left: 20px;
+    }
+    .profile-card .header .info h3 {
+        margin: 0;
+        font-weight: 600;
+    }
+    .profile-card .header .info p {
+        margin: 5px 0;
+    }
+    .profile-card .points, .profile-card .vip-points {
+        margin-bottom: 20px;
+    }
+    .profile-card .points h4, .profile-card .vip-points h4 {
+        font-weight: bold;
+        display: flex;
+        justify-content: space-between;
+    }
+    .profile-card .points p, .profile-card .vip-points p {
+        margin: 0;
+        font-size: 1rem;
+    }
+    .profile-card .grid {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+    }
+    .profile-card .grid div {
+        flex: 1;
+        margin: 0 5px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        height: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #f1f1f1;
+    }
+    .profile-card .grid .setting {
+        background-color: #343a40;
+        color: white;
+        font-size: 0.9rem;
+        cursor: pointer;
+    }
+    .sidebar {
+        border-right: 1px solid #ddd;
+        padding-right: 20px;
+    }
+    .sidebar h5 {
+        margin-top: 20px;
+        font-weight: bold;
+    }
+    .sidebar ul {
+        padding-left: 0;
+        list-style: none;
+    }
+    .sidebar ul li {
+        padding: 10px 0;
+        cursor: pointer;
+        transition: color 0.3s;
+    }
+    .sidebar ul li:hover {
+        color: #007bff;
+    }
+    .content-section {
+        padding: 20px;
+    }
+    .content-section h5 {
+        margin-bottom: 20px;
+        font-weight: bold;
+    }
+    .content-section .row div {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 20px;
+        text-align: center;
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s;
+    }
+    .content-section .row div:hover {
+        transform: translateY(-5px);
+        cursor: pointer;
+    }
+    .content-section .row div h6 {
+        margin-top: 10px;
+        font-weight: bold;
+    }
+    .content-section p {
+        font-size: 0.9rem;
+        color: #6c757d;
+    }
+
+    .boxed {
+        border: 1px solid #ddd; /* 테두리 설정 */
+        padding: 20px; /* 내용물과 테두리 사이의 여백 */
+        border-radius: 5px; /* 모서리 둥글게 */
+        background-color: #f9f9f9; /* 배경색 설정 */
+        text-align: center;
+    }
+
+    /* + 버튼 */
+    .add-button {
+        display: inline-block;
+        width: 24px; /* 크기 조정 */
+        height: 24px; /* 크기 조정 */
+        border: 1px solid #ccc;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 22px; /* 중앙 정렬 */
+        margin-left: 10px;
+        cursor: pointer;
+        background-color: #f4f4f4; /* 배경색 추가 */
+        color: #333; /* 글자색 설정 */
+        font-weight: bold; /* 글자 두껍게 */
+        transition: background-color 0.3s, box-shadow 0.3s; /* 부드러운 전환 효과 */
+    }
+
+    .add-button:hover {
+        background-color: #ddd; /* 호버 시 배경색 변경 */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 호버 시 그림자 추가 */
+    }
+
+</style>
+
+<div class="container">
+    <div class="profile-card">
+        <div class="header">
+            <img src="https://via.placeholder.com/100" alt="profile picture">
+            <div class="info">
+                <h3>박찬혁님</h3>
+                <p><strong>cowtti97</strong></p>
+                <p>고객님은 <span class="text-danger">일반</span> 입니다.</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 points">
+                <h4>POINT <span><i class="fas fa-plus"></i></span></h4>
+                <p>사용가능 포인트 <strong>300 점</strong></p>
+            </div>
+            <div class="col-md-6 vip-points">
+                <h4>VIP 점수 <i class="fas fa-question-circle"></i></h4>
+                <p>VIP 누적 점수 <strong>300/10,000점</strong></p>
+            </div>
+        </div>
+        <div class="grid">
+            <div>1</div>
+            <div>2</div>
+            <div>3</div>
+            <div>4</div>
+            <div>5</div>
+            <div class="setting" style="text-align: center;">자주가는 극장 설정하기</div>
+        </div>
+    </div>
+
+    <!-- 밑의 부분 -->
+    <div class="row mt-4">
+        <div class="col-md-3 sidebar">
+
+            <ul>
+                <li><h5>MY HOME</h5></li>
+                <li>나의 예매내역</li>
+                <li>회원정보</li>
+                <li style="margin-left: 10%;">회원정보 수정</li>
+                <li style="margin-left: 10%;">회원탈퇴</li>
+                <li>나의 문의내역</li>
+                <li style="margin-left: 10%;">1:1 문의</li>
+                <li style="margin-left: 10%;">분실물 문의</li>
+            </ul>
+        </div>
+        <div class="col-md-9 content-section">
+            <div class="row">
+                <div class="col-md-4">
+                    <img src="https://via.placeholder.com/40" alt="icon">
+                    <h6>기대되는 영화</h6>
+                    <p>보고 싶은 영화를<br>미리 담아두고 싶다면?</p>
+                </div>
+                <div class="col-md-4">
+                    <img src="https://via.placeholder.com/40" alt="icon">
+                    <h6>내가 본 영화</h6>
+                    <p>관람한 영화를<br>한 번에 모아 보고 싶다면?</p>
+                </div>
+                <div class="col-md-4">
+                    <img src="https://via.placeholder.com/40" alt="icon">
+                    <h6>내가 쓴 평점</h6>
+                    <p>관람 후 내 느낌을<br>점수로 남기고 싶다면?</p>
+                </div>
+            </div>
+
+            <br>
+
+            <div class="mt-4">
+                <h5>MY 예매내역 0건 <span class="add-button">+</span></h5>
+                <div class="mt-4 boxed">
+                    <p>고객님의 최근 예매내역이 존재하지 않습니다.</p>
+                </div>
+            </div>
+            <div class="mt-4">
+                <h5>MY Q&A 0건 <span class="add-button">+</span></h5>
+                <div class="mt-4 boxed">
+                    <p>고객님의 1:1 문의내역이 존재하지 않습니다.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+{{> layout/footer}}
