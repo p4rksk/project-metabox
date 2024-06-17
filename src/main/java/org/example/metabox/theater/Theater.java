@@ -1,12 +1,8 @@
 package org.example.metabox.theater;
 
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
-
-import java.security.Timestamp;
 
 @Data
 @NoArgsConstructor
@@ -17,17 +13,18 @@ public class Theater {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    private String name;
+    private String imgFilename;
+    private String address;
+
+    // 051-153-159
+    private String number;
     private String loginId;
     private String password;
+    // 실시간 길안내 네이버 지도 url
+    private String url;
+    // 주차 안내
+    private String parkingInfo;
 
-    @CreationTimestamp
-    private Timestamp createdAt;
-
-    @Builder
-    public Theater(int id, String loginId, String password, Timestamp createdAt) {
-        this.id = id;
-        this.loginId = loginId;
-        this.password = password;
-        this.createdAt = createdAt;
-    }
+    // 이미지 ㅏ일 내용 추가
 }

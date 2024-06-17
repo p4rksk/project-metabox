@@ -1,4 +1,4 @@
-package org.example.metabox.admin;
+package org.example.metabox.review;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -7,11 +7,13 @@ import lombok.NoArgsConstructor;
 @Entity
 @Data
 @NoArgsConstructor
-@Table(name = "admin_tb")
-public class Admin {
+@Table(name = "review_tb")
+public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String password;
+    private String comment;
+    // TODO : Enum 처리?
+    private int rating;
 }

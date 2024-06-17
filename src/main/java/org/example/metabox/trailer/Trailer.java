@@ -1,4 +1,4 @@
-package org.example.metabox.admin;
+package org.example.metabox.trailer;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -7,11 +7,12 @@ import lombok.NoArgsConstructor;
 @Entity
 @Data
 @NoArgsConstructor
-@Table(name = "admin_tb")
-public class Admin {
+@Table(name = "trailer_tb")
+public class Trailer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String password;
+    private String imgFilename;
+    private String streamingFilename;
 }
