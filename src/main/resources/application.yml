@@ -1,1 +1,4 @@
-spring.application.name=metabox
+spring:
+  profiles:
+    active:
+      - dev

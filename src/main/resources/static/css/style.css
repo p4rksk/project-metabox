@@ -1,0 +1,51 @@
+@charset "UTF-8";
+
+.nav-link-flex {
+    display: flex;
+    flex-direction: column;
+    /* 요소들을 수직으로 정렬 */
+    align-items: center;
+    /* 중앙 정렬 */
+    text-align: center;
+    /* 텍스트 중앙 정렬 */
+    font-size: 12px;
+    font-color: #dadada;
+}
+
+.nav-img {
+    height: 40px;
+}
+
+.navbar {
+    border-bottom: 1px solid #dadada;
+}
+
+.navbar-brand img {
+    height: 100px;
+    width: 300px;
+}
+
+.navbar-nav .nav-link {
+    /* color: black; */
+    font-weight: bold;
+}
+
+.navbar-nav .nav-link.active {
+    color: red;
+}
+
+.navbar-nav .nav-link:hover {
+    color: red;
+}
+
+.navbar-icons .nav-link {
+    color: grey;
+}
+
+.navbar-icons .nav-link:hover {
+    color: red;
+}
+
+.sub-navbar {
+    padding-top: 10px;
+}
