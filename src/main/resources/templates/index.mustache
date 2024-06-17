@@ -1,4 +1,241 @@
 {{> layout/header}}
 
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet"> <!-- 멋진 글꼴 추가 -->
+<style>
 
+    /* MOVIE 부분 */
+    .movie-main img {
+        width: 100%;
+        border-radius: 5px;
+        height: 500px; /* 이미지 높이 설정 */
+    }
+
+    .movie-chart img {
+        width: 100%;
+        border-radius: 5px;
+    }
+    .movie-chart .movie-item {
+        position: relative; /* relative position 설정 */
+        text-align: center;
+    }
+    .movie-chart .movie-item img {
+        display: block;
+        width: 100%;
+        border-radius: 5px;
+    }
+    .movie-chart .movie-item .rank {
+        position: absolute; /* absolute position 설정 */
+        top: 10px; /* 이미지 위의 위치 설정 */
+        left: 10px;
+        font-size: 2rem;
+        font-weight: bold;
+        color: white;
+        background: rgba(0, 0, 0, 0.5); /* 배경 색상 및 투명도 설정 */
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-family: 'Bebas Neue', cursive; /* 멋진 글꼴 적용 */
+    }
+    .movie-chart .movie-item p {
+        margin: 5px 0;
+    }
+    .movie-chart .movie-item .rating {
+        color: gold;
+    }
+    .movie-chart .movie-item .percentage {
+        color: gray;
+    }
+
+    /* 공지 부분 CSS */
+    .notice-box {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 20px;
+        margin-top: 20px;
+        width: 80%;
+    }
+    .notice-box .notice-header {
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+    .notice-box .notice-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .notice-box .notice-content .notice-text {
+        flex-grow: 1;
+    }
+    .notice-box .notice-content .notice-more {
+        margin-left: 10px;
+    }
+    .notice-box .customer-center {
+        margin-top: 20px;
+    }
+    .notice-box .customer-center .customer-header {
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+    .notice-box .customer-center .customer-content {
+        margin-bottom: 10px;
+    }
+    .notice-box .customer-center .btn-group {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    /* 네비 및 메인 배너 */
+    .navbar-brand img {
+        height: 40px;
+    }
+    .main-banner {
+        position: relative; /* 상대 위치 설정 */
+        height: 500px; /* 배너 높이 설정 */
+        color: white;
+        text-align: center;
+    }
+    .main-banner .content {
+        position: absolute; /* 절대 위치 설정 */
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%); /* 중앙 정렬 */
+        z-index: 2; /* 텍스트를 이미지 위로 */
+    }
+    .main-banner h1 {
+        font-size: 3rem;
+        color: purple;
+    }
+    .main-banner p {
+        font-size: 1.2rem;
+        color: red;
+    }
+    .main-banner .btn {
+        margin-top: 20px;
+    }
+
+
+    /* 전체보기 버튼 스타일 */
+    .btn-custom {
+        display: inline-flex;
+        align-items: center;
+        padding: 10px 20px;
+        border: 1px solid #ddd;
+        border-radius: 50px;
+        background-color: white;
+        color: black;
+        text-decoration: none;
+        font-size: 1rem;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .btn-custom .arrow {
+        margin-left: 10px;
+        font-size: 15px;
+    }
+
+    /* 더보기 버튼 스타일 */
+    .btn-more {
+        display: inline-flex;
+        align-items: center;
+        padding: 5px 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: white;
+        color: black;
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: bold;
+    }
+
+    .btn-custom:hover, .btn-more:hover {
+        color: black; /* 기존 글자색 유지 */
+        text-decoration: none; /* 밑줄 제거 */
+    }
+</style>
+
+<!-- Main Banner -->
+<div class="main-banner">
+    <div class="movie-main">
+        <img src="img/mil.png">
+    </div>
+    <div class="content">
+        <h1>핸섬가이즈</h1>
+        <p>이성민X이희준의 살벌한 코미디 탄생<br>6월 25일, 극장에서 기다릴게</p>
+        <!-- <button class="btn btn-light">상세보기</button> -->
+    </div>
+</div>
+
+<!-- 무비 차트, 상영 예정작  -->
+<div class="container mt-5">
+    <h2 class="text-center">무비차트 <small class="text-muted">| 상영예정작</small></h2>
+
+    <div class="text-right mt-3">
+        <a href="#" class="btn-custom">전체보기 <span class="arrow">&rarr;</span></a>
+    </div>
+
+    <div class="row justify-content-center movie-chart">
+        <div class="col-md-2 movie-item">
+            <img src="img/insideout.jpg" alt="인사이드 아웃 2">
+            <div class="rank">1</div> <!-- 순위 오버레이 -->
+            <p>인사이드 아웃 2</p>
+            <p class="rating">97%</p>
+            <p class="percentage">예매율 55.8%</p>
+        </div>
+        <div class="col-md-2 movie-item">
+            <img src="img/hi.jpg" alt="하이재킹">
+            <div class="rank">2</div> <!-- 순위 오버레이 -->
+            <p>하이재킹</p>
+            <p class="rating">99%</p>
+            <p class="percentage">예매율 6.3%</p>
+        </div>
+        <div class="col-md-2 movie-item">
+            <img src="/img/wonderland.jpg" alt="원더랜드">
+            <div class="rank">3</div> <!-- 순위 오버레이 -->
+            <p>원더랜드</p>
+            <p class="rating">95%</p>
+            <p class="percentage">예매율 5.7%</p>
+        </div>
+        <div class="col-md-2 movie-item">
+            <img src="/img/fishing.jpg" alt="밤낚시">
+            <div class="rank">4</div> <!-- 순위 오버레이 -->
+            <p>밤낚시</p>
+            <p class="rating">?</p>
+            <p class="percentage">예매율 5.0%</p>
+        </div>
+        <div class="col-md-2 movie-item">
+            <img src="/img/run.jpg" alt="탈주">
+            <div class="rank">5</div> <!-- 순위 오버레이 -->
+            <p>타로</p>
+            <p class="rating">?</p>
+            <p class="percentage">예매율 4.8%</p>
+        </div>
+    </div>
+</div>
+
+<!-- 공지사항 부분  -->
+<div class="container mt-5">
+    <div class="notice-box mx-auto">
+        <div class="notice-header">공지사항</div>
+        <div class="notice-content">
+            <div class="notice-text">[행사/이벤트][CGV] &lt;선재 업고 튀어&gt; 최종화 단...</div>
+            <button class="btn btn-link notice-more btn-more">더보기</button>
+        </div>
+        <div class="customer-center">
+            <div class="customer-header">고객센터</div>
+            <div class="customer-content">
+                <p><strong>1544-1122</strong></p>
+                <p>고객센터 운영시간 (평일 09:00~18:00)<br>업무시간 외 자동응답 안내 가능합니다.</p>
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-outline-secondary">FAQ</button>
+                <button class="btn btn-outline-secondary">1:1 문의</button>
+                <button class="btn btn-outline-secondary">대관/단체 문의</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 {{> layout/footer}}

@@ -1,0 +1,139 @@
+{{> layout/header}}
+
+<style>
+    #photoPreviewContainer {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+    }
+
+    #photoPreviewContainer img {
+        margin-right: 10px;
+    }
+</style>
+<div class="container mt-5">
+    <h2>영화 등록</h2>
+    <hr>
+    <form action="#" method="post">
+        <div class="form-group mt-4">
+            <div class="d-flex justify-content-center align-items-center"
+                 style="width: 250px; height: 300px; border: 2px solid #E6E6E6; color: #E6E6E6;" id="profilePreview">
+                <b id="placeholderText">사진을 등록해 주세요.</b>
+                <img id="photoPreview" src="#" alt="Photo Preview"
+                     style="display: none; width: 250px; height: 300px;">
+            </div>
+            <div class="file-input-container mt-4">
+                <input type="file" class="form-control-file" id="moviePhotos" accept="image/*"
+                       onchange="previewImage();">
+            </div>
+        </div>
+
+        <div class="d-flex" style="justify-content: space-between; column-gap: 20px;">
+            <div style="width: 100%;">
+                <div class="form-group">
+                    <label for="movieTitle">영화 제목</label>
+                    <input type="text" class="form-control" id="movieTitle" placeholder="영화 제목을 입력하세요">
+                </div>
+                <div class="form-group">
+                    <label for="director">감독</label>
+                    <input type="text" class="form-control" id="director" placeholder="감독을 입력하세요">
+                </div>
+                <div class="form-group">
+                    <label for="actors">배우</label>
+                    <input type="text" class="form-control" id="actors" placeholder="배우를 입력하세요">
+                </div>
+            </div>
+            <div style="width: 100%;">
+                <div class="form-group">
+                    <label for="basicInfo">기본 정보</label>
+                    <input type="text" class="form-control" id="basicInfo" placeholder="기본 정보를 입력하세요">
+                </div>
+                <div class="form-group">
+                    <label for="movieGenre">장르</label>
+                    <input type="text" class="form-control" id="movieGenre" placeholder="영화 장르를 입력하세요">
+                </div>
+                <div class="form-group">
+                    <label for="releaseDate">개봉일</label>
+                    <input type="date" class="form-control" id="releaseDate">
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="synopsis">영화 설명</label>
+            <textarea class="form-control" id="synopsis" rows="15" placeholder="영화에 대한 설명을 입력하세요"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="stills">스틸컷</label>
+            <div id="photoPreviewContainer"></div>
+            <input type="file" class="form-control-file" id="stills" accept="image/*" onchange="previewImages();"
+                   multiple>
+        </div>
+        <div class="form-group">
+            <label for="trailer">트레일러</label>
+            <div id="videoPreviewContainer">
+                <video id="videoPreview" width="320" height="240" controls style="display: none;"></video>
+            </div>
+            <input type="file" class="form-control-file" id="trailer" accept="video/*" onchange="previewVideo();">
+        </div>
+        <button type="submit" class="btn btn-primary">등록</button>
+
+    </form>
+</div>
+<script>
+    function previewImage() {
+        var file = document.getElementById("moviePhotos").files[0];
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            var imgElement = document.getElementById("photoPreview");
+            var placeholderText = document.getElementById("placeholderText");
+            imgElement.src = e.target.result;
+            imgElement.style.display = "block";
+            placeholderText.style.display = "none"; // 문구 숨기기
+        };
+
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    }
+</script>
+<script>
+    function previewImages() {
+        var files = document.getElementById("stills").files;
+        var previewContainer = document.getElementById("photoPreviewContainer");
+        previewContainer.innerHTML = ""; // 기존 미리보기 초기화
+
+        for (var i = 0; i < files.length; i++) {
+            var file = files[i];
+            var reader = new FileReader();
+
+            reader.onload = (function (file) {
+                return function (e) {
+                    var imgElement = document.createElement("img");
+                    imgElement.src = e.target.result;
+                    previewContainer.appendChild(imgElement);
+                };
+            })(file);
+
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        }
+    }
+</script>
+<script>
+    function previewVideo() {
+        var fileInput = document.getElementById('trailer');
+        var file = fileInput.files[0];
+        var videoPreview = document.getElementById('videoPreview');
+
+        if (file) {
+            videoPreview.src = URL.createObjectURL(file);
+            videoPreview.style.display = 'block';
+        }
+    }
+</script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{{> layout/footer}}
