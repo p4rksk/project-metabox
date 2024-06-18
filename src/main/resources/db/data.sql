@@ -38,7 +38,7 @@ values ('METABOX 경기광주', 'theater1.png', '경기도 광주시 역동16-1 
         '');
 
 -- 영화 생성 (10개)
-insert into movie_tb(title, eng_title, diretor, actor, genre, info, date, img_filename, description)
+insert into movie_tb(title, eng_title, director, actor, genre, info, date, img_filename, description)
 values
 -- 1
 ('인사이드 아웃 2', 'Inside Out 2', '켈시 만', '에이미 포엘러 , 마야 호크 ,  루이스 블랙 ,  필리스 스미스 ,  토니 헤일', '애니메이션', '전체관람가, 96분, 미국',

@@ -16,6 +16,7 @@ public class Movie {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    // 한글 영화 제목
     private String title;
     // 영어 제목
     private String engTitle;
@@ -33,6 +34,7 @@ public class Movie {
     private String imgFilename;
 
     // 영화 소개
+    @Column(length = 2000)
     private String description;
 
     @Builder
