@@ -1,26 +1,26 @@
 {{> layout/header}}
 <style>
-    .main-banner {
+    .login-banner {
+        height: 300px;
         position: relative;
-        height: 500px;
         color: white;
         text-align: center;
         background-color: #000;
     }
 
-    .main-banner .movie-main {
+    .login-banner .login-banner-main {
         width: 100%;
         height: 100%;
-        overflow: hidden;
+        background-color: #4b1b3a;
     }
 
-    .main-banner .movie-main img {
-        width: 100%;
+    .login-banner .login-banner-main img {
+        width: 80%;
         height: 100%;
-        object-fit: cover;
+        filter: blur(8px);
     }
 
-    .main-banner .content {
+    .login-banner .content {
         position: absolute;
         top: 50%;
         left: 50%;
@@ -31,7 +31,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        margin-bottom: 30px;
+        margin-bottom: 50px;
         margin-top: 30px;
     }
     .login-container {
@@ -52,13 +52,14 @@
         justify-content: center;
         flex-wrap: nowrap;
         color: white;
+        border-radius: 0;
     }
     .login-button img {
         margin-right: 10px;
         height: 24px;
     }
     .naver-button {
-        background-color: #1ec800;
+        background-color: #19CD60;
     }
     .kakao-button {
         background-color: #ffeb00;
@@ -91,30 +92,41 @@
         <div class="button-group">
             <!-- 네이버 로그인 버튼 -->
             <button type="button" class="btn login-button naver-button" onclick="location.href='NAVER_OAUTH_URL'">
-                <img src="네이버_로고.png" alt=" " onerror="this.onerror=null; this.src='기본_이미지.png';"> 네이버 로그인
+                N<span>|</span>네이버 로그인
+<!--                <img src="네이버_로고.png" alt=" " onerror="this.onerror=null; this.src='기본_이미지.png';"> 네이버 로그인-->
             </button>
             <!-- 카카오 로그인 버튼 -->
             <button type="button" class="btn login-button kakao-button" onclick="location.href='KAKAO_OAUTH_URL'">
-                <img src="카카오_로고.png" alt=" " onerror="this.onerror=null; this.src='기본_이미지.png';"> 카카오 로그인
+                K<span>|</span>카카오 로그인
+<!--                <img src="카카오_로고.png" alt=" " onerror="this.onerror=null; this.src='기본_이미지.png';"> 카카오 로그인-->
             </button>
             <hr style="border: 2px solid #4b1b3a; width: 100%">
             <!-- 비회원 예매 버튼 -->
-            <span><a href="/non-member" style="color: black">비회원 예매</a></span>
-
+            <div>
+                <span><a href="/non-member" style="color: black">비회원 예매</a></span>
+                <span>|</span>
+                <span><a href="#" style="color: black">비회원 예매내역</a></span>
+            </div>
         </div>
     </div>
+
 </div>
+
 <div class="container-fluid p-0">
-    <!-- Main Banner -->
-    <div class="main-banner">
-        <div class="movie-main">
-            <img src="image/index/login1.jpg" alt="Main Banner">
+    <div class="login-banner">
+        <div class="login-banner-main">
+            <img src="/image/index/login-footer2.jpg" alt="Main Banner">
         </div>
-
+        <div class="content">
+            <h1>힐링이 필요할땐?!</h1>
+            <p>무더운 여름 날, META BOX와 함께라면!!<br>Everyday META BOX와 함께해!</p>
+        </div>
     </div>
 </div>
 
-
+<!--<div class="login-footer">-->
+<!--    <img src="/image/index/login-footer1.png" style="width: 800px;">-->
+<!--</div>-->
 
 <!-- jQuery and Bootstrap Bundle with Popper -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
