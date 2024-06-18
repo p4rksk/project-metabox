@@ -10,16 +10,16 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding-bottom: 10px;
         border-bottom: 1px solid #ddd;
     }
     .seat-selection-header h4 {
-        margin: 0;
+        margin: 20px;
     }
     .selection-container {
         display: flex;
         justify-content: space-between;
         align-items: flex-start;
+        padding: 20px 0;
     }
     .seat-groups {
         max-width: 50%;
@@ -103,8 +103,9 @@
     .legend {
         display: flex;
         flex-wrap: wrap;
-        margin-top: 20px;
         gap: 10px;
+        justify-content: center;
+        padding: 20px;
     }
     .legend .seat {
         display: inline-block;
@@ -125,7 +126,7 @@
         display: flex;
         justify-content: flex-end;
         gap: 10px;
-        max-width: 900px;
+        max-width: 800px;
         margin-top: 20px;
         margin-bottom: 20px;
         margin-left: 32%;
@@ -172,261 +173,274 @@
         background-color: #555;
     }
 
+    .side-poster img{
+        width: 250px;
+        margin-left: 80px;
+        margin-top: 50px;
+    }
 </style>
+<div class="d-flex justify-content-center">
+    <div>
+        <div class="custom-buttons">
+            <button type="button" class="btn btn-secondary fa-solid fa-clock" style="background-color: #4E0929;"> 상영시간표</button>
+            <button type="button" class="btn btn-secondary fa-solid fa-rotate-right" style="background-color: #4E0929;"> 예매 다시하기</button>
+        </div>
 
-<div class="custom-buttons">
-    <button type="button" class="btn btn-secondary fa-solid fa-clock" style="background-color: #4E0929;"> 상영시간표</button>
-    <button type="button" class="btn btn-secondary fa-solid fa-rotate-right" style="background-color: #4E0929;"> 예매 다시하기</button>
+        <div class="container" style="background-color: #F9F9F9; width: 800px">
+            <div class="seat-selection-header">
+                <h4>인원 / 좌석</h4>
+                <button type="button" class="btn btn-secondary fa-solid fa-rotate-right" style="background-color: #4E0929;"></button>
+            </div>
+            <div class="selection-container">
+                <div class="seat-groups">
+                    <div class="seat-group">
+                        <label>일반</label>
+                        <div class="seat-buttons btn-group" role="group" aria-label="일반 좌석 선택">
+                            <button type="button" class="btn btn-secondary">0</button>
+                            <button type="button" class="btn btn-secondary">1</button>
+                            <button type="button" class="btn btn-secondary">2</button>
+                            <button type="button" class="btn btn-secondary">3</button>
+                            <button type="button" class="btn btn-secondary">4</button>
+                            <button type="button" class="btn btn-secondary">5</button>
+                            <button type="button" class="btn btn-secondary">6</button>
+                            <button type="button" class="btn btn-secondary">7</button>
+                            <button type="button" class="btn btn-secondary">8</button>
+                        </div>
+                    </div>
+                    <div class="seat-group">
+                        <label>청소년</label>
+                        <div class="seat-buttons btn-group" role="group" aria-label="청소년 좌석 선택">
+                            <button type="button" class="btn btn-secondary">0</button>
+                            <button type="button" class="btn btn-secondary">1</button>
+                            <button type="button" class="btn btn-secondary">2</button>
+                            <button type="button" class="btn btn-secondary">3</button>
+                            <button type="button" class="btn btn-secondary">4</button>
+                            <button type="button" class="btn btn-secondary">5</button>
+                            <button type="button" class="btn btn-secondary">6</button>
+                            <button type="button" class="btn btn-secondary">7</button>
+                            <button type="button" class="btn btn-secondary">8</button>
+                        </div>
+                    </div>
+                    <div class="seat-group">
+                        <label>우대</label>
+                        <div class="seat-buttons btn-group" role="group" aria-label="우대 좌석 선택">
+                            <button type="button" class="btn btn-secondary">0</button>
+                            <button type="button" class="btn btn-secondary">1</button>
+                            <button type="button" class="btn btn-secondary">2</button>
+                            <button type="button" class="btn btn-secondary">3</button>
+                            <button type="button" class="btn btn-secondary">4</button>
+                            <button type="button" class="btn btn-secondary">5</button>
+                            <button type="button" class="btn btn-secondary">6</button>
+                            <button type="button" class="btn btn-secondary">7</button>
+                            <button type="button" class="btn btn-secondary">8</button>
+                        </div>
+                    </div>
+                    <p class="text-danger" style="font-size: 0.9em;">* 최대 8명 선택 가능</p>
+                </div>
+                <div class="info-section">
+                    <div class="left-info">
+                        <p><strong>CGV 미아</strong> |  5관 (일반관)  |  남은좌석 <span style="color: rgb(221, 3, 3); font-weight: bold;">87</span>/109  </p>
+                        <p style="font-size: 25px; font-weight: bold;">2024.06.23 (일) 22:00 ~ 23:46</p>
+                    </div>
+                    <div class="control-buttons">
+                        <button type="button" class="btn btn-secondary" style="background-color: #4E0929;">상영시간 변경하기</button>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- 스크린 시작 -->
+            <div class="screen">SCREEN</div>
+            <div class="seat-map">
+                <!-- A 행 -->
+                <div class="seat-map-label mr-2">A</div>
+                <div class="seat light" onclick="toggleSeat(this)">1</div>
+                <div class="seat light" onclick="toggleSeat(this)">2</div>
+                <div class="seat light" onclick="toggleSeat(this)">3</div>
+                <div class="seat hidden"></div>
+                <div class="seat light" onclick="toggleSeat(this)">4</div>
+                <div class="seat light" onclick="toggleSeat(this)">5</div>
+                <div class="seat disabled">6</div>
+                <div class="seat disabled">7</div>
+                <div class="seat disabled">8</div>
+                <div class="seat disabled">9</div>
+                <div class="seat disabled">10</div>
+                <div class="seat disabled">11</div>
+                <div class="seat disabled">12</div>
+                <div class="seat disabled">13</div>
+                <div class="seat disabled">14</div>
+                <div class="seat light" onclick="toggleSeat(this)">15</div>
+                <!-- B 행 -->
+                <div class="seat-map-label mr-2">B</div>
+                <div class="seat light" onclick="toggleSeat(this)">1</div>
+                <div class="seat light" onclick="toggleSeat(this)">2</div>
+                <div class="seat light" onclick="toggleSeat(this)">3</div>
+                <div class="seat hidden"></div>
+                <div class="seat light" onclick="toggleSeat(this)">4</div>
+                <div class="seat light" onclick="toggleSeat(this)">5</div>
+                <div class="seat light" onclick="toggleSeat(this)">6</div>
+                <div class="seat light" onclick="toggleSeat(this)">7</div>
+                <div class="seat light" onclick="toggleSeat(this)">8</div>
+                <div class="seat light" onclick="toggleSeat(this)">9</div>
+                <div class="seat light" onclick="toggleSeat(this)">10</div>
+                <div class="seat light" onclick="toggleSeat(this)">11</div>
+                <div class="seat light" onclick="toggleSeat(this)">12</div>
+                <div class="seat light" onclick="toggleSeat(this)">13</div>
+                <div class="seat light" onclick="toggleSeat(this)">14</div>
+                <div class="seat light" onclick="toggleSeat(this)">15</div>
+                <!-- C 행 -->
+                <div class="seat-map-label mr-2">C</div>
+                <div class="seat possible" onclick="toggleSeat(this)">1</div>
+                <div class="seat possible" onclick="toggleSeat(this)">2</div>
+                <div class="seat reserved">3</div>
+                <div class="seat hidden"></div>
+                <div class="seat reserved">4</div>
+                <div class="seat reserved">5</div>
+                <div class="seat reserved">6</div>
+                <div class="seat possible" onclick="toggleSeat(this)">7</div>
+                <div class="seat possible" onclick="toggleSeat(this)">8</div>
+                <div class="seat possible" onclick="toggleSeat(this)">9</div>
+                <div class="seat possible" onclick="toggleSeat(this)">10</div>
+                <div class="seat possible" onclick="toggleSeat(this)">11</div>
+                <div class="seat reserved">12</div>
+                <div class="seat reserved">13</div>
+                <div class="seat reserved">14</div>
+                <div class="seat reserved">15</div>
+                <!-- D 행 -->
+                <div class="seat-map-label mr-2">D</div>
+                <div class="seat reserved">1</div>
+                <div class="seat reserved">2</div>
+                <div class="seat reserved">3</div>
+                <div class="seat hidden"></div>
+                <div class="seat reserved">4</div>
+                <div class="seat possible" onclick="toggleSeat(this)">5</div>
+                <div class="seat reserved">6</div>
+                <div class="seat reserved">7</div>
+                <div class="seat reserved">8</div>
+                <div class="seat reserved">9</div>
+                <div class="seat reserved">10</div>
+                <div class="seat reserved">11</div>
+                <div class="seat reserved">12</div>
+                <div class="seat reserved">13</div>
+                <div class="seat reserved">14</div>
+                <div class="seat reserved">15</div>
+
+                <!-- 빈 줄 추가 -->
+                <div class="seat-map-label"></div>
+                <div class="seat hidden"></div>
+                <div class="seat hidden"></div>
+                <div class="seat hidden"></div>
+                <div class="seat hidden"></div>
+                <div class="seat hidden"></div>
+                <div class="seat hidden"></div>
+                <div class="seat hidden"></div>
+                <div class="seat hidden"></div>
+                <div class="seat hidden"></div>
+                <div class="seat hidden"></div>
+                <div class="seat hidden"></div>
+                <div class="seat hidden"></div>
+                <div class="seat hidden"></div>
+                <div class="seat hidden"></div>
+                <div class="seat hidden"></div>
+                <div class="seat hidden"></div>
+
+                <!-- E 행 -->
+                <div class="seat-map-label mr-2">E</div>
+                <div class="seat hidden"></div>
+                <div class="seat hidden"></div>
+                <div class="seat hidden"></div>
+                <div class="seat hidden"></div>
+                <div class="seat reserved">4</div>
+                <div class="seat reserved">5</div>
+                <div class="seat reserved">6</div>
+                <div class="seat reserved">7</div>
+                <div class="seat reserved">8</div>
+                <div class="seat reserved">9</div>
+                <div class="seat reserved">10</div>
+                <div class="seat reserved">11</div>
+                <div class="seat possible" onclick="toggleSeat(this)">12</div>
+                <div class="seat possible" onclick="toggleSeat(this)">13</div>
+                <div class="seat possible" onclick="toggleSeat(this)">14</div>
+                <div class="seat possible" onclick="toggleSeat(this)">15</div>
+                <!-- F 행 -->
+                <div class="seat-map-label mr-2">F</div>
+                <div class="seat hidden"></div>
+                <div class="seat hidden"></div>
+                <div class="seat hidden"></div>
+                <div class="seat hidden"></div>
+                <div class="seat possible" onclick="toggleSeat(this)">4</div>
+                <div class="seat possible" onclick="toggleSeat(this)">5</div>
+                <div class="seat possible" onclick="toggleSeat(this)">6</div>
+                <div class="seat possible" onclick="toggleSeat(this)">7</div>
+                <div class="seat possible" onclick="toggleSeat(this)">8</div>
+                <div class="seat possible" onclick="toggleSeat(this)">9</div>
+                <div class="seat reserved">10</div>
+                <div class="seat reserved">11</div>
+                <div class="seat reserved">12</div>
+                <div class="seat possible" onclick="toggleSeat(this)">13</div>
+                <div class="seat reserved">14</div>
+                <div class="seat reserved">15</div>
+                <!-- G 행 -->
+                <div class="seat-map-label mr-2">G</div>
+                <div class="seat hidden"></div>
+                <div class="seat hidden"></div>
+                <div class="seat hidden"></div>
+                <div class="seat hidden"></div>
+                <div class="seat reserved">4</div>
+                <div class="seat possible" onclick="toggleSeat(this)">5</div>
+                <div class="seat possible" onclick="toggleSeat(this)">6</div>
+                <div class="seat possible" onclick="toggleSeat(this)">7</div>
+                <div class="seat possible" onclick="toggleSeat(this)">8</div>
+                <div class="seat possible" onclick="toggleSeat(this)">9</div>
+                <div class="seat possible" onclick="toggleSeat(this)">10</div>
+                <div class="seat reserved">11</div>
+                <div class="seat possible" onclick="toggleSeat(this)">12</div>
+                <div class="seat possible" onclick="toggleSeat(this)">13</div>
+                <div class="seat possible" onclick="toggleSeat(this)">14</div>
+                <div class="seat reserved">15</div>
+                <!-- H 행 -->
+                <div class="seat-map-label mr-2">H</div>
+                <div class="seat possible" onclick="toggleSeat(this)">1</div>
+                <div class="seat possible" onclick="toggleSeat(this)">2</div>
+                <div class="seat reserved">3</div>
+                <div class="seat hidden"></div>
+                <div class="seat reserved">4</div>
+                <div class="seat reserved">5</div>
+                <div class="seat reserved">6</div>
+                <div class="seat reserved">7</div>
+                <div class="seat possible" onclick="toggleSeat(this)">8</div>
+                <div class="seat possible" onclick="toggleSeat(this)">9</div>
+                <div class="seat possible" onclick="toggleSeat(this)">10</div>
+                <div class="seat reserved">11</div>
+                <div class="seat reserved">12</div>
+                <div class="seat reserved">13</div>
+                <div class="seat hidden"></div>
+                <div class="seat hidden"></div>
+            </div>
+
+            <hr>
+
+            <div class="legend mt-4 mb-4">
+                <div class="seat selected"></div><span>선택</span>
+                <div class="seat possible"></div><span>선택 가능</span>
+                <div class="seat reserved"></div><span>예약 완료</span>
+                <div class="seat light"></div><span>Light석</span>
+                <div class="seat disabled"></div><span>장애인석</span>
+            </div>
+        </div>
+    </div>
+    <div class="side-poster">
+        <img src="/image/index/book-side.png" alt="영화 포스터">
+    </div>
+
 </div>
 
-<div class="container" style="background-color: #F9F9F9; max-width: 900px;">
-    <div class="seat-selection-header">
-        <h4>인원 / 좌석</h4>
-        <button type="button" class="btn btn-secondary fa-solid fa-rotate-right" style="background-color: #4E0929;"></button>
-    </div>
-    <div class="selection-container">
-        <div class="seat-groups">
-            <div class="seat-group">
-                <label>일반</label>
-                <div class="seat-buttons btn-group" role="group" aria-label="일반 좌석 선택">
-                    <button type="button" class="btn btn-secondary">0</button>
-                    <button type="button" class="btn btn-secondary">1</button>
-                    <button type="button" class="btn btn-secondary">2</button>
-                    <button type="button" class="btn btn-secondary">3</button>
-                    <button type="button" class="btn btn-secondary">4</button>
-                    <button type="button" class="btn btn-secondary">5</button>
-                    <button type="button" class="btn btn-secondary">6</button>
-                    <button type="button" class="btn btn-secondary">7</button>
-                    <button type="button" class="btn btn-secondary">8</button>
-                </div>
-            </div>
-            <div class="seat-group">
-                <label>청소년</label>
-                <div class="seat-buttons btn-group" role="group" aria-label="청소년 좌석 선택">
-                    <button type="button" class="btn btn-secondary">0</button>
-                    <button type="button" class="btn btn-secondary">1</button>
-                    <button type="button" class="btn btn-secondary">2</button>
-                    <button type="button" class="btn btn-secondary">3</button>
-                    <button type="button" class="btn btn-secondary">4</button>
-                    <button type="button" class="btn btn-secondary">5</button>
-                    <button type="button" class="btn btn-secondary">6</button>
-                    <button type="button" class="btn btn-secondary">7</button>
-                    <button type="button" class="btn btn-secondary">8</button>
-                </div>
-            </div>
-            <div class="seat-group">
-                <label>우대</label>
-                <div class="seat-buttons btn-group" role="group" aria-label="우대 좌석 선택">
-                    <button type="button" class="btn btn-secondary">0</button>
-                    <button type="button" class="btn btn-secondary">1</button>
-                    <button type="button" class="btn btn-secondary">2</button>
-                    <button type="button" class="btn btn-secondary">3</button>
-                    <button type="button" class="btn btn-secondary">4</button>
-                    <button type="button" class="btn btn-secondary">5</button>
-                    <button type="button" class="btn btn-secondary">6</button>
-                    <button type="button" class="btn btn-secondary">7</button>
-                    <button type="button" class="btn btn-secondary">8</button>
-                </div>
-            </div>
-            <p class="text-danger" style="font-size: 0.9em;">* 최대 8명 선택 가능</p>
-        </div>
-        <div class="info-section">
-            <div class="left-info">
-                <p><strong>CGV 미아</strong> |  5관 (일반관)  |  남은좌석 <span style="color: rgb(221, 3, 3); font-weight: bold;">87</span>/109  </p>
-                <p style="font-size: 25px; font-weight: bold;">2024.06.23 (일) 22:00 ~ 23:46</p>
-            </div>
-            <div class="control-buttons">
-                <button type="button" class="btn btn-secondary" style="background-color: #4E0929;">상영시간 변경하기</button>
-            </div>
-        </div>
-    </div>
-
-
-    <!-- 스크린 시작 -->
-    <div class="screen">SCREEN</div>
-    <div class="seat-map">
-        <!-- A 행 -->
-        <div class="seat-map-label mr-2">A</div>
-        <div class="seat light" onclick="toggleSeat(this)">1</div>
-        <div class="seat light" onclick="toggleSeat(this)">2</div>
-        <div class="seat light" onclick="toggleSeat(this)">3</div>
-        <div class="seat hidden"></div>
-        <div class="seat light" onclick="toggleSeat(this)">4</div>
-        <div class="seat light" onclick="toggleSeat(this)">5</div>
-        <div class="seat disabled">6</div>
-        <div class="seat disabled">7</div>
-        <div class="seat disabled">8</div>
-        <div class="seat disabled">9</div>
-        <div class="seat disabled">10</div>
-        <div class="seat disabled">11</div>
-        <div class="seat disabled">12</div>
-        <div class="seat disabled">13</div>
-        <div class="seat disabled">14</div>
-        <div class="seat light" onclick="toggleSeat(this)">15</div>
-        <!-- B 행 -->
-        <div class="seat-map-label mr-2">B</div>
-        <div class="seat light" onclick="toggleSeat(this)">1</div>
-        <div class="seat light" onclick="toggleSeat(this)">2</div>
-        <div class="seat light" onclick="toggleSeat(this)">3</div>
-        <div class="seat hidden"></div>
-        <div class="seat light" onclick="toggleSeat(this)">4</div>
-        <div class="seat light" onclick="toggleSeat(this)">5</div>
-        <div class="seat light" onclick="toggleSeat(this)">6</div>
-        <div class="seat light" onclick="toggleSeat(this)">7</div>
-        <div class="seat light" onclick="toggleSeat(this)">8</div>
-        <div class="seat light" onclick="toggleSeat(this)">9</div>
-        <div class="seat light" onclick="toggleSeat(this)">10</div>
-        <div class="seat light" onclick="toggleSeat(this)">11</div>
-        <div class="seat light" onclick="toggleSeat(this)">12</div>
-        <div class="seat light" onclick="toggleSeat(this)">13</div>
-        <div class="seat light" onclick="toggleSeat(this)">14</div>
-        <div class="seat light" onclick="toggleSeat(this)">15</div>
-        <!-- C 행 -->
-        <div class="seat-map-label mr-2">C</div>
-        <div class="seat possible" onclick="toggleSeat(this)">1</div>
-        <div class="seat possible" onclick="toggleSeat(this)">2</div>
-        <div class="seat reserved">3</div>
-        <div class="seat hidden"></div>
-        <div class="seat reserved">4</div>
-        <div class="seat reserved">5</div>
-        <div class="seat reserved">6</div>
-        <div class="seat possible" onclick="toggleSeat(this)">7</div>
-        <div class="seat possible" onclick="toggleSeat(this)">8</div>
-        <div class="seat possible" onclick="toggleSeat(this)">9</div>
-        <div class="seat possible" onclick="toggleSeat(this)">10</div>
-        <div class="seat possible" onclick="toggleSeat(this)">11</div>
-        <div class="seat reserved">12</div>
-        <div class="seat reserved">13</div>
-        <div class="seat reserved">14</div>
-        <div class="seat reserved">15</div>
-        <!-- D 행 -->
-        <div class="seat-map-label mr-2">D</div>
-        <div class="seat reserved">1</div>
-        <div class="seat reserved">2</div>
-        <div class="seat reserved">3</div>
-        <div class="seat hidden"></div>
-        <div class="seat reserved">4</div>
-        <div class="seat possible" onclick="toggleSeat(this)">5</div>
-        <div class="seat reserved">6</div>
-        <div class="seat reserved">7</div>
-        <div class="seat reserved">8</div>
-        <div class="seat reserved">9</div>
-        <div class="seat reserved">10</div>
-        <div class="seat reserved">11</div>
-        <div class="seat reserved">12</div>
-        <div class="seat reserved">13</div>
-        <div class="seat reserved">14</div>
-        <div class="seat reserved">15</div>
-
-        <!-- 빈 줄 추가 -->
-        <div class="seat-map-label"></div>
-        <div class="seat hidden"></div>
-        <div class="seat hidden"></div>
-        <div class="seat hidden"></div>
-        <div class="seat hidden"></div>
-        <div class="seat hidden"></div>
-        <div class="seat hidden"></div>
-        <div class="seat hidden"></div>
-        <div class="seat hidden"></div>
-        <div class="seat hidden"></div>
-        <div class="seat hidden"></div>
-        <div class="seat hidden"></div>
-        <div class="seat hidden"></div>
-        <div class="seat hidden"></div>
-        <div class="seat hidden"></div>
-        <div class="seat hidden"></div>
-        <div class="seat hidden"></div>
-
-        <!-- E 행 -->
-        <div class="seat-map-label mr-2">E</div>
-        <div class="seat hidden"></div>
-        <div class="seat hidden"></div>
-        <div class="seat hidden"></div>
-        <div class="seat hidden"></div>
-        <div class="seat reserved">4</div>
-        <div class="seat reserved">5</div>
-        <div class="seat reserved">6</div>
-        <div class="seat reserved">7</div>
-        <div class="seat reserved">8</div>
-        <div class="seat reserved">9</div>
-        <div class="seat reserved">10</div>
-        <div class="seat reserved">11</div>
-        <div class="seat possible" onclick="toggleSeat(this)">12</div>
-        <div class="seat possible" onclick="toggleSeat(this)">13</div>
-        <div class="seat possible" onclick="toggleSeat(this)">14</div>
-        <div class="seat possible" onclick="toggleSeat(this)">15</div>
-        <!-- F 행 -->
-        <div class="seat-map-label mr-2">F</div>
-        <div class="seat hidden"></div>
-        <div class="seat hidden"></div>
-        <div class="seat hidden"></div>
-        <div class="seat hidden"></div>
-        <div class="seat possible" onclick="toggleSeat(this)">4</div>
-        <div class="seat possible" onclick="toggleSeat(this)">5</div>
-        <div class="seat possible" onclick="toggleSeat(this)">6</div>
-        <div class="seat possible" onclick="toggleSeat(this)">7</div>
-        <div class="seat possible" onclick="toggleSeat(this)">8</div>
-        <div class="seat possible" onclick="toggleSeat(this)">9</div>
-        <div class="seat reserved">10</div>
-        <div class="seat reserved">11</div>
-        <div class="seat reserved">12</div>
-        <div class="seat possible" onclick="toggleSeat(this)">13</div>
-        <div class="seat reserved">14</div>
-        <div class="seat reserved">15</div>
-        <!-- G 행 -->
-        <div class="seat-map-label mr-2">G</div>
-        <div class="seat hidden"></div>
-        <div class="seat hidden"></div>
-        <div class="seat hidden"></div>
-        <div class="seat hidden"></div>
-        <div class="seat reserved">4</div>
-        <div class="seat possible" onclick="toggleSeat(this)">5</div>
-        <div class="seat possible" onclick="toggleSeat(this)">6</div>
-        <div class="seat possible" onclick="toggleSeat(this)">7</div>
-        <div class="seat possible" onclick="toggleSeat(this)">8</div>
-        <div class="seat possible" onclick="toggleSeat(this)">9</div>
-        <div class="seat possible" onclick="toggleSeat(this)">10</div>
-        <div class="seat reserved">11</div>
-        <div class="seat possible" onclick="toggleSeat(this)">12</div>
-        <div class="seat possible" onclick="toggleSeat(this)">13</div>
-        <div class="seat possible" onclick="toggleSeat(this)">14</div>
-        <div class="seat reserved">15</div>
-        <!-- H 행 -->
-        <div class="seat-map-label mr-2">H</div>
-        <div class="seat possible" onclick="toggleSeat(this)">1</div>
-        <div class="seat possible" onclick="toggleSeat(this)">2</div>
-        <div class="seat reserved">3</div>
-        <div class="seat hidden"></div>
-        <div class="seat reserved">4</div>
-        <div class="seat reserved">5</div>
-        <div class="seat reserved">6</div>
-        <div class="seat reserved">7</div>
-        <div class="seat possible" onclick="toggleSeat(this)">8</div>
-        <div class="seat possible" onclick="toggleSeat(this)">9</div>
-        <div class="seat possible" onclick="toggleSeat(this)">10</div>
-        <div class="seat reserved">11</div>
-        <div class="seat reserved">12</div>
-        <div class="seat reserved">13</div>
-        <div class="seat hidden"></div>
-        <div class="seat hidden"></div>
-    </div>
-
-    <hr>
-
-    <div class="legend mt-4" style="margin-left: 20%; margin-bottom: 5%;">
-        <div class="seat selected"></div><span>선택</span>
-        <div class="seat possible"></div><span>선택 가능</span>
-        <div class="seat reserved"></div><span>예약 완료</span>
-        <div class="seat light"></div><span>Light석</span>
-        <div class="seat disabled"></div><span>장애인석</span>
-    </div>
-</div>
 
 <div class="info-bar">
     <div class="container">
-        <span><a href="/movies/list" class="btn-nav" >영화선택</a></span>
+        <span><a href="/book-form" class="btn-nav" >이전화면</a></span>
         <div class="movie-info">
-            <img src="/img/insideout.jpg" alt="영화 포스터">
+            <img src="/image/movie/movie1.png" alt="영화 포스터">
             <div class="details">
                 <span>인사이드아웃2</span>
                 <span>2D(자막)</span>

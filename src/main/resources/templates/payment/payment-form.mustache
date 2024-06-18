@@ -10,28 +10,34 @@
         cursor: pointer;
         border: 1px solid #ddd;
     }
+
     .step-content {
         padding: 10px;
         border: 1px solid #ddd;
         border-top: none;
     }
+
     .nav-tabs .nav-link {
         border: 1px solid #ddd;
         border-bottom: none;
         color: #333;
     }
+
     .nav-tabs .nav-link.active {
         background-color: #f8f9fa;
         border-color: #ddd #ddd #f8f9fa;
     }
+
     .tab-content {
         border: 1px solid #ddd;
         border-top: none;
         padding: 10px;
     }
+
     .form-group label {
         font-weight: bold;
     }
+
     .form-group input[type="number"] {
         width: 100px;
         display: inline-block;
@@ -39,40 +45,47 @@
 
     /* 옆에 결제바 */
     .summary-box {
-        padding: 5px;  /* 줄어든 padding */
+        padding: 5px; /* 줄어든 padding */
         border: 1px solid #ddd;
         border-radius: 5px;
-        margin-bottom: 10px;  /* 줄어든 margin */
+        margin-bottom: 10px; /* 줄어든 margin */
         text-align: center;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         overflow: hidden;
         width: 80%;
         margin-left: 25px;
     }
+
     .summary-box .summary-item {
-        margin-bottom: 5px;  /* 줄어든 margin */
+        margin-bottom: 5px; /* 줄어든 margin */
     }
+
     .summary-box .summary-item:last-child {
         margin-bottom: 0;
     }
+
     .summary-box .summary-item .value {
         font-weight: bold;
-        font-size: 1.2rem;  /* 줄어든 font-size */
+        font-size: 1.2rem; /* 줄어든 font-size */
     }
+
     .summary-box .summary-item .label {
         font-weight: bold;
-        font-size: 0.9rem;  /* 줄어든 font-size */
+        font-size: 0.9rem; /* 줄어든 font-size */
     }
+
     .summary-box.payment-amount {
         background: linear-gradient(to bottom, #eab8b8 50%, #ffffff 50%);
         color: #343a40;
         border: 1px solid #000;
     }
+
     .summary-box.discount-amount {
         background: linear-gradient(to bottom, #d1ecf1 50%, #ffffff 50%);
         color: #0c5460;
         border: 1px solid #000;
     }
+
     .summary-box.payment-details {
         background: linear-gradient(to bottom, #fff3cd 50%, #ffffff 50%);
         color: #856404;
@@ -89,27 +102,33 @@
         width: 100%;
         z-index: 1000; /* 높여서 info-bar가 푸터 위에 오도록 설정 */
     }
+
     .info-bar .container {
         display: flex;
         justify-content: space-between;
         align-items: center;
     }
+
     .info-bar .movie-info {
         display: flex;
         align-items: center;
     }
+
     .info-bar .movie-info img {
         width: 50px;
         height: 75px;
         margin-right: 15px;
     }
+
     .info-bar .movie-info .details {
         display: flex;
         flex-direction: column;
     }
+
     .info-bar .movie-info .details span {
         margin-bottom: 5px;
     }
+
     .info-bar .btn-nav {
         background-color: #333;
         color: white;
@@ -117,6 +136,7 @@
         padding: 10px 20px;
         border-radius: 5px;
     }
+
     .info-bar .btn-nav:hover {
         background-color: #555;
     }
@@ -153,8 +173,12 @@
         <div class="container mt-5">
 
             <div class="custom-buttons">
-                <button type="button" class="btn btn-secondary fa-solid fa-clock" style="background-color: #4E0929;"> 상영시간표</button>
-                <button type="button" class="btn btn-secondary fa-solid fa-rotate-right" style="background-color: #4E0929;"> 예매 다시하기</button>
+                <button type="button" class="btn btn-secondary fa-solid fa-clock" style="background-color: #4E0929;">
+                    상영시간표
+                </button>
+                <button type="button" class="btn btn-secondary fa-solid fa-rotate-right"
+                        style="background-color: #4E0929;"> 예매 다시하기
+                </button>
             </div>
             <div class="row b-color">
                 <div class="col-md-8">
@@ -166,7 +190,8 @@
                             </li>
                         </ul>
                         <div class="tab-content" id="myTabContent">
-                            <div class="tab-pane fade show active" id="cjone" role="tabpanel" aria-labelledby="cjone-tab">
+                            <div class="tab-pane fade show active" id="cjone" role="tabpanel"
+                                 aria-labelledby="cjone-tab">
                                 <br>
                                 <p>보유 포인트: <span class="text-danger">56 P</span></p>
                                 <div class="form-group">
@@ -242,7 +267,7 @@
     <!-- 하단 바 -->
     <div class="info-bar">
         <div class="container">
-            <span><a href="/movies/list" class="btn-nav" >영화선택</a></span>
+            <span><a href="/seat-form" class="btn-nav">좌석선택</a></span>
             <div class="movie-info">
                 <img src="/img/insideout.jpg" alt="영화 포스터">
                 <div class="details">
@@ -257,7 +282,7 @@
                 <span>상영관: 3관 10층 (Laser)</span><br>
                 <span>인원: </span>
             </div>
-            <span><a href="#" class="btn-nav" >결제하기</a></span>
+            <span><a href="#" class="btn-nav">결제하기</a></span>
         </div>
     </div>
 
