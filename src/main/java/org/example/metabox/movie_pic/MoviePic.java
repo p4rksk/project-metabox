@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.metabox.movie.Movie;
 
 @Entity
 @Data
@@ -14,11 +15,15 @@ public class MoviePic {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Movie movie;
+
     private String imgFilename;
 
     @Builder
-    public MoviePic(int id, String imgFilename) {
+    public MoviePic(int id, Movie movie, String imgFilename) {
         this.id = id;
+        this.movie = movie;
         this.imgFilename = imgFilename;
     }
 }

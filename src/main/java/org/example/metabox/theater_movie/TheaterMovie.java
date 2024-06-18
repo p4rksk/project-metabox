@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.example.metabox.movie.Movie;
 import org.example.metabox.screening_info.ScreeningInfo;
 import org.example.metabox.theater.Theater;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.util.List;
 
@@ -29,7 +30,8 @@ public class TheaterMovie {
     private Theater theater;
 
     // 상영(현재 상영중) 유무, 현재 상영작, 상영 예정작, 종료작
-//    @ColumnDefault("'상영예정작'")
+    @Enumerated(EnumType.STRING)
+    @ColumnDefault("'상영예정작'")
     private TheaterMovieStatus status;
 
     private enum TheaterMovieStatus {
