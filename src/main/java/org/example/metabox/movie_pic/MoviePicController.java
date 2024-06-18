@@ -5,5 +5,5 @@ import org.springframework.stereotype.Controller;
 
 @RequiredArgsConstructor
 @Controller
-public class MovicePicController {
+public class MoviePicController {
 }

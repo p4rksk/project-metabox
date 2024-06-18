@@ -3,6 +3,12 @@ package org.example.metabox.theater_movie;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.metabox.movie.Movie;
+import org.example.metabox.screening.Screening;
+import org.example.metabox.screening_info.ScreeningInfo;
+import org.example.metabox.theater.Theater;
+
+import java.util.List;
 
 @Entity
 @Data
@@ -13,7 +19,20 @@ public class TheaterMovie {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    // TODO : Enum 처리
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<ScreeningInfo> screeningInfoList;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Movie movie;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Theater theater;
+
     // 상영(현재 상영중) 유무, 현재 상영작, 상영 예정작, 종료작
-    private String status;
+    private TheaterMovieStatus status;
+
+    private enum TheaterMovieStatus {
+        현재상영중, 상영예정작, 종료작;
+
+    }
 }

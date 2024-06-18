@@ -3,9 +3,12 @@ package org.example.metabox.movie_scrap;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.metabox.movie.Movie;
+import org.example.metabox.user.User;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -16,6 +19,12 @@ public class MovieScrap {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Movie movie;
+
     @CreationTimestamp
-    private Timestamp createdAt;
+    private LocalDateTime createdAt;
 }
