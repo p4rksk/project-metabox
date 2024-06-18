@@ -17,11 +17,18 @@
 }
 
 .navbar {
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000; /* 다른 요소들 위에 표시되도록 z-index 설정 */
     border-bottom: 1px solid #dadada;
 }
 
+body {
+    padding-top: 20px; /* 헤더의 높이만큼 상단에 패딩 추가 */
+}
 .navbar-brand-logo{
-    width: 200px;
+    width: 300px;
     height: 100%;
 }
 .navbar-brand-footer{
@@ -53,3 +60,4 @@
 .sub-navbar {
     padding-top: 10px;
 }
+
