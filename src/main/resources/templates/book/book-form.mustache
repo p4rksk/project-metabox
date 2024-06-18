@@ -4,22 +4,22 @@
     body {
         background-color: #ffffff;
     }
-    .container {
-        margin-top: 50px;
-        max-width: 1200px;
-    }
+
     .list-box, .info-box, .notice-box {
         background: #f0f0f0; /* 카드 내부 배경을 회색으로 변경 */
         padding: 30px;
         border-radius: 10px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         margin-bottom: 20px;
+        margin-top: 20px;
     }
     .list-container {
         display: flex;
         justify-content: center;
         flex-wrap: nowrap;
         margin-bottom: 20px;
+        margin-top: 20px;
+
     }
     .list-group {
         margin: 0;
@@ -85,7 +85,6 @@
         background-color: #1c1c1c;
         color: white;
         padding: 5px 0; /* 패딩을 줄여서 세로 크기 조정 */
-        position: fixed;
         bottom: 0;
         width: 100%;
         z-index: 1000; /* 높여서 info-bar가 푸터 위에 오도록 설정 */
@@ -173,7 +172,7 @@
             </div>
             <!-- 네 번째 리스트 -->
             <div>
-                <div class="list-title">영화 시간표</div>
+                <div style="width: 302.5px" class="list-title">영화 시간표</div>
                 <div id="date-list" class="d-flex">
                     <!-- 날짜가 동적으로 추가됩니다 -->
                 </div>
@@ -203,7 +202,7 @@
             <span>상영관: 3관 10층 (Laser)</span><br>
             <span>인원: </span>
         </div>
-        <button class="btn-nav">결제선택</button>
+        <button class="btn-nav">좌석선택</button>
     </div>
 </div>
 

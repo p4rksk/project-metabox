@@ -1,10 +1,9 @@
 {{> layout/header}}
 <style>
-    body {
+    .container {
         background-color: #fff;
         font-family: 'Arial', sans-serif;
     }
-
     .profile-card {
         max-width: 100%;
         margin: 20px 10px;
@@ -22,47 +21,38 @@
         border-radius: 50%;
         background-color: #ddd;
     }
-
     .profile-card .header {
         display: flex;
         align-items: center;
         margin-bottom: 20px;
     }
-
     .profile-card .header .info {
         margin-left: 20px;
     }
-
     .profile-card .header .info h3 {
         margin: 0;
         font-weight: 600;
     }
-
     .profile-card .header .info p {
         margin: 5px 0;
     }
-
     .profile-card .points, .profile-card .vip-points {
         margin-bottom: 20px;
     }
-
     .profile-card .points h4, .profile-card .vip-points h4 {
         font-weight: bold;
         display: flex;
         justify-content: space-between;
     }
-
     .profile-card .points p, .profile-card .vip-points p {
         margin: 0;
         font-size: 1rem;
     }
-
     .profile-card .grid {
         display: flex;
         justify-content: space-between;
         margin-top: 20px;
     }
-
     .profile-card .grid div {
         flex: 1;
         margin: 0 5px;
@@ -74,49 +64,40 @@
         justify-content: center;
         background-color: #f1f1f1;
     }
-
     .profile-card .grid .setting {
-        background-color: #343a40;
+        background-color: #4E0929;
         color: white;
         font-size: 0.9rem;
         cursor: pointer;
     }
-
     .text-danger {
         color: #dc3545 !important;
     }
-
     .my-3 {
         margin-top: 1rem !important;
         margin-bottom: 1rem !important;
     }
-
     .movie-chart img {
         width: 100%;
         height: auto;
     }
-
     .rating {
         display: flex;
         align-items: center;
     }
-
     .rating span {
         margin-right: 5px;
     }
 
-    /* 취소 내역 */
     .table {
         width: 100%;
         margin-bottom: 1rem;
         background-color: transparent;
         border-collapse: collapse;
     }
-
     .table-bordered {
         border: 1px solid #dee2e6;
     }
-
     .table-bordered th,
     .table-bordered td {
         border: 1px solid #dee2e6;
@@ -124,41 +105,33 @@
         vertical-align: middle;
         text-align: center;
     }
-
     .table thead th {
         background-color: #f8f9fa;
         color: #495057;
         font-weight: bold;
     }
-
     .table tbody tr td {
         color: #6c757d;
     }
-
     .text-center {
         text-align: center;
     }
-
     .header-section {
         display: flex;
         align-items: center;
         justify-content: space-between; /* 필요에 따라 조정 가능 */
     }
-
     .header-section h5 {
         margin: 0;
         margin-right: 10px; /* 간격 조정 */
     }
-
     .header-section .info-text {
         margin: 0;
         font-size: 14px; /* 필요에 따라 조정 가능 */
         color: #6c757d; /* 필요에 따라 조정 가능 */
     }
-
-
     .custom-button {
-        background-color: black;
+        background-color: #4E0929;
         color: white;
         border: none;
         border-radius: 8px;
@@ -167,26 +140,41 @@
         cursor: pointer;
         transition: background-color 0.3s ease;
     }
-
     .custom-button:hover {
         background-color: #333;
     }
-
     .d-flex {
         display: flex;
     }
-
     .align-items-center {
         align-items: center;
     }
-
     .justify-content-between {
         justify-content: space-between;
     }
-
-
-    .carousel-item img {
+    .swiper-container {
         width: 100%;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        overflow: hidden; /* 슬라이드가 container를 벗어나지 않도록 설정 */
+    }
+    .swiper-slide {
+        background: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column; /* 세로로 정렬 */
+        overflow: hidden; /* 슬라이드 내용이 container를 벗어나지 않도록 설정 */
+    }
+    .swiper-slide img {
+        width: 200px; /* 이미지 너비 조정 */
+        height: 300px; /* 이미지 높이 조정 */
+    }
+    .swiper-slide p {
+        margin-top: 10px; /* 이미지와 텍스트 사이 간격 조정 */
+    }
+    .swiper-slide .rating {
+        margin-top: 5px; /* 예매율과 개봉일 사이 간격 조정 */
     }
 </style>
 
@@ -220,7 +208,7 @@
         </div>
     </div>
 
-    <div class="row mt-5">
+    <div class="row mt-5 justify-content-between">
         {{> layout/sidebar}}
         <div class="col-md-9">
             <div class="my-3">
