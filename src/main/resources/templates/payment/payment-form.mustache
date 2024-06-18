@@ -3,7 +3,7 @@
 <style>
     /* 본문 */
     .step-header {
-        background-color: #4E4E4E;
+        background-color: #4E0929;
         color: white;
         padding: 10px;
         font-weight: bold;
@@ -94,11 +94,15 @@
 
     }
     .info-bar .nav-link {
-        color: white;
+        color: #4E0929;
         padding: 0 15px;
     }
     .info-bar .nav-link:hover {
         color: #ccc;
+    }
+    .nav-tabs .nav-link.active {
+        background-color: #5c5c5c !important;
+        color: white !important;
     }
     .info-bar .movie-info {
         display: flex;
@@ -128,7 +132,7 @@
     }
 
     .b-color {
-        background-color: #f3f0e4;
+        background-color: #F9F9F9;
     }
 
 
@@ -142,27 +146,42 @@
         flex: 1;
     }
 
+    .custom-buttons {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        max-width: 900px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        margin-left: 32%;
+    }
+
 </style>
 
 <div class="content-wrapper">
     <div class="content">
         <div class="container mt-5">
+
+            <div class="custom-buttons">
+                <button type="button" class="btn btn-secondary fa-solid fa-clock" style="background-color: #4E0929;"> 상영시간표</button>
+                <button type="button" class="btn btn-secondary fa-solid fa-rotate-right" style="background-color: #4E0929;"> 예매 다시하기</button>
+            </div>
             <div class="row b-color">
                 <div class="col-md-8">
-                    <div class="step-header" data-toggle="collapse" data-target="#step3">포인트 및 결제</div>
+                    <div class="step-header">포인트 및 결제</div>
                     <div id="step3" class="collapse show step-content">
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link active" id="cjone-tab" data-toggle="tab" href="#cjone" role="tab" aria-controls="cjone" aria-selected="true">포인트</a>
+                                <a class="nav-link active">포인트</a>
                             </li>
                         </ul>
                         <div class="tab-content" id="myTabContent">
                             <div class="tab-pane fade show active" id="cjone" role="tabpanel" aria-labelledby="cjone-tab">
                                 <br>
-                                <p>보유 포인트: <span class="text-danger">56원</span></p>
+                                <p>보유 포인트: <span class="text-danger">56 P</span></p>
                                 <div class="form-group">
                                     <label for="usePoints">사용할 포인트</label>
-                                    <input type="number" class="form-control" id="usePoints" value="0"> 원
+                                    <input type="number" class="form-control" id="usePoints" value="0"> P
                                     <div class="form-check">
                                         <input type="checkbox" class="form-check-input" id="allUse">
                                         <label class="form-check-label" for="allUse">모두사용</label>
@@ -178,13 +197,22 @@
                     <div id="step3" class="collapse show step-content">
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link active" id="cjone-tab" data-toggle="tab" href="#cjone" role="tab" aria-controls="cjone" aria-selected="true">신용카드</a>
+                                <a class="nav-link active">신용카드</a>
                             </li>
                         </ul>
                         <div class="tab-content" id="myTabContent">
                             <div class="tab-pane fade show active" id="cjone" role="tabpanel">
                                 <div class="form-group">
-                                    <label for="usePoints">여기 뭐라고 하죠?</label>
+                                    <div class="form-group">
+                                        <label for="creditCardType">신용카드 종류를 선택하세요:</label>
+                                        <select class="form-control" id="creditCardType" name="creditCardType">
+                                            <option value="bc">BC카드</option>
+                                            <option value="hana">하나카드</option>
+                                            <option value="samsung">삼성카드</option>
+                                            <option value="woori">우리카드</option>
+                                            <option value="kb">KB국민카드</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -192,7 +220,7 @@
                 </div>
 
                 <div class="col-md-4">
-                    <div class="summary-box payment-amount">
+                    <div class="summary-box payment-amount mt-4">
                         <div class="summary-item">
                             <span class="label">결제 금액</span>
                         </div>
@@ -255,4 +283,5 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
 {{> layout/footer}}

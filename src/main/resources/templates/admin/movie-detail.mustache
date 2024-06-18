@@ -1,4 +1,4 @@
-{{> layout/header}}
+{{> layout/header-admin}}
 <style>
 
     .movie-poster {
@@ -255,17 +255,14 @@
         color: red;
     }
 
-    .btn-group {
-        display: flex;
-        gap: 10px;
-    }
-
     .btn-custom {
         height: 40px;
+        width: 300px;
         display: flex;
         align-items: center;
-        justify-content: center;
-        margin-left: 10px;
+        justify-content: start;
+        margin-top: 10px;
+        gap: 20px;
     }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -285,9 +282,9 @@
                 <p>기본 정보: 전체관람가, 96분, 미국</p>
                 <p>개봉: 2024.06.12</p>
             </div>
-            <div class="btn-group">
-                <button class="btn btn-outline-secondary" style="height: 40px;">수정하기</button>
-                <button class="btn btn-danger" style="height: 40px;">삭제하기</button>
+            <div class="btn-custom">
+                <span><a href="/movie-edit-form" class="btn btn-outline-secondary " >수정하기</a></span>
+                <button class="btn btn-danger">삭제하기</button>
             </div>
         </div>
     </div>

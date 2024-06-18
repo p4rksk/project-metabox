@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class BookController {
     //  TODO :  로그인 유저만 이용할 수 있도록 interceptor
-    @GetMapping("book-form")
+    @GetMapping("/book-form")
     public String bookForm() {
         return "book/book-form";
     }
 
-    @GetMapping("seat-form")
+    @GetMapping("/seat-form")
     public String seatForm() {
-        return "book/seat-form";
+        return "book/seat-basic-form";
     }
 }

@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class MovieController {
 
-    @GetMapping("movies/detail")
+    @GetMapping("/movies/detail")
     public String detail() {
         return "movie/detail";
     }
 
-    @GetMapping("movies/list")
+    @GetMapping("/movies/list")
     public String list() {
         return "movie/list";
     }

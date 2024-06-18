@@ -1,33 +1,32 @@
-{{> layout/header}}
+{{> layout/header-admin}}
 <style>
 
     .header-title {
         font-size: 2rem;
         font-weight: bold;
         text-align: left;
+        width: 200px;
     }
 
-    .footer-text {
-        font-size: 0.8rem;
-    }
-
-    .navbar-nav .nav-link.active {
+    .navbar-nav-movie .nav-link.active {
         color: #ff4d4d;
         font-weight: bold;
     }
 
-    .navbar-nav .nav-link::before {
+    .navbar-nav-movie .nav-link::before {
         content: '▶';
         margin-right: 5px;
     }
 
-    .navbar-nav .nav-link.active::before {
+    .navbar-nav-movie .nav-link.active::before {
         content: '▶';
         color: #ff4d4d;
     }
 
-    .navbar-nav {
+    .navbar-nav-movie {
         margin-left: auto;
+        display: flex;
+        background-color: white;
     }
 
     .filter-container {
@@ -35,15 +34,6 @@
         justify-content: end;
         align-items: center;
         margin-bottom: 20px;
-    }
-
-    .filter-container .form-check-label {
-        margin-left: 5px;
-    }
-
-    .filter-container .form-inline {
-        display: flex;
-        align-items: center;
     }
 
     .filter-container .form-inline select {
@@ -104,16 +94,12 @@
 <div class="container">
     <header class="d-flex justify-content-between align-items-center my-4">
         <h1 class="header-title">무비차트</h1>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav class="navbar navbar-expand-lg navbar-light">
             <div class="collapse navbar-collapse">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">무비차트</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">상영예정작</a>
-                    </li>
-                </ul>
+                <div class="navbar-nav-movie ml-auto">
+                    <a class="nav-link active" href="/movies-list">무비차트</a>
+                    <a class="nav-link" href="#">상영예정작</a>
+                </div>
             </div>
         </nav>
     </header>
@@ -134,14 +120,14 @@
             <div class="rank">No.1</div>
             <div class="card">
 
-                <img src="https://via.placeholder.com/200x300" class="card-img-top" alt="Movie 1">
+                <a href="/movie-detail"><img src="https://via.placeholder.com/200x300" class="card-img-top" alt="Movie 1"></a>
                 <span class="badge badge-success">ALL</span>
 
                 <div class="card-body">
                     <h5 class="card-title">인사이드 아웃 2</h5>
                     <p class="card-text">예매율: 55.8%</p>
                     <p class="release-date">2024.06.12 개봉</p>
-                    <button class="btn btn-outline-secondary">수정하기</button>
+                    <span><a href="/movie-edit-form" class="btn btn-outline-secondary">수정하기</a></span>
                     <button class="btn btn-danger">삭제하기</button>
                 </div>
             </div>
@@ -150,13 +136,13 @@
             <div class="rank">No.2</div>
             <div class="card">
 
-                <img src="https://via.placeholder.com/200x300" class="card-img-top" alt="Movie 2">
+                <a href="/movie-detail"><img src="https://via.placeholder.com/200x300" class="card-img-top" alt="Movie 2"></a>
                 <span class="badge badge-warning">12</span>
                 <div class="card-body">
                     <h5 class="card-title">하이재킹</h5>
                     <p class="card-text">예매율: 6.3%</p>
                     <p class="release-date">2024.06.21 개봉 <span class="d-day">D-7</span></p>
-                    <button class="btn btn-outline-secondary">수정하기</button>
+                    <span><a href="/movie-edit-form" class="btn btn-outline-secondary">수정하기</a></span>
                     <button class="btn btn-danger">삭제하기</button>
                 </div>
             </div>
@@ -164,14 +150,13 @@
         <div class="col-auto movie-card">
             <div class="rank">No.3</div>
             <div class="card">
-
-                <img src="https://via.placeholder.com/200x300" class="card-img-top" alt="Movie 3">
+                <a href="/movie-detail"><img src="https://via.placeholder.com/200x300" class="card-img-top" alt="Movie 3"></a>
                 <span class="badge badge-success">ALL</span>
                 <div class="card-body">
                     <h5 class="card-title">극장판 하이큐!! 쓰레기장의 결전</h5>
                     <p class="card-text">예매율: 5.7%</p>
                     <p class="release-date">2024.05.15 개봉</p>
-                    <button class="btn btn-outline-secondary">수정하기</button>
+                    <span><a href="/movie-edit-form" class="btn btn-outline-secondary">수정하기</a></span>
                     <button class="btn btn-danger">삭제하기</button>
                 </div>
             </div>
