@@ -16,7 +16,16 @@ public class Movie {
     private int id;
 
     private String title;
+    // 영어 제목
     private String engTitle;
+    // 감독
+    private String director;
+    // 배우
+    private String actor;
+    // 장르
+    private String genre;
+    // 정보(ex : '전체관람가, 94분, 미국')
+    private String info;
     // 개봉일
     private Date date;
     // 포스터 사진
