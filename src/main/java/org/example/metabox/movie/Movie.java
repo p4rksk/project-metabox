@@ -33,6 +33,8 @@ public class Movie {
     private String imgFilename;
 
     // 영화 소개
+    // VARCHAR 보다 긴 TEXT 사용
+    @Column(columnDefinition = "TEXT")
     private String description;
 
     @Builder
