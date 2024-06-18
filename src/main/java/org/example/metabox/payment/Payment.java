@@ -17,7 +17,9 @@ public class Payment {
     private int id;
 
     private int price;
-
+    private String theater_name;
+    private String movie_name;
+    
     // 결제일
     @CreationTimestamp
     private Timestamp createdAt;
