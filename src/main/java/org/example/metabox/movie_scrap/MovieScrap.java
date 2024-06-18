@@ -1,6 +1,7 @@
 package org.example.metabox.movie_scrap;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.metabox.movie.Movie;
@@ -27,4 +28,12 @@ public class MovieScrap {
 
     @CreationTimestamp
     private LocalDateTime createdAt;
+
+    @Builder
+    public MovieScrap(int id, User user, Movie movie, LocalDateTime createdAt) {
+        this.id = id;
+        this.user = user;
+        this.movie = movie;
+        this.createdAt = createdAt;
+    }
 }

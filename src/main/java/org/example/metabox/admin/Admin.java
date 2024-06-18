@@ -1,6 +1,7 @@
 package org.example.metabox.admin;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -15,4 +16,11 @@ public class Admin {
 
     private String loginId;
     private String password;
+
+    @Builder
+    public Admin(int id, String loginId, String password) {
+        this.id = id;
+        this.loginId = loginId;
+        this.password = password;
+    }
 }

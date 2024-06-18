@@ -1,6 +1,7 @@
 package org.example.metabox.theater_scrap;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.metabox.theater.Theater;
@@ -20,4 +21,12 @@ public class TheaterScrap {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Theater theater;
+
+    @Builder
+
+    public TheaterScrap(int id, User user, Theater theater) {
+        this.id = id;
+        this.user = user;
+        this.theater = theater;
+    }
 }

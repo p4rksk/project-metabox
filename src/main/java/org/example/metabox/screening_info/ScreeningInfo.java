@@ -1,6 +1,7 @@
 package org.example.metabox.screening_info;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.metabox.book.Book;
@@ -37,4 +38,16 @@ public class ScreeningInfo {
     private String endTime;
     private LocalDateTime date;
 
+    @Builder
+
+    public ScreeningInfo(int id, Screening screening, TheaterMovie theaterMovie, List<Book> book, String showtime, String startTime, String endTime, LocalDateTime date) {
+        this.id = id;
+        this.screening = screening;
+        this.theaterMovie = theaterMovie;
+        this.book = book;
+        this.showtime = showtime;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.date = date;
+    }
 }

@@ -1,6 +1,7 @@
 package org.example.metabox.user;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.metabox.book.Book;
@@ -37,8 +38,23 @@ public class User {
     private String nickname;
     private String imgFilename;
     private String name;
-    private String birthear;
+    private String birthYear;
     private int point;
     @CreationTimestamp
     private LocalDateTime createdAt;
+
+    @Builder
+    public User(Integer id, Book book, List<MovieScrap> movieScrap, List<Review> reviews, List<TheaterScrap> theaterScrapList, String nickname, String imgFilename, String name, String birthYear, int point, LocalDateTime createdAt) {
+        this.id = id;
+        this.book = book;
+        this.movieScrap = movieScrap;
+        this.reviews = reviews;
+        this.theaterScrapList = theaterScrapList;
+        this.nickname = nickname;
+        this.imgFilename = imgFilename;
+        this.name = name;
+        this.birthYear = birthYear;
+        this.point = point;
+        this.createdAt = createdAt;
+    }
 }

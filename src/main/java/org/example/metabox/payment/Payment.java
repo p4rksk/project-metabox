@@ -1,6 +1,7 @@
 package org.example.metabox.payment;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.metabox.book.Book;
@@ -28,4 +29,14 @@ public class Payment {
     // 결제일
     @CreationTimestamp
     private LocalDateTime createdAt;
+
+    @Builder
+    public Payment(int id, Book book, int price, String theaterName, String movieName, LocalDateTime createdAt) {
+        this.id = id;
+        this.book = book;
+        this.price = price;
+        this.theaterName = theaterName;
+        this.movieName = movieName;
+        this.createdAt = createdAt;
+    }
 }

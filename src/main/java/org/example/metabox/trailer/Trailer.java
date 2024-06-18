@@ -1,6 +1,7 @@
 package org.example.metabox.trailer;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.metabox.movie.Movie;
@@ -19,4 +20,12 @@ public class Trailer {
 
     private String imgFilename;
     private String streamingFilename;
+
+    @Builder
+    public Trailer(int id, Movie movie, String imgFilename, String streamingFilename) {
+        this.id = id;
+        this.movie = movie;
+        this.imgFilename = imgFilename;
+        this.streamingFilename = streamingFilename;
+    }
 }

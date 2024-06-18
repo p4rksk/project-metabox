@@ -34,7 +34,19 @@ public class Screening {
     private ScreeningRank screeningRank; //상영관 등급
 
 
+    public Screening(Integer id, Theater theater, List<ScreeningInfo> screeningInfo, List<Seat> seats, String name, Integer seatCount, ScreeningRank screeningRank) {
+        this.id = id;
+        this.theater = theater;
+        this.screeningInfo = screeningInfo;
+        this.seats = seats;
+        this.name = name;
+        this.seatCount = seatCount;
+        this.screeningRank = screeningRank;
+    }
+
     public enum ScreeningRank {
         일반관, 특별관
     }
+
+
 }

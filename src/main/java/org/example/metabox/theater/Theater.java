@@ -1,6 +1,7 @@
 package org.example.metabox.theater;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.metabox.screening.Screening;
@@ -40,4 +41,20 @@ public class Theater {
     private String url;
     // 주차 안내
     private String parkingInfo;
+
+    @Builder
+    public Theater(int id, List<Screening> screening, List<TheaterMovie> theaterMovies, List<TheaterScrap> theaterScrapList, String name, String imgFilename, String address, String number, String loginId, String password, String url, String parkingInfo) {
+        this.id = id;
+        this.screening = screening;
+        this.theaterMovies = theaterMovies;
+        this.theaterScrapList = theaterScrapList;
+        this.name = name;
+        this.imgFilename = imgFilename;
+        this.address = address;
+        this.number = number;
+        this.loginId = loginId;
+        this.password = password;
+        this.url = url;
+        this.parkingInfo = parkingInfo;
+    }
 }

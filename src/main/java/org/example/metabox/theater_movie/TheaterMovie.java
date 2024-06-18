@@ -1,6 +1,7 @@
 package org.example.metabox.theater_movie;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.metabox.movie.Movie;
@@ -34,5 +35,15 @@ public class TheaterMovie {
     private enum TheaterMovieStatus {
         현재상영중, 상영예정작, 종료작;
 
+    }
+
+    @Builder
+
+    public TheaterMovie(int id, List<ScreeningInfo> screeningInfoList, Movie movie, Theater theater, TheaterMovieStatus status) {
+        this.id = id;
+        this.screeningInfoList = screeningInfoList;
+        this.movie = movie;
+        this.theater = theater;
+        this.status = status;
     }
 }

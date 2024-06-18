@@ -1,6 +1,7 @@
 package org.example.metabox.review;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.metabox.movie.Movie;
@@ -24,4 +25,13 @@ public class Review {
     private String comment;
     // TODO : Enum 처리?
     private int rating;
+
+    @Builder
+    public Review(int id, User user, Movie movie, String comment, int rating) {
+        this.id = id;
+        this.user = user;
+        this.movie = movie;
+        this.comment = comment;
+        this.rating = rating;
+    }
 }
