@@ -17,7 +17,7 @@
         display: flex;
         justify-content: center;
         flex-wrap: nowrap;
-        margin-bottom: 20px;
+        margin-bottom: 40px;
         margin-top: 20px;
 
     }
@@ -81,10 +81,12 @@
         border-radius: 0;
         text-align: center;
     }
+    /* 하단 바 */
     .info-bar {
         background-color: #1c1c1c;
         color: white;
-        padding: 5px 0; /* 패딩을 줄여서 세로 크기 조정 */
+        padding: 10px 0;
+        /* position: fixed; */
         bottom: 0;
         width: 100%;
         z-index: 1000; /* 높여서 info-bar가 푸터 위에 오도록 설정 */
@@ -114,7 +116,7 @@
         background-color: #333;
         color: white;
         border: none;
-        padding: 5px 10px; /* 패딩을 줄여서 버튼 크기 조정 */
+        padding: 10px 20px;
         border-radius: 5px;
     }
     .info-bar .btn-nav:hover {
@@ -187,7 +189,7 @@
 <!-- 하단 바 -->
 <div class="info-bar">
     <div class="container">
-        <button class="btn-nav">영화선택</button>
+        <span><a href="/movies/list" class="btn-nav" >영화선택</a></span>
         <div class="movie-info">
             <img src="/img/insideout.jpg" alt="영화 포스터">
             <div class="details">
@@ -202,7 +204,7 @@
             <span>상영관: 3관 10층 (Laser)</span><br>
             <span>인원: </span>
         </div>
-        <button class="btn-nav">좌석선택</button>
+        <span><a href="/seat-form" class="btn-nav" >좌석선택</a></span>
     </div>
 </div>
 

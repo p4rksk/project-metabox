@@ -1,117 +1,219 @@
 {{> layout/header}}
 
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet"> <!-- 멋진 글꼴 추가 -->
+<!-- Swiper CSS -->
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+
 <style>
 
     /* MOVIE 부분 */
     .movie-main img {
         width: 100%;
         border-radius: 5px;
-        height: 500px; /* 이미지 높이 설정 */
+        height: 500px;
     }
 
-    .movie-chart img {
+    .swiper-container {
         width: 100%;
-        border-radius: 5px;
+        margin: auto;
+        overflow: hidden;
+        position: relative;
     }
-    .movie-chart .movie-item {
-        position: relative; /* relative position 설정 */
+
+    .swiper-slide {
+        width: 20%;
+        height: 100%;
+    }
+
+    .movie-item {
+        position: relative;
         text-align: center;
     }
-    .movie-chart .movie-item img {
+
+    .img-container {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+    }
+
+    .img-container img {
         display: block;
         width: 100%;
+        height: 100%;
+        object-fit: cover;
         border-radius: 5px;
+        transition: 0.3s ease;
     }
-    .movie-chart .movie-item .rank {
-        position: absolute; /* absolute position 설정 */
-        top: 10px; /* 이미지 위의 위치 설정 */
+
+    .rank {
+        position: absolute;
+        top: 10px;
         left: 10px;
         font-size: 2rem;
         font-weight: bold;
         color: white;
-        background: rgba(0, 0, 0, 0.5); /* 배경 색상 및 투명도 설정 */
+        background: rgba(0, 0, 0, 0.5);
         padding: 5px 10px;
         border-radius: 5px;
-        font-family: 'Bebas Neue', cursive; /* 멋진 글꼴 적용 */
+        font-family: 'Bebas Neue', cursive;
     }
-    .movie-chart .movie-item p {
+
+    .movie-item p {
         margin: 5px 0;
     }
-    .movie-chart .movie-item .rating {
-        color: gold;
-    }
-    .movie-chart .movie-item .percentage {
+
+    .percentage {
         color: gray;
     }
 
-    /* 공지 부분 CSS */
+    .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        opacity: 0;
+        transition: 0.3s ease;
+        border-radius: 5px;
+    }
+
+    .img-container:hover .overlay {
+        opacity: 1;
+    }
+
+    .btn-detail, .btn-booking {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        color: black;
+        background-color: white;
+        border: none;
+        padding: 8px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+        white-space: nowrap;
+        transition: background-color 0.3s ease;
+        margin-top: -10%;
+    }
+
+    .btn-detail {
+        top: 40%;
+    }
+
+    .btn-booking {
+        top: 55%;
+        background-color: rgb(192, 25, 25);
+        color: white;
+    }
+
+    .btn-detail:hover {
+        opacity: 80%;
+        color: black;
+        text-decoration: none;
+    }
+
+
+    .btn-booking:hover {
+        opacity: 80%;
+        color: rgb(228, 228, 228);
+        text-decoration: none;
+    }
+
+    .btn-detail:focus, .btn-booking:focus {
+        color: black;
+        text-decoration: none;
+    }
+
+    .btn-detail:active, .btn-booking:active {
+        color: black;
+        text-decoration: none;
+    }
+
     .notice-box {
         border: 1px solid #ddd;
         border-radius: 5px;
         padding: 20px;
         margin-top: 20px;
-        margin-bottom: 20px;
-        width: 80%;
+        width: 100%;
     }
-    .notice-box .notice-header {
+
+    .notice-header {
         font-weight: bold;
         margin-bottom: 10px;
     }
-    .notice-box .notice-content {
+
+    .notice-content {
         display: flex;
         justify-content: space-between;
         align-items: center;
     }
-    .notice-box .notice-content .notice-text {
+
+    .notice-text {
         flex-grow: 1;
     }
-    .notice-box .notice-content .notice-more {
+
+    .notice-more {
         margin-left: 10px;
     }
-    .notice-box .customer-center {
+
+    .customer-center {
         margin-top: 20px;
     }
-    .notice-box .customer-center .customer-header {
+
+    .customer-header {
         font-weight: bold;
         margin-bottom: 10px;
     }
-    .notice-box .customer-center .customer-content {
+
+    .customer-content {
         margin-bottom: 10px;
     }
-    .notice-box .customer-center .btn-group {
+
+    .btn-group {
         display: flex;
         justify-content: space-between;
     }
 
-    /* 네비 및 메인 배너 */
     .main-banner {
-        position: relative; /* 상대 위치 설정 */
-        height: 500px; /* 배너 높이 설정 */
+        position: relative;
+        height: 500px;
         color: white;
         text-align: center;
+        background-color: #000;
     }
+
+    .main-banner .movie-main {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+    }
+
+    .main-banner .movie-main img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
     .main-banner .content {
-        position: absolute; /* 절대 위치 설정 */
+        position: absolute;
         top: 50%;
         left: 50%;
-        transform: translate(-50%, -50%); /* 중앙 정렬 */
-        z-index: 2; /* 텍스트를 이미지 위로 */
+        transform: translate(-50%, -50%);
+        z-index: 2;
     }
+
     .main-banner h1 {
         font-size: 3rem;
         color: purple;
     }
+
     .main-banner p {
         font-size: 1.2rem;
         color: red;
     }
-    .main-banner .btn {
-        margin-top: 20px;
-    }
 
-
-    /* 전체보기 버튼 스타일 */
     .btn-custom {
         display: inline-flex;
         align-items: center;
@@ -131,7 +233,6 @@
         font-size: 15px;
     }
 
-    /* 더보기 버튼 스타일 */
     .btn-more {
         display: inline-flex;
         align-items: center;
@@ -146,94 +247,424 @@
     }
 
     .btn-custom:hover, .btn-more:hover {
-        color: black; /* 기존 글자색 유지 */
-        text-decoration: none; /* 밑줄 제거 */
+        color: rgb(54, 54, 54);
+        text-decoration: none;
+    }
+
+    .image-container {
+        width: 100%;
+        height: 300px;
+        overflow: hidden;
+        margin: 0;
+        border-radius: 10px;
+    }
+
+    .image-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .image-container img:hover {
+        cursor: pointer;
+        transform: scale(1.05);
+    }
+
+    .swiper-button-next, .swiper-button-prev {
+        color: #000;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 40px;
+        height: 40px;
+        background: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .swiper-container:hover .swiper-button-next, .swiper-container:hover .swiper-button-prev {
+        opacity: 0.7;
+    }
+
+    .swiper-button-next:after, .swiper-button-prev:after {
+        font-size: 1.2rem;
+        color: black;
+    }
+
+    .bold-p {
+        padding-top: 2%;
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    /* Custom styles for tab headers */
+    .nav-tabs {
+        border-bottom: none;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .nav-tabs .nav-item {
+        margin-bottom: 0;
+    }
+
+    .nav-tabs .nav-link {
+        display: inline-block;
+        font-size: 1.7rem;
+        font-weight: bold;
+        padding: 10px 15px;
+        margin-right: 0;
+        margin-left: 0;
+        border: none;
+        color: black;
+        background: none;
+    }
+
+    .nav-tabs .nav-link.active {
+        color: #9b1453;
+        background: none;
+        border: none;
+    }
+
+    /* Vertical separator style */
+    .vertical-separator {
+        font-size: 2rem;
+        margin: 0 10px;
+    }
+
+    /* Custom styles for "상영관 소개" heading */
+    .section-heading {
+        font-size: 1.7rem;
+        font-weight: bold;
+        padding: 10px 15px;
+        color: black;
+        margin-left: 0;
     }
 </style>
 
-<!-- Main Banner -->
-<div class="main-banner">
-    <div class="movie-main">
-        <img src="img/mil.png">
-    </div>
-    <div class="content">
-        <h1>핸섬가이즈</h1>
-        <p>이성민X이희준의 살벌한 코미디 탄생<br>6월 25일, 극장에서 기다릴게</p>
-        <!-- <button class="btn btn-light">상세보기</button> -->
-    </div>
-</div>
-
-<!-- 무비 차트, 상영 예정작  -->
-<div class="container mt-5">
-    <h2 class="text-center">무비차트 <small class="text-muted">| 상영예정작</small></h2>
-
-    <div class="text-right mt-3">
-        <a href="#" class="btn-custom">전체보기 <span class="arrow">&rarr;</span></a>
-    </div>
-
-    <div class="row justify-content-center movie-chart">
-        <div class="col-md-2 movie-item">
-            <img src="img/insideout.jpg" alt="인사이드 아웃 2">
-            <div class="rank">1</div> <!-- 순위 오버레이 -->
-            <p>인사이드 아웃 2</p>
-            <p class="rating">97%</p>
-            <p class="percentage">예매율 55.8%</p>
+<div class="container-fluid p-0">
+    <!-- Main Banner -->
+    <div class="main-banner">
+        <div class="movie-main">
+            <img src="image/index/bg.png" alt="Main Banner">
         </div>
-        <div class="col-md-2 movie-item">
-            <img src="img/hi.jpg" alt="하이재킹">
-            <div class="rank">2</div> <!-- 순위 오버레이 -->
-            <p>하이재킹</p>
-            <p class="rating">99%</p>
-            <p class="percentage">예매율 6.3%</p>
-        </div>
-        <div class="col-md-2 movie-item">
-            <img src="/img/wonderland.jpg" alt="원더랜드">
-            <div class="rank">3</div> <!-- 순위 오버레이 -->
-            <p>원더랜드</p>
-            <p class="rating">95%</p>
-            <p class="percentage">예매율 5.7%</p>
-        </div>
-        <div class="col-md-2 movie-item">
-            <img src="/img/fishing.jpg" alt="밤낚시">
-            <div class="rank">4</div> <!-- 순위 오버레이 -->
-            <p>밤낚시</p>
-            <p class="rating">?</p>
-            <p class="percentage">예매율 5.0%</p>
-        </div>
-        <div class="col-md-2 movie-item">
-            <img src="/img/run.jpg" alt="탈주">
-            <div class="rank">5</div> <!-- 순위 오버레이 -->
-            <p>타로</p>
-            <p class="rating">?</p>
-            <p class="percentage">예매율 4.8%</p>
+        <div class="content">
+            <h1>핸섬가이즈</h1>
+            <p>이성민X이희준의 살벌한 코미디 탄생<br>6월 25일, 극장에서 기다릴게</p>
         </div>
     </div>
 </div>
 
-<!-- 공지사항 부분  -->
-<div class="container mt-5">
-    <div class="notice-box mx-auto">
-        <div class="notice-header">공지사항</div>
-        <div class="notice-content">
-            <div class="notice-text">[행사/이벤트][CGV] &lt;선재 업고 튀어&gt; 최종화 단...</div>
-            <button class="btn btn-link notice-more btn-more">더보기</button>
+<div class="container">
+    <!-- 무비 차트, 상영 예정작  -->
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="movie-chart-tab" data-toggle="tab" href="#movie-chart" role="tab" aria-controls="movie-chart" aria-selected="true">무비차트</a>
+                </li>
+                <li class="vertical-separator">|</li>
+                <li class="nav-item">
+                    <a class="nav-link" id="upcoming-tab" data-toggle="tab" href="#upcoming" role="tab" aria-controls="upcoming" aria-selected="false">상영예정작</a>
+                </li>
+            </ul>
+            <a href="#" class="btn-custom">전체보기 <span class="arrow">&rarr;</span></a>
         </div>
-        <div class="customer-center">
-            <div class="customer-header">고객센터</div>
-            <div class="customer-content">
-                <p><strong>1544-1122</strong></p>
-                <p>고객센터 운영시간 (평일 09:00~18:00)<br>업무시간 외 자동응답 안내 가능합니다.</p>
+
+        <div class="tab-content">
+            <div class="tab-pane fade show active" id="movie-chart" role="tabpanel" aria-labelledby="movie-chart-tab">
+                <div class="swiper-container">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide movie-item">
+                            <div class="img-container">
+                                <img src="image/movie/insideout.jpg" alt="인사이드 아웃 2">
+                                <div class="overlay">
+                                    <a href="#" class="btn-detail">상세보기</a>
+                                    <a href="#" class="btn-booking">예매하기</a>
+                                </div>
+                            </div>
+                            <div class="rank">1</div>
+                            <p class="bold-p">인사이드 아웃 2</p>
+                            <p class="percentage">예매율 55.8%</p>
+                        </div>
+                        <div class="swiper-slide movie-item">
+                            <div class="img-container">
+                                <img src="image/movie/hi.jpg" alt="하이재킹">
+                                <div class="overlay">
+                                    <a href="#" class="btn-detail">상세보기</a>
+                                    <a href="#" class="btn-booking">예매하기</a>
+                                </div>
+                            </div>
+                            <div class="rank">2</div>
+                            <p class="bold-p">하이재킹</p>
+                            <p class="percentage">예매율 6.3%</p>
+                        </div>
+                        <div class="swiper-slide movie-item">
+                            <div class="img-container">
+                                <img src="image/movie/wonderland.jpg" alt="원더랜드">
+                                <div class="overlay">
+                                    <a href="#" class="btn-detail">상세보기</a>
+                                    <a href="#" class="btn-booking">예매하기</a>
+                                </div>
+                            </div>
+                            <div class="rank">3</div>
+                            <p class="bold-p">원더랜드</p>
+                            <p class="percentage">예매율 5.7%</p>
+                        </div>
+                        <div class="swiper-slide movie-item">
+                            <div class="img-container">
+                                <img src="image/movie/fishing.jpg" alt="밤낚시">
+                                <div class="overlay">
+                                    <a href="#" class="btn-detail">상세보기</a>
+                                    <a href="#" class="btn-booking">예매하기</a>
+                                </div>
+                            </div>
+                            <div class="rank">4</div>
+                            <p class="bold-p">밤낚시</p>
+                            <p class="percentage">예매율 5.0%</p>
+                        </div>
+                        <div class="swiper-slide movie-item">
+                            <div class="img-container">
+                                <img src="image/movie/run.jpg" alt="탈주">
+                                <div class="overlay">
+                                    <a href="#" class="btn-detail">상세보기</a>
+                                    <a href="#" class="btn-booking">예매하기</a>
+                                </div>
+                            </div>
+                            <div class="rank">5</div>
+                            <p class="bold-p">탈주</p>
+                            <p class="percentage">예매율 4.8%</p>
+                        </div>
+                        <div class="swiper-slide movie-item">
+                            <div class="img-container">
+                                <img src="image/movie/run.jpg" alt="탈주">
+                                <div class="overlay">
+                                    <a href="#" class="btn-detail">상세보기</a>
+                                    <a href="#" class="btn-booking">예매하기</a>
+                                </div>
+                            </div>
+                            <div class="rank">5</div>
+                            <p class="bold-p">탈주</p>
+                            <p class="percentage">예매율 4.8%</p>
+                        </div>
+                        <div class="swiper-slide movie-item">
+                            <div class="img-container">
+                                <img src="image/movie/run.jpg" alt="탈주">
+                                <div class="overlay">
+                                    <a href="#" class="btn-detail">상세보기</a>
+                                    <a href="#" class="btn-booking">예매하기</a>
+                                </div>
+                            </div>
+                            <div class="rank">5</div>
+                            <p class="bold-p">탈주</p>
+                            <p class="percentage">예매율 4.8%</p>
+                        </div><div class="swiper-slide movie-item">
+                        <div class="img-container">
+                            <img src="image/movie/run.jpg" alt="탈주">
+                            <div class="overlay">
+                                <a href="#" class="btn-detail">상세보기</a>
+                                <a href="#" class="btn-booking">예매하기</a>
+                            </div>
+                        </div>
+                        <div class="rank">5</div>
+                        <p class="bold-p">탈주</p>
+                        <p class="percentage">예매율 4.8%</p>
+                    </div>
+                    </div>
+                    <!-- Add Navigation -->
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+                </div>
             </div>
-            <div class="btn-group">
-                <button class="btn btn-outline-secondary">FAQ</button>
-                <button class="btn btn-outline-secondary">1:1 문의</button>
-                <button class="btn btn-outline-secondary">대관/단체 문의</button>
+
+            <!-- 슬라이드2 -->
+            <div class="tab-pane fade" id="upcoming" role="tabpanel" aria-labelledby="upcoming-tab">
+                <div class="swiper-container">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide movie-item">
+                            <div class="img-container">
+                                <img src="image/movie/insideout.jpg" alt="영화1">
+                                <div class="overlay">
+                                    <a href="#" class="btn-detail">상세보기</a>
+                                    <a href="#" class="btn-booking">예매하기</a>
+                                </div>
+                            </div>
+                            <div class="rank">1</div>
+                            <p class="bold-p">영화1</p>
+                            <p class="percentage">7월 5일 개봉</p>
+                        </div>
+                        <div class="swiper-slide movie-item">
+                            <div class="img-container">
+                                <img src="image/movie/insideout.jpg" alt="영화1">
+                                <div class="overlay">
+                                    <a href="#" class="btn-detail">상세보기</a>
+                                    <a href="#" class="btn-booking">예매하기</a>
+                                </div>
+                            </div>
+                            <div class="rank">2</div>
+                            <p class="bold-p">영화2</p>
+                            <p class="percentage">7월 12일 개봉</p>
+                        </div>
+                        <div class="swiper-slide movie-item">
+                            <div class="img-container">
+                                <img src="image/movie/insideout.jpg" alt="영화1">
+                                <div class="overlay">
+                                    <a href="#" class="btn-detail">상세보기</a>
+                                    <a href="#" class="btn-booking">예매하기</a>
+                                </div>
+                            </div>
+                            <div class="rank">3</div>
+                            <p class="bold-p">영화3</p>
+                            <p class="percentage">7월 20일 개봉</p>
+                        </div>
+                        <div class="swiper-slide movie-item">
+                            <div class="img-container">
+                                <img src="image/movie/insideout.jpg" alt="영화1">
+                                <div class="overlay">
+                                    <a href="#" class="btn-detail">상세보기</a>
+                                    <a href="#" class="btn-booking">예매하기</a>
+                                </div>
+                            </div>
+                            <div class="rank">4</div>
+                            <p class="bold-p">영화4</p>
+                            <p class="percentage">7월 21일 개봉</p>
+                        </div>
+                        <div class="swiper-slide movie-item">
+                            <div class="img-container">
+                                <img src="image/movie/insideout.jpg" alt="영화1">
+                                <div class="overlay">
+                                    <a href="#" class="btn-detail">상세보기</a>
+                                    <a href="#" class="btn-booking">예매하기</a>
+                                </div>
+                            </div>
+                            <div class="rank">5</div>
+                            <p class="bold-p">영화5</p>
+                            <p class="percentage">7월 28일 개봉</p>
+                        </div>
+                        <div class="swiper-slide movie-item">
+                            <div class="img-container">
+                                <img src="image/movie/insideout.jpg" alt="영화1">
+                                <div class="overlay">
+                                    <a href="#" class="btn-detail">상세보기</a>
+                                    <a href="#" class="btn-booking">예매하기</a>
+                                </div>
+                            </div>
+                            <div class="rank">6</div>
+                            <p class="bold-p">영화5</p>
+                            <p class="percentage">8월 3일 개봉</p>
+                        </div>
+                        <div class="swiper-slide movie-item">
+                            <div class="img-container">
+                                <img src="image/movie/insideout.jpg" alt="영화1">
+                                <div class="overlay">
+                                    <a href="#" class="btn-detail">상세보기</a>
+                                    <a href="#" class="btn-booking">예매하기</a>
+                                </div>
+                            </div>
+                            <div class="rank">7</div>
+                            <p class="bold-p">영화6</p>
+                            <p class="percentage">8월 5일 개봉</p>
+                        </div>
+                    </div>
+                    <!-- Add Navigation -->
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br><br>
+    <hr>
+
+    <!-- 상영관 소개 -->
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center">
+            <h2 class="section-heading">상영관 소개</h2>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="image-container">
+                    <img src="image/index/cinemai9.jpg" class="img-fluid">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="image-container">
+                    <img src="image/index/cinemai13.jpg" class="img-fluid">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br><hr>
+    <!-- 광고이미지 부분 -->
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-12">
+                <img src="image/index/add1.jpg" class="img-fluid mx-auto d-block" style="width: 1500px;">
+            </div>
+        </div>
+    </div>
+    <!-- 공지사항 부분  -->
+    <div class="container mt-5 mb-5">
+        <div class="notice-box mx-auto">
+            <div class="customer-center">
+                <div class="customer-header">고객센터</div>
+                <div class="customer-content">
+                    <p><strong>1544-1122</strong></p>
+                    <p>고객센터 운영시간 (평일 09:00~18:00)<br>업무시간 외 자동응답 안내 가능합니다.</p>
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-outline-secondary">FAQ</button>
+                    <button class="btn btn-outline-secondary">1:1 문의</button>
+                    <button class="btn btn-outline-secondary">대관/단체 문의</button>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!-- Swiper JS -->
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<script>
+    var swiper1 = new Swiper('#movie-chart .swiper-container', {
+        slidesPerView: 5,
+        spaceBetween: 10,
+        loop: true,
+        loopFillGroupWithBlank: true,
+        navigation: {
+            nextEl: '#movie-chart .swiper-button-next',
+            prevEl: '#movie-chart .swiper-button-prev',
+        },
+    });
+
+    var swiper2 = new Swiper('#upcoming .swiper-container', {
+        slidesPerView: 5,
+        spaceBetween: 10,
+        loop: true,
+        loopFillGroupWithBlank: true,
+        navigation: {
+            nextEl: '#upcoming .swiper-button-next',
+            prevEl: '#upcoming .swiper-button-prev',
+        },
+    });
+
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+        var target = $(e.target).attr("href") // activated tab
+        if(target === '#movie-chart') {
+            swiper1.update();
+        } else if(target === '#upcoming') {
+            swiper2.update();
+        }
+    });
+</script>
 {{> layout/footer}}
