@@ -52,7 +52,7 @@ public class MovieService {
             // 개봉일이 오늘 이후인 경우, 오늘부터 개봉일까지의 일수를 계산합니다.
             long dDay = ChronoUnit.DAYS.between(today, movieReleaseDate);
             // "상영예정 D-일수" 형식으로 반환합니다.
-            return "상영예정 D- " + dDay;
+            return "상영예정 D-" + dDay;
         }
     }
 
