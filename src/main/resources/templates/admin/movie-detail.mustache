@@ -270,20 +270,20 @@
 <div class="container">
     <hr>
     <div class="movie-detail">
-        <img src="https://via.placeholder.com/200x300" alt="Movie Poster" class="movie-poster">
+        <img src="/image/movie/{{movie.imgFilename}}" alt="Movie Poster" class="movie-poster">
         <div class="movie-info">
-            <h2>인사이드 아웃 2 <span class="badge badge-primary">현재상영중</span></h2>
-            <p class="sub-title">Inside Out 2</p>
-            <p class="rating">예매율 55.8%</p>
+            <h2>{{movie.title}} <span class="badge badge-primary">{{movie.releaseStatus}}</span></h2>
+            <p class="sub-title">{{movie.engTitle}}</p>
+            <p class="rating">예매율: %</p>
             <div class="details">
-                <p>감독: 켈시 만</p>
-                <p>배우: 에이미 포엘러, 마야 루돌프, 필리스 스미스, 루이스 블랙, 토니 헤일</p>
-                <p>장르: 애니메이션</p>
-                <p>기본 정보: 전체관람가, 96분, 미국</p>
-                <p>개봉: 2024.06.12</p>
+                <p>감독: {{movie.director}}</p>
+                <p>배우: {{movie.actor}}</p>
+                <p>장르: {{movie.genre}}</p>
+                <p>기본 정보: {{movie.infoAgeLimit}}, {{movie.infoRunningTime}}, {{movie.infoRegion}}</p>
+                <p>개봉: {{movie.date}}</p>
             </div>
             <div class="btn-custom">
-                <span><a href="/movie-edit-form" class="btn btn-outline-secondary " >수정하기</a></span>
+                <span><a href="/movie-edit-form/{{movie.id}}" class="btn btn-outline-secondary">수정하기</a></span>
                 <button class="btn btn-danger">삭제하기</button>
             </div>
         </div>
