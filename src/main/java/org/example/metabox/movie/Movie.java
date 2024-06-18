@@ -46,5 +46,3 @@ public class Movie {
         this.imgFilename = imgFilename;
         this.description = description;
     }
-
-}
