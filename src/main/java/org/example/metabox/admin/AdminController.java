@@ -3,10 +3,16 @@ package org.example.metabox.admin;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @RequiredArgsConstructor
 @Controller
 public class AdminController {
+    @GetMapping("admin-login")
+    public String Login(){
+        Admin admin;
+        return "admin/login-form";
+    }
 
     //    TODO : admin 만 접속할 수 있도록 주소에 interceptor 설정
     @GetMapping("movie-detail")
