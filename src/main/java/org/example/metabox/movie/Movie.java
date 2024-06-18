@@ -4,8 +4,10 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.metabox.movie_pic.MoviePic;
 
 import java.sql.Date;
+import java.util.List;
 
 @Entity
 @Data
@@ -32,13 +34,16 @@ public class Movie {
     // 포스터 사진
     private String imgFilename;
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<MoviePic> moviePicList;
+
     // 영화 소개
     // VARCHAR 보다 긴 TEXT 사용
     @Column(columnDefinition = "TEXT")
     private String description;
 
     @Builder
-    public Movie(int id, String title, String engTitle, String director, String actor, String genre, String info, Date date, String imgFilename, String description) {
+    public Movie(int id, String title, String engTitle, String director, String actor, String genre, String info, Date date, String imgFilename, List<MoviePic> moviePicList, String description) {
         this.id = id;
         this.title = title;
         this.engTitle = engTitle;
@@ -48,6 +53,7 @@ public class Movie {
         this.info = info;
         this.date = date;
         this.imgFilename = imgFilename;
+        this.moviePicList = moviePicList;
         this.description = description;
     }
 }

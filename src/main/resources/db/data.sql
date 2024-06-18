@@ -156,7 +156,69 @@ V.I.A(Very Important Animal)를 만족시키기 위한\n
 인기 스트리머가 실시간 라이브 방송을 하며\n
 필사의 탈출을 감행하는 드라이빙 액션 스릴러');
 
-
+-- 영화 스틸컷 등록
+insert into movie_pic_tb(movie_id, img_filename) values
+-- 1번 영화
+(1,'movie1_pic1.png'),
+(1,'movie1_pic2.png'),
+(1,'movie1_pic3.png'),
+(1,'movie1_pic4.png'),
+(1,'movie1_pic5.png'),
+-- 2번 영화
+(2,'movie2_pic1.png'),
+(2,'movie2_pic2.png'),
+(2,'movie2_pic3.png'),
+(2,'movie2_pic4.png'),
+(2,'movie2_pic5.png'),
+-- 3번 영화
+(3,'movie3_pic1.png'),
+(3,'movie3_pic2.png'),
+(3,'movie3_pic3.png'),
+(3,'movie3_pic4.png'),
+(3,'movie3_pic5.png'),
+(3,'movie3_pic6.png'),
+-- 4번 영화
+(4,'movie4_pic1.png'),
+(4,'movie4_pic2.png'),
+(4,'movie4_pic3.png'),
+(4,'movie4_pic4.png'),
+(4,'movie4_pic5.png'),
+-- 5번 영화
+(5,'movie5_pic1.png'),
+(5,'movie5_pic2.png'),
+(5,'movie5_pic3.png'),
+(5,'movie5_pic4.png'),
+(5,'movie5_pic5.png'),
+-- 6번 영화
+(6,'movie6_pic1.png'),
+(6,'movie6_pic2.png'),
+(6,'movie6_pic3.png'),
+(6,'movie6_pic4.png'),
+(6,'movie6_pic5.png'),
+-- 7번 영화
+(7,'movie7_pic1.png'),
+(7,'movie7_pic2.png'),
+(7,'movie7_pic3.png'),
+(7,'movie7_pic4.png'),
+(7,'movie7_pic5.png'),
+-- 8번 영화
+(8,'movie8_pic1.png'),
+(8,'movie8_pic2.png'),
+(8,'movie8_pic3.png'),
+(8,'movie8_pic4.png'),
+(8,'movie8_pic5.png'),
+-- 9번 영화
+(9,'movie9_pic1.png'),
+(9,'movie9_pic2.png'),
+(9,'movie9_pic3.png'),
+(9,'movie9_pic4.png'),
+(9,'movie9_pic5.png'),
+-- 10번 영화
+(10,'movie10_pic1.png'),
+(10,'movie10_pic2.png'),
+(10,'movie10_pic3.png'),
+(10,'movie10_pic4.png'),
+(10,'movie10_pic5.png');
 
 -- 극장이 영화 등록
 --- 각 극장마다 8개 영화 등록(1~8까지)
@@ -250,5 +312,6 @@ insert into theater_movie_tb(theater_id,movie_id) values
 (10, 6),
 (10, 7),
 (10, 8),
-(10, 9),
-(10, 10);
+(10, 9);
+
+-- 극장 영화 상영정보 등록

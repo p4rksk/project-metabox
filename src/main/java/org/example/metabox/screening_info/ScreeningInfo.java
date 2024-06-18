@@ -28,9 +28,6 @@ public class ScreeningInfo {
     @ManyToOne(fetch = FetchType.LAZY)
     private TheaterMovie theaterMovie;
 
-    @OneToMany
-    private List<Book> book;
-
 
     // 상영 시간
     private String showtime;
@@ -39,12 +36,10 @@ public class ScreeningInfo {
     private LocalDateTime date;
 
     @Builder
-
-    public ScreeningInfo(int id, Screening screening, TheaterMovie theaterMovie, List<Book> book, String showtime, String startTime, String endTime, LocalDateTime date) {
+    public ScreeningInfo(int id, Screening screening, TheaterMovie theaterMovie, String showtime, String startTime, String endTime, LocalDateTime date) {
         this.id = id;
         this.screening = screening;
         this.theaterMovie = theaterMovie;
-        this.book = book;
         this.showtime = showtime;
         this.startTime = startTime;
         this.endTime = endTime;

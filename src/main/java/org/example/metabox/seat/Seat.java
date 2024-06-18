@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.metabox.book.Book;
 import org.example.metabox.screening.Screening;
 
 @Entity
@@ -26,20 +27,19 @@ public class Seat {
 
     private SeatType type;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Book book;
+
     @Builder
-    public Seat(int id, Screening screening, String code, Boolean booked, int price, SeatType type){
+    public Seat(int id, Screening screening, String code, Boolean booked, int price, SeatType type, Book book) {
         this.id = id;
         this.screening = screening;
         this.code = code;
         this.booked = booked;
         this.price = price;
         this.type = type;
+        this.book = book;
     }
-
-
-
-
-
 
     private enum SeatType {
         장애인석, 일반석
