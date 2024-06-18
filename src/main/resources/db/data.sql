@@ -38,5 +38,8 @@ values ('METABOX 경기광주', 'theater1.png', '경기도 광주시 역동16-1 
         '');
 
 -- 영화 생성
--- insert into movie_tb(title, date, img_filename)
--- values ('', '', '');
+insert into movie_tb(title, eng_title, date, img_filename, description) values
+('인사이드 아웃 2', 'Inside Out 2', ''),
+('', '', ''),
+('', '', ''),
+('', '', ''),
