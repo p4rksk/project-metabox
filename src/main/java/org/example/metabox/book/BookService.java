@@ -1,9 +1,9 @@
 package org.example.metabox.book;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 
+@Service
 @RequiredArgsConstructor
-@Controller
-public class BookController {
+public class BookService {
 }

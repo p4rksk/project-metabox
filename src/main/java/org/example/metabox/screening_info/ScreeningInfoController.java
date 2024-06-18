@@ -1,9 +1,9 @@
-package org.example.metabox.book;
+package org.example.metabox.screening_info;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 
 @RequiredArgsConstructor
 @Controller
-public class BookController {
+public class ScreeningInfoController {
 }

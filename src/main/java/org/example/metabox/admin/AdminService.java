@@ -1,9 +1,9 @@
 package org.example.metabox.admin;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 
+@Service
 @RequiredArgsConstructor
-@Controller
-public class AdminController {
+public class AdminService {
 }

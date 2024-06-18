@@ -1,4 +1,4 @@
-package org.example.metabox.screenings;
+package org.example.metabox.screening;
 
 import jakarta.persistence.*;
 import lombok.Data;
