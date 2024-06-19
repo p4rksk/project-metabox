@@ -87,7 +87,8 @@
 
     .badge {
         margin: 2px;
-        width: 30px;
+        white-space: nowrap;
+        width: auto;
         position: absolute;
     }
 </style>
@@ -115,53 +116,24 @@
         </div>
     </div>
     <div class="row justify-content-center">
-        <!-- Movie Card Example -->
-        <div class="col-auto movie-card">
-            <div class="rank">No.1</div>
-            <div class="card">
-
-                <a href="/movie-detail"><img src="https://via.placeholder.com/200x300" class="card-img-top" alt="Movie 1"></a>
-                <span class="badge badge-success">ALL</span>
-
-                <div class="card-body">
-                    <h5 class="card-title">인사이드 아웃 2</h5>
-                    <p class="card-text">예매율: 55.8%</p>
-                    <p class="release-date">2024.06.12 개봉</p>
-                    <span><a href="/movie-edit-form" class="btn btn-outline-secondary">수정하기</a></span>
-                    <button class="btn btn-danger">삭제하기</button>
+        {{#models}}
+            <div class="col-auto movie-card">
+                <div class="rank">No.{{id}}</div>
+                <div class="card">
+                    <a href="/movie-detail/{{id}}">
+                        <img src="/image/movie/{{imgFilename}}" class="card-img-top" alt="Movie {{id}}">
+                    </a>
+                    <span class="badge badge-success">{{infoAgeLimit}}</span>
+                    <div class="card-body">
+                        <h5 class="card-title">{{title}}</h5>
+                        <p class="card-text">예매율: %</p>
+                        <p class="release-date">{{date}} 개봉</p>
+                        <span><a href="/movie-edit-form/{{id}}" class="btn btn-outline-secondary">수정하기</a></span>
+                        <button class="btn btn-danger">삭제하기</button>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-auto movie-card">
-            <div class="rank">No.2</div>
-            <div class="card">
-
-                <a href="/movie-detail"><img src="https://via.placeholder.com/200x300" class="card-img-top" alt="Movie 2"></a>
-                <span class="badge badge-warning">12</span>
-                <div class="card-body">
-                    <h5 class="card-title">하이재킹</h5>
-                    <p class="card-text">예매율: 6.3%</p>
-                    <p class="release-date">2024.06.21 개봉 <span class="d-day">D-7</span></p>
-                    <span><a href="/movie-edit-form" class="btn btn-outline-secondary">수정하기</a></span>
-                    <button class="btn btn-danger">삭제하기</button>
-                </div>
-            </div>
-        </div>
-        <div class="col-auto movie-card">
-            <div class="rank">No.3</div>
-            <div class="card">
-                <a href="/movie-detail"><img src="https://via.placeholder.com/200x300" class="card-img-top" alt="Movie 3"></a>
-                <span class="badge badge-success">ALL</span>
-                <div class="card-body">
-                    <h5 class="card-title">극장판 하이큐!! 쓰레기장의 결전</h5>
-                    <p class="card-text">예매율: 5.7%</p>
-                    <p class="release-date">2024.05.15 개봉</p>
-                    <span><a href="/movie-edit-form" class="btn btn-outline-secondary">수정하기</a></span>
-                    <button class="btn btn-danger">삭제하기</button>
-                </div>
-            </div>
-        </div>
-        <!-- Add more movie cards as needed -->
+        {{/models}}
     </div>
 </div>
 {{> layout/footer}}

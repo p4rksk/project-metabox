@@ -18,6 +18,7 @@ public class Movie {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    // 한글 영화 제목
     private String title;
     // 영어 제목
     private String engTitle;
