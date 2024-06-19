@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.example.metabox.movie.Movie;
+import org.example.metabox.movie.MovieRequest;
 import org.example.metabox.movie.MovieResponse;
 import org.example.metabox.movie.MovieService;
 import org.springframework.stereotype.Controller;
@@ -65,10 +66,12 @@ public class AdminController {
         return "admin/movie-save-form";
     }
 
+    // http://localhost:8080/admin-login-form
     // 영화 등록을 처리하는 POST 요청 메서드
     @PostMapping("/movie-save-form")
-    public Movie addMovie(Movie movie) {
-        return null;
+    public String movieAdd(MovieRequest.movieSavaFormDTO reqDTO) {
+        movieService.addMovie(reqDTO);
+        return "redirect:movie-list";
     }
 
     @GetMapping("/movie-edit-form")

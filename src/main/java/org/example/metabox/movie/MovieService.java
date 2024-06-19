@@ -1,5 +1,10 @@
 package org.example.metabox.movie;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -7,12 +12,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
 public class MovieService {
 
     private final MovieRepository movieRepository;
+
 
     // 모든 영화를 조회하는 메서드
     public List<MovieResponse.MovieChartDTO> getAllMovies() {
@@ -56,5 +63,31 @@ public class MovieService {
         }
     }
 
+    public Movie addMovie(MovieRequest.movieSavaFormDTO reqDTO) {
+
+        MultipartFile file = reqDTO.getImgFilename();
+        String fileName = file.getOriginalFilename();
+        String uploadDir = "image/movie"; // 파일을 저장할 경로
+
+        try {
+            Path copyLocation = Paths.get(uploadDir + "/" + fileName);
+            Files.copy(file.getInputStream(), copyLocation, StandardCopyOption.REPLACE_EXISTING);
+        } catch (Exception e) {
+            // 예외 처리
+        }
+
+        Movie movie = Movie.builder()
+                .title(reqDTO.getTitle())
+                .engTitle(reqDTO.getEngTitle())
+                .director(reqDTO.getDirector())
+                .actor(reqDTO.getActor())
+                .genre(reqDTO.getGenre())
+                .info(reqDTO.getInfo())
+                .date(reqDTO.getDate())
+                .imgFilename(fileName)
+                .description(reqDTO.getDescription())
+                .build();
+        return movieRepository.save(movie);
+    }
 
 }
