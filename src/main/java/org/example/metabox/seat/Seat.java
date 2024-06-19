@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.metabox.book.Book;
 import org.example.metabox.screening.Screening;
+import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Data
@@ -21,27 +22,29 @@ public class Seat {
 
     // 좌석번호 ex : A9
     private String code;
-    private Boolean booked;
-    private int price;
-    // 장애인석, 라이트석, 일반석
 
+    @ColumnDefault("false")
+    private Boolean booked;
+
+    // 장애인석, 라이트석은 -1000원 할인
+    // 장애인석, 라이트석, 일반석, 모션베드
+    @Enumerated(EnumType.STRING)
     private SeatType type;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Book book;
 
     @Builder
-    public Seat(int id, Screening screening, String code, Boolean booked, int price, SeatType type, Book book) {
+    public Seat(int id, Screening screening, String code, Boolean booked, SeatType type, Book book) {
         this.id = id;
         this.screening = screening;
         this.code = code;
         this.booked = booked;
-        this.price = price;
         this.type = type;
         this.book = book;
     }
 
     private enum SeatType {
-        장애인석, 일반석
+        장애인석, 일반석, 라이트석, 모션베드
     }
 }
