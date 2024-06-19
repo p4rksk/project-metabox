@@ -40,11 +40,13 @@ public class User {
     private String name;
     private String birthYear;
     private int point;
+    private String provider;    //kakao, naver OAuth
+
     @CreationTimestamp
     private LocalDateTime createdAt;
 
     @Builder
-    public User(Integer id, Book book, List<MovieScrap> movieScrap, List<Review> reviews, List<TheaterScrap> theaterScrapList, String nickname, String imgFilename, String name, String birthYear, int point, LocalDateTime createdAt) {
+    public User(Integer id, Book book, List<MovieScrap> movieScrap, List<Review> reviews, List<TheaterScrap> theaterScrapList, String nickname, String imgFilename, String name, String birthYear, int point, String provider, LocalDateTime createdAt) {
         this.id = id;
         this.book = book;
         this.movieScrap = movieScrap;
@@ -55,6 +57,7 @@ public class User {
         this.name = name;
         this.birthYear = birthYear;
         this.point = point;
+        this.provider = provider;
         this.createdAt = createdAt;
     }
 }
