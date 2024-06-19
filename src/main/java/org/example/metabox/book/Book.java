@@ -41,14 +41,13 @@ public class Book {
     private Integer point;
 
     // 사용한 포인트
-    private Integer userd_point;
+    private Integer used_point;
 
     // 최종 결제 금액
     private Integer book_price;
 
     @Builder
-
-    public Book(int id, User user, Guest guest, List<SeatBook> seatBookList, Integer totalPrice, LocalDateTime createdAt, Integer point, Integer userd_point, Integer book_price) {
+    public Book(int id, User user, Guest guest, List<SeatBook> seatBookList, Integer totalPrice, LocalDateTime createdAt, Integer point, Integer used_point, Integer book_price) {
         this.id = id;
         this.user = user;
         this.guest = guest;
@@ -56,7 +55,7 @@ public class Book {
         this.totalPrice = totalPrice;
         this.createdAt = createdAt;
         this.point = point;
-        this.userd_point = userd_point;
+        this.used_point = used_point;
         this.book_price = book_price;
     }
 }

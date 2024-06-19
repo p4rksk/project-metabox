@@ -41,14 +41,15 @@ public class User {
     private String name;
     private String birthYear;
     @ColumnDefault("0")
-    private int point;
+    private Integer point;
     @CreationTimestamp
     private LocalDateTime createdAt;
     private String provider;    // kakao, naver
+    private String password;
 
     @Builder
 
-    public User(Integer id, List<Book> bookList, List<MovieScrap> movieScrap, List<Review> reviews, List<TheaterScrap> theaterScrapList, String nickname, String imgFilename, String name, String birthYear, int point, LocalDateTime createdAt, String provider) {
+    public User(Integer id, List<Book> bookList, List<MovieScrap> movieScrap, List<Review> reviews, List<TheaterScrap> theaterScrapList, String nickname, String imgFilename, String name, String birthYear, int point, LocalDateTime createdAt, String provider, String password) {
         this.id = id;
         this.bookList = bookList;
         this.movieScrap = movieScrap;
@@ -61,5 +62,6 @@ public class User {
         this.point = point;
         this.createdAt = createdAt;
         this.provider = provider;
+        this.password = password;
     }
 }
