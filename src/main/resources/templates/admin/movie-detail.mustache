@@ -270,26 +270,26 @@
 <div class="container">
     <hr>
     <div class="movie-detail">
-        <img src="/image/movie/{{movie.imgFilename}}" alt="Movie Poster" class="movie-poster">
+        <img src="/image/movie/{{model.imgFilename}}" alt="Movie Poster" class="movie-poster">
         <div class="movie-info">
-            <h2>{{movie.title}} <span class="badge badge-primary">{{movie.releaseStatus}}</span></h2>
-            <p class="sub-title">{{movie.engTitle}}</p>
+            <h2>{{model.title}} <span class="badge badge-primary">{{model.releaseStatus}}</span></h2>
+            <p class="sub-title">{{model.engTitle}}</p>
             <p class="rating">예매율: %</p>
             <div class="details">
-                <p>감독: {{movie.director}}</p>
-                <p>배우: {{movie.actor}}</p>
-                <p>장르: {{movie.genre}}</p>
-                <p>기본 정보: {{movie.infoAgeLimit}}, {{movie.infoRunningTime}}, {{movie.infoRegion}}</p>
-                <p>개봉: {{movie.date}}</p>
+                <p>감독: {{model.director}}</p>
+                <p>배우: {{model.actor}}</p>
+                <p>장르: {{model.genre}}</p>
+                <p>기본 정보: {{model.infoAgeLimit}}, {{model.infoRunningTime}}, {{model.infoRegion}}</p>
+                <p>개봉: {{model.date}}</p>
             </div>
             <div class="btn-custom">
-                <span><a href="/movie-edit-form/{{movie.id}}" class="btn btn-outline-secondary">수정하기</a></span>
+                <span><a href="/movie-edit-form/{{model.id}}" class="btn btn-outline-secondary">수정하기</a></span>
                 <button class="btn btn-danger">삭제하기</button>
             </div>
         </div>
     </div>
     <div class="synopsis">
-        <p>{{movie.description}}</p>
+        <p>{{model.description}}</p>
     </div>
     <div class="row chart-container">
         <div class="col-md-6">

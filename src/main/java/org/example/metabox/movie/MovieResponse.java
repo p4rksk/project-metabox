@@ -42,7 +42,7 @@ public class MovieResponse {
         private String releaseStatus;       // 개봉 상태
 
         // Movie 객체를 MovieDetailDTO 객체로 변환하는 메서드
-        public static MovieDetailDTO toEntity(Movie movie, String releaseStatus){
+        public static MovieDetailDTO formEntity(Movie movie, String releaseStatus){
             MovieDetailDTO movieDetailDto = new MovieDetailDTO();
             movieDetailDto.id = movie.getId();
             movieDetailDto.title = movie.getTitle();

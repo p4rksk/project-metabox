@@ -35,7 +35,7 @@ public class MovieService {
         String status = checkMovieReleaseStatus(movie.getDate());
 
         // 조회한 영화 정보를 MovieDetailDTO로 변환하여 반환합니다.
-        return MovieResponse.MovieDetailDTO.toEntity(movie, status);
+        return MovieResponse.MovieDetailDTO.formEntity(movie, status);
     }
 
     // 상영 상태를 확인하는 메서드
