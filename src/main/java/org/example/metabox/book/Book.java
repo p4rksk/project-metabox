@@ -4,16 +4,11 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.example.metabox.payment.Payment;
-import org.example.metabox.screening_info.ScreeningInfo;
-import org.example.metabox.seat.Seat;
+import org.example.metabox.seat.SeatBook;
 import org.example.metabox.user.Guest;
 import org.example.metabox.user.User;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import java.sql.Date;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -32,23 +27,21 @@ public class Book {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Guest guest;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Payment payment;
-
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Seat> seatList;
+    private List<SeatBook> seatBookList;
+
+    private Integer totalPrice;
 
     // 예매일
     @CreationTimestamp
     private LocalDateTime createdAt;
 
     @Builder
-    public Book(int id, User user, Guest guest, Payment payment, List<Seat> seatList, LocalDateTime createdAt) {
+    public Book(int id, User user, Guest guest, List<SeatBook> seatBookList, LocalDateTime createdAt) {
         this.id = id;
         this.user = user;
         this.guest = guest;
-        this.payment = payment;
-        this.seatList = seatList;
+        this.seatBookList = seatBookList;
         this.createdAt = createdAt;
     }
 }
