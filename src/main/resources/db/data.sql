@@ -5649,12 +5649,29 @@ insert into user_tb(nickname, img_filename, name, birth_year, provider, created_
 ('사린자', 'default.png', '장난감', '1964', 'naver', now());
 -- 유저 등록 끝
 
--- 유저 자주가는 극장 스크랩
-insert into theater_scrap_tb() values
-(),
-(),
-(),
-(),
-(),
-(),
+-- 유저 자주가는 극장 스크랩(최대 5개 까지만)
+insert into theater_scrap_tb(user_id, theater_id) values
+(1,1),
+(1,2),
+(1,3),
+(2,1),
+(2,2),
+(2,3),
+(3,1),
+(4,1),
+(5,1),
+(6,1);
+
+-- 유저 영화 스크랩(찜) 1,2번 유저 5개씩 스크랩`
+insert into movie_scrap_tb(user_id, movie_id, created_at) values
+(1, 1),
+(1, 2),
+(1, 3),
+(1, 4),
+(1, 5),
+(2, 1),
+(2, 2),
+(2, 3),
+(2, 4),
+(2, 5);
 -- 예매, 결제

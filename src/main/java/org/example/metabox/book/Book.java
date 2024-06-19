@@ -15,7 +15,7 @@ import java.util.List;
 @Entity
 @Data
 @NoArgsConstructor
-@Table(name = "book_tb")
+@Table(name = "book_tb") // 예매, 결제 테이블
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,18 +30,33 @@ public class Book {
     @OneToMany(mappedBy = "book", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<SeatBook> seatBookList;
 
+    // 전체 금액(포인트 사용 전)
     private Integer totalPrice;
 
-    // 예매일
+    // 예매시간(결제시간)
     @CreationTimestamp
     private LocalDateTime createdAt;
 
+    //지급 포인트, 결제로 받는 금액(결제금액의 5%)
+    private Integer point;
+
+    // 사용한 포인트
+    private Integer userd_point;
+
+    // 최종 결제 금액
+    private Integer book_price;
+
     @Builder
-    public Book(int id, User user, Guest guest, List<SeatBook> seatBookList, LocalDateTime createdAt) {
+
+    public Book(int id, User user, Guest guest, List<SeatBook> seatBookList, Integer totalPrice, LocalDateTime createdAt, Integer point, Integer userd_point, Integer book_price) {
         this.id = id;
         this.user = user;
         this.guest = guest;
         this.seatBookList = seatBookList;
+        this.totalPrice = totalPrice;
         this.createdAt = createdAt;
+        this.point = point;
+        this.userd_point = userd_point;
+        this.book_price = book_price;
     }
 }
