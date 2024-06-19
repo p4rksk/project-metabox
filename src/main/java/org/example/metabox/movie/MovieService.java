@@ -10,6 +10,8 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.example.metabox._core.util.FileUtil;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,7 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class MovieService {
 
     private final MovieRepository movieRepository;
-
+    private final FileUtil fileUtil;
 
     // 모든 영화를 조회하는 메서드
     public List<MovieResponse.MovieChartDTO> getAllMovies() {
@@ -63,30 +65,34 @@ public class MovieService {
         }
     }
 
+    // 영화 등록 메서드
     public Movie addMovie(MovieRequest.movieSavaFormDTO reqDTO) {
-
-        MultipartFile file = reqDTO.getImgFilename();
-        String fileName = file.getOriginalFilename();
-        String uploadDir = "image/movie"; // 파일을 저장할 경로
+        // MultipartFile 객체로부터 포스터 파일 가져오기
+        MultipartFile poster = reqDTO.getImgFilename();
+        String posterFileName = null;
 
         try {
-            Path copyLocation = Paths.get(uploadDir + "/" + fileName);
-            Files.copy(file.getInputStream(), copyLocation, StandardCopyOption.REPLACE_EXISTING);
-        } catch (Exception e) {
-            // 예외 처리
+            // 포스터 파일 저장 및 파일 이름 설정
+            posterFileName = fileUtil.saveMoviePoster(poster);
+        } catch (IOException e) {
+            // 파일 저장 중 예외 발생 시 런타임 예외로 전환
+            throw new RuntimeException("이미지 오류", e);
         }
 
+        // Movie 객체 빌더 패턴으로 생성
         Movie movie = Movie.builder()
-                .title(reqDTO.getTitle())
-                .engTitle(reqDTO.getEngTitle())
-                .director(reqDTO.getDirector())
-                .actor(reqDTO.getActor())
-                .genre(reqDTO.getGenre())
-                .info(reqDTO.getInfo())
-                .date(reqDTO.getDate())
-                .imgFilename(fileName)
-                .description(reqDTO.getDescription())
+                .title(reqDTO.getTitle())               // 영화 제목 설정
+                .engTitle(reqDTO.getEngTitle())         // 영어 제목 설정
+                .director(reqDTO.getDirector())         // 감독 설정
+                .actor(reqDTO.getActor())               // 배우 설정
+                .genre(reqDTO.getGenre())               // 장르 설정
+                .info(reqDTO.getInfo())                 // 기본 정보 설정
+                .date(reqDTO.getDate())                 // 개봉일 설정
+                .imgFilename(posterFileName)            // 포스터 파일 이름 설정
+                .description(reqDTO.getDescription())   // 영화 설명 설정
                 .build();
+
+        // Movie 객체를 데이터베이스에 저장하고 반환
         return movieRepository.save(movie);
     }
 
