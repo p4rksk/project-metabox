@@ -42,5 +42,26 @@ public class UserResponse {
         }
     }
 
+    @Data
+    public static class NaverUserDTO {
+        private Response response;
+
+        @Data
+        class Response {
+            private String id;
+            private String nickname;
+            @JsonProperty("profile_image")
+            private String profileImage;
+            private String age;     // 연령대라서 String으로 받아봄
+            private String gender;
+            private String email;
+            private String mobile;
+            @JsonProperty("mobile_e164")
+            private String mobileE164;  // 국제 전화번호 형식. 필요없어보이지만 폰번호 받으면 같이 날아오는 듯함
+            private String name;    //사람 이름
+            private String birthday;    // 일단 문자열로 들어와서..
+            private String birthyear;
+        }
+    }
 
 }

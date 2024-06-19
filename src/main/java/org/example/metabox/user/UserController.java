@@ -62,9 +62,17 @@ public class UserController {
 
     // 일단 카카오만
     @GetMapping("/oauth/callback/kakao")
-    public String oauthCallback(String code) {
+    public String oauthCallbackKakao(String code) {
         System.out.println("코드 받나요 : " + code);
         User sessionUser = userService.loginKakao(code);
+        session.setAttribute("sessionUser", sessionUser);
+        return "redirect:/";
+    }
+
+    @GetMapping("/oauth/callback/naver")
+    public String oauthCallbackNaver(String code) {
+        System.out.println("네이버 코드 : " + code);
+        User sessionUser = userService.loginNaver(code);
         session.setAttribute("sessionUser", sessionUser);
         return "redirect:/";
     }

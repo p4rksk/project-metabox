@@ -23,6 +23,8 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    private String password;
+
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Book book;
 
@@ -46,8 +48,9 @@ public class User {
     private LocalDateTime createdAt;
 
     @Builder
-    public User(Integer id, Book book, List<MovieScrap> movieScrap, List<Review> reviews, List<TheaterScrap> theaterScrapList, String nickname, String imgFilename, String name, String birthYear, int point, String provider, LocalDateTime createdAt) {
+    public User(Integer id, String password, Book book, List<MovieScrap> movieScrap, List<Review> reviews, List<TheaterScrap> theaterScrapList, String nickname, String imgFilename, String name, String birthYear, int point, String provider, LocalDateTime createdAt) {
         this.id = id;
+        this.password = password;
         this.book = book;
         this.movieScrap = movieScrap;
         this.reviews = reviews;
