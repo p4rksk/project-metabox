@@ -64,8 +64,8 @@ public class UserController {
     @GetMapping("/oauth/callback/kakao")
     public String oauthCallback(String code) {
         System.out.println("코드 받나요 : " + code);
-//        User sessionUser = userService.loginKakao(code);
-//        session.setAttribute("sessionUser", sessionUser);
+        User sessionUser = userService.loginKakao(code);
+        session.setAttribute("sessionUser", sessionUser);
         return "redirect:/";
     }
 
