@@ -314,4 +314,82 @@ insert into theater_movie_tb(theater_id,movie_id) values
 (10, 8),
 (10, 9);
 
--- 극장 영화 상영정보 등록
+-- 극장 상영관 등록(일반관 : 109좌석, 특별관 : 30좌석 / 1~4관 일반관, 5관 특별관)
+-- 1번 극장
+INSERT INTO screening_tb(theater_id, name, seat_count, screening_rank) VALUES
+(1, '1관', 109, '일반관'),
+(1, '2관', 109, '일반관'),
+(1, '3관', 109, '일반관'),
+(1, '4관', 109, '일반관'),
+(1, '5관', 30, '특별관'),
+-- 2번 극장
+(2, '1관', 109, '일반관'),
+(2, '2관', 109, '일반관'),
+(2, '3관', 109, '일반관'),
+(2, '4관', 109, '일반관'),
+(2, '5관', 30, '특별관'),
+-- 3번 극장
+(3, '1관', 109, '일반관'),
+(3, '2관', 109, '일반관'),
+(3, '3관', 109, '일반관'),
+(3, '4관', 109, '일반관'),
+(3, '5관', 30, '특별관'),
+-- 4번 극장
+(4, '1관', 109, '일반관'),
+(4, '2관', 109, '일반관'),
+(4, '3관', 109, '일반관'),
+(4, '4관', 109, '일반관'),
+(4, '5관', 30, '특별관'),
+-- 5번 극장
+(5, '1관', 109, '일반관'),
+(5, '2관', 109, '일반관'),
+(5, '3관', 109, '일반관'),
+(5, '4관', 109, '일반관'),
+(5, '5관', 30, '특별관'),
+-- 6번 극장
+(6, '1관', 109, '일반관'),
+(6, '2관', 109, '일반관'),
+(6, '3관', 109, '일반관'),
+(6, '4관', 109, '일반관'),
+(6, '5관', 30, '특별관'),
+-- 7번 극장
+(7, '1관', 109, '일반관'),
+(7, '2관', 109, '일반관'),
+(7, '3관', 109, '일반관'),
+(7, '4관', 109, '일반관'),
+(7, '5관', 30, '특별관'),
+-- 8번 극장
+(8, '1관', 109, '일반관'),
+(8, '2관', 109, '일반관'),
+(8, '3관', 109, '일반관'),
+(8, '4관', 109, '일반관'),
+(8, '5관', 30, '특별관'),
+-- 9번 극장
+(9, '1관', 109, '일반관'),
+(9, '2관', 109, '일반관'),
+(9, '3관', 109, '일반관'),
+(9, '4관', 109, '일반관'),
+(9, '5관', 30, '특별관'),
+-- 10번 극장
+(10, '1관', 109, '일반관'),
+(10, '2관', 109, '일반관'),
+(10, '3관', 109, '일반관'),
+(10, '4관', 109, '일반관'),
+(10, '5관', 30, '특별관');
+
+
+
+-- INSERT INTO screening_tb(date, movie_id) VALUES ('2024-06-20T12:00:00', 2);
+-- INSERT INTO screening_tb(date, movie_id) VALUES ('2024-06-20T15:00:00', 3);
+-- 좌석 등록
+-- INSERT INTO seat_tb(screening_id, code, booked, price, type) VALUES (1, 'A1', false, 15000, '일반석');
+-- INSERT INTO seat_tb(screening_id, code, booked, price, type) VALUES (1, 'A2', false, 15000, '일반석');
+-- INSERT INTO seat_tb(screening_id, code, booked, price, type) VALUES (1, 'A3', true, 15000, '일반석');
+-- INSERT INTO seat_tb(screening_id, code, booked, price, type) VALUES (2, 'B1', false, 15000, '일반석');
+-- INSERT INTO seat_tb(screening_id, code, booked, price, type) VALUES (2, 'B2', false, 15000, '일반석');
+-- INSERT INTO seat_tb(screening_id, code, booked, price, type) VALUES (2, 'B3', false, 15000, '일반석');
+-- INSERT INTO seat_tb(screening_id, code, booked, price, type) VALUES (3, 'C1', false, 15000, '일반석');
+-- INSERT INTO seat_tb(screening_id, code, booked, price, type) VALUES (3, 'C2', false, 15000, '일반석');
+-- INSERT INTO seat_tb(screening_id, code, booked, price, type) VALUES (3, 'C3', false, 15000, '일반석');
+-- 유저 등록
+-- 예매, 결제

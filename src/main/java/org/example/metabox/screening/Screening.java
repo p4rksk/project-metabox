@@ -31,6 +31,7 @@ public class Screening {
     // 좌석수(count 안할려고 미리 하는듯?)
     private Integer seatCount;
 
+    @Enumerated(EnumType.STRING)
     private ScreeningRank screeningRank; //상영관 등급
 
 
