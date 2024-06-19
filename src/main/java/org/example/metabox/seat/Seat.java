@@ -28,7 +28,7 @@ public class Seat {
     @Enumerated(EnumType.STRING)
     private SeatType type;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "seat", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<SeatBook> seatBookList;
 
     @Builder

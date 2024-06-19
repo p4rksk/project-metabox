@@ -20,7 +20,7 @@ public class TheaterMovie {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "theaterMovie", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<ScreeningInfo> screeningInfoList;
 
     @ManyToOne(fetch = FetchType.LAZY)

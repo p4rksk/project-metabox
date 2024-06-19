@@ -5640,4 +5640,21 @@ insert into screening_info_tb(screening_id, theater_movie_id, show_time, start_t
 
 -- 상영정보 등록 끝
 -- 유저 등록
+insert into user_tb(nickname, img_filename, name, birth_year, provider, created_at) values
+('박차녁', 'default.png', '박찬혁', '1997', 'kakao', now()),
+('바끄선규', 'default.png', '박선규', '2000', 'kakao', now()),
+('서르동훈', 'default.png', '설동훈', '1996', 'kakao', now()),
+('영화박사', 'default.png', '손세정', '1976', 'naver', now()),
+('포켓몬고', 'default.png', '김지우', '1964', 'naver', now()),
+('사린자', 'default.png', '장난감', '1964', 'naver', now());
+-- 유저 등록 끝
+
+-- 유저 자주가는 극장 스크랩
+insert into theater_scrap_tb() values
+(),
+(),
+(),
+(),
+(),
+(),
 -- 예매, 결제

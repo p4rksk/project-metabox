@@ -34,7 +34,7 @@ public class Movie {
     // 포스터 사진
     private String imgFilename;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<MoviePic> moviePicList;
 
     // 영화 소개

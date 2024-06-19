@@ -20,13 +20,13 @@ public class Theater {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "theater", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Screening> screening;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "theater", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<TheaterMovie> theaterMovies;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "theater", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<TheaterScrap> theaterScrapList;
 
     private String name;

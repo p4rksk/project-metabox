@@ -21,10 +21,10 @@ public class Screening {
     @ManyToOne(fetch = FetchType.LAZY)
     private Theater theater;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "screening", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<ScreeningInfo> screeningInfo;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "screening", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Seat> seats;
 
     private String name;

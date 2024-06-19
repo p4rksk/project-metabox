@@ -27,7 +27,7 @@ public class ScreeningInfo {
     @ManyToOne(fetch = FetchType.LAZY)
     private TheaterMovie theaterMovie;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "screeningInfo", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<SeatBook> seatBookList;
 
 
