@@ -94,7 +94,7 @@ public class UserService {
         }
     }
 
-    public User loginNaver(String code) {
+    public SessionUser loginNaver(String code) {
         // 1.1 RestTemplate 설정
         RestTemplate rt = new RestTemplate();
 
@@ -124,6 +124,7 @@ public class UserService {
 
         // 1.6 값 확인
         System.out.println(response.getBody().toString());
+        String accessToken = response.getBody().getAccessToken();
 
 //        // 2. 토큰으로 사용자 정보 받기 (PK, Email)
         HttpHeaders headers2 = new HttpHeaders();
@@ -147,8 +148,10 @@ public class UserService {
 
 //        // 4. 있으면? - 조회된 유저정보 리턴
         if(userPS != null){
+            SessionUser sessionUser = new SessionUser(userPS, accessToken);
             System.out.println("어? 유저가 있네? 강제로그인 진행");
-            return userPS;
+            return sessionUser;
+
         }else {
             System.out.println("어? 유저가 없네? 강제회원가입 and 강제로그인 진행");
             // 5. 없으면? - 강제 회원가입
@@ -166,11 +169,12 @@ public class UserService {
                     .provider("naver")
                     .build();
             User returnUser = userRepository.save(user);
-            return returnUser;
+            SessionUser sessionUser = new SessionUser(returnUser, accessToken);
+            return sessionUser;
         }
     }
 
-    public void logout(String accessToken) {
+    public void logoutKakao(String accessToken) {
         RestTemplate rt = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
@@ -187,6 +191,25 @@ public class UserService {
         // 로그아웃 성공 여부를 확인하기 위해 응답을 출력
         System.out.println("카카오 연결 끊기 응답: " + response.getBody());
 
+
+    }
+
+    public void logoutNaver(String accessToken) {
+        RestTemplate rt = new RestTemplate();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+        headers.add("Authorization", "Bearer " + accessToken);
+
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(headers);
+        ResponseEntity<String> response = rt.exchange(
+                "https://kapi.kakao.com/v1/user/unlink",
+                HttpMethod.POST,
+                request,
+                String.class);
+
+        // 로그아웃 성공 여부를 확인하기 위해 응답을 출력
+        System.out.println("네이버 연결 끊기 응답: " + response.getBody());
 
     }
 }

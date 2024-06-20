@@ -73,7 +73,7 @@ public class UserController {
     @GetMapping("/oauth/callback/naver")
     public String oauthCallbackNaver(String code) {
         System.out.println("네이버 코드 : " + code);
-        User sessionUser = userService.loginNaver(code);
+        SessionUser sessionUser = userService.loginNaver(code);
         session.setAttribute("sessionUser", sessionUser);
         return "redirect:/";
     }
@@ -84,7 +84,14 @@ public class UserController {
         System.out.println("작동함?");
         //토큰을 session에서 받아옴
         SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
-        userService.logout(sessionUser.getAccessToken());
+        if (sessionUser.getProvider().equals("kakao")) {
+            userService.logoutKakao(sessionUser.getAccessToken());
+        }
+
+        if (sessionUser.getProvider().equals("naver")) {
+            userService.logoutNaver(sessionUser.getAccessToken());
+        }
+
 
         session.invalidate();
         return "redirect:/";
