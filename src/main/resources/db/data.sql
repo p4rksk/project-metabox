@@ -5547,7 +5547,7 @@ insert into screening_info_tb(screening_id, movie_id, show_time, start_time, end
 -- 상영정보 등록 끝
 -- 유저 등록
 insert into user_tb(nickname, img_filename, name, birth_year, provider, created_at, password, point) values
-('박차녁', 'default.png', '박찬혁', '1997', 'kakao', now(), 'asdfdsa', 21000),
+('kakao_3587969747', 'http://k.kakaocdn.net/dn/ML8Oz/btsF1tO0SFt/lDxdKk8EjuXx8K0Cfp8pYk/img_640x640.jpg	', '박찬혁', '1997', 'kakao', now(), 'asdfdsa', 21000),
 ('바끄선규', 'default.png', '박선규', '2000', 'kakao', now(), 'asdfdsa', 0),
 ('서르동훈', 'default.png', '설동훈', '1996', 'kakao', now(), 'fdsafdsa', 0),
 ('영화박사', 'default.png', '손세정', '1976', 'naver', now(), 'fdsafdsa', 0),
