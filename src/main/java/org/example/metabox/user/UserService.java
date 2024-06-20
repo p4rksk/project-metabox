@@ -19,7 +19,7 @@ import java.util.UUID;
 public class UserService {
     private final UserRepository userRepository;
 
-    public User loginKakao(String code) {
+    public SessionUser loginKakao(String code) {
         // 1.1 RestTemplate 설정
         RestTemplate rt = new RestTemplate();
 
@@ -47,6 +47,7 @@ public class UserService {
 
         // 1.6 값 확인
         System.out.println(response.getBody().toString());
+        String accessToken = response.getBody().getAccessToken();
 
         // 2. 토큰으로 사용자 정보 받기 (PK, Email)
         HttpHeaders headers2 = new HttpHeaders();
@@ -68,10 +69,12 @@ public class UserService {
         String nickname = "kakao_" + response2.getBody().getId();
         User userPS = userRepository.findByNickname(nickname);
 
+
         // 4. 있으면? - 조회된 유저정보 리턴
         if(userPS != null){
+            SessionUser sessionUser = new SessionUser(userPS,accessToken);
             System.out.println("어? 유저가 있네? 강제로그인 진행");
-            return userPS;
+            return sessionUser;
         }else{
             System.out.println("어? 유저가 없네? 강제회원가입 and 강제로그인 진행");
 
@@ -84,8 +87,10 @@ public class UserService {
                     .name("박찬혁")
                     .provider("kakao")
                     .build();
+
             User returnUser = userRepository.save(user);
-            return returnUser;
+            SessionUser sessionUser = new SessionUser(returnUser,accessToken);
+            return sessionUser;
         }
     }
 
@@ -163,5 +168,25 @@ public class UserService {
             User returnUser = userRepository.save(user);
             return returnUser;
         }
+    }
+
+    public void logout(String accessToken) {
+        RestTemplate rt = new RestTemplate();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+        headers.add("Authorization", "Bearer " + accessToken);
+
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(headers);
+        ResponseEntity<String> response = rt.exchange(
+                "https://kapi.kakao.com/v1/user/unlink",
+                HttpMethod.POST,
+                request,
+                String.class);
+
+        // 로그아웃 성공 여부를 확인하기 위해 응답을 출력
+        System.out.println("카카오 연결 끊기 응답: " + response.getBody());
+
+
     }
 }

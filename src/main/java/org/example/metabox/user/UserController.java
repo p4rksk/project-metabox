@@ -65,7 +65,7 @@ public class UserController {
     @GetMapping("/oauth/callback/kakao")
     public String oauthCallbackKakao(String code) {
         System.out.println("코드 받나요 : " + code);
-        User sessionUser = userService.loginKakao(code);
+        SessionUser sessionUser = userService.loginKakao(code);
         session.setAttribute("sessionUser", sessionUser);
         return "redirect:/";
     }
@@ -80,9 +80,13 @@ public class UserController {
 
     //로그아웃
     @GetMapping("/logout")
-    public String logout(HttpServletRequest request) {
+    public String logout() {
         System.out.println("작동함?");
-        System.out.println(request);
+        //토큰을 session에서 받아옴
+        SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
+        userService.logout(sessionUser.getAccessToken());
+
+        session.invalidate();
         return "redirect:/";
     }
 
