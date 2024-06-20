@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -74,6 +75,14 @@ public class UserController {
         System.out.println("네이버 코드 : " + code);
         User sessionUser = userService.loginNaver(code);
         session.setAttribute("sessionUser", sessionUser);
+        return "redirect:/";
+    }
+
+    //로그아웃
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request) {
+        System.out.println("작동함?");
+        System.out.println(request);
         return "redirect:/";
     }
 

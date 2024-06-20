@@ -32,10 +32,18 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             </ul>
             <ul class="navbar-nav navbar-icons">
+                {{^sessionUser}}
                 <li class="nav-item">
                     <a class="nav-link nav-link-flex" href="/login-form"><img class="nav-img"
                                                                     src="/image/layout/loginPassword.png"> 로그인</a>
                 </li>
+                {{/sessionUser}}
+                {{#sessionUser}}
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-flex" href="https://kauth.kakao.com/oauth/logout?client_id=7b3698608adc154feafed29a780bcd5b&logout_redirect_uri=http://localhost:8080/logout"><img class="nav-img"
+                                                                                  src="/image/layout/loginPassword.png"> 로그아웃</a>
+                    </li>
+                {{/sessionUser}}
                 <li class="nav-item">
                     <a class="nav-link nav-link-flex" href="/mypage/home"><img class="nav-img"
                                                                     src="/image/layout/loginMember.png">
