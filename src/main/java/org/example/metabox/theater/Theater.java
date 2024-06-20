@@ -18,7 +18,7 @@ public class Theater {
     private int id;
 
     @OneToMany(mappedBy = "theater", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<Screening> screening;
+    private List<Screening> screeningList;
 
     @OneToMany(mappedBy = "theater", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<TheaterScrap> theaterScrapList;
@@ -26,6 +26,9 @@ public class Theater {
     private String name;
     private String imgFilename;
     private String address;
+
+    // 지역 코드 01,02,03,04,05,06,07,08,09(서울, 경기, 인천, 강원, 대전/충청.....)
+    private String areaCode;
 
     // 051-153-159
     private String number;
@@ -37,13 +40,14 @@ public class Theater {
     private String parkingInfo;
 
     @Builder
-    public Theater(int id, List<Screening> screening, List<TheaterScrap> theaterScrapList, String name, String imgFilename, String address, String number, String loginId, String password, String url, String parkingInfo) {
+    public Theater(int id, List<Screening> screeningList, List<TheaterScrap> theaterScrapList, String name, String imgFilename, String address, String areaCode, String number, String loginId, String password, String url, String parkingInfo) {
         this.id = id;
-        this.screening = screening;
+        this.screeningList = screeningList;
         this.theaterScrapList = theaterScrapList;
         this.name = name;
         this.imgFilename = imgFilename;
         this.address = address;
+        this.areaCode = areaCode;
         this.number = number;
         this.loginId = loginId;
         this.password = password;

@@ -136,11 +136,9 @@
     <div class="container1 mx-auto">
         <div class="header">자주가는 META BOX</div>
         <div class="input-group">
-            <input type="text" placeholder="1" disabled>
-            <input type="text" placeholder="2" disabled>
-            <input type="text" placeholder="3" disabled>
-            <input type="text" placeholder="4" disabled>
-            <input type="text" placeholder="5" disabled>
+            {{#model}}
+                <div style="padding:10px; width: 173px; height: 46px; background: #555555">{{theaterName}}</div>
+            {{/model}}
             <div class="add-btn">+</div>
         </div>
         <hr>

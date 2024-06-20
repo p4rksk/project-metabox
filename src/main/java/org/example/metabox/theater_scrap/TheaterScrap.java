@@ -23,7 +23,6 @@ public class TheaterScrap {
     private Theater theater;
 
     @Builder
-
     public TheaterScrap(int id, User user, Theater theater) {
         this.id = id;
         this.user = user;

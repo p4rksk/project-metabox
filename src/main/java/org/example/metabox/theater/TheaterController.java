@@ -1,12 +1,21 @@
 package org.example.metabox.theater;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.example.metabox.theater_scrap.TheaterScrapResponse;
+import org.example.metabox.user.SessionUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @Controller
 public class TheaterController {
+    private final TheaterService theaterService;
+    private final HttpSession session;
 
     @GetMapping("/theaters/info")
     public String theatersInfo() {
@@ -19,7 +28,11 @@ public class TheaterController {
     }
 
     @GetMapping("/theaters/movie-schedule")
-    public String theatersMovieSchedule() {
+    public String theatersMovieSchedule(HttpServletRequest request) {
+        SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
+        List<TheaterScrapResponse.TheaterScrapDTO> respDTO = theaterService.movieSchedule(sessionUser);
+
+        request.setAttribute("model",respDTO);
         return "theater/movie-schedule";
     }
 }
