@@ -20,5 +20,6 @@ public class MovieRequest {
         private Date date;
         private MultipartFile imgFilename;
         private String description;
+        private MultipartFile[] stills;
     }
 }

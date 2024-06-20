@@ -7,14 +7,38 @@
         overflow-x: auto;
     }
 
-    #photoPreviewContainer img {
+    #photoPreviewContainer .photo-item {
+        position: relative;
         margin-right: 10px;
+        width: 150px; /* 고정 너비 설정 */
+        height: 150px; /* 고정 높이 설정 */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-sizing: border-box;
+    }
+
+    #photoPreviewContainer img {
+        width: 100%; /* 고정 너비 설정 */
+        height: 100%; /* 고정 높이 설정 */
+        object-fit: cover; /* 이미지 비율 유지하며 잘라내기 */
+    }
+
+    #photoPreviewContainer .remove-btn {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        background-color: red;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
     }
 </style>
 <div class="container mt-5">
     <h2>영화 등록</h2>
     <hr>
-    <form action="/movie-save-form" method="post" enctype="multipart/form-data">
+    <form action="/movie-save-form" method="post" enctype="multipart/form-data" id="movieForm">
         <div class="form-group mt-4">
             <div class="d-flex justify-content-center align-items-center"
                  style="width: 250px; height: 300px; border: 2px solid #E6E6E6; color: #E6E6E6;" id="profilePreview">
@@ -65,8 +89,7 @@
         <div class="form-group">
             <label for="stills">스틸컷</label>
             <div id="photoPreviewContainer"></div>
-            {{! <input type="file" class="form-control-file" id="stills" accept="image/*" onchange="previewImages();"
-                   multiple> }}
+            <input type="file" class="form-control-file" id="stills" accept="image/*" onchange="previewImages();" multiple>
         </div>
         <div class="form-group">
             <label for="trailer">트레일러</label>
@@ -79,7 +102,10 @@
 
     </form>
 </div>
+
 <script>
+    let stillFiles = [];
+
     function previewImage() {
         var file = document.getElementById("moviePhotos").files[0];
         var reader = new FileReader();
@@ -96,22 +122,38 @@
             reader.readAsDataURL(file);
         }
     }
-</script>
-<script>
+
     function previewImages() {
         var files = document.getElementById("stills").files;
         var previewContainer = document.getElementById("photoPreviewContainer");
-        previewContainer.innerHTML = ""; // 기존 미리보기 초기화
 
         for (var i = 0; i < files.length; i++) {
             var file = files[i];
+            stillFiles.push(file); // 파일을 배열에 추가
             var reader = new FileReader();
 
             reader.onload = (function (file) {
                 return function (e) {
+                    var photoItem = document.createElement("div");
+                    photoItem.classList.add("photo-item");
+
                     var imgElement = document.createElement("img");
                     imgElement.src = e.target.result;
-                    previewContainer.appendChild(imgElement);
+
+                    var removeBtn = document.createElement("button");
+                    removeBtn.classList.add("remove-btn");
+                    removeBtn.innerText = "X";
+                    removeBtn.onclick = function () {
+                        var index = stillFiles.indexOf(file);
+                        if (index > -1) {
+                            stillFiles.splice(index, 1); // 배열에서 파일 제거
+                        }
+                        previewContainer.removeChild(photoItem);
+                    };
+
+                    photoItem.appendChild(imgElement);
+                    photoItem.appendChild(removeBtn);
+                    previewContainer.appendChild(photoItem);
                 };
             })(file);
 
@@ -120,18 +162,25 @@
             }
         }
     }
-</script>
-<script>
-    function previewVideo() {
-        var fileInput = document.getElementById('trailer');
-        var file = fileInput.files[0];
-        var videoPreview = document.getElementById('videoPreview');
 
-        if (file) {
-            videoPreview.src = URL.createObjectURL(file);
-            videoPreview.style.display = 'block';
-        }
-    }
+    document.getElementById("movieForm").onsubmit = function (e) {
+        var formData = new FormData(this);
+        stillFiles.forEach(function (file, index) {
+            formData.append("stills[]", file); // 모든 파일을 폼 데이터에 추가
+        });
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", this.action, true);
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                window.location.href = "/movie-list";
+            } else {
+                alert("Error: " + xhr.statusText);
+            }
+        };
+        xhr.send(formData);
+        e.preventDefault(); // 기본 폼 제출 동작 방지
+    };
 </script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>

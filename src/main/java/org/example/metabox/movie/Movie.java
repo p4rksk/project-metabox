@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.example.metabox.movie_pic.MoviePic;
 
 import java.sql.Date;
@@ -36,6 +37,7 @@ public class Movie {
     private String imgFilename;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ToString.Exclude
     private List<MoviePic> moviePicList;
 
     // 영화 소개

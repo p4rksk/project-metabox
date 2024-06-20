@@ -8,10 +8,13 @@ import java.nio.file.StandardCopyOption;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.example.metabox._core.util.FileUtil;
+import org.example.metabox.movie_pic.MoviePic;
+import org.example.metabox.movie_pic.MoviePicRepository;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,6 +25,7 @@ public class MovieService {
 
     private final MovieRepository movieRepository;
     private final FileUtil fileUtil;
+    private final MoviePicRepository moviePicRepository;
 
     // 모든 영화를 조회하는 메서드
     public List<MovieResponse.MovieChartDTO> getAllMovies() {
@@ -92,8 +96,33 @@ public class MovieService {
                 .description(reqDTO.getDescription())   // 영화 설명 설정
                 .build();
 
-        // Movie 객체를 데이터베이스에 저장하고 반환
-        return movieRepository.save(movie);
+        // Movie 객체를 데이터베이스에 저장하여 PK 값 생성
+        movie = movieRepository.save(movie);
+
+        // 스틸컷 이미지 파일 처리
+        List<MoviePic> moviePicList = new ArrayList<>();
+        MultipartFile[] stills = reqDTO.getStills();
+        if (stills != null && stills.length > 0) {
+            for (MultipartFile still : stills) {
+                try {
+                    String stillFileName = fileUtil.saveMovieStill(still);
+                    MoviePic moviePic = new MoviePic();
+                    moviePic.setImgFilename(stillFileName);
+                    moviePic.setMovie(movie); // 외래 키 설정
+                    moviePicList.add(moviePic);
+                } catch (IOException e) {
+                    throw new RuntimeException("스틸컷 이미지 오류", e);
+                }
+            }
+            // MoviePic 리스트를 저장
+            moviePicRepository.saveAll(moviePicList);
+        }
+
+        movie.setMoviePicList(moviePicList);
+
+        System.out.println(moviePicList.toString());
+        // Movie 객체를 반환
+        return movie;
     }
 
 }
