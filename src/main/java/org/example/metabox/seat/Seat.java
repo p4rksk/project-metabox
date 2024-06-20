@@ -24,7 +24,7 @@ public class Seat {
     private String code;
 
     // 장애인석, 라이트석은 -1000원 할인
-    // 장애인석, 라이트석, 일반석, 모션베드
+    // 장애인석(HANDICAPPED), 라이트석(LIGHT), 일반석(GENERAL), 모션베드(SPECIAL)
     @Enumerated(EnumType.STRING)
     private SeatType type;
 
@@ -40,6 +40,6 @@ public class Seat {
         this.seatBookList = seatBookList;
     }
         private enum SeatType {
-        장애인석, 일반석, 라이트석, 모션베드
+        HANDICAPPED, GENERAL, LIGHT, SPECIAL
     }
 }

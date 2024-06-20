@@ -31,7 +31,7 @@ public class Screening {
     // 좌석수(count 안할려고 미리 하는듯?)
     private Integer seatCount;
 
-    // 일반관 = 15000원, 특별관 50000
+    // 일반관 : GENERAL = 15000원, 특별관 : SPECIAL 50000원
     private Integer seatPrice;
 
     @Enumerated(EnumType.STRING)
@@ -49,7 +49,7 @@ public class Screening {
     }
 
     public enum ScreeningRank {
-        일반관, 특별관
+        GENERAL, SPECIAL
     }
 
 
