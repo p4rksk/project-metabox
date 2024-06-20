@@ -197,19 +197,14 @@ public class UserService {
     public void logoutNaver(String accessToken) {
         RestTemplate rt = new RestTemplate();
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
-        headers.add("Authorization", "Bearer " + accessToken);
+        String url = String.format(
+                "https://nid.naver.com/oauth2.0/token?grant_type=delete&client_id=MKcMHT6RxvcSJjGvAutc&client_secret=SOCj3hVG3I&access_token=%s&service_provider=NAVER",
+                accessToken
+        );
 
-        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(headers);
-        ResponseEntity<String> response = rt.exchange(
-                "https://kapi.kakao.com/v1/user/unlink",
-                HttpMethod.POST,
-                request,
-                String.class);
-
-        // 로그아웃 성공 여부를 확인하기 위해 응답을 출력
-        System.out.println("네이버 연결 끊기 응답: " + response.getBody());
+        // API 호출
+        String response = rt.getForObject(url, String.class);
+        System.out.println("네이버 로그아웃 결과: " + response);
 
     }
 }
