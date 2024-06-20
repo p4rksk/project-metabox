@@ -21,5 +21,6 @@ public class MovieRequest {
         private MultipartFile imgFilename;
         private String description;
         private MultipartFile[] stills;
+        private MultipartFile[] trailers;
     }
 }

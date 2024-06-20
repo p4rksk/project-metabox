@@ -15,6 +15,8 @@ import java.util.stream.Collectors;
 import org.example.metabox._core.util.FileUtil;
 import org.example.metabox.movie_pic.MoviePic;
 import org.example.metabox.movie_pic.MoviePicRepository;
+import org.example.metabox.trailer.Trailer;
+import org.example.metabox.trailer.TrailerRepository;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,6 +28,7 @@ public class MovieService {
     private final MovieRepository movieRepository;
     private final FileUtil fileUtil;
     private final MoviePicRepository moviePicRepository;
+    private final TrailerRepository trailerRepository;
 
     // 모든 영화를 조회하는 메서드
     public List<MovieResponse.MovieChartDTO> getAllMovies() {
@@ -117,10 +120,29 @@ public class MovieService {
             // MoviePic 리스트를 저장
             moviePicRepository.saveAll(moviePicList);
         }
-
         movie.setMoviePicList(moviePicList);
 
-        System.out.println(moviePicList.toString());
+        // 트레일러 파일 처리
+        List<Trailer> movieTrailerList = new ArrayList<>();
+        MultipartFile[] trailers = reqDTO.getTrailers();
+        if (trailers != null && trailers.length > 0) {
+            for (MultipartFile trailer : trailers) {
+                try {
+                    String trailerFileName = fileUtil.saveMovieTrailer(trailer);
+                    Trailer movieTrailer = new Trailer();
+                    movieTrailer.setStreamingFilename(trailerFileName);
+                    movieTrailer.setMovie(movie); // 외래 키 설정
+                    movieTrailerList.add(movieTrailer);
+                } catch (IOException e) {
+                    throw new RuntimeException("트레일러 파일 오류", e);
+                }
+            }
+            // MovieTrailer 리스트를 저장
+            trailerRepository.saveAll(movieTrailerList);
+            System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@"+movieTrailerList.size());
+        }
+        movie.setTrailerList(movieTrailerList);
+
         // Movie 객체를 반환
         return movie;
     }

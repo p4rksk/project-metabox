@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.example.metabox.movie_pic.MoviePic;
+import org.example.metabox.trailer.Trailer;
 
 import java.sql.Date;
 import java.util.List;
@@ -39,6 +40,9 @@ public class Movie {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @ToString.Exclude
     private List<MoviePic> moviePicList;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Trailer> trailerList;
 
     // 영화 소개
     // VARCHAR 보다 긴 TEXT 사용
