@@ -139,7 +139,6 @@ public class MovieService {
             }
             // MovieTrailer 리스트를 저장
             trailerRepository.saveAll(movieTrailerList);
-            System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@"+movieTrailerList.size());
         }
         movie.setTrailerList(movieTrailerList);
 
