@@ -1,5 +1,6 @@
 {{> layout/header}}
 
+<link rel="stylesheet" href="/css/metabox.min.css" media="all">
 <style>
     /* .container {
         max-width: 900px;
@@ -420,40 +421,59 @@
 
             <hr>
 
-            <div class="legend mt-4 mb-4">
-                <div class="seat selected"></div><span>선택</span>
-                <div class="seat possible"></div><span>선택 가능</span>
-                <div class="seat reserved"></div><span>예약 완료</span>
-                <div class="seat light"></div><span>Light석</span>
-                <div class="seat disabled"></div><span>장애인석</span>
-            </div>
+
         </div>
     </div>
-    <div class="side-poster">
-        <img src="/image/index/book-side.png" alt="영화 포스터">
-    </div>
-
 </div>
 
 
-<div class="info-bar">
-    <div class="container">
-        <span><a href="/book-form" class="btn-nav" >이전화면</a></span>
-        <div class="movie-info">
-            <img src="/image/movie/movie1.png" alt="영화 포스터">
-            <div class="details">
-                <span>인사이드아웃2</span>
-                <span>2D(자막)</span>
-                <span>전체 관람가</span>
+<div class="seat-result">
+    <div class="wrap">
+        <div class="tit-area">
+            <span class="movie-grade small age-all">전체관람가</span>
+            <p class="tit">인사이드 아웃 2</p>
+            <p class="cate">2D(자막)</p>
+        </div>
+        <div class="info-area">
+            <p class="theater">강남</p>
+            <p class="special">4관</p>
+            <p class="date"><span>2024.06.20</span><em>(목)</em></p>
+            <div class="other-time">
+                <button type="button" class="now">13:15~15:01<i class="arr"></i></button>
+            </div>
+            <p class="poster">
+                <img src="/SharedImg/2024/06/17/bAW9rJyLUHvBLY6x9MNMbU19K2B565sy_150.jpg" onerror="noImg(this);" alt="인사이드 아웃 2">
+            </p>
+        </div>
+        <div class="choice-seat-area">
+            <div class="legend">
+                <ul class="list"> <li><div class="seat-condition choice" title="선택한 좌석"></div> <em>선택</em></li> <li><div class="seat-condition finish" title="예매 완료"></div> <em>예매완료</em></li> <li><div class="seat-condition impossible" title="선택 불가"></div> <em>선택불가</em></li> <li><div class="seat-condition common" title="일반"></div> <em> 일반</em></li>  <li><div class="seat-condition disabled" title="장애인석"></div> <em> 장애인석</em></li></ul>
+            </div>
+            <div class="seat-num">
+                <p class="tit">선택좌석</p>
+                <div class="legend mt-4 mb-4">
+                    <div class="seat selected"></div><span>선택</span>
+                    <div class="seat possible"></div><span>선택 가능</span>
+                    <div class="seat reserved"></div><span>예약 완료</span>
+                    <div class="seat light"></div><span>Light석</span>
+                    <div class="seat disabled"></div><span>장애인석</span>
+                </div>
             </div>
         </div>
-        <div class="movie-details">
-            <span>극장: CGV 미아</span><br>
-            <span>일시: 2024.6.21(금) 19:20</span><br>
-            <span>상영관: 3관 10층 (Laser)</span><br>
-            <span>인원: </span>
+        <div class="pay-area">
+            <p class="count"><span>성인 <em>1</em></span></p>
+            <div class="pay">
+                <p class="tit">최종결제금액</p>
+                <div class="money">
+                    <em>14,000</em> <span>원</span>
+                </div>
+            </div>
         </div>
-        <span><a href="/payment-form" class="btn-nav" >결제선택</a></span>
+        <div id="div_reCAPTCHA" class="g-recaptcha" data-callback="successCaptcha" data-sitekey="6LeRTRsoAAAAABBQEdfOBJNS2L9pwVJci_H41nXj" data-size="invisible"><div class="grecaptcha-badge" data-style="bottomright" style="width: 256px; height: 60px; display: none; transition: right 0.3s ease 0s; position: fixed; bottom: 14px; right: -186px; box-shadow: gray 0px 0px 5px; border-radius: 2px; overflow: hidden;"><div class="grecaptcha-logo"><iframe title="reCAPTCHA" width="256" height="60" role="presentation" name="a-s1hk2ahwmf43" frameborder="0" scrolling="no" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation allow-modals allow-popups-to-escape-sandbox allow-storage-access-by-user-activation" src="https://www.google.com/recaptcha/api2/anchor?ar=1&amp;k=6LeRTRsoAAAAABBQEdfOBJNS2L9pwVJci_H41nXj&amp;co=aHR0cHM6Ly93d3cubWVnYWJveC5jby5rcjo0NDM.&amp;hl=ko&amp;v=TqxSU0dsOd2Q9IbI7CpFnJLD&amp;size=invisible&amp;cb=o9qz5uyug2n0"></iframe></div><div class="grecaptcha-error"></div><textarea id="g-recaptcha-response" name="g-recaptcha-response" class="g-recaptcha-response" style="width: 250px; height: 40px; border: 1px solid rgb(193, 193, 193); margin: 10px 25px; padding: 0px; resize: none; display: none;"></textarea></div><iframe style="display: none;"></iframe></div>
+        <div class="btn-group">
+            <a href="javaScript:void(0)" class="button" id="pagePrevious" title="이전">이전</a>
+            <a href="javaScript:void(0)" class="button active" id="pageNext" title="다음">다음</a>
+        </div>
     </div>
 </div>
 
