@@ -6,6 +6,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -46,7 +47,7 @@ public class UserService {
                 UserResponse.TokenDTO.class);
 
         // 1.6 값 확인
-        System.out.println(response.getBody().toString());
+//        System.out.println(response.getBody().toString());
         String accessToken = response.getBody().getAccessToken();
 
         // 2. 토큰으로 사용자 정보 받기 (PK, Email)
@@ -63,7 +64,7 @@ public class UserService {
                 request2,
                 UserResponse.KakaoUserDTO.class);
 
-        System.out.println("response2 : " + response2.getBody().toString());
+//        System.out.println("response2 : " + response2.getBody().toString());
 
         // 3. 해당정보로 DB조회 (있을수, 없을수)
         String nickname = "kakao_" + response2.getBody().getId();
@@ -73,10 +74,10 @@ public class UserService {
         // 4. 있으면? - 조회된 유저정보 리턴
         if(userPS != null){
             SessionUser sessionUser = new SessionUser(userPS,accessToken);
-            System.out.println("어? 유저가 있네? 강제로그인 진행");
+//            System.out.println("어? 유저가 있네? 강제로그인 진행");
             return sessionUser;
         }else{
-            System.out.println("어? 유저가 없네? 강제회원가입 and 강제로그인 진행");
+//            System.out.println("어? 유저가 없네? 강제회원가입 and 강제로그인 진행");
 
             User user = User.builder()
                     .nickname(nickname)
@@ -123,7 +124,7 @@ public class UserService {
                 UserResponse.TokenDTO.class);
 
         // 1.6 값 확인
-        System.out.println(response.getBody().toString());
+//        System.out.println(response.getBody().toString());
         String accessToken = response.getBody().getAccessToken();
 
 //        // 2. 토큰으로 사용자 정보 받기 (PK, Email)
@@ -140,7 +141,7 @@ public class UserService {
                 request2,
                 UserResponse.NaverUserDTO.class);
 
-        System.out.println("response2 : " + response2.getBody().toString());
+//        System.out.println("response2 : " + response2.getBody().toString());
 
 //        // 3. 해당정보로 DB조회 (있을수, 없을수)
         String nickname = "naver_" + response2.getBody().getResponse().getId();
@@ -149,16 +150,12 @@ public class UserService {
 //        // 4. 있으면? - 조회된 유저정보 리턴
         if(userPS != null){
             SessionUser sessionUser = new SessionUser(userPS, accessToken);
-            System.out.println("어? 유저가 있네? 강제로그인 진행");
+//            System.out.println("어? 유저가 있네? 강제로그인 진행");
             return sessionUser;
 
         }else {
-            System.out.println("어? 유저가 없네? 강제회원가입 and 강제로그인 진행");
+//            System.out.println("어? 유저가 없네? 강제회원가입 and 강제로그인 진행");
             // 5. 없으면? - 강제 회원가입
-            // 유저네임 : (provider_pk)
-            // 비밀번호 : UUID
-            // 이메일 : email 받은 값
-            // 프로바이더 : kakao
             User user = User.builder()
                     .nickname(nickname)
                     .password(UUID.randomUUID().toString())
@@ -174,7 +171,8 @@ public class UserService {
         }
     }
 
-    public void logoutKakao(String accessToken) {
+    @Transactional
+    public void logoutKakao(String accessToken, String nickname) {
         RestTemplate rt = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
@@ -182,34 +180,34 @@ public class UserService {
         headers.add("Authorization", "Bearer " + accessToken);
 
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(headers);
+
         ResponseEntity<String> response = rt.exchange(
                 "https://kapi.kakao.com/v1/user/unlink",
                 HttpMethod.POST,
                 request,
                 String.class);
 
-        // 로그아웃 성공 여부를 확인하기 위해 응답을 출력
-        System.out.println("카카오 연결 끊기 응답: " + response.getBody());
+        // 성공 여부를 확인
+//        System.out.println("카카오 회원탈퇴 응답: " + response.getBody());
 
+        userRepository.deleteByNickname(nickname);
 
     }
 
-    public void logoutNaver(String accessToken) {
+    @Transactional
+    public void logoutNaver(String accessToken, String nickname) {
         RestTemplate rt = new RestTemplate();
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
-        headers.add("Authorization", "Bearer " + accessToken);
+        String url = String.format(
+                "https://nid.naver.com/oauth2.0/token?grant_type=delete&client_id=MKcMHT6RxvcSJjGvAutc&client_secret=SOCj3hVG3I&access_token=%s&service_provider=NAVER",
+                accessToken
+        );
 
-        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(headers);
-        ResponseEntity<String> response = rt.exchange(
-                "https://kapi.kakao.com/v1/user/unlink",
-                HttpMethod.POST,
-                request,
-                String.class);
+        // API 호출
+        String response = rt.getForObject(url, String.class);
+//        System.out.println("네이버 회원탈퇴 결과: " + response);
 
-        // 로그아웃 성공 여부를 확인하기 위해 응답을 출력
-        System.out.println("네이버 연결 끊기 응답: " + response.getBody());
+        userRepository.deleteByNickname(nickname);
 
     }
 }
