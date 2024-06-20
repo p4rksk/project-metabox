@@ -1,6 +1,8 @@
 package org.example.metabox.user;
 
 import lombok.RequiredArgsConstructor;
+import org.example.metabox.movie.Movie;
+import org.example.metabox.movie.MovieRepository;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -11,7 +13,9 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import java.text.DecimalFormat;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
@@ -19,6 +23,48 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final MovieRepository movieRepository;
+
+    @Transactional
+    public UserResponse.DetailBookDTO findMyBookDetail() {
+        // 영화 정보 가져오기
+        List<UserResponse.DetailBookDTO.MovieChartDTO> movieList = movieRepository.findMovieChart();
+        System.out.println("movieList = " + movieList);
+
+        // 전체 예매율
+        Integer totalSeatBookCount = movieRepository.findTotalSeatBookCount();
+        System.out.println("전체 예매수 = " + totalSeatBookCount);
+
+//        List<Integer> movieIds = movieList.stream().mapToInt(value -> value.getId()).boxed().toList();
+//        System.out.println("영화 pk = " + movieIds);
+
+        // 특정 영화 예매율
+        movieList.forEach(movie -> {
+            Integer movieSeatBookCount = movieRepository.findSeatBookCountByMovieId(movie.getId());
+            System.out.println("특정 영화 예매 = " + movieSeatBookCount);
+
+            // 예매율 계산
+            Double ticketSales = (double) movieSeatBookCount / totalSeatBookCount * 100;
+            System.out.println("예매율 = " + movie.getId() + " = " + ticketSales);
+            // 소수점 자리 가공
+            DecimalFormat df = new DecimalFormat("#.##");
+            String formattedTicketSales = df.format(ticketSales);
+            System.out.println("소수점 가공 = " + formattedTicketSales);
+
+            UserResponse.DetailBookDTO.MovieChartDTO movieCharts = new UserResponse.DetailBookDTO.MovieChartDTO(
+                    movie.getId(),
+                    movie.getImgFilename(),
+                    movie.getTitle(),
+                    movie.getStartDate()
+            );
+
+        });
+
+
+
+        return null;
+    }
+
 
     public SessionUser loginKakao(String code) {
         // 1.1 RestTemplate 설정
@@ -210,4 +256,6 @@ public class UserService {
         userRepository.deleteByNickname(nickname);
 
     }
+
+
 }

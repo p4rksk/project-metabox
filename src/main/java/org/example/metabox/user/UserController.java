@@ -37,6 +37,8 @@ public class UserController {
 
     @GetMapping("/mypage/detail-book")
     public String myBookDetail(HttpServletRequest request) {
+        userService.findMyBookDetail();
+
         return "user/mypage-detail-book";
     }
 

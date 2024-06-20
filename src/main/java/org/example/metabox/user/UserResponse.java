@@ -6,9 +6,44 @@ import lombok.Data;
 import org.example.metabox._core.util.ScopeDeserializer;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class UserResponse {
+
+    @Data
+    public static class DetailBookDTO {
+
+        private List<MovieChartDTO> movieCharts = new ArrayList<>();
+
+        @Data
+        public static class MovieChartDTO {
+            private Integer id;     //movie Id
+            private String imgFilename;
+            private String title;
+            private Date startDate;
+            private Double ticketSales;     // 예매율 - 계산해서 가져오기
+
+            public MovieChartDTO(Integer id, String imgFilename, String title, Date startDate) {
+                this.id = id;
+                this.imgFilename = imgFilename;
+                this.title = title;
+                this.startDate = startDate;
+//                this.ticketSales = ticketSales;
+            }
+
+            //예매율 계산 메소드
+            private Double calculateTicketSales() {
+                return 0.0;
+            }
+
+        }
+
+
+    }
+
+
 
     @Data
     public static class TokenDTO {
@@ -63,5 +98,6 @@ public class UserResponse {
             private String birthyear;
         }
     }
+
 
 }

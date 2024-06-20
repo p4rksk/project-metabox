@@ -14,4 +14,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Modifying
     @Query("delete from User u where u.nickname = :nickname")
     void deleteByNickname(String nickname);
+
+//    void findBestMovieChart();
 }
