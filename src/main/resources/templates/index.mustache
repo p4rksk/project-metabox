@@ -636,9 +636,11 @@
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 <script>
+    //슬라이드 1
     var swiper1 = new Swiper('#movie-chart .swiper-container', {
         slidesPerView: 5,
         spaceBetween: 10,
+        slidesPerGroup: 5,
         loop: true,
         loopFillGroupWithBlank: true,
         navigation: {
@@ -647,9 +649,11 @@
         },
     });
 
+    //슬라이드 2
     var swiper2 = new Swiper('#upcoming .swiper-container', {
         slidesPerView: 5,
         spaceBetween: 10,
+        slidesPerGroup: 5,
         loop: true,
         loopFillGroupWithBlank: true,
         navigation: {
@@ -658,6 +662,7 @@
         },
     });
 
+    // 무비차트, 상영예정작 스위치 탭
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
         var target = $(e.target).attr("href") // activated tab
         if(target === '#movie-chart') {
