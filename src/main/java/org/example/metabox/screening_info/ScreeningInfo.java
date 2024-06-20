@@ -4,12 +4,11 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.metabox.movie.Movie;
 import org.example.metabox.seat.SeatBook;
 import org.example.metabox.screening.Screening;
-import org.example.metabox.theater_movie.TheaterMovie;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -25,7 +24,7 @@ public class ScreeningInfo {
     private Screening screening;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private TheaterMovie theaterMovie;
+    private Movie movie;
 
     @OneToMany(mappedBy = "screeningInfo", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<SeatBook> seatBookList;
@@ -39,10 +38,10 @@ public class ScreeningInfo {
 
     @Builder
 
-    public ScreeningInfo(int id, Screening screening, TheaterMovie theaterMovie, List<SeatBook> seatBookList, String showTime, String startTime, String endTime, LocalDate date) {
+    public ScreeningInfo(int id, Screening screening, Movie movie, List<SeatBook> seatBookList, String showTime, String startTime, String endTime, LocalDate date) {
         this.id = id;
         this.screening = screening;
-        this.theaterMovie = theaterMovie;
+        this.movie = movie;
         this.seatBookList = seatBookList;
         this.showTime = showTime;
         this.startTime = startTime;
