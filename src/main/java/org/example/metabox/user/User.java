@@ -8,6 +8,7 @@ import org.example.metabox.book.Book;
 import org.example.metabox.movie_scrap.MovieScrap;
 import org.example.metabox.review.Review;
 import org.example.metabox.theater_scrap.TheaterScrap;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.security.Timestamp;
@@ -23,30 +24,34 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Book book;
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<Book> bookList;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<MovieScrap> movieScrap;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Review> reviews;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<TheaterScrap> theaterScrapList;
 
     private String nickname;
     private String imgFilename;
     private String name;
     private String birthYear;
-    private int point;
+    @ColumnDefault("0")
+    private Integer point;
     @CreationTimestamp
     private LocalDateTime createdAt;
+    private String provider;    // kakao, naver
+    private String password;
 
     @Builder
-    public User(Integer id, Book book, List<MovieScrap> movieScrap, List<Review> reviews, List<TheaterScrap> theaterScrapList, String nickname, String imgFilename, String name, String birthYear, int point, LocalDateTime createdAt) {
+
+    public User(Integer id, List<Book> bookList, List<MovieScrap> movieScrap, List<Review> reviews, List<TheaterScrap> theaterScrapList, String nickname, String imgFilename, String name, String birthYear, int point, LocalDateTime createdAt, String provider, String password) {
         this.id = id;
-        this.book = book;
+        this.bookList = bookList;
         this.movieScrap = movieScrap;
         this.reviews = reviews;
         this.theaterScrapList = theaterScrapList;
@@ -56,5 +61,7 @@ public class User {
         this.birthYear = birthYear;
         this.point = point;
         this.createdAt = createdAt;
+        this.provider = provider;
+        this.password = password;
     }
 }
