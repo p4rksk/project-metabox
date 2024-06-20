@@ -32,7 +32,7 @@ public class MovieService {
                 .orElseThrow(() -> new RuntimeException("해당 영화가 존재하지 않습니다. " + movieId));
 
         // 영화 개봉 상태를 계산합니다.
-        String status = checkMovieReleaseStatus(movie.getDate());
+        String status = checkMovieReleaseStatus(movie.getStartDate());
 
         // 조회한 영화 정보를 MovieDetailDTO로 변환하여 반환합니다.
         return MovieResponse.MovieDetailDTO.formEntity(movie, status);

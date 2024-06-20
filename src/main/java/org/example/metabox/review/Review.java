@@ -24,7 +24,7 @@ public class Review {
 
     private String comment;
     // TODO : Enum 처리?
-    private int rating;
+    private double rating;
 
     @Builder
     public Review(int id, User user, Movie movie, String comment, int rating) {

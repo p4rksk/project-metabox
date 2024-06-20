@@ -21,7 +21,7 @@ public class MovieResponse {
             this.imgFilename = movie.getImgFilename();
             this.title = movie.getTitle();
             this.infoAgeLimit = movie.getInfo().split(",")[0]; // Movie 객체에서 info 값을 쉼표로 분리하여 첫 번째 부분의 값을 할당
-            this.date = movie.getDate();
+            this.date = movie.getStartDate();
         }
     }
 
@@ -53,7 +53,7 @@ public class MovieResponse {
             movieDetailDto.infoAgeLimit = movie.getInfo().split(",")[0];    // Movie 객체에서 info 값을 쉼표로 분리하여 첫 번째 부분의 값을 할당
             movieDetailDto.infoRunningTime = movie.getInfo().split(",")[1]; // Movie 객체에서 info 값을 쉼표로 분리하여 두 번째 부분의 값을 할당
             movieDetailDto.infoRegion = movie.getInfo().split(",")[2];      // Movie 객체에서 info 값을 쉼표로 분리하여 세 번째 부분의 값을 할당
-            movieDetailDto.date = movie.getDate();
+            movieDetailDto.date = movie.getStartDate();
             movieDetailDto.imgFilename = movie.getImgFilename();
             movieDetailDto.description = movie.getDescription();
             movieDetailDto.releaseStatus = releaseStatus;                         // 개봉 상태
