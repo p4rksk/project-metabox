@@ -10,6 +10,8 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.format.DateTimeFormatter;
+import java.util.Random;
 import java.util.UUID;
 
 @Service
@@ -78,6 +80,8 @@ public class UserService {
                     .password(UUID.randomUUID().toString())
 //                    .email(response2.getBody().getProperties().getNickname()+"@nate.com")
                     .imgFilename(response2.getBody().getProperties().getProfileImage())
+                    .birthYear("1997")
+                    .name("박찬혁")
                     .provider("kakao")
                     .build();
             User returnUser = userRepository.save(user);
