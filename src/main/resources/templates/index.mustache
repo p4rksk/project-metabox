@@ -409,90 +409,21 @@
             <div class="tab-pane fade" id="upcoming" role="tabpanel" aria-labelledby="upcoming-tab">
                 <div class="swiper-container">
                     <div class="swiper-wrapper">
-                        <div class="swiper-slide movie-item">
-                            <div class="img-container">
-                                <img src="image/movie/movie1.png" alt="영화1">
-                                <div class="overlay">
-                                    <a href="#" class="btn-detail">상세보기</a>
-                                    <a href="#" class="btn-booking">예매하기</a>
+                        {{#model.toBeCharts}}
+                            <div class="swiper-slide movie-item">
+                                <div class="img-container">
+                                    <img src="/image/movie/{{imgFilename}}">
+                                    <div class="overlay">
+                                        <a href="#" class="btn-detail">상세보기</a>
+                                        <a href="#" class="btn-booking">예매하기</a>
+                                    </div>
                                 </div>
+                                <div class="rank">D-{{dDay}}</div>
+                                <p class="bold-p">{{title}}</p>
+                                <p class="percentage">{{startDate}} 개봉</p>
                             </div>
-                            <div class="rank">1</div>
-                            <p class="bold-p">영화1</p>
-                            <p class="percentage">7월 5일 개봉</p>
-                        </div>
-                        <div class="swiper-slide movie-item">
-                            <div class="img-container">
-                                <img src="image/movie/movie1.png" alt="영화1">
-                                <div class="overlay">
-                                    <a href="#" class="btn-detail">상세보기</a>
-                                    <a href="#" class="btn-booking">예매하기</a>
-                                </div>
-                            </div>
-                            <div class="rank">2</div>
-                            <p class="bold-p">영화2</p>
-                            <p class="percentage">7월 12일 개봉</p>
-                        </div>
-                        <div class="swiper-slide movie-item">
-                            <div class="img-container">
-                                <img src="image/movie/movie1.png" alt="영화1">
-                                <div class="overlay">
-                                    <a href="#" class="btn-detail">상세보기</a>
-                                    <a href="#" class="btn-booking">예매하기</a>
-                                </div>
-                            </div>
-                            <div class="rank">3</div>
-                            <p class="bold-p">영화3</p>
-                            <p class="percentage">7월 20일 개봉</p>
-                        </div>
-                        <div class="swiper-slide movie-item">
-                            <div class="img-container">
-                                <img src="image/movie/movie1.png" alt="영화1">
-                                <div class="overlay">
-                                    <a href="#" class="btn-detail">상세보기</a>
-                                    <a href="#" class="btn-booking">예매하기</a>
-                                </div>
-                            </div>
-                            <div class="rank">4</div>
-                            <p class="bold-p">영화4</p>
-                            <p class="percentage">7월 21일 개봉</p>
-                        </div>
-                        <div class="swiper-slide movie-item">
-                            <div class="img-container">
-                                <img src="image/movie/movie1.png" alt="영화1">
-                                <div class="overlay">
-                                    <a href="#" class="btn-detail">상세보기</a>
-                                    <a href="#" class="btn-booking">예매하기</a>
-                                </div>
-                            </div>
-                            <div class="rank">5</div>
-                            <p class="bold-p">영화5</p>
-                            <p class="percentage">7월 28일 개봉</p>
-                        </div>
-                        <div class="swiper-slide movie-item">
-                            <div class="img-container">
-                                <img src="image/movie/movie1.png" alt="영화1">
-                                <div class="overlay">
-                                    <a href="#" class="btn-detail">상세보기</a>
-                                    <a href="#" class="btn-booking">예매하기</a>
-                                </div>
-                            </div>
-                            <div class="rank">6</div>
-                            <p class="bold-p">영화5</p>
-                            <p class="percentage">8월 3일 개봉</p>
-                        </div>
-                        <div class="swiper-slide movie-item">
-                            <div class="img-container">
-                                <img src="image/movie/movie1.png" alt="영화1">
-                                <div class="overlay">
-                                    <a href="#" class="btn-detail">상세보기</a>
-                                    <a href="#" class="btn-booking">예매하기</a>
-                                </div>
-                            </div>
-                            <div class="rank">7</div>
-                            <p class="bold-p">영화6</p>
-                            <p class="percentage">8월 5일 개봉</p>
-                        </div>
+                        {{/model.toBeCharts}}
+
                     </div>
                     <!-- Add Navigation -->
                     <div class="swiper-button-next"></div>

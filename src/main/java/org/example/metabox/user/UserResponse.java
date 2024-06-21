@@ -7,6 +7,7 @@ import lombok.Data;
 import org.example.metabox._core.util.ScopeDeserializer;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -53,7 +54,7 @@ public class UserResponse {
                 private String imgFilename;
                 private String title;
                 private Integer dDay;   //개봉일까지
-                private Date startDate; //개봉일자
+                private String startDate; //개봉일자
 
                 @Builder
                 public ToBeChartDTO(Integer id, String imgFilename, String title, Integer dDay, Date startDate) {
@@ -61,8 +62,15 @@ public class UserResponse {
                     this.imgFilename = imgFilename;
                     this.title = title;
                     this.dDay = dDay;
-                    this.startDate = startDate;
+                    this.startDate = getStartDateFormat(startDate);
                 }
+
+                // 날짜 가공
+                public String getStartDateFormat(Date startDate) {
+                    SimpleDateFormat formatter = new SimpleDateFormat("M월 d일");
+                    return formatter.format(startDate);
+                }
+
             }
 
 

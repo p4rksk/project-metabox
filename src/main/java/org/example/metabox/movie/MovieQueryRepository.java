@@ -33,12 +33,15 @@ public class MovieQueryRepository {
             Integer id = ((Number) row[0]).intValue();
             String imgFilename = (String) row[1];
             String title = (String) row[2];
-
+            Date startDate = (Date) row[3];
+            Integer dDay = ((Number) row[4]).intValue();    // integer로 변환시켜서 가져오기
 
             UserResponse.MainChartDTO.ToBeChartDTO toBeChartDTO = UserResponse.MainChartDTO.ToBeChartDTO.builder()
                     .id(id)
                     .imgFilename(imgFilename)
                     .title(title)
+                    .startDate(startDate)
+                    .dDay(dDay)
                     .build();
 
             movieChartDTOS.add(toBeChartDTO);
