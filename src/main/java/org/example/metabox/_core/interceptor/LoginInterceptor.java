@@ -3,6 +3,7 @@ package org.example.metabox._core.interceptor;
 import org.example.metabox._core.errors.exception.Exception401;
 import org.example.metabox.admin.Admin;
 import org.example.metabox.theater.Theater;
+import org.example.metabox.user.Guest;
 import org.example.metabox.user.User;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -17,6 +18,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         System.out.println("preHandle............");
         HttpSession session = request.getSession();
 
+        Guest sessionGuest = (Guest) session.getAttribute("sessionGuest");
         Admin sessionAdmin = (Admin) session.getAttribute("sessionAdmin");
         User sessionCustomer = (User) session.getAttribute("sessionUser");
         Theater sessionTheater = (Theater) session.getAttribute("sessionTheater");
@@ -35,9 +37,13 @@ public class LoginInterceptor implements HandlerInterceptor {
             if (sessionTheater == null) {
                 throw new Exception401("극장 관리자 로그인이 필요합니다");
             }
+        }else if (requestURI.startsWith("/api-guest")) {
+            if (sessionGuest == null) {
+                throw new Exception401("비회원 로그인이 필요합니다");
+            }
         }else {
             // Shared paths accessible to both
-            if (sessionAdmin == null && sessionCustomer == null && sessionTheater == null) {
+            if (sessionAdmin == null && sessionCustomer == null && sessionTheater == null && sessionGuest == null) {
                 throw new Exception401("로그인 하셔야 해요");
             }
         }

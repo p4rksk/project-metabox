@@ -3,6 +3,8 @@ package org.example.metabox.admin;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.example.metabox.movie.Movie;
+import org.example.metabox.movie.MovieRequest;
 import org.example.metabox.movie.MovieResponse;
 import org.example.metabox.movie.MovieService;
 import org.springframework.stereotype.Controller;
@@ -16,27 +18,21 @@ import java.util.List;
 @Controller
 public class AdminController {
     private final AdminService adminService;
+    private final MovieService movieService;
     private final HttpSession session;
 
-
+    @GetMapping("admin-login-form")
+    public String Login(){return "admin/login-form";}
 
     @PostMapping("admin-login")
     public String adminLogin(AdminRequest.LoginDTO reqDTO) {
         Admin admin = adminService.login(reqDTO);
         session.setAttribute("admin", admin);
-        return "admin/movie-list";
+        return "redirect:movie-list";
     }
-
-    @GetMapping("admin-login-form")
-    public String Login(){return "admin/login-form";}
-
-    private final MovieService movieService;
 
     //    TODO : admin 만 접속할 수 있도록 주소에 interceptor 설정
-    @GetMapping("/movie-detail")
-    public String movieDetail() {
-        return "admin/movie-detail";
-    }
+    //    TODO : description 칼럼 데이터 입력 방법 수정
 
     // 전체 영화 리스트를 조회하는 GET 요청 처리 메서드
     @GetMapping("/movie-list")
@@ -64,22 +60,23 @@ public class AdminController {
         return "admin/movie-detail";
     }
 
-
-
-    @GetMapping("/movie-edit-form")
-    public String movieEditForm() {
-        return "admin/movie-edit-form";
-    }
-
+    // 영화 등록 페이지 호출을 처리하는 GET 요청 메서드
     @GetMapping("/movie-save-form")
     public String movieSaveForm() {
         return "admin/movie-save-form";
     }
 
+    // http://localhost:8080/admin-login-form
+    // 영화 등록을 처리하는 POST 요청 메서드
     @PostMapping("/movie-save")
-    public String movieSave(){
+    public String movieAdd(MovieRequest.movieSavaFormDTO reqDTO) {
+        movieService.addMovie(reqDTO);
+        return "redirect:movie-list";
+    }
 
-        return "admin/movie-list";
+    @GetMapping("/movie-edit-form")
+    public String movieEditForm() {
+        return "admin/movie-edit-form";
     }
 
     @GetMapping("/theater-save-form")

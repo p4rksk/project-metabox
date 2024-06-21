@@ -24,8 +24,40 @@
 <div class="col-md-2 sidebar">
     <ul>
         <li><a href="/mypage/home"><h5>MY HOME</h5></a></li>
-        <li> <a href="/mypage/detail-book">나의 예매내역</a></li>
-        <li><a href="#">회원탈퇴</a></li>
-        <li> <a href="#">1:1 문의</a></li>
+        <li><a href="/mypage/detail-book">나의 예매내역</a></li>
+        <li><a href="#">1:1 문의</a></li>
+        <li><a href="#" data-toggle="modal" data-target="#confirmModal">회원탈퇴</a></li>
     </ul>
 </div>
+
+<!-- 탈퇴 확인 모달 -->
+<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmModalLabel">회원탈퇴 확인</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                회원탈퇴를 하시면 모든 데이터가 삭제되며, 복구할 수 없습니다.<br>
+                정말로 탈퇴하시겠습니까?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                <button type="button" class="btn btn-danger" id="confirmDelete">회원탈퇴</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#confirmDelete').click(function() {
+            window.location.href = "/removeAccount";
+        });
+    });
+</script>
