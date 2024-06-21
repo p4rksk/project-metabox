@@ -350,14 +350,13 @@
         <div id="imageCarousel" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img src="https://via.placeholder.com/600x900" class="d-block w-100" alt="Slide 1">
+                    <img src="/image/movie/{{model.imgFilename}}" class="d-block w-100" alt="Slide 1">
                 </div>
+                {{#model.stills}}
                 <div class="carousel-item">
-                    <img src="https://via.placeholder.com/600x900" class="d-block w-100" alt="Slide 2">
+                    <img src="/image/movie_pic/{{fileName}}" class="d-block w-100" alt="Slide 2">
                 </div>
-                <div class="carousel-item">
-                    <img src="https://via.placeholder.com/600x900" class="d-block w-100" alt="Slide 3">
-                </div>
+                {{/model.stills}}
             </div>
             <a class="carousel-control-prev" href="#imageCarousel" role="button" data-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>

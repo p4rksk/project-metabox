@@ -19,6 +19,7 @@ import org.example.metabox.trailer.Trailer;
 import org.example.metabox.trailer.TrailerRepository;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
@@ -42,6 +43,7 @@ public class MovieService {
     }
 
     // movieId에 해당하는 상세 정보를 조회하는 메서드
+    @Transactional
     public MovieResponse.MovieDetailDTO findById(Integer movieId) {
         // movieId에 해당하는 영화 정보를 데이터베이스에서 조회합니다.
         Movie movie = movieRepository.findById(movieId)
@@ -109,10 +111,13 @@ public class MovieService {
         if (stills != null && stills.length > 0) {
             for (MultipartFile still : stills) {
                 try {
+                    // 스틸컷 이미지 파일을 저장하고 파일명을 반환
                     String stillFileName = fileUtil.saveMovieStill(still);
+                    // MoviePic 객체 생성 및 파일명 설정
                     MoviePic moviePic = new MoviePic();
                     moviePic.setImgFilename(stillFileName);
                     moviePic.setMovie(movie); // 외래 키 설정
+                    // MoviePic 리스트에 추가
                     moviePicList.add(moviePic);
                 } catch (IOException e) {
                     throw new RuntimeException("스틸컷 이미지 오류", e);
@@ -121,6 +126,7 @@ public class MovieService {
             // MoviePic 리스트를 저장
             moviePicRepository.saveAll(moviePicList);
         }
+        // Movie 엔티티에 MoviePic 리스트 설정
         movie.setMoviePicList(moviePicList);
 
         // 트레일러 파일 처리
@@ -129,18 +135,22 @@ public class MovieService {
         if (trailers != null && trailers.length > 0) {
             for (MultipartFile trailer : trailers) {
                 try {
+                    // 트레일러 파일을 저장하고 파일명을 반환
                     String trailerFileName = fileUtil.saveMovieTrailer(trailer);
+                    // Trailer 객체 생성 및 파일명 설정
                     Trailer movieTrailer = new Trailer();
                     movieTrailer.setStreamingFilename(trailerFileName);
                     movieTrailer.setMovie(movie); // 외래 키 설정
+                    // Trailer 리스트에 추가
                     movieTrailerList.add(movieTrailer);
                 } catch (IOException e) {
                     throw new RuntimeException("트레일러 파일 오류", e);
                 }
             }
-            // MovieTrailer 리스트를 저장
+            // Trailer 리스트를 저장
             trailerRepository.saveAll(movieTrailerList);
         }
+        // Movie 엔티티에 Trailer 리스트 설정
         movie.setTrailerList(movieTrailerList);
 
         // Movie 객체를 반환

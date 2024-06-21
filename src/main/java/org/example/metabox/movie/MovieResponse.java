@@ -1,9 +1,11 @@
 package org.example.metabox.movie;
 
 import lombok.Data;
-import org.springframework.web.multipart.MultipartFile;
+import org.example.metabox.movie_pic.MoviePic;
+import org.example.metabox.trailer.Trailer;
 
 import java.sql.Date;
+import java.util.List;
 
 public class MovieResponse {
 
@@ -41,8 +43,8 @@ public class MovieResponse {
         private String imgFilename;         // 포스터 사진
         private String description;         // 영화 소개
         private String releaseStatus;       // 개봉 상태
-        private MultipartFile[] stills;     // 스틸컷
-        private MultipartFile[] trailers;   // 트레일러
+        private List<StillDTO> stills;      // 스틸컷
+        private List<TrailerDTO> trailers;  // 트레일러
 
         // Movie 객체를 MovieDetailDTO 객체로 변환하는 메서드
         public static MovieDetailDTO formEntity(Movie movie, String releaseStatus){
@@ -60,9 +62,28 @@ public class MovieResponse {
             movieDetailDto.imgFilename = movie.getImgFilename();
             movieDetailDto.description = movie.getDescription();
             movieDetailDto.releaseStatus = releaseStatus;                         // 개봉 상태
-            movieDetailDto.stills = movieDetailDto.getStills();
-            movieDetailDto.trailers = movieDetailDto.getTrailers();
+            movieDetailDto.stills = movie.getMoviePicList().stream().map(StillDTO::new).toList();
+            movieDetailDto.trailers = movie.getTrailerList().stream().map(TrailerDTO::new).toList();
             return movieDetailDto;
+        }
+
+        @Data
+        public static class StillDTO {
+            private String fileName; // 스틸컷 파일 이름
+
+            public StillDTO(MoviePic moviePic) {
+                this.fileName = moviePic.getImgFilename();
+            }
+        }
+
+        @Data
+        public static class TrailerDTO {
+            private String fileName; // 트레일러 파일 이름
+
+            public TrailerDTO(Trailer trailer) {
+                this.fileName = trailer.getStreamingFilename();
+            }
+
         }
 
     }
