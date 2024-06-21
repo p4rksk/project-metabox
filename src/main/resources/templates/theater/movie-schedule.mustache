@@ -132,420 +132,420 @@
     }
 </style>
 <div class="mx-auto d-block" style="width: 1000px; user-select: none;">
-    <div class="container1" style="user-select: none; height: 383px">
-        <div class="header" style="user-select: none;">자주가는 META BOX</div>
-        <div class="input-group">
-            {{#model.scrapDTOList}}
-                <div style="padding:10px; width: 173px; height: 46px; background: #555555; user-select: none;">{{theaterName}}</div>
-            {{/model.scrapDTOList}}
-            <div class="add-btn" style="user-select: none;">+</div>
-        </div>
+<div class="container1" style="user-select: none; height: 383px">
+    <div class="header" style="user-select: none;">자주가는 META BOX</div>
+    <div class="input-group">
+        {{#model.scrapDTOList}}
+            <div style="padding:10px; width: 173px; height: 46px; background: #555555; user-select: none;">{{theaterName}}</div>
+        {{/model.scrapDTOList}}
+        <div class="add-btn" style="user-select: none;">+</div>
+    </div>
 
-        <div class="tab" style="border-bottom: 1px solid #b1b1b1; border-top: 1px solid #b1b1b1">
-            {{#model.theaterAreaDTOList}}
-                <div class="tablinks" onclick="openCity(event, '{{areaCode}}')">{{areaName}}</div>
-            {{/model.theaterAreaDTOList}}
-        </div>
-
-        <!--         탭 콘텐츠 -->
+    <div class="tab" style="border-bottom: 1px solid #b1b1b1; border-top: 1px solid #b1b1b1">
         {{#model.theaterAreaDTOList}}
-            <div style="padding: 10px;" id="{{areaCode}}" class="tabcontent">
-                {{#theaterNameDTOList}}
-                    <div style="display: inline-block;">{{theaterName}}
-                        <span>ㅣ</span>
-                    </div>
-                {{/theaterNameDTOList}}
-            </div>
+            <div class="tablinks" onclick="openCity(event, '{{areaCode}}')">{{areaName}}</div>
         {{/model.theaterAreaDTOList}}
-
-        <script>
-            function openCity(evt, cityName) {
-                var i, tabcontent, tablinks;
-                tabcontent = document.getElementsByClassName("tabcontent");
-                for (i = 0; i < tabcontent.length; i++) {
-                    tabcontent[i].style.display = "none";
-                }
-                tablinks = document.getElementsByClassName("tablinks");
-                for (i = 0; i < tablinks.length; i++) {
-                    tablinks[i].className = tablinks[i].className.replace(" active", "");
-                }
-                document.getElementById(cityName).style.display = "block";
-                evt.currentTarget.className += " active";
-            }
-
-            document.addEventListener("DOMContentLoaded", function () {
-                openCity(new Event('click'), '01');
-            });
-        </script>
-
-        <style>
-            /*탭 링크 스타일 */
-            .tab {
-                overflow: hidden;
-                text-align: center;
-                user-select: none;
-            }
-
-            /* 탭 링크 버튼 스타일 */
-            .tab div {
-                background-color: inherit;
-                user-select: none;
-                display: inline-block;
-                border: none;
-                outline: none;
-                cursor: pointer;
-                padding: 14px 16px;
-                transition: 0.3s;
-                font-size: 17px;
-                text-align: center;
-            }
-
-            /* 탭 콘텐츠 스타일 */
-            .tabcontent {
-                display: inline-block;
-                user-select: none;
-                padding: 6px 12px;
-                border-top: none;
-            }
-        </style>
-
-        <script>
-            function openCity(evt, cityName) {
-                var i, tabcontent, tablinks;
-                tabcontent = document.getElementsByClassName("tabcontent");
-                for (i = 0; i < tabcontent.length; i++) {
-                    tabcontent[i].style.display = "none";
-                }
-                tablinks = document.getElementsByClassName("tablinks");
-                for (i = 0; i < tablinks.length; i++) {
-                    tablinks[i].className = tablinks[i].className.replace(" active", "");
-                }
-                document.getElementById(cityName).style.display = "block";
-                evt.currentTarget.className += " active";
-            }
-        </script>
-
-        <hr>
-        <!--        <div class="theaters">-->
-        <!--            <div>CGV강남</div>-->
-        <!--            <div>ㅣ</div>-->
-        <!--            <div>CGV건대입구</div>-->
-        <!--            <div>ㅣ</div>-->
-        <!--            <div>CGV대학로</div>-->
-        <!--            <div>ㅣ</div>-->
-        <!--            <div>CGV동대문</div>-->
-        <!--            <div>ㅣ</div>-->
-        <!--            <div>CGV등촌</div>-->
-        <!--            <div>ㅣ</div>-->
-        <!--            <div>CGV명동</div>-->
-        <!--            <div>ㅣ</div>-->
-        <!--            <div>CGV미아</div>-->
-        <!--            <div>ㅣ</div>-->
-        <!--            <div>CGV불광</div>-->
-        <!--            <div>ㅣ</div>-->
-        <!--            <div>CGV상봉</div>-->
-        <!--            <div>ㅣ</div>-->
-        <!--            <div>CGV성신여대입구</div>-->
-        <!--            <div>ㅣ</div>-->
-        <!--            <div>CGV송파</div>-->
-        <!--            <div>ㅣ</div>-->
-        <!--            <div>CGV수유</div>-->
-        <!--            <div>ㅣ</div>-->
-        <!--            <div>CGV신촌아트레온</div>-->
-        <!--            <div>ㅣ</div>-->
-        <!--            <div>CGV압구정</div>-->
-        <!--            <div>ㅣ</div>-->
-        <!--            <div>CGV여의도</div>-->
-        <!--            <div>ㅣ</div>-->
-        <!--            <div>CGV연남</div>-->
-        <!--            <div>ㅣ</div>-->
-        <!--            <div>CGV영등포</div>-->
-        <!--            <div>ㅣ</div>-->
-        <!--            <div>CGV왕십리</div>-->
-        <!--            <div>ㅣ</div>-->
-        <!--            <div>CGV용산아이파크몰</div>-->
-        <!--            <div>ㅣ</div>-->
-        <!--            <div>CGV중계</div>-->
-        <!--            <div>ㅣ</div>-->
-        <!--            <div>CGV천호</div>-->
-        <!--            <div>ㅣ</div>-->
-        <!--            <div>CGV청담씨네시티</div>-->
-        <!--            <div>ㅣ</div>-->
-        <!--            <div>CGV피카디리1958</div>-->
-        <!--            <div>ㅣ</div>-->
-        <!--            <div>CGV하계</div>-->
-        <!--            <div>ㅣ</div>-->
-        <!--            <div>CGV홍대</div>-->
-        <!--            <div>ㅣ</div>-->
-        <!--            <div>CINE de CHEF 압구정</div>-->
-        <!--            <div>ㅣ</div>-->
-        <!--            <div>CINE de CHEF 용산아이파크몰</div>-->
-        <!--        </div>-->
     </div>
-    <br>
-    <img src="/image/theater/theater_1.png" width="100%" alt="">
-    <h2>META BOX 강남</h2>
-    <img width="100%" src="/image/theater/theater_2.png" alt="">
-    <div class="button-container">
-        <div onClick="location.href='#'" style="cursor:pointer" class="btn1 py-1 px-2">
-            <i class="fas fa-calendar-alt me-2"> </i>
-            상영시간표
+
+    <!--         탭 콘텐츠 -->
+    {{#model.theaterAreaDTOList}}
+    <div style="padding: 10px;" id="{{areaCode}}" class="tabcontent">
+        {{#theaterNameDTOList}}
+            <div onclick="location.href='?theaterId={{theaterId}}'" style="display: inline-block;">{{theaterName}}
+            <span>ㅣ</span>
         </div>
-        <div style="background-color: #ff4d4d; color: #e0e0e0;" class="py-1">ㅣ</div>
-        <div onClick="location.href='#'" style="cursor:pointer" class="btn1 py-1 px-2">위치/주차안내</div>
+        {{/theaterNameDTOList}}
     </div>
-    <div class="schedule">
-        <div class="date-pagination">
-            <div class="arrow" onclick="prevPage()">&#9664;</div>
-            <div class="date" onclick="selectDate(this)">06월 16일</div>
-            <div class="date" onclick="selectDate(this)">06월 17일</div>
-            <div class="date" onclick="selectDate(this)">06월 18일</div>
-            <div class="date" onclick="selectDate(this)">06월 19일</div>
-            <div class="date" onclick="selectDate(this)">06월 20일</div>
-            <div class="date" onclick="selectDate(this)">06월 21일</div>
-            <div class="date" onclick="selectDate(this)">06월 22일</div>
-            <div class="date" onclick="selectDate(this)">06월 23일</div>
-            <div class="arrow" onclick="nextPage()">&#9654;</div>
-        </div>
-        <hr>
-        <div class="movie">
-            <div class="d-flex mb-2">
-                <h5 style="font-weight:bold" class="me-2">스파이더맨: 노 웨이 홈</h5>
-                <div class="text-align-center">애니메이션/96분/2024.06.12 개봉</div>
-            </div>
-            <div class="mb-3">
-                <div class="d-flex mb-1" style="font-size: 12px; font-weight: bold;">
-                    <div class="me-2" style="color: #646464;">&#9654;</div>
-                    <div>2D(자막)</div>
-                    <div style="color: #a7a5a5;">ㅣ</div>
-                    <div>1관 6층</div>
-                    <div style="color: #a7a5a5;">ㅣ</div>
-                    <div>총 158석</div>
-                </div>
-                <div class="times">
-                    <div class="timeitems">
-                        <div>10:00</div>
-                        <div>마감</div>
-                    </div>
-                    <div class="timeitems">
-                        <div>12:30</div>
-                        <div>마감</div>
-                    </div>
-                    <div class="timeitems">
-                        <div>15:00</div>
-                        <div>101석</div>
-                    </div>
-                    <div class="timeitems">
-                        <div>17:30</div>
-                        <div>65석</div>
-                    </div>
-                    <div class="timeitems">
-                        <div>20:00</div>
-                        <div>148석</div>
-                    </div>
-                    <div class="timeitems">
-                        <div>22:30</div>
-                        <div>156석</div>
-                    </div>
-                </div>
-            </div>
-            <div class="mb-3">
-                <div class="d-flex mb-1" style="font-size: 12px; font-weight: bold;">
-                    <div class="me-2" style="color: #646464;">&#9654;</div>
-                    <div>2D(자막)</div>
-                    <div style="color: #a7a5a5;">ㅣ</div>
-                    <div>1관 6층</div>
-                    <div style="color: #a7a5a5;">ㅣ</div>
-                    <div>총 158석</div>
-                </div>
-                <div class="times">
-                    <div class="timeitems">
-                        <div>10:00</div>
-                        <div>마감</div>
-                    </div>
-                    <div class="timeitems">
-                        <div>12:30</div>
-                        <div>마감</div>
-                    </div>
-                    <div class="timeitems">
-                        <div>15:00</div>
-                        <div>101석</div>
-                    </div>
-                    <div class="timeitems">
-                        <div>17:30</div>
-                        <div>65석</div>
-                    </div>
-                    <div class="timeitems">
-                        <div>20:00</div>
-                        <div>148석</div>
-                    </div>
-                    <div class="timeitems">
-                        <div>22:30</div>
-                        <div>156석</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <hr>
-        <div class="movie">
-            <div class="d-flex mb-2">
-                <h5 style="font-weight:bold" class="me-2">어벤져스: 엔드게임</h5>
-                <div class="text-align-center">애니메이션/96분/2024.06.12 개봉</div>
-            </div>
-            <div class="mb-3">
-                <div class="d-flex mb-1" style="font-size: 12px; font-weight: bold;">
-                    <div class="me-2" style="color: #646464;">&#9654;</div>
-                    <div>2D(자막)</div>
-                    <div style="color: #a7a5a5;">ㅣ</div>
-                    <div>1관 6층</div>
-                    <div style="color: #a7a5a5;">ㅣ</div>
-                    <div>총 158석</div>
-                </div>
-                <div class="times">
-                    <div class="timeitems">
-                        <div>10:00</div>
-                        <div>마감</div>
-                    </div>
-                    <div class="timeitems">
-                        <div>12:30</div>
-                        <div>마감</div>
-                    </div>
-                    <div class="timeitems">
-                        <div>15:00</div>
-                        <div>101석</div>
-                    </div>
-                    <div class="timeitems">
-                        <div>17:30</div>
-                        <div>65석</div>
-                    </div>
-                    <div class="timeitems">
-                        <div>20:00</div>
-                        <div>148석</div>
-                    </div>
-                    <div class="timeitems">
-                        <div>22:30</div>
-                        <div>156석</div>
-                    </div>
-                </div>
-            </div>
-            <div class="mb-3">
-                <div class="d-flex mb-1" style="font-size: 12px; font-weight: bold;">
-                    <div class="me-2" style="color: #646464;">&#9654;</div>
-                    <div>2D(자막)</div>
-                    <div style="color: #a7a5a5;">ㅣ</div>
-                    <div>1관 6층</div>
-                    <div style="color: #a7a5a5;">ㅣ</div>
-                    <div>총 158석</div>
-                </div>
-                <div class="times">
-                    <div class="timeitems">
-                        <div>10:00</div>
-                        <div>마감</div>
-                    </div>
-                    <div class="timeitems">
-                        <div>12:30</div>
-                        <div>마감</div>
-                    </div>
-                    <div class="timeitems">
-                        <div>15:00</div>
-                        <div>101석</div>
-                    </div>
-                    <div class="timeitems">
-                        <div>17:30</div>
-                        <div>65석</div>
-                    </div>
-                    <div class="timeitems">
-                        <div>20:00</div>
-                        <div>148석</div>
-                    </div>
-                    <div class="timeitems">
-                        <div>22:30</div>
-                        <div>156석</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <hr>
-        <div class="movie">
-            <div class="d-flex mb-2">
-                <h5 style="font-weight:bold" class="me-2">인셉션</h5>
-                <div class="text-align-center">스릴러/106분/2024.06.12 개봉</div>
-            </div>
-            <div class="mb-3">
-                <div class="d-flex mb-1" style="font-size: 12px; font-weight: bold;">
-                    <div class="me-2" style="color: #646464;">&#9654;</div>
-                    <div>2D(자막)</div>
-                    <div>ㅣ</div>
-                    <div>1관 6층</div>
-                    <div>ㅣ</div>
-                    <div>총 158석</div>
-                </div>
-                <div class="times">
-                    <div class="timeitems">
-                        <div>10:00</div>
-                        <div>마감</div>
-                    </div>
-                    <div class="timeitems">
-                        <div>12:30</div>
-                        <div>마감</div>
-                    </div>
-                    <div class="timeitems">
-                        <div>15:00</div>
-                        <div>101석</div>
-                    </div>
-                    <div class="timeitems">
-                        <div>17:30</div>
-                        <div>65석</div>
-                    </div>
-                    <div class="timeitems">
-                        <div>20:00</div>
-                        <div>148석</div>
-                    </div>
-                    <div class="timeitems">
-                        <div>22:30</div>
-                        <div>156석</div>
-                    </div>
-                </div>
-            </div>
-            <div class="mb-3">
-                <div class="d-flex mb-1" style="font-size: 12px; font-weight: bold;">
-                    <div class="me-2" style="color: #646464;">&#9654;</div>
-                    <div>2D(자막)</div>
-                    <div style="color: #a7a5a5;">ㅣ</div>
-                    <div>1관 6층</div>
-                    <div style="color: #a7a5a5;">ㅣ</div>
-                    <div>총 158석</div>
-                </div>
-                <div class="times">
-                    <div class="timeitems">
-                        <div>10:00</div>
-                        <div>마감</div>
-                    </div>
-                    <div class="timeitems">
-                        <div>12:30</div>
-                        <div>마감</div>
-                    </div>
-                    <div class="timeitems">
-                        <div>15:00</div>
-                        <div>101석</div>
-                    </div>
-                    <div class="timeitems">
-                        <div>17:30</div>
-                        <div>65석</div>
-                    </div>
-                    <div class="timeitems">
-                        <div>20:00</div>
-                        <div>148석</div>
-                    </div>
-                    <div class="timeitems">
-                        <div>22:30</div>
-                        <div>156석</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <hr>
+    {{/model.theaterAreaDTOList}}
+
+    <script>
+        function openCity(evt, cityName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(cityName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            openCity(new Event('click'), '01');
+        });
+    </script>
+
+    <style>
+        /*탭 링크 스타일 */
+        .tab {
+            overflow: hidden;
+            text-align: center;
+            user-select: none;
+        }
+
+        /* 탭 링크 버튼 스타일 */
+        .tab div {
+            background-color: inherit;
+            user-select: none;
+            display: inline-block;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+            font-size: 17px;
+            text-align: center;
+        }
+
+        /* 탭 콘텐츠 스타일 */
+        .tabcontent {
+            display: inline-block;
+            user-select: none;
+            padding: 6px 12px;
+            border-top: none;
+        }
+    </style>
+
+    <script>
+        function openCity(evt, cityName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(cityName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+    </script>
+
+    <hr>
+    <!--        <div class="theaters">-->
+    <!--            <div>CGV강남</div>-->
+    <!--            <div>ㅣ</div>-->
+    <!--            <div>CGV건대입구</div>-->
+    <!--            <div>ㅣ</div>-->
+    <!--            <div>CGV대학로</div>-->
+    <!--            <div>ㅣ</div>-->
+    <!--            <div>CGV동대문</div>-->
+    <!--            <div>ㅣ</div>-->
+    <!--            <div>CGV등촌</div>-->
+    <!--            <div>ㅣ</div>-->
+    <!--            <div>CGV명동</div>-->
+    <!--            <div>ㅣ</div>-->
+    <!--            <div>CGV미아</div>-->
+    <!--            <div>ㅣ</div>-->
+    <!--            <div>CGV불광</div>-->
+    <!--            <div>ㅣ</div>-->
+    <!--            <div>CGV상봉</div>-->
+    <!--            <div>ㅣ</div>-->
+    <!--            <div>CGV성신여대입구</div>-->
+    <!--            <div>ㅣ</div>-->
+    <!--            <div>CGV송파</div>-->
+    <!--            <div>ㅣ</div>-->
+    <!--            <div>CGV수유</div>-->
+    <!--            <div>ㅣ</div>-->
+    <!--            <div>CGV신촌아트레온</div>-->
+    <!--            <div>ㅣ</div>-->
+    <!--            <div>CGV압구정</div>-->
+    <!--            <div>ㅣ</div>-->
+    <!--            <div>CGV여의도</div>-->
+    <!--            <div>ㅣ</div>-->
+    <!--            <div>CGV연남</div>-->
+    <!--            <div>ㅣ</div>-->
+    <!--            <div>CGV영등포</div>-->
+    <!--            <div>ㅣ</div>-->
+    <!--            <div>CGV왕십리</div>-->
+    <!--            <div>ㅣ</div>-->
+    <!--            <div>CGV용산아이파크몰</div>-->
+    <!--            <div>ㅣ</div>-->
+    <!--            <div>CGV중계</div>-->
+    <!--            <div>ㅣ</div>-->
+    <!--            <div>CGV천호</div>-->
+    <!--            <div>ㅣ</div>-->
+    <!--            <div>CGV청담씨네시티</div>-->
+    <!--            <div>ㅣ</div>-->
+    <!--            <div>CGV피카디리1958</div>-->
+    <!--            <div>ㅣ</div>-->
+    <!--            <div>CGV하계</div>-->
+    <!--            <div>ㅣ</div>-->
+    <!--            <div>CGV홍대</div>-->
+    <!--            <div>ㅣ</div>-->
+    <!--            <div>CINE de CHEF 압구정</div>-->
+    <!--            <div>ㅣ</div>-->
+    <!--            <div>CINE de CHEF 용산아이파크몰</div>-->
+    <!--        </div>-->
+</div>
+<br>
+<img src="/image/theater/theater_1.png" width="100%" alt="">
+<h2>META BOX 강남</h2>
+<img width="100%" src="/image/theater/theater_2.png" alt="">
+<div class="button-container">
+    <div onClick="location.href='#'" style="cursor:pointer" class="btn1 py-1 px-2">
+        <i class="fas fa-calendar-alt me-2"> </i>
+        상영시간표
     </div>
+    <div style="background-color: #ff4d4d; color: #e0e0e0;" class="py-1">ㅣ</div>
+    <div onClick="location.href='#'" style="cursor:pointer" class="btn1 py-1 px-2">위치/주차안내</div>
+</div>
+<div class="schedule">
+    <div class="date-pagination">
+        <div class="arrow" onclick="prevPage()">&#9664;</div>
+        <div class="date" onclick="selectDate(this)">06월 16일</div>
+        <div class="date" onclick="selectDate(this)">06월 17일</div>
+        <div class="date" onclick="selectDate(this)">06월 18일</div>
+        <div class="date" onclick="selectDate(this)">06월 19일</div>
+        <div class="date" onclick="selectDate(this)">06월 20일</div>
+        <div class="date" onclick="selectDate(this)">06월 21일</div>
+        <div class="date" onclick="selectDate(this)">06월 22일</div>
+        <div class="date" onclick="selectDate(this)">06월 23일</div>
+        <div class="arrow" onclick="nextPage()">&#9654;</div>
+    </div>
+    <hr>
+    <div class="movie">
+        <div class="d-flex mb-2">
+            <h5 style="font-weight:bold" class="me-2">스파이더맨: 노 웨이 홈</h5>
+            <div class="text-align-center">애니메이션/96분/2024.06.12 개봉</div>
+        </div>
+        <div class="mb-3">
+            <div class="d-flex mb-1" style="font-size: 12px; font-weight: bold;">
+                <div class="me-2" style="color: #646464;">&#9654;</div>
+                <div>2D(자막)</div>
+                <div style="color: #a7a5a5;">ㅣ</div>
+                <div>1관 6층</div>
+                <div style="color: #a7a5a5;">ㅣ</div>
+                <div>총 158석</div>
+            </div>
+            <div class="times">
+                <div class="timeitems">
+                    <div>10:00</div>
+                    <div>마감</div>
+                </div>
+                <div class="timeitems">
+                    <div>12:30</div>
+                    <div>마감</div>
+                </div>
+                <div class="timeitems">
+                    <div>15:00</div>
+                    <div>101석</div>
+                </div>
+                <div class="timeitems">
+                    <div>17:30</div>
+                    <div>65석</div>
+                </div>
+                <div class="timeitems">
+                    <div>20:00</div>
+                    <div>148석</div>
+                </div>
+                <div class="timeitems">
+                    <div>22:30</div>
+                    <div>156석</div>
+                </div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <div class="d-flex mb-1" style="font-size: 12px; font-weight: bold;">
+                <div class="me-2" style="color: #646464;">&#9654;</div>
+                <div>2D(자막)</div>
+                <div style="color: #a7a5a5;">ㅣ</div>
+                <div>1관 6층</div>
+                <div style="color: #a7a5a5;">ㅣ</div>
+                <div>총 158석</div>
+            </div>
+            <div class="times">
+                <div class="timeitems">
+                    <div>10:00</div>
+                    <div>마감</div>
+                </div>
+                <div class="timeitems">
+                    <div>12:30</div>
+                    <div>마감</div>
+                </div>
+                <div class="timeitems">
+                    <div>15:00</div>
+                    <div>101석</div>
+                </div>
+                <div class="timeitems">
+                    <div>17:30</div>
+                    <div>65석</div>
+                </div>
+                <div class="timeitems">
+                    <div>20:00</div>
+                    <div>148석</div>
+                </div>
+                <div class="timeitems">
+                    <div>22:30</div>
+                    <div>156석</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="movie">
+        <div class="d-flex mb-2">
+            <h5 style="font-weight:bold" class="me-2">어벤져스: 엔드게임</h5>
+            <div class="text-align-center">애니메이션/96분/2024.06.12 개봉</div>
+        </div>
+        <div class="mb-3">
+            <div class="d-flex mb-1" style="font-size: 12px; font-weight: bold;">
+                <div class="me-2" style="color: #646464;">&#9654;</div>
+                <div>2D(자막)</div>
+                <div style="color: #a7a5a5;">ㅣ</div>
+                <div>1관 6층</div>
+                <div style="color: #a7a5a5;">ㅣ</div>
+                <div>총 158석</div>
+            </div>
+            <div class="times">
+                <div class="timeitems">
+                    <div>10:00</div>
+                    <div>마감</div>
+                </div>
+                <div class="timeitems">
+                    <div>12:30</div>
+                    <div>마감</div>
+                </div>
+                <div class="timeitems">
+                    <div>15:00</div>
+                    <div>101석</div>
+                </div>
+                <div class="timeitems">
+                    <div>17:30</div>
+                    <div>65석</div>
+                </div>
+                <div class="timeitems">
+                    <div>20:00</div>
+                    <div>148석</div>
+                </div>
+                <div class="timeitems">
+                    <div>22:30</div>
+                    <div>156석</div>
+                </div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <div class="d-flex mb-1" style="font-size: 12px; font-weight: bold;">
+                <div class="me-2" style="color: #646464;">&#9654;</div>
+                <div>2D(자막)</div>
+                <div style="color: #a7a5a5;">ㅣ</div>
+                <div>1관 6층</div>
+                <div style="color: #a7a5a5;">ㅣ</div>
+                <div>총 158석</div>
+            </div>
+            <div class="times">
+                <div class="timeitems">
+                    <div>10:00</div>
+                    <div>마감</div>
+                </div>
+                <div class="timeitems">
+                    <div>12:30</div>
+                    <div>마감</div>
+                </div>
+                <div class="timeitems">
+                    <div>15:00</div>
+                    <div>101석</div>
+                </div>
+                <div class="timeitems">
+                    <div>17:30</div>
+                    <div>65석</div>
+                </div>
+                <div class="timeitems">
+                    <div>20:00</div>
+                    <div>148석</div>
+                </div>
+                <div class="timeitems">
+                    <div>22:30</div>
+                    <div>156석</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="movie">
+        <div class="d-flex mb-2">
+            <h5 style="font-weight:bold" class="me-2">인셉션</h5>
+            <div class="text-align-center">스릴러/106분/2024.06.12 개봉</div>
+        </div>
+        <div class="mb-3">
+            <div class="d-flex mb-1" style="font-size: 12px; font-weight: bold;">
+                <div class="me-2" style="color: #646464;">&#9654;</div>
+                <div>2D(자막)</div>
+                <div>ㅣ</div>
+                <div>1관 6층</div>
+                <div>ㅣ</div>
+                <div>총 158석</div>
+            </div>
+            <div class="times">
+                <div class="timeitems">
+                    <div>10:00</div>
+                    <div>마감</div>
+                </div>
+                <div class="timeitems">
+                    <div>12:30</div>
+                    <div>마감</div>
+                </div>
+                <div class="timeitems">
+                    <div>15:00</div>
+                    <div>101석</div>
+                </div>
+                <div class="timeitems">
+                    <div>17:30</div>
+                    <div>65석</div>
+                </div>
+                <div class="timeitems">
+                    <div>20:00</div>
+                    <div>148석</div>
+                </div>
+                <div class="timeitems">
+                    <div>22:30</div>
+                    <div>156석</div>
+                </div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <div class="d-flex mb-1" style="font-size: 12px; font-weight: bold;">
+                <div class="me-2" style="color: #646464;">&#9654;</div>
+                <div>2D(자막)</div>
+                <div style="color: #a7a5a5;">ㅣ</div>
+                <div>1관 6층</div>
+                <div style="color: #a7a5a5;">ㅣ</div>
+                <div>총 158석</div>
+            </div>
+            <div class="times">
+                <div class="timeitems">
+                    <div>10:00</div>
+                    <div>마감</div>
+                </div>
+                <div class="timeitems">
+                    <div>12:30</div>
+                    <div>마감</div>
+                </div>
+                <div class="timeitems">
+                    <div>15:00</div>
+                    <div>101석</div>
+                </div>
+                <div class="timeitems">
+                    <div>17:30</div>
+                    <div>65석</div>
+                </div>
+                <div class="timeitems">
+                    <div>20:00</div>
+                    <div>148석</div>
+                </div>
+                <div class="timeitems">
+                    <div>22:30</div>
+                    <div>156석</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+</div>
 </div>
 <script>
     function selectDate(element) {
