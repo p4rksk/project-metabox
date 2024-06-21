@@ -78,11 +78,11 @@ public class UserController {
         //토큰을 session에서 받아옴
         SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
         if (sessionUser.getProvider().equals("kakao")) {
-            userService.logoutKakao(sessionUser.getAccessToken(), sessionUser.getNickname());
+            userService.removeAccountKakao(sessionUser.getAccessToken(), sessionUser.getNickname());
         }
 
         if (sessionUser.getProvider().equals("naver")) {
-            userService.logoutNaver(sessionUser.getAccessToken(), sessionUser.getNickname());
+            userService.removeAccountNaver(sessionUser.getAccessToken(), sessionUser.getNickname());
         }
 
         session.invalidate();

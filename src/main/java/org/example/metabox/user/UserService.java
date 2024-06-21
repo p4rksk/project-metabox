@@ -218,7 +218,7 @@ public class UserService {
     }
 
     @Transactional
-    public void logoutKakao(String accessToken, String nickname) {
+    public void removeAccountKakao(String accessToken, String nickname) {
         RestTemplate rt = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
@@ -241,7 +241,7 @@ public class UserService {
     }
 
     @Transactional
-    public void logoutNaver(String accessToken, String nickname) {
+    public void removeAccountNaver(String accessToken, String nickname) {
         RestTemplate rt = new RestTemplate();
 
         String url = String.format(
