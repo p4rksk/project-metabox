@@ -39,8 +39,7 @@ public class MovieQueryRepository {
             Integer id = ((Number) row[0]).intValue();
             String imgFilename = (String) row[1];
             String title = (String) row[2];
-            Date startDate = (Date) row[3];
-            Double ticketSales = ((Number) row[6]).doubleValue() * 100;
+            Double ticketSales = ((Number) row[3]).doubleValue() * 100;
             // 소수점 이하 두 자리까지 반올림
             ticketSales = Math.round(ticketSales * 100.0) / 100.0;
 
@@ -48,7 +47,6 @@ public class MovieQueryRepository {
                     .id(id)
                     .imgFilename(imgFilename)
                     .title(title)
-
                     .ticketSales(ticketSales)
                     .build();
 

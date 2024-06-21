@@ -18,7 +18,8 @@ public class UserController {
     @GetMapping("/")
     public String mainForm(HttpServletRequest request) {
         // 메인페이지 무비차트 / 상영예정작
-        userService.findMainMovie();
+        UserResponse.MainChartDTO mainCharts = userService.findMainMovie();
+        request.setAttribute("model", mainCharts);
 
         return "index";
     }

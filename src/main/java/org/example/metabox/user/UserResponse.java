@@ -27,29 +27,26 @@ public class UserResponse {
             this.toBeCharts = toBeCharts;
         }
 
+        // 메인의 무비차트
             @Data
             public static class MainMovieChartDTO {
                 private Integer id;
                 private String imgFilename;
                 private String title;
-
-                private Integer allCount;
-                private Integer movieCount;
-
-                private Double ticketSales;     // 예매율 - 계산해서 가져오기
+                private Double ticketSales;     // 예매율 - 쿼리에서 계산해서 가져오기
+                private Integer rank;       //순위
 
                 @Builder
-                public MainMovieChartDTO(Integer id, String imgFilename, String title, Integer allCount, Integer movieCount, Double ticketSales) {
+                public MainMovieChartDTO(Integer id, String imgFilename, String title, Double ticketSales, Integer rank) {
                     this.id = id;
                     this.imgFilename = imgFilename;
                     this.title = title;
-                    this.allCount = allCount;
-                    this.movieCount = movieCount;
                     this.ticketSales = ticketSales;
+                    this.rank = rank;
                 }
-            }
+        }
 
-            //
+            // 메인의 상영 예정작
             @Data
             public static class ToBeChartDTO {
                 private Integer id;
