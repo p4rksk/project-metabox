@@ -8,6 +8,6 @@ public class TheaterRequest {
     @AllArgsConstructor
     @Data
     public class ScheduleDTO {
-        private String areaCode;
+        private String theaterId;
     }
 }

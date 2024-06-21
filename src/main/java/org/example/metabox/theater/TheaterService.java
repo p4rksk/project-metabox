@@ -19,7 +19,7 @@ public class TheaterService {
     private final ScreeningInfoRepository screeningInfoRepository;
 
     @Transactional
-    public TheaterResponse.TheaterDTO movieSchedule(SessionUser sessionUser, String areaCode) {
+    public TheaterResponse.TheaterDTO movieSchedule(SessionUser sessionUser, String theaterId) {
         // 1. 내가 Scrap한 목록 불러오기
         List<TheaterScrap> theaterScrapList = new ArrayList<>();
         if (sessionUser == null) {
@@ -33,10 +33,11 @@ public class TheaterService {
                 theaterScrapList.add(TheaterScrap.builder().id(0).theater(Theater.builder().name("").build()).build());
             }
         }
-
-        // 지역 목록에 따른 극장 가져오기
+        // 2. 지역 목록에 따른 극장 목록 가져오기
         List<Theater> theaterList = theaterRepository.findAll();
         TheaterResponse.TheaterDTO respDTO = new TheaterResponse.TheaterDTO(theaterScrapList, theaterList);
+
+        // 3. List
         return respDTO;
     }
 }
