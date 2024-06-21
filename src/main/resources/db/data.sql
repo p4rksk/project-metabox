@@ -5581,10 +5581,10 @@ insert into movie_scrap_tb(user_id, movie_id, created_at) values
 (2, 4, now()),
 (2, 5, now());
 -- 비회원 등록
-insert into guest_tb(name, birth, password) values
-('박찬혁', '1997-07-23', 'pakchan0723'),
-('박선규', '2000-04-25', 'sunkyu0425'),
-('설동훈', '1996-04-29', 'donghun0429');
+insert into guest_tb(phone, birth, password) values
+('010-8489-2732', '1997-07-23', 'pakchan0723'),
+('010-3294-2321', '2000-04-25', 'sunkyu0425'),
+('010-9209-3687', '1996-04-29', 'donghun0429');
 -- -- 회원 예매
 -- 1번 유저가 극장1의 1관에서 상영하는 인사이드 아웃2 E10, E11 좌석을 예매 (포인트 10%로 3000포인트 적립 더미수정)
 insert into book_tb(user_id, guest_id, total_price, created_at, point, used_point, book_price) values
