@@ -3,6 +3,9 @@ package org.example.metabox.user;
 import lombok.RequiredArgsConstructor;
 import org.example.metabox._core.errors.exception.Exception400;
 import org.example.metabox._core.errors.exception.Exception401;
+import org.example.metabox.movie.Movie;
+import org.example.metabox.movie.MovieQueryRepository;
+import org.example.metabox.movie.MovieRepository;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -13,6 +16,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import java.text.DecimalFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
@@ -23,7 +27,23 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final MovieRepository movieRepository;
+    private final MovieQueryRepository movieQueryRepository;
     private final GuestRepository guestRepository;
+
+    // 마이페이지 detail-book의 today best 무비차트
+    public UserResponse.DetailBookDTO findMyBookDetail() {
+        List<UserResponse.DetailBookDTO.MovieChartDTO> movieChartDTOS = movieQueryRepository.getMovieChart();
+//        System.out.println("쿼리 확인용 " + movieChartDTOS);
+
+        // DetailBookDTO 로 변형
+        UserResponse.DetailBookDTO detailBookDTO = UserResponse.DetailBookDTO.builder()
+                .movieCharts(movieChartDTOS).build();
+
+        return detailBookDTO;
+    }
+
+
 
     //비회원 회원가입
     public Guest join (UserRequest.JoinDTO reqDTO){
@@ -200,7 +220,7 @@ public class UserService {
     }
 
     @Transactional
-    public void logoutKakao(String accessToken, String nickname) {
+    public void removeAccountKakao(String accessToken, String nickname) {
         RestTemplate rt = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
@@ -223,7 +243,7 @@ public class UserService {
     }
 
     @Transactional
-    public void logoutNaver(String accessToken, String nickname) {
+    public void removeAccountNaver(String accessToken, String nickname) {
         RestTemplate rt = new RestTemplate();
 
         String url = String.format(

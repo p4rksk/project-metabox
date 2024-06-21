@@ -1,0 +1,214 @@
+.container {
+    background-color: #fff;
+    font-family: 'Arial', sans-serif;
+}
+.profile-card {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+.profile-card img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: #ddd;
+}
+.profile-card .header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.profile-card .header .info {
+    margin-left: 20px;
+}
+.profile-card .header .info h3 {
+    margin: 0;
+    font-weight: 600;
+}
+.profile-card .header .info p {
+    margin: 5px 0;
+}
+.profile-card .points, .profile-card .vip-points {
+    margin-bottom: 20px;
+}
+.profile-card .points h4, .profile-card .vip-points h4 {
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+}
+.profile-card .points p, .profile-card .vip-points p {
+    margin: 0;
+    font-size: 1rem;
+}
+.profile-card .grid {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+.profile-card .grid div {
+    flex: 1;
+    margin: 0 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f1f1f1;
+}
+.profile-card .grid .setting {
+    background-color: #4E0929;
+    color: white;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+.sidebar {
+    border-right: 1px solid #ddd;
+    padding-right: 20px;
+}
+.sidebar h5 {
+    margin-top: 20px;
+    font-weight: bold;
+}
+.sidebar ul {
+    padding-left: 0;
+    list-style: none;
+}
+.sidebar ul li {
+    padding: 10px 0;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+.sidebar ul li:hover {
+    color: #007bff;
+}
+.text-danger {
+    color: #dc3545 !important;
+}
+.my-3 {
+    margin-top: 1rem !important;
+    margin-bottom: 1rem !important;
+}
+.movie-chart img {
+    width: 100%;
+    height: auto;
+}
+.rating {
+    display: flex;
+    align-items: center;
+}
+.rating span {
+    margin-right: 5px;
+}
+.nav {
+    justify-content: center;
+    margin-top: 1rem;
+}
+.table {
+    width: 100%;
+    margin-bottom: 1rem;
+    background-color: transparent;
+    border-collapse: collapse;
+}
+.table-bordered {
+    border: 1px solid #dee2e6;
+}
+.table-bordered th,
+.table-bordered td {
+    border: 1px solid #dee2e6;
+    padding: 8px;
+    vertical-align: middle;
+    text-align: center;
+}
+.table thead th {
+    background-color: #f8f9fa;
+    color: #495057;
+    font-weight: bold;
+}
+.table tbody tr td {
+    color: #6c757d;
+}
+.text-center {
+    text-align: center;
+}
+.header-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* 필요에 따라 조정 가능 */
+}
+.header-section h5 {
+    margin: 0;
+    margin-right: 10px; /* 간격 조정 */
+}
+.header-section .info-text {
+    margin: 0;
+    font-size: 14px; /* 필요에 따라 조정 가능 */
+    color: #6c757d; /* 필요에 따라 조정 가능 */
+}
+.custom-button {
+    background-color: #4E0929;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.custom-button:hover {
+    background-color: #333;
+}
+.d-flex {
+    display: flex;
+}
+.align-items-center {
+    align-items: center;
+}
+.justify-content-between {
+    justify-content: space-between;
+}
+.swiper-container {
+    width: 100%;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    overflow: hidden; /* 슬라이드가 container를 벗어나지 않도록 설정 */
+}
+.swiper-slide {
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; /* 세로로 정렬 */
+    overflow: hidden; /* 슬라이드 내용이 container를 벗어나지 않도록 설정 */
+}
+.swiper-slide img {
+    width: 200px; /* 이미지 너비 조정 */
+    height: 300px; /* 이미지 높이 조정 */
+}
+.swiper-slide p {
+    margin-top: 10px; /* 이미지와 텍스트 사이 간격 조정 */
+}
+.swiper-slide .rating {
+    margin-top: 5px; /* 예매율과 개봉일 사이 간격 조정 */
+}
+
+.table th:nth-child(1) {
+    width: 15%;
+}
+.table th:nth-child(2) {
+    width: 12%;
+}
+.table th:nth-child(3) {
+    width: 12%;
+}
+.table th:nth-child(4) {
+    width: 12%;
+}
+.table th:nth-child(5) {
+    width: 10%;
+}

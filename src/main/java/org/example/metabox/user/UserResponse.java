@@ -2,13 +2,57 @@ package org.example.metabox.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import lombok.Builder;
 import lombok.Data;
 import org.example.metabox._core.util.ScopeDeserializer;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class UserResponse {
+
+    //마이페이지 DetailBook
+    @Data
+    public static class DetailBookDTO {
+
+        private List<MovieChartDTO> movieCharts = new ArrayList<>();
+
+        @Builder
+        public DetailBookDTO(List<MovieChartDTO> movieCharts) {
+            this.movieCharts = movieCharts;
+        }
+
+        // today best 무비차트 뿌리는 DTO
+        @Data
+        public static class MovieChartDTO {
+            private Integer id;     //movie Id
+            private String imgFilename;
+            private String title;
+            private Date startDate;
+
+            private Integer allCount;
+            private Integer movieCount;
+
+            private Double ticketSales;     // 예매율 - 계산해서 가져오기
+
+            @Builder
+            public MovieChartDTO(Integer id, String imgFilename, String title, Date startDate, Integer allCount, Integer movieCount, Double ticketSales) {
+                this.id = id;
+                this.imgFilename = imgFilename;
+                this.title = title;
+                this.startDate = startDate;
+                this.allCount = allCount;
+                this.movieCount = movieCount;
+                this.ticketSales = ticketSales;
+            }
+
+        }
+
+    }
+
+
 
     @Data
     public static class TokenDTO {
@@ -63,5 +107,6 @@ public class UserResponse {
             private String birthyear;
         }
     }
+
 
 }
