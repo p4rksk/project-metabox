@@ -1,6 +1,7 @@
 package org.example.metabox.movie;
 
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Date;
 
@@ -36,10 +37,12 @@ public class MovieResponse {
         private String infoAgeLimit;        // 연령 제한
         private String infoRunningTime;     // 상영 시간
         private String infoRegion;          // 지역
-        private Date date;                  // 개봉일
+        private Date startDate;             // 개봉일
         private String imgFilename;         // 포스터 사진
         private String description;         // 영화 소개
         private String releaseStatus;       // 개봉 상태
+        private MultipartFile[] stills;     // 스틸컷
+        private MultipartFile[] trailers;   // 트레일러
 
         // Movie 객체를 MovieDetailDTO 객체로 변환하는 메서드
         public static MovieDetailDTO formEntity(Movie movie, String releaseStatus){
@@ -53,10 +56,12 @@ public class MovieResponse {
             movieDetailDto.infoAgeLimit = movie.getInfo().split(",")[0];    // Movie 객체에서 info 값을 쉼표로 분리하여 첫 번째 부분의 값을 할당
             movieDetailDto.infoRunningTime = movie.getInfo().split(",")[1]; // Movie 객체에서 info 값을 쉼표로 분리하여 두 번째 부분의 값을 할당
             movieDetailDto.infoRegion = movie.getInfo().split(",")[2];      // Movie 객체에서 info 값을 쉼표로 분리하여 세 번째 부분의 값을 할당
-            movieDetailDto.date = movie.getStartDate();
+            movieDetailDto.startDate = movie.getStartDate();
             movieDetailDto.imgFilename = movie.getImgFilename();
             movieDetailDto.description = movie.getDescription();
             movieDetailDto.releaseStatus = releaseStatus;                         // 개봉 상태
+            movieDetailDto.stills = movieDetailDto.getStills();
+            movieDetailDto.trailers = movieDetailDto.getTrailers();
             return movieDetailDto;
         }
 

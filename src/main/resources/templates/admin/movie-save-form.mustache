@@ -7,14 +7,38 @@
         overflow-x: auto;
     }
 
-    #photoPreviewContainer img {
+    #photoPreviewContainer .photo-item {
+        position: relative;
         margin-right: 10px;
+        width: 150px; /* 고정 너비 설정 */
+        height: 150px; /* 고정 높이 설정 */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-sizing: border-box;
+    }
+
+    #photoPreviewContainer img {
+        width: 100%; /* 고정 너비 설정 */
+        height: 100%; /* 고정 높이 설정 */
+        object-fit: cover; /* 이미지 비율 유지하며 잘라내기 */
+    }
+
+    #photoPreviewContainer .remove-btn {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        background-color: red;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
     }
 </style>
 <div class="container mt-5">
     <h2>영화 등록</h2>
     <hr>
-    <form action="#" method="post">
+    <form action="/movie-save" method="post" enctype="multipart/form-data" id="movieForm">
         <div class="form-group mt-4">
             <div class="d-flex justify-content-center align-items-center"
                  style="width: 250px; height: 300px; border: 2px solid #E6E6E6; color: #E6E6E6;" id="profilePreview">
@@ -23,7 +47,7 @@
                      style="display: none; width: 250px; height: 300px;">
             </div>
             <div class="file-input-container mt-4">
-                <input type="file" class="form-control-file" id="moviePhotos" accept="image/*"
+                <input type="file" class="form-control-file" id="moviePhotos" name="imgFilename" accept="image/*"
                        onchange="previewImage();">
             </div>
         </div>
@@ -32,54 +56,64 @@
             <div style="width: 100%;">
                 <div class="form-group">
                     <label for="movieTitle">영화 제목</label>
-                    <input type="text" class="form-control" id="movieTitle" placeholder="영화 제목을 입력하세요">
+                    <input type="text" class="form-control" id="movieTitle" name="title" placeholder="영화 제목을 입력하세요">
+                </div>
+                <div class="form-group">
+                    <label for="basicInfo">기본 정보</label>
+                    <input type="text" class="form-control" id="basicInfo" name="info" placeholder="기본 정보를 입력하세요">
                 </div>
                 <div class="form-group">
                     <label for="director">감독</label>
-                    <input type="text" class="form-control" id="director" placeholder="감독을 입력하세요">
+                    <input type="text" class="form-control" id="director" name="director" placeholder="감독을 입력하세요">
                 </div>
                 <div class="form-group">
-                    <label for="actors">배우</label>
-                    <input type="text" class="form-control" id="actors" placeholder="배우를 입력하세요">
+                    <label for="releaseDate">개봉일</label>
+                    <input type="date" class="form-control" id="Date" name="startDate">
                 </div>
             </div>
             <div style="width: 100%;">
                 <div class="form-group">
-                    <label for="basicInfo">기본 정보</label>
-                    <input type="text" class="form-control" id="basicInfo" placeholder="기본 정보를 입력하세요">
+                    <label for="movieTitle">영문 제목</label>
+                    <input type="text" class="form-control" id="movieTitle" name="engTitle" placeholder="영어 제목을 입력하세요">
                 </div>
                 <div class="form-group">
                     <label for="movieGenre">장르</label>
-                    <input type="text" class="form-control" id="movieGenre" placeholder="영화 장르를 입력하세요">
+                    <input type="text" class="form-control" id="movieGenre" name="genre" placeholder="영화 장르를 입력하세요">
                 </div>
                 <div class="form-group">
-                    <label for="releaseDate">개봉일</label>
-                    <input type="date" class="form-control" id="releaseDate">
+                    <label for="actors">배우</label>
+                    <input type="text" class="form-control" id="actors" name="actor" placeholder="배우를 입력하세요">
+                </div>
+                <div class="form-group">
+                    <label for="releaseDate">상영 종료일</label>
+                    <input type="date" class="form-control" id="Date" name="endDate">
                 </div>
             </div>
         </div>
         <div class="form-group">
             <label for="synopsis">영화 설명</label>
-            <textarea class="form-control" id="synopsis" rows="15" placeholder="영화에 대한 설명을 입력하세요"></textarea>
+            <textarea class="form-control" id="synopsis" name="description" rows="15" placeholder="영화에 대한 설명을 입력하세요"></textarea>
         </div>
         <div class="form-group">
             <label for="stills">스틸컷</label>
             <div id="photoPreviewContainer"></div>
-            <input type="file" class="form-control-file" id="stills" accept="image/*" onchange="previewImages();"
-                   multiple>
+            <input type="file" class="form-control-file" id="stills" accept="image/*" onchange="previewImages();" multiple>
         </div>
         <div class="form-group">
             <label for="trailer">트레일러</label>
             <div id="videoPreviewContainer">
                 <video id="videoPreview" width="320" height="240" controls style="display: none;"></video>
             </div>
-            <input type="file" class="form-control-file" id="trailer" accept="video/*" onchange="previewVideo();">
+            <input type="file" class="form-control-file" id="trailer" name="trailers" accept="video/*" onchange="previewVideo();" multiple>
         </div>
         <button type="submit" class="btn btn-primary">등록</button>
 
     </form>
 </div>
+
 <script>
+    let stillFiles = [];
+
     function previewImage() {
         var file = document.getElementById("moviePhotos").files[0];
         var reader = new FileReader();
@@ -96,22 +130,38 @@
             reader.readAsDataURL(file);
         }
     }
-</script>
-<script>
+
     function previewImages() {
         var files = document.getElementById("stills").files;
         var previewContainer = document.getElementById("photoPreviewContainer");
-        previewContainer.innerHTML = ""; // 기존 미리보기 초기화
 
         for (var i = 0; i < files.length; i++) {
             var file = files[i];
+            stillFiles.push(file); // 파일을 배열에 추가
             var reader = new FileReader();
 
             reader.onload = (function (file) {
                 return function (e) {
+                    var photoItem = document.createElement("div");
+                    photoItem.classList.add("photo-item");
+
                     var imgElement = document.createElement("img");
                     imgElement.src = e.target.result;
-                    previewContainer.appendChild(imgElement);
+
+                    var removeBtn = document.createElement("button");
+                    removeBtn.classList.add("remove-btn");
+                    removeBtn.innerText = "X";
+                    removeBtn.onclick = function () {
+                        var index = stillFiles.indexOf(file);
+                        if (index > -1) {
+                            stillFiles.splice(index, 1); // 배열에서 파일 제거
+                        }
+                        previewContainer.removeChild(photoItem);
+                    };
+
+                    photoItem.appendChild(imgElement);
+                    photoItem.appendChild(removeBtn);
+                    previewContainer.appendChild(photoItem);
                 };
             })(file);
 
@@ -120,18 +170,25 @@
             }
         }
     }
-</script>
-<script>
-    function previewVideo() {
-        var fileInput = document.getElementById('trailer');
-        var file = fileInput.files[0];
-        var videoPreview = document.getElementById('videoPreview');
 
-        if (file) {
-            videoPreview.src = URL.createObjectURL(file);
-            videoPreview.style.display = 'block';
-        }
-    }
+    document.getElementById("movieForm").onsubmit = function (e) {
+        var formData = new FormData(this);
+        stillFiles.forEach(function (file, index) {
+            formData.append("stills[]", file); // 모든 파일을 폼 데이터에 추가
+        });
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", this.action, true);
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                window.location.href = "/movie-list";
+            } else {
+                alert("Error: " + xhr.statusText);
+            }
+        };
+        xhr.send(formData);
+        e.preventDefault(); // 기본 폼 제출 동작 방지
+    };
 </script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>

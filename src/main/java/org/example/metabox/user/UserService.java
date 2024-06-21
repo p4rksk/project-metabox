@@ -1,6 +1,8 @@
 package org.example.metabox.user;
 
 import lombok.RequiredArgsConstructor;
+import org.example.metabox._core.errors.exception.Exception400;
+import org.example.metabox._core.errors.exception.Exception401;
 import org.example.metabox.movie.Movie;
 import org.example.metabox.movie.MovieQueryRepository;
 import org.example.metabox.movie.MovieRepository;
@@ -17,6 +19,7 @@ import org.springframework.web.client.RestTemplate;
 import java.text.DecimalFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import java.util.UUID;
 
@@ -26,6 +29,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final MovieRepository movieRepository;
     private final MovieQueryRepository movieQueryRepository;
+    private final GuestRepository guestRepository;
 
     // 마이페이지 detail-book의 today best 무비차트
     public UserResponse.DetailBookDTO findMyBookDetail() {
@@ -39,6 +43,30 @@ public class UserService {
         return detailBookDTO;
     }
 
+
+
+    //비회원 회원가입
+    public Guest join (UserRequest.JoinDTO reqDTO){
+        Optional<Guest> guestOP = guestRepository.findOneByPhone(reqDTO.getPhone());
+
+        if(guestOP.isPresent()){
+            throw new Exception400("동일한 휴대폰 번호가 존재 합니다.");
+        }
+
+        //회원가입
+        Guest jguest = guestRepository.save(Guest.builder()
+                        .birth(reqDTO.getBirth())
+                        .password(reqDTO.getPassword())
+                        .phone(reqDTO.getPhone())
+                .build());
+
+        //회원가입 됐으면 로그인 진행
+        Guest guest =  guestRepository.findByBirthAndPassword(reqDTO.getBirth(), reqDTO.getPassword())
+                .orElseThrow(() -> new Exception401("존재하지 않는 계정입니다."));
+
+        return guest;
+
+    }
 
     public SessionUser loginKakao(String code) {
         // 1.1 RestTemplate 설정
@@ -230,6 +258,4 @@ public class UserService {
         userRepository.deleteByNickname(nickname);
 
     }
-
-
 }

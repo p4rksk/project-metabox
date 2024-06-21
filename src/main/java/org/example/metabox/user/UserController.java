@@ -14,6 +14,8 @@ public class UserController {
 
     private final HttpSession session;
     private final UserService userService;
+    private final GuestRepository guestRepository;
+
 
     @GetMapping("/")
     public String mainForm(HttpServletRequest request) {
@@ -25,9 +27,20 @@ public class UserController {
         return "user/login-form";
     }
 
-    @GetMapping("/non-member")
-    public String nonMember(HttpServletRequest request) {
+    @GetMapping("/guest/login-form")
+    public String nonMemberForm() {
         return "user/non-member";
+    }
+
+    @PostMapping("/guest/join")
+    public String login(UserRequest.JoinDTO reqDTO){
+        Guest guest = userService.join(reqDTO);
+
+        // 로그인 후 세션에 정보 저장
+        SessionGuest sessionGuest = new SessionGuest(guest.getId(), guest.getBirth(), guest.getPhone());
+        session.setAttribute("sessionGuest", sessionGuest);
+
+        return "book/book-form";
     }
 
     @GetMapping("/mypage/home")
