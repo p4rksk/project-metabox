@@ -94,7 +94,8 @@ public class MovieService {
                 .actor(reqDTO.getActor())               // 배우 설정
                 .genre(reqDTO.getGenre())               // 장르 설정
                 .info(reqDTO.getInfo())                 // 기본 정보 설정
-                .date(reqDTO.getDate())                 // 개봉일 설정
+                .startDate(reqDTO.getStartDate())            // 개봉일 설정
+                .endDate(reqDTO.getEndDate())              // 상영 종료일 설정
                 .imgFilename(posterFileName)            // 포스터 파일 이름 설정
                 .description(reqDTO.getDescription())   // 영화 설명 설정
                 .build();

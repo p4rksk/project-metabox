@@ -17,7 +17,8 @@ public class MovieRequest {
         private String actor;
         private String genre;
         private String info;
-        private Date date;
+        private Date startDate;
+        private Date endDate;
         private MultipartFile imgFilename;
         private String description;
         private MultipartFile[] stills;
