@@ -27,6 +27,13 @@ public class UserService {
     private final MovieRepository movieRepository;
     private final MovieQueryRepository movieQueryRepository;
 
+
+    // 메인 페이지 무비차트, 상영예정작
+    public void findMainMovie() {
+
+
+    }
+
     // 마이페이지 detail-book의 today best 무비차트
     public UserResponse.DetailBookDTO findMyBookDetail() {
         List<UserResponse.DetailBookDTO.MovieChartDTO> movieChartDTOS = movieQueryRepository.getMovieChart();
@@ -230,6 +237,7 @@ public class UserService {
         userRepository.deleteByNickname(nickname);
 
     }
+
 
 
 }
