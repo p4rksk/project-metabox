@@ -1,4 +1,5 @@
 {{> layout/header}}
+<link rel="stylesheet" href="/css/metabox.min.css" media="all">
 
 <style>
     /* 본문 */
@@ -74,72 +75,6 @@
         font-size: 0.9rem; /* 줄어든 font-size */
     }
 
-    .summary-box.payment-amount {
-        background: linear-gradient(to bottom, #eab8b8 50%, #ffffff 50%);
-        color: #343a40;
-        border: 1px solid #000;
-    }
-
-    .summary-box.discount-amount {
-        background: linear-gradient(to bottom, #d1ecf1 50%, #ffffff 50%);
-        color: #0c5460;
-        border: 1px solid #000;
-    }
-
-    .summary-box.payment-details {
-        background: linear-gradient(to bottom, #fff3cd 50%, #ffffff 50%);
-        color: #856404;
-        border: 1px solid #000;
-    }
-
-    /* 하단 바 */
-    .info-bar {
-        background-color: #1c1c1c;
-        color: white;
-        padding: 10px 0;
-        /* position: fixed; */
-        bottom: 0;
-        width: 100%;
-        z-index: 1000; /* 높여서 info-bar가 푸터 위에 오도록 설정 */
-    }
-
-    .info-bar .container {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .info-bar .movie-info {
-        display: flex;
-        align-items: center;
-    }
-
-    .info-bar .movie-info img {
-        width: 50px;
-        height: 75px;
-        margin-right: 15px;
-    }
-
-    .info-bar .movie-info .details {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .info-bar .movie-info .details span {
-        margin-bottom: 5px;
-    }
-
-    .info-bar .btn-nav {
-        background-color: #333;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 5px;
-    }
-
-    .info-bar .btn-nav:hover {
-        background-color: #555;
-    }
 
     .b-color {
         background-color: #F9F9F9;
@@ -169,8 +104,8 @@
 
 </style>
 
-<div class="content-wrapper">
-    <div class="content">
+<div class="seat-select-section">
+    <div class="content-wrapper">
         <div class="container mt-5">
 
             <div class="custom-buttons">
@@ -235,58 +170,73 @@
                     </div>
                 </div>
 
-                <div class="col-md-4">
-                    <div class="summary-box payment-amount mt-4">
-                        <div class="summary-item">
-                            <span class="label">결제 금액</span>
-                        </div>
-                        <div class="summary-item">
-                            <span class="value">15,000원</span>
-                        </div>
-                    </div>
-                    <div class="summary-box discount-amount">
-                        <div class="summary-item">
-                            <span class="label">할인 금액</span>
-                        </div>
-                        <div class="summary-item">
-                            <span class="value">0원</span>
-                        </div>
-                    </div>
-                    <div class="summary-box payment-details">
-                        <div class="summary-item">
-                            <span class="label">남은 결제 금액</span>
-                        </div>
-                        <div class="summary-item">
-                            <span class="value">15,000원</span>
-                        </div>
-                    </div>
-                </div>
+
             </div>
         </div>
     </div>
 
-    <!-- 하단 바 -->
-    <div class="info-bar">
-        <div class="container">
-            <span><a href="/seat-form" class="btn-nav">좌석선택</a></span>
-            <div class="movie-info">
-                <img src="/img/insideout.jpg" alt="영화 포스터">
-                <div class="details">
-                    <span>인사이드아웃2</span>
-                    <span>2D(자막)</span>
-                    <span>전체 관람가</span>
+    <div class="seat-result">
+        <div class="wrap">
+            <div class="tit-area type2">
+                <span class="movie-grade small age-all" id="admisClassNm">전체관람가</span>
+
+                <p class="tit" id="movieNm">인사이드 아웃 2</p>
+                <p class="cate" id="playKindNm">2D(자막)</p>
+                <p class="theater" id="brchNm">강남/1관</p>
+                <p class="date"><span id="playDe">2024.06.21</span><em id="dowNm">(금)</em> <span
+                        class="time" id="playTime"><i class="iconset ico-clock-white"></i>15:45~17:31</span>
+                </p>
+            </div>
+            <div class="price-process">
+                <div class="box">
+                    <div class="data"><span class="tit">성인 <em>1</em></span><span
+                            class="price">15,000</span></div>
+                    <div class="all">
+                        <span class="tit">금액 <!-- 금액 --></span>
+                        <span class="price"><em>15,000</em> <span>원 <!-- 원 --></span></span>
+                    </div>
+                </div>
+
+                <div class="box discout-box">
+
+                    <div class="all">
+                        <span class="tit">할인적용 <!-- 할인적용 --></span>
+                        <span class="price"><em>0</em> 원 <!-- 원 --></span>
+                    </div>
                 </div>
             </div>
-            <div class="movie-details">
-                <span>극장: CGV 미아</span><br>
-                <span>일시: 2024.6.21(금) 19:20</span><br>
-                <span>상영관: 3관 10층 (Laser)</span><br>
-                <span>인원: </span>
+
+            <div class="pay-area">
+                <div class="add-thing">
+                    <p class="tit">추가차액 <!-- 추가금액 --></p>
+
+                    <div class="money">0</div>
+                </div>
+                <div class="pay">
+                    <p class="tit">최종결제금액 <!-- 최종결제금액 --></p>
+
+                    <div class="money">
+                        <em>15,000</em>
+                        <span>원 <!-- 원 --></span>
+                    </div>
+                </div>
+                <div class="payment-thing">
+                    <span class="tit">결제수단 <!-- 결제수단 --></span>
+                    <span class="thing">신용/체크카드</span>
+                </div>
             </div>
-            <span><a href="#" class="btn-nav">결제하기</a></span>
+
+            <div class="btn-group">
+                <a href="#" class="button" id="btn_booking_back" title="이전">이전 <!-- 이전 --></a>
+
+
+                <a href="#" w-data="600" h-data="400" class="button active btn-modal-open"
+                   id="btn_booking_pay" onclick="startPay()" title="결제">결제</a>
+
+
+            </div>
         </div>
     </div>
-
 </div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
