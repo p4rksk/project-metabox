@@ -18,6 +18,8 @@ public class AdminController {
     private final AdminService adminService;
     private final HttpSession session;
 
+
+
     @PostMapping("admin-login")
     public String adminLogin(AdminRequest.LoginDTO reqDTO) {
         Admin admin = adminService.login(reqDTO);
@@ -72,6 +74,12 @@ public class AdminController {
     @GetMapping("/movie-save-form")
     public String movieSaveForm() {
         return "admin/movie-save-form";
+    }
+
+    @PostMapping("/movie-save")
+    public String movieSave(){
+
+        return "admin/movie-list";
     }
 
     @GetMapping("/theater-save-form")

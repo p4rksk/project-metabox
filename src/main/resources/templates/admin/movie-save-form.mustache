@@ -14,7 +14,7 @@
 <div class="container mt-5">
     <h2>영화 등록</h2>
     <hr>
-    <form action="#" method="post">
+    <form action="movie-save" method="post" id="movieForm" onsubmit="return uploadVideo();">
         <div class="form-group mt-4">
             <div class="d-flex justify-content-center align-items-center"
                  style="width: 250px; height: 300px; border: 2px solid #E6E6E6; color: #E6E6E6;" id="profilePreview">
@@ -73,10 +73,9 @@
             <div id="videoPreviewContainer">
                 <video id="videoPreview" width="320" height="240" controls style="display: none;"></video>
             </div>
-            <input type="file" class="form-control-file" id="trailer" accept="video/*" onchange="previewVideo();">
+            <input type="file" id="trailer" accept="video/*" onchange="previewVideo();">
         </div>
         <button type="submit" class="btn btn-primary">등록</button>
-
     </form>
 </div>
 <script>
@@ -96,8 +95,7 @@
             reader.readAsDataURL(file);
         }
     }
-</script>
-<script>
+
     function previewImages() {
         var files = document.getElementById("stills").files;
         var previewContainer = document.getElementById("photoPreviewContainer");
@@ -120,8 +118,7 @@
             }
         }
     }
-</script>
-<script>
+
     function previewVideo() {
         var fileInput = document.getElementById('trailer');
         var file = fileInput.files[0];
@@ -132,7 +129,54 @@
             videoPreview.style.display = 'block';
         }
     }
+    <!-- 트레일러 등록 !-->
+    async function uploadVideo() {
+        const fileInput = document.getElementById('trailer'); // Changed from 'file' to 'trailer'
+        const file = fileInput.files[0];
+        const formData = new FormData();
+        formData.append('file', file);
+
+        const overlay = document.createElement('div');
+        overlay.className = 'overlay';
+        overlay.innerHTML = `
+            <div class="progress-container">
+                <div class="loader"></div>
+                <div class="progress-bar"><div></div></div>
+                <p id="progress-text">0%</p>
+            </div>
+        `;
+        document.body.appendChild(overlay);
+
+        try {
+            const response = await axios.post('http://localhost:8080/videos/upload', formData, {
+                onUploadProgress: function (event) {
+                    if (event.lengthComputable) {
+                        const percentComplete = (event.loaded / event.total) * 100;
+                        const progressBar = document.querySelector('.progress-bar div');
+                        const progressText = document.getElementById('progress-text');
+
+                        progressBar.style.width = percentComplete + '%';
+                        progressBar.innerHTML = percentComplete.toFixed(2) + '%';
+                        progressText.innerText = percentComplete.toFixed(2) + '%';
+                    }
+                }
+            });
+
+            if (response.status === 200) {
+                document.getElementById('result').innerText = 'Upload successful: ' + response.data;
+            } else {
+                document.getElementById('result').innerText = 'Upload failed';
+            }
+        } catch (error) {
+            console.error('Error uploading file:', error);
+            document.getElementById('result').innerText = 'Upload failed';
+        } finally {
+            document.body.removeChild(overlay);
+        }
+        return true;
+    }
 </script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
