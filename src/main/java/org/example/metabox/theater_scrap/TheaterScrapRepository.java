@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface TheaterScrapRepository extends JpaRepository<TheaterScrap, Integer> {
 
-    @Query("SELECT new org.example.metabox.theater_scrap.TheaterScrapResponse$TheaterScrapDTO(ts) FROM TheaterScrap ts WHERE ts.user.id = :userId")
-    List<TheaterScrapResponse.TheaterScrapDTO> findByUserId(@Param("userId") int userId);
+    @Query("SELECT ts FROM TheaterScrap ts WHERE ts.user.id = :userId")
+    List<TheaterScrap> findByUserId(@Param("userId") int userId);
 }

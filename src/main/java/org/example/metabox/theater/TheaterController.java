@@ -28,10 +28,9 @@ public class TheaterController {
     }
 
     @GetMapping("/theaters/movie-schedule")
-    public String theatersMovieSchedule(HttpServletRequest request) {
+    public String theatersMovieSchedule(HttpServletRequest request, TheaterRequest.ScheduleDTO reqDTO) {
         SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
-        List<TheaterScrapResponse.TheaterScrapDTO> respDTO = theaterService.movieSchedule(sessionUser);
-
+        TheaterResponse.TheaterDTO respDTO = theaterService.movieSchedule(sessionUser, reqDTO.getAreaCode());
         request.setAttribute("model",respDTO);
         return "theater/movie-schedule";
     }

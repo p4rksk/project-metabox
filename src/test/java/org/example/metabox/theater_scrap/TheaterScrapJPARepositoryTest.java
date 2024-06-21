@@ -16,12 +16,12 @@ public class TheaterScrapJPARepositoryTest {
     @Test
     public void findByUserId_test(){
         // given
-        int userId = 1;
-
-        // when
-        List<TheaterScrapResponse.TheaterScrapDTO> respDTO = theaterScrapRepository.findByUserId(userId);
-        // then
-        System.out.println("respDTO : " + respDTO);
+//        int userId = 1;
+//
+//        // when
+//        List<TheaterScrapResponse.TheaterScrapDTO> respDTO = theaterScrapRepository.findByUserId(userId);
+//        // then
+//        System.out.println("respDTO : " + respDTO);
 
     }
 

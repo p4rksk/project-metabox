@@ -7,7 +7,9 @@ import java.util.List;
 
 public interface TheaterRepository extends JpaRepository<Theater, Integer> {
 
+    @Query("select t from Theater t where t.areaCode = :areaCode")
+    List<Theater> findByArea(String areaCode);
 
-//    @Query("select new org.example.metabox.theater.TheaterResponse$ form Theater t where  ")
-//    void findTheaterInfoByUserId(Integer id);
+    @Query("SELECT distinct(t.areaName, t.areaCode) FROM Theater t ORDER BY t.id ASC")
+    List<String[]> findAllDistinctArea();
 }

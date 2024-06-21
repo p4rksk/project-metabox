@@ -131,86 +131,156 @@
         align-items: center;
     }
 </style>
-
-<div class="mx-auto d-block" style="width: 1000px;">
-    <div class="container1 mx-auto">
-        <div class="header">자주가는 META BOX</div>
+<div class="mx-auto d-block" style="width: 1000px; user-select: none;">
+    <div class="container1" style="user-select: none; height: 383px">
+        <div class="header" style="user-select: none;">자주가는 META BOX</div>
         <div class="input-group">
-            {{#model}}
-                <div style="padding:10px; width: 173px; height: 46px; background: #555555">{{theaterName}}</div>
-            {{/model}}
-            <div class="add-btn">+</div>
+            {{#model.scrapDTOList}}
+                <div style="padding:10px; width: 173px; height: 46px; background: #555555; user-select: none;">{{theaterName}}</div>
+            {{/model.scrapDTOList}}
+            <div class="add-btn" style="user-select: none;">+</div>
         </div>
+
+        <div class="tab" style="border-bottom: 1px solid #b1b1b1; border-top: 1px solid #b1b1b1">
+            {{#model.theaterAreaDTOList}}
+                <div class="tablinks" onclick="openCity(event, '{{areaCode}}')">{{areaName}}</div>
+            {{/model.theaterAreaDTOList}}
+        </div>
+
+        <!--         탭 콘텐츠 -->
+        {{#model.theaterAreaDTOList}}
+            <div style="padding: 10px;" id="{{areaCode}}" class="tabcontent">
+                {{#theaterNameDTOList}}
+                    <div style="display: inline-block;">{{theaterName}}
+                        <span>ㅣ</span>
+                    </div>
+                {{/theaterNameDTOList}}
+            </div>
+        {{/model.theaterAreaDTOList}}
+
+        <script>
+            function openCity(evt, cityName) {
+                var i, tabcontent, tablinks;
+                tabcontent = document.getElementsByClassName("tabcontent");
+                for (i = 0; i < tabcontent.length; i++) {
+                    tabcontent[i].style.display = "none";
+                }
+                tablinks = document.getElementsByClassName("tablinks");
+                for (i = 0; i < tablinks.length; i++) {
+                    tablinks[i].className = tablinks[i].className.replace(" active", "");
+                }
+                document.getElementById(cityName).style.display = "block";
+                evt.currentTarget.className += " active";
+            }
+
+            document.addEventListener("DOMContentLoaded", function () {
+                openCity(new Event('click'), '01');
+            });
+        </script>
+
+        <style>
+            /*탭 링크 스타일 */
+            .tab {
+                overflow: hidden;
+                text-align: center;
+                user-select: none;
+            }
+
+            /* 탭 링크 버튼 스타일 */
+            .tab div {
+                background-color: inherit;
+                user-select: none;
+                display: inline-block;
+                border: none;
+                outline: none;
+                cursor: pointer;
+                padding: 14px 16px;
+                transition: 0.3s;
+                font-size: 17px;
+                text-align: center;
+            }
+
+            /* 탭 콘텐츠 스타일 */
+            .tabcontent {
+                display: inline-block;
+                user-select: none;
+                padding: 6px 12px;
+                border-top: none;
+            }
+        </style>
+
+        <script>
+            function openCity(evt, cityName) {
+                var i, tabcontent, tablinks;
+                tabcontent = document.getElementsByClassName("tabcontent");
+                for (i = 0; i < tabcontent.length; i++) {
+                    tabcontent[i].style.display = "none";
+                }
+                tablinks = document.getElementsByClassName("tablinks");
+                for (i = 0; i < tablinks.length; i++) {
+                    tablinks[i].className = tablinks[i].className.replace(" active", "");
+                }
+                document.getElementById(cityName).style.display = "block";
+                evt.currentTarget.className += " active";
+            }
+        </script>
+
         <hr>
-        <div class="regions">
-            <div></div>
-            <div>서울</div>
-            <div>경기</div>
-            <div>인천</div>
-            <div>강원</div>
-            <div>대전/충청</div>
-            <div>대구</div>
-            <div>부산/울산</div>
-            <div>경상</div>
-            <div>광주/전라/제주</div>
-            <div></div>
-        </div>
-        <hr>
-        <div class="theaters">
-            <div>CGV강남</div>
-            <div>ㅣ</div>
-            <div>CGV건대입구</div>
-            <div>ㅣ</div>
-            <div>CGV대학로</div>
-            <div>ㅣ</div>
-            <div>CGV동대문</div>
-            <div>ㅣ</div>
-            <div>CGV등촌</div>
-            <div>ㅣ</div>
-            <div>CGV명동</div>
-            <div>ㅣ</div>
-            <div>CGV미아</div>
-            <div>ㅣ</div>
-            <div>CGV불광</div>
-            <div>ㅣ</div>
-            <div>CGV상봉</div>
-            <div>ㅣ</div>
-            <div>CGV성신여대입구</div>
-            <div>ㅣ</div>
-            <div>CGV송파</div>
-            <div>ㅣ</div>
-            <div>CGV수유</div>
-            <div>ㅣ</div>
-            <div>CGV신촌아트레온</div>
-            <div>ㅣ</div>
-            <div>CGV압구정</div>
-            <div>ㅣ</div>
-            <div>CGV여의도</div>
-            <div>ㅣ</div>
-            <div>CGV연남</div>
-            <div>ㅣ</div>
-            <div>CGV영등포</div>
-            <div>ㅣ</div>
-            <div>CGV왕십리</div>
-            <div>ㅣ</div>
-            <div>CGV용산아이파크몰</div>
-            <div>ㅣ</div>
-            <div>CGV중계</div>
-            <div>ㅣ</div>
-            <div>CGV천호</div>
-            <div>ㅣ</div>
-            <div>CGV청담씨네시티</div>
-            <div>ㅣ</div>
-            <div>CGV피카디리1958</div>
-            <div>ㅣ</div>
-            <div>CGV하계</div>
-            <div>ㅣ</div>
-            <div>CGV홍대</div>
-            <div>ㅣ</div>
-            <div>CINE de CHEF 압구정</div>
-            <div>ㅣ</div>
-            <div>CINE de CHEF 용산아이파크몰</div>
-        </div>
+        <!--        <div class="theaters">-->
+        <!--            <div>CGV강남</div>-->
+        <!--            <div>ㅣ</div>-->
+        <!--            <div>CGV건대입구</div>-->
+        <!--            <div>ㅣ</div>-->
+        <!--            <div>CGV대학로</div>-->
+        <!--            <div>ㅣ</div>-->
+        <!--            <div>CGV동대문</div>-->
+        <!--            <div>ㅣ</div>-->
+        <!--            <div>CGV등촌</div>-->
+        <!--            <div>ㅣ</div>-->
+        <!--            <div>CGV명동</div>-->
+        <!--            <div>ㅣ</div>-->
+        <!--            <div>CGV미아</div>-->
+        <!--            <div>ㅣ</div>-->
+        <!--            <div>CGV불광</div>-->
+        <!--            <div>ㅣ</div>-->
+        <!--            <div>CGV상봉</div>-->
+        <!--            <div>ㅣ</div>-->
+        <!--            <div>CGV성신여대입구</div>-->
+        <!--            <div>ㅣ</div>-->
+        <!--            <div>CGV송파</div>-->
+        <!--            <div>ㅣ</div>-->
+        <!--            <div>CGV수유</div>-->
+        <!--            <div>ㅣ</div>-->
+        <!--            <div>CGV신촌아트레온</div>-->
+        <!--            <div>ㅣ</div>-->
+        <!--            <div>CGV압구정</div>-->
+        <!--            <div>ㅣ</div>-->
+        <!--            <div>CGV여의도</div>-->
+        <!--            <div>ㅣ</div>-->
+        <!--            <div>CGV연남</div>-->
+        <!--            <div>ㅣ</div>-->
+        <!--            <div>CGV영등포</div>-->
+        <!--            <div>ㅣ</div>-->
+        <!--            <div>CGV왕십리</div>-->
+        <!--            <div>ㅣ</div>-->
+        <!--            <div>CGV용산아이파크몰</div>-->
+        <!--            <div>ㅣ</div>-->
+        <!--            <div>CGV중계</div>-->
+        <!--            <div>ㅣ</div>-->
+        <!--            <div>CGV천호</div>-->
+        <!--            <div>ㅣ</div>-->
+        <!--            <div>CGV청담씨네시티</div>-->
+        <!--            <div>ㅣ</div>-->
+        <!--            <div>CGV피카디리1958</div>-->
+        <!--            <div>ㅣ</div>-->
+        <!--            <div>CGV하계</div>-->
+        <!--            <div>ㅣ</div>-->
+        <!--            <div>CGV홍대</div>-->
+        <!--            <div>ㅣ</div>-->
+        <!--            <div>CINE de CHEF 압구정</div>-->
+        <!--            <div>ㅣ</div>-->
+        <!--            <div>CINE de CHEF 용산아이파크몰</div>-->
+        <!--        </div>-->
     </div>
     <br>
     <img src="/image/theater/theater_1.png" width="100%" alt="">
@@ -477,7 +547,6 @@
         <hr>
     </div>
 </div>
-
 <script>
     function selectDate(element) {
         const dates = document.querySelectorAll('.date');

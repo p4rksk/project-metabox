@@ -27,8 +27,9 @@ public class Theater {
     private String imgFilename;
     private String address;
 
-    // 지역 코드 01,02,03,04,05,06,07,08,09(서울, 경기, 인천, 강원, 대전/충청.....)
+    // 서울, 경기, 인천, 강원, 대전/충청..... 01,02,03,04,05,06
     private String areaCode;
+    private String areaName;
 
     // 051-153-159
     private String number;
@@ -39,8 +40,14 @@ public class Theater {
     // 주차 안내
     private String parkingInfo;
 
+    public String getAreaName(String name) {
+        String[] parts = name.split(" ");
+        return parts[1];
+    }
+
     @Builder
-    public Theater(int id, List<Screening> screeningList, List<TheaterScrap> theaterScrapList, String name, String imgFilename, String address, String areaCode, String number, String loginId, String password, String url, String parkingInfo) {
+
+    public Theater(int id, List<Screening> screeningList, List<TheaterScrap> theaterScrapList, String name, String imgFilename, String address, String areaCode, String areaName, String number, String loginId, String password, String url, String parkingInfo) {
         this.id = id;
         this.screeningList = screeningList;
         this.theaterScrapList = theaterScrapList;
@@ -48,6 +55,7 @@ public class Theater {
         this.imgFilename = imgFilename;
         this.address = address;
         this.areaCode = areaCode;
+        this.areaName = areaName;
         this.number = number;
         this.loginId = loginId;
         this.password = password;
