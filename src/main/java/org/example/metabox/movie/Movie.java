@@ -33,12 +33,13 @@ public class Movie {
     // 정보(ex : '전체관람가, 94분, 미국')
     private String info;
     // 개봉일
-    private Date date;
+    private Date startDate;
+    // 개봉 종료 일
+    private Date endDate;
     // 포스터 사진
     private String imgFilename;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @ToString.Exclude
+    @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<MoviePic> moviePicList;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -50,7 +51,7 @@ public class Movie {
     private String description;
 
     @Builder
-    public Movie(int id, String title, String engTitle, String director, String actor, String genre, String info, Date date, String imgFilename, List<MoviePic> moviePicList, String description) {
+    public Movie(int id, String title, String engTitle, String director, String actor, String genre, String info, Date startDate, Date endDate, String imgFilename, List<MoviePic> moviePicList, String description) {
         this.id = id;
         this.title = title;
         this.engTitle = engTitle;
@@ -58,7 +59,8 @@ public class Movie {
         this.actor = actor;
         this.genre = genre;
         this.info = info;
-        this.date = date;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.imgFilename = imgFilename;
         this.moviePicList = moviePicList;
         this.description = description;

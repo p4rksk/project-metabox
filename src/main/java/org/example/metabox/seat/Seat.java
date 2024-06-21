@@ -4,8 +4,9 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.example.metabox.book.Book;
 import org.example.metabox.screening.Screening;
+
+import java.util.List;
 
 @Entity
 @Data
@@ -21,27 +22,24 @@ public class Seat {
 
     // 좌석번호 ex : A9
     private String code;
-    private Boolean booked;
-    private int price;
-    // 장애인석, 라이트석, 일반석
 
+    // 장애인석, 라이트석은 -1000원 할인
+    // 장애인석(HANDICAPPED), 라이트석(LIGHT), 일반석(GENERAL), 모션베드(SPECIAL)
+    @Enumerated(EnumType.STRING)
     private SeatType type;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Book book;
+    @OneToMany(mappedBy = "seat", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<SeatBook> seatBookList;
 
     @Builder
-    public Seat(int id, Screening screening, String code, Boolean booked, int price, SeatType type, Book book) {
+    public Seat(int id, Screening screening, String code, SeatType type, List<SeatBook> seatBookList) {
         this.id = id;
         this.screening = screening;
         this.code = code;
-        this.booked = booked;
-        this.price = price;
         this.type = type;
-        this.book = book;
+        this.seatBookList = seatBookList;
     }
-
-    private enum SeatType {
-        장애인석, 일반석
+        private enum SeatType {
+        HANDICAPPED, GENERAL, LIGHT, SPECIAL
     }
 }

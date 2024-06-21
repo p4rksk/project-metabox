@@ -5,10 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.metabox.screening.Screening;
-import org.example.metabox.theater_movie.TheaterMovie;
 import org.example.metabox.theater_scrap.TheaterScrap;
-import org.hibernate.engine.internal.Cascade;
-
 import java.util.List;
 
 @Data
@@ -20,13 +17,10 @@ public class Theater {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "theater", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Screening> screening;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<TheaterMovie> theaterMovies;
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "theater", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<TheaterScrap> theaterScrapList;
 
     private String name;
@@ -43,10 +37,9 @@ public class Theater {
     private String parkingInfo;
 
     @Builder
-    public Theater(int id, List<Screening> screening, List<TheaterMovie> theaterMovies, List<TheaterScrap> theaterScrapList, String name, String imgFilename, String address, String number, String loginId, String password, String url, String parkingInfo) {
+    public Theater(int id, List<Screening> screening, List<TheaterScrap> theaterScrapList, String name, String imgFilename, String address, String number, String loginId, String password, String url, String parkingInfo) {
         this.id = id;
         this.screening = screening;
-        this.theaterMovies = theaterMovies;
         this.theaterScrapList = theaterScrapList;
         this.name = name;
         this.imgFilename = imgFilename;

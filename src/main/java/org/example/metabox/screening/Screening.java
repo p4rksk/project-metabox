@@ -21,16 +21,20 @@ public class Screening {
     @ManyToOne(fetch = FetchType.LAZY)
     private Theater theater;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "screening", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<ScreeningInfo> screeningInfo;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "screening", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Seat> seats;
 
     private String name;
     // 좌석수(count 안할려고 미리 하는듯?)
     private Integer seatCount;
 
+    // 일반관 : GENERAL = 15000원, 특별관 : SPECIAL 50000원
+    private Integer seatPrice;
+
+    @Enumerated(EnumType.STRING)
     private ScreeningRank screeningRank; //상영관 등급
 
 
@@ -45,7 +49,7 @@ public class Screening {
     }
 
     public enum ScreeningRank {
-        일반관, 특별관
+        GENERAL, SPECIAL
     }
 
 

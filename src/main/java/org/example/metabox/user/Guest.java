@@ -5,13 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.metabox.book.Book;
-import org.example.metabox.movie_scrap.MovieScrap;
-import org.example.metabox.review.Review;
-import org.example.metabox.theater_scrap.TheaterScrap;
-import org.hibernate.annotations.CreationTimestamp;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 @NoArgsConstructor
 @Entity
@@ -22,18 +15,22 @@ public class Guest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "guest", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private Book book;
 
-    private String birthYear;
+    // 생년 월일
+    private String birth;
 
     private String password;
 
+    private String name;
+
     @Builder
-    public Guest(Integer id, Book book, String birthYear, String password) {
+    public Guest(Integer id, Book book, String birth, String password, String name) {
         this.id = id;
         this.book = book;
-        this.birthYear = birthYear;
+        this.birth = birth;
         this.password = password;
+        this.name = name;
     }
 }

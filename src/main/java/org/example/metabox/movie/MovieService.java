@@ -48,7 +48,7 @@ public class MovieService {
                 .orElseThrow(() -> new RuntimeException("해당 영화가 존재하지 않습니다. " + movieId));
 
         // 영화 개봉 상태를 계산합니다.
-        String status = checkMovieReleaseStatus(movie.getDate());
+        String status = checkMovieReleaseStatus(movie.getStartDate());
 
         // 조회한 영화 정보를 MovieDetailDTO로 변환하여 반환합니다.
         return MovieResponse.MovieDetailDTO.formEntity(movie, status);
@@ -94,7 +94,8 @@ public class MovieService {
                 .actor(reqDTO.getActor())               // 배우 설정
                 .genre(reqDTO.getGenre())               // 장르 설정
                 .info(reqDTO.getInfo())                 // 기본 정보 설정
-                .date(reqDTO.getDate())                 // 개봉일 설정
+                .startDate(reqDTO.getStartDate())            // 개봉일 설정
+                .endDate(reqDTO.getEndDate())              // 상영 종료일 설정
                 .imgFilename(posterFileName)            // 포스터 파일 이름 설정
                 .description(reqDTO.getDescription())   // 영화 설명 설정
                 .build();
