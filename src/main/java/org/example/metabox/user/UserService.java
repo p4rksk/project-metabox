@@ -38,6 +38,7 @@ public class UserService {
             movieChartDTOS.get(i).setRank(i + 1);
         }
 
+        List<UserResponse.MainChartDTO.ToBeChartDTO> toBeChartDTOS = movieQueryRepository.getToBeChart();
 
         UserResponse.MainChartDTO mainChartDTO = UserResponse.MainChartDTO.builder()
                 .movieCharts(movieChartDTOS).build();

@@ -15,6 +15,42 @@ import java.util.List;
 public class MovieQueryRepository {
     private final EntityManager em;
 
+    // 상영예정 영화 목록
+    public List<UserResponse.MainChartDTO.ToBeChartDTO> getToBeChart() {
+
+        String q = """
+                select id, img_filename, title, start_date, DATEDIFF('DAY', CURRENT_DATE(), start_date) as d_day
+                from movie_tb where start_date > CURRENT_DATE()
+                """;
+
+        Query query = em.createNativeQuery(q);
+//        query.setParameter(1, 2);
+
+        List<Object[]> rows = query.getResultList();
+        List<UserResponse.MainChartDTO.ToBeChartDTO> movieChartDTOS = new ArrayList<>();
+
+        for (Object[] row : rows) {
+            Integer id = ((Number) row[0]).intValue();
+            String imgFilename = (String) row[1];
+            String title = (String) row[2];
+
+
+            UserResponse.MainChartDTO.ToBeChartDTO toBeChartDTO = UserResponse.MainChartDTO.ToBeChartDTO.builder()
+                    .id(id)
+                    .imgFilename(imgFilename)
+                    .title(title)
+                    .build();
+
+            movieChartDTOS.add(toBeChartDTO);
+
+        }
+
+        return movieChartDTOS;
+
+    }
+
+
+
     // Main의 영화 받는 용
     public List<UserResponse.MainChartDTO.MainMovieChartDTO> getMainMovieChart() {
 

@@ -54,7 +54,18 @@ public class UserResponse {
                 private String title;
                 private Integer dDay;   //개봉일까지
                 private Date startDate; //개봉일자
+
+                @Builder
+                public ToBeChartDTO(Integer id, String imgFilename, String title, Integer dDay, Date startDate) {
+                    this.id = id;
+                    this.imgFilename = imgFilename;
+                    this.title = title;
+                    this.dDay = dDay;
+                    this.startDate = startDate;
+                }
             }
+
+
 
     }
 
