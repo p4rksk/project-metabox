@@ -7,11 +7,77 @@ import lombok.Data;
 import org.example.metabox._core.util.ScopeDeserializer;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class UserResponse {
+
+    // 메인 페이지 무비차트, 상영예정작
+    @Data
+    public static class MainChartDTO {
+        // 무비차트
+        private List<MainMovieChartDTO> movieCharts = new ArrayList<>();
+        // 상영예정작
+        private List<ToBeChartDTO> toBeCharts = new ArrayList<>();
+
+        @Builder
+        public MainChartDTO(List<MainMovieChartDTO> movieCharts, List<ToBeChartDTO> toBeCharts) {
+            this.movieCharts = movieCharts;
+            this.toBeCharts = toBeCharts;
+        }
+
+        // 메인의 무비차트
+            @Data
+            public static class MainMovieChartDTO {
+                private Integer id;
+                private String imgFilename;
+                private String title;
+                private Double ticketSales;     // 예매율 - 쿼리에서 계산해서 가져오기
+                private Integer rank;       //순위
+
+                @Builder
+                public MainMovieChartDTO(Integer id, String imgFilename, String title, Double ticketSales, Integer rank) {
+                    this.id = id;
+                    this.imgFilename = imgFilename;
+                    this.title = title;
+                    this.ticketSales = ticketSales;
+                    this.rank = rank;
+                }
+        }
+
+            // 메인의 상영 예정작
+            @Data
+            public static class ToBeChartDTO {
+                private Integer id;
+                private String imgFilename;
+                private String title;
+                private Integer dDay;   //개봉일까지
+                private String startDate; //개봉일자
+
+                @Builder
+                public ToBeChartDTO(Integer id, String imgFilename, String title, Integer dDay, Date startDate) {
+                    this.id = id;
+                    this.imgFilename = imgFilename;
+                    this.title = title;
+                    this.dDay = dDay;
+                    this.startDate = getStartDateFormat(startDate);
+                }
+
+                // 날짜 가공
+                public String getStartDateFormat(Date startDate) {
+                    SimpleDateFormat formatter = new SimpleDateFormat("M월 d일");
+                    return formatter.format(startDate);
+                }
+
+            }
+
+
+
+    }
+
+
 
     //마이페이지 DetailBook
     @Data
@@ -32,19 +98,14 @@ public class UserResponse {
             private String title;
             private Date startDate;
 
-            private Integer allCount;
-            private Integer movieCount;
-
             private Double ticketSales;     // 예매율 - 계산해서 가져오기
 
             @Builder
-            public MovieChartDTO(Integer id, String imgFilename, String title, Date startDate, Integer allCount, Integer movieCount, Double ticketSales) {
+            public MovieChartDTO(Integer id, String imgFilename, String title, Date startDate, Double ticketSales) {
                 this.id = id;
                 this.imgFilename = imgFilename;
                 this.title = title;
                 this.startDate = startDate;
-                this.allCount = allCount;
-                this.movieCount = movieCount;
                 this.ticketSales = ticketSales;
             }
 

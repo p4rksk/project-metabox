@@ -31,6 +31,29 @@ public class UserService {
     private final MovieQueryRepository movieQueryRepository;
     private final GuestRepository guestRepository;
 
+
+    // 메인 페이지 무비차트, 상영예정작
+    public UserResponse.MainChartDTO findMainMovie() {
+        List<UserResponse.MainChartDTO.MainMovieChartDTO> movieChartDTOS = movieQueryRepository.getMainMovieChart();
+//        System.out.println("쿼리 확인용 = " + movieChartDTOS);
+
+        // 순위 계산
+        for (int i = 0; i < movieChartDTOS.size(); i++) {
+            movieChartDTOS.get(i).setRank(i + 1);
+        }
+
+        // 상영예정작
+        List<UserResponse.MainChartDTO.ToBeChartDTO> toBeChartDTOS = movieQueryRepository.getToBeChart();
+//        System.out.println("상영예정작 = " + toBeChartDTOS);
+
+        UserResponse.MainChartDTO mainChartDTO = UserResponse.MainChartDTO.builder()
+                .movieCharts(movieChartDTOS)
+                .toBeCharts(toBeChartDTOS).build();
+
+        return mainChartDTO;
+    }
+
+
     // 마이페이지 detail-book의 today best 무비차트
     public UserResponse.DetailBookDTO findMyBookDetail() {
         List<UserResponse.DetailBookDTO.MovieChartDTO> movieChartDTOS = movieQueryRepository.getMovieChart();
@@ -258,4 +281,6 @@ public class UserService {
         userRepository.deleteByNickname(nickname);
 
     }
+
+
 }
