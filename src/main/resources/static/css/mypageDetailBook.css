@@ -196,3 +196,19 @@
 .swiper-slide .rating {
     margin-top: 5px; /* 예매율과 개봉일 사이 간격 조정 */
 }
+
+.table th:nth-child(1) {
+    width: 15%;
+}
+.table th:nth-child(2) {
+    width: 12%;
+}
+.table th:nth-child(3) {
+    width: 12%;
+}
+.table th:nth-child(4) {
+    width: 12%;
+}
+.table th:nth-child(5) {
+    width: 10%;
+}

@@ -13,6 +13,7 @@ import java.util.List;
 
 public class UserResponse {
 
+    //마이페이지 DetailBook
     @Data
     public static class DetailBookDTO {
 
@@ -23,6 +24,7 @@ public class UserResponse {
             this.movieCharts = movieCharts;
         }
 
+        // today best 무비차트 뿌리는 DTO
         @Data
         public static class MovieChartDTO {
             private Integer id;     //movie Id

@@ -30,7 +30,7 @@ public class UserService {
     // 마이페이지 detail-book의 today best 무비차트
     public UserResponse.DetailBookDTO findMyBookDetail() {
         List<UserResponse.DetailBookDTO.MovieChartDTO> movieChartDTOS = movieQueryRepository.getMovieChart();
-        System.out.println("쿼리 확인용 " + movieChartDTOS);
+//        System.out.println("쿼리 확인용 " + movieChartDTOS);
 
         // DetailBookDTO 로 변형
         UserResponse.DetailBookDTO detailBookDTO = UserResponse.DetailBookDTO.builder()

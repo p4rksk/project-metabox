@@ -36,7 +36,7 @@ public class MovieQueryRepository {
                 inner join screening_info_tb si on sb.screening_info_id = si.id
                 where si.movie_id = m.id) as movieCount from movie_tb m) 
                 as subquery order by ticketSales 
-                desc limit 6;
+                desc limit 6
                    """;
 
         Query query = em.createNativeQuery(q);
