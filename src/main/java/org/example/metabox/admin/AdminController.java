@@ -68,7 +68,7 @@ public class AdminController {
 
     // http://localhost:8080/admin-login-form
     // 영화 등록을 처리하는 POST 요청 메서드
-    @PostMapping("/movie-save-form")
+    @PostMapping("/movie-save")
     public String movieAdd(MovieRequest.movieSavaFormDTO reqDTO) {
         movieService.addMovie(reqDTO);
         return "redirect:movie-list";
