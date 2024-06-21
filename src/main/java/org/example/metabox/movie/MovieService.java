@@ -1,10 +1,10 @@
 package org.example.metabox.movie;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -12,15 +12,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import lombok.extern.slf4j.Slf4j;
+import org.bytedeco.ffmpeg.global.avcodec;
+import org.bytedeco.javacv.FFmpegFrameGrabber;
+import org.bytedeco.javacv.FFmpegFrameRecorder;
+import org.bytedeco.javacv.Frame;
 import org.example.metabox._core.util.FileUtil;
 import org.example.metabox.movie_pic.MoviePic;
 import org.example.metabox.movie_pic.MoviePicRepository;
 import org.example.metabox.trailer.Trailer;
 import org.example.metabox.trailer.TrailerRepository;
+import org.example.metabox.trailer.TrailerService;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class MovieService {
@@ -29,6 +36,9 @@ public class MovieService {
     private final FileUtil fileUtil;
     private final MoviePicRepository moviePicRepository;
     private final TrailerRepository trailerRepository;
+    private final TrailerService trailerService;
+
+    private final Path videoLocation = Paths.get(System.getProperty("user.dir"), "video");
 
     // 모든 영화를 조회하는 메서드
     public List<MovieResponse.MovieChartDTO> getAllMovies() {
@@ -88,16 +98,16 @@ public class MovieService {
 
         // Movie 객체 빌더 패턴으로 생성
         Movie movie = Movie.builder()
-                .title(reqDTO.getTitle())               // 영화 제목 설정
-                .engTitle(reqDTO.getEngTitle())         // 영어 제목 설정
-                .director(reqDTO.getDirector())         // 감독 설정
-                .actor(reqDTO.getActor())               // 배우 설정
-                .genre(reqDTO.getGenre())               // 장르 설정
-                .info(reqDTO.getInfo())                 // 기본 정보 설정
-                .startDate(reqDTO.getStartDate())            // 개봉일 설정
-                .endDate(reqDTO.getEndDate())              // 상영 종료일 설정
-                .imgFilename(posterFileName)            // 포스터 파일 이름 설정
-                .description(reqDTO.getDescription())   // 영화 설명 설정
+                .title(reqDTO.getTitle())
+                .engTitle(reqDTO.getEngTitle())
+                .director(reqDTO.getDirector())
+                .actor(reqDTO.getActor())
+                .genre(reqDTO.getGenre())
+                .info(reqDTO.getInfo())
+                .startDate(reqDTO.getStartDate())
+                .endDate(reqDTO.getEndDate())
+                .imgFilename(posterFileName)
+                .description(reqDTO.getDescription())
                 .build();
 
         // Movie 객체를 데이터베이스에 저장하여 PK 값 생성
@@ -118,7 +128,6 @@ public class MovieService {
                     throw new RuntimeException("스틸컷 이미지 오류", e);
                 }
             }
-            // MoviePic 리스트를 저장
             moviePicRepository.saveAll(moviePicList);
         }
         movie.setMoviePicList(moviePicList);
@@ -129,7 +138,7 @@ public class MovieService {
         if (trailers != null && trailers.length > 0) {
             for (MultipartFile trailer : trailers) {
                 try {
-                    String trailerFileName = fileUtil.saveMovieTrailer(trailer);
+                    String trailerFileName = uploadAndEncodeVideo(trailer);
                     Trailer movieTrailer = new Trailer();
                     movieTrailer.setStreamingFilename(trailerFileName);
                     movieTrailer.setMovie(movie); // 외래 키 설정
@@ -138,13 +147,81 @@ public class MovieService {
                     throw new RuntimeException("트레일러 파일 오류", e);
                 }
             }
-            // MovieTrailer 리스트를 저장
             trailerRepository.saveAll(movieTrailerList);
         }
         movie.setTrailerList(movieTrailerList);
 
-        // Movie 객체를 반환
         return movie;
     }
 
+    public String uploadAndEncodeVideo(MultipartFile file) throws IOException {
+        try {
+            Files.createDirectories(videoLocation);
+        } catch (IOException e) {
+            log.warn("Failed to create video directory: " + e.getMessage());
+            throw new RuntimeException("Could not create video directory", e);
+        }
+
+
+        String originalFilename = file.getOriginalFilename();
+        if (originalFilename == null || originalFilename.isBlank()) {
+            throw new IllegalArgumentException("파일 이름이 비어 있습니다.");
+        }
+
+        String baseName = originalFilename.substring(0, originalFilename.lastIndexOf('.'));
+        String inputFilePath = videoLocation.resolve(originalFilename).toString();
+        String outputFilePath = videoLocation.resolve(baseName + ".m3u8").toString();
+
+        File inputFile = new File(inputFilePath);
+        file.transferTo(inputFile);
+
+        log.info("Starting FFmpegFrameGrabber for input file: " + inputFilePath);
+        try (FFmpegFrameGrabber grabber = new FFmpegFrameGrabber(inputFilePath)) {
+            grabber.start();
+
+            log.info("Number of Streams: " + grabber.getLengthInFrames());
+            int totalFrames = grabber.getLengthInFrames();
+            double frameRate = grabber.getFrameRate();
+            double durationInSeconds = totalFrames / frameRate;
+            log.info("Total Frames: " + totalFrames);
+            log.info("Frame Rate: " + frameRate);
+            log.info("Duration (seconds): " + durationInSeconds);
+
+            try (FFmpegFrameRecorder recorder = new FFmpegFrameRecorder(outputFilePath, grabber.getImageWidth(), grabber.getImageHeight(), grabber.getAudioChannels())) {
+                recorder.setFormat("hls");
+                recorder.setOption("hls_time", "10");
+                recorder.setOption("hls_list_size", "0");
+                recorder.setOption("hls_flags", "split_by_time");
+                recorder.setOption("hls_wrap", "0");
+                recorder.setOption("loglevel", "debug");
+
+                recorder.setVideoCodec(avcodec.AV_CODEC_ID_H264);
+                recorder.setAudioCodec(avcodec.AV_CODEC_ID_AAC);
+                recorder.setFrameRate(grabber.getFrameRate());
+                recorder.setSampleRate(grabber.getSampleRate());
+                recorder.setAudioChannels(grabber.getAudioChannels());
+
+                recorder.start();
+
+                Frame frame;
+                int frameNumber = 0;
+                while ((frame = grabber.grabFrame()) != null) {
+                    frameNumber++;
+                    if (frame.image != null) {
+                        recorder.record(frame);
+                    } else if (frame.samples != null && frame.samples.length > 0) {
+                        recorder.recordSamples(frame.sampleRate, frame.audioChannels, frame.samples);
+                    }
+                }
+
+                recorder.stop();
+                grabber.stop();
+            } catch (Exception e) {
+                log.warn("비디오 인코딩 중 오류가 발생했습니다: " + e.getMessage());
+                throw new IOException("비디오 인코딩 중 오류가 발생했습니다: " + e.getMessage(), e);
+            }
+        }
+
+        return baseName + ".m3u8";
+    }
 }
