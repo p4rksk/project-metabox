@@ -2,6 +2,7 @@ package org.example.metabox.user;
 
 import lombok.RequiredArgsConstructor;
 import org.example.metabox.movie.Movie;
+import org.example.metabox.movie.MovieQueryRepository;
 import org.example.metabox.movie.MovieRepository;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -24,45 +25,18 @@ import java.util.UUID;
 public class UserService {
     private final UserRepository userRepository;
     private final MovieRepository movieRepository;
+    private final MovieQueryRepository movieQueryRepository;
 
-    @Transactional
+    // 마이페이지 detail-book의 today best 무비차트
     public UserResponse.DetailBookDTO findMyBookDetail() {
-        // 영화 정보 가져오기
-        List<UserResponse.DetailBookDTO.MovieChartDTO> movieList = movieRepository.findMovieChart();
-        System.out.println("movieList = " + movieList);
+        List<UserResponse.DetailBookDTO.MovieChartDTO> movieChartDTOS = movieQueryRepository.getMovieChart();
+        System.out.println("쿼리 확인용 " + movieChartDTOS);
 
-        // 전체 예매율
-        Integer totalSeatBookCount = movieRepository.findTotalSeatBookCount();
-        System.out.println("전체 예매수 = " + totalSeatBookCount);
+        // DetailBookDTO 로 변형
+        UserResponse.DetailBookDTO detailBookDTO = UserResponse.DetailBookDTO.builder()
+                .movieCharts(movieChartDTOS).build();
 
-//        List<Integer> movieIds = movieList.stream().mapToInt(value -> value.getId()).boxed().toList();
-//        System.out.println("영화 pk = " + movieIds);
-
-        // 특정 영화 예매율
-        movieList.forEach(movie -> {
-            Integer movieSeatBookCount = movieRepository.findSeatBookCountByMovieId(movie.getId());
-            System.out.println("특정 영화 예매 = " + movieSeatBookCount);
-
-            // 예매율 계산
-            Double ticketSales = (double) movieSeatBookCount / totalSeatBookCount * 100;
-            System.out.println("예매율 = " + movie.getId() + " = " + ticketSales);
-            // 소수점 자리 가공
-            DecimalFormat df = new DecimalFormat("#.##");
-            String formattedTicketSales = df.format(ticketSales);
-            System.out.println("소수점 가공 = " + formattedTicketSales);
-
-            UserResponse.DetailBookDTO.MovieChartDTO movieCharts = new UserResponse.DetailBookDTO.MovieChartDTO(
-                    movie.getId(),
-                    movie.getImgFilename(),
-                    movie.getTitle(),
-                    movie.getStartDate()
-            );
-
-        });
-
-
-
-        return null;
+        return detailBookDTO;
     }
 
 
