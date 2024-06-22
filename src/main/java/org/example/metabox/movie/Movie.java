@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.metabox.movie_pic.MoviePic;
+import org.example.metabox.screening_info.ScreeningInfo;
 
 import java.sql.Date;
 import java.util.List;
@@ -40,13 +41,16 @@ public class Movie {
     @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<MoviePic> moviePicList;
 
+    @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<ScreeningInfo> screeningInfoList;
+
     // 영화 소개
     // VARCHAR 보다 긴 TEXT 사용
     @Column(columnDefinition = "TEXT")
     private String description;
 
     @Builder
-    public Movie(int id, String title, String engTitle, String director, String actor, String genre, String info, Date startDate, Date endDate, String imgFilename, List<MoviePic> moviePicList, String description) {
+    public Movie(int id, String title, String engTitle, String director, String actor, String genre, String info, Date startDate, Date endDate, String imgFilename, List<MoviePic> moviePicList, List<ScreeningInfo> screeningInfoList, String description) {
         this.id = id;
         this.title = title;
         this.engTitle = engTitle;
@@ -58,6 +62,7 @@ public class Movie {
         this.endDate = endDate;
         this.imgFilename = imgFilename;
         this.moviePicList = moviePicList;
+        this.screeningInfoList = screeningInfoList;
         this.description = description;
     }
 }

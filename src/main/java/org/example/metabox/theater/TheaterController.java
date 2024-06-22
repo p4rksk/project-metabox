@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.metabox.user.SessionUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RequiredArgsConstructor
 @Controller
@@ -24,10 +25,9 @@ public class TheaterController {
     }
 
     @GetMapping("/theaters/movie-schedule")
-    public String theatersMovieSchedule(HttpServletRequest request, TheaterRequest.ScheduleDTO reqDTO) {
+    public String theatersMovieSchedule(HttpServletRequest request, @RequestParam(value = "theaterId", defaultValue = "1") Integer theaterId) {
         SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
-        System.out.println(reqDTO.getTheaterId());
-        TheaterResponse.TheaterDTO respDTO = theaterService.movieSchedule(sessionUser, reqDTO.getTheaterId());
+        TheaterResponse.TheaterDTO respDTO = theaterService.movieSchedule(sessionUser, theaterId);
         request.setAttribute("model", respDTO);
         return "theater/movie-schedule";
     }

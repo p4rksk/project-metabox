@@ -1,6 +1,7 @@
 package org.example.metabox.screening;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.metabox.screening_info.ScreeningInfo;
@@ -22,10 +23,10 @@ public class Screening {
     private Theater theater;
 
     @OneToMany(mappedBy = "screening", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<ScreeningInfo> screeningInfo;
+    private List<ScreeningInfo> screeningInfoList;
 
     @OneToMany(mappedBy = "screening", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<Seat> seats;
+    private List<Seat> seatList;
 
     private String name;
     // 좌석수(count 안할려고 미리 하는듯?)
@@ -37,14 +38,15 @@ public class Screening {
     @Enumerated(EnumType.STRING)
     private ScreeningRank screeningRank; //상영관 등급
 
-
-    public Screening(Integer id, Theater theater, List<ScreeningInfo> screeningInfo, List<Seat> seats, String name, Integer seatCount, ScreeningRank screeningRank) {
+    @Builder
+    public Screening(Integer id, Theater theater, List<ScreeningInfo> screeningInfoList, List<Seat> seatList, String name, Integer seatCount, Integer seatPrice, ScreeningRank screeningRank) {
         this.id = id;
         this.theater = theater;
-        this.screeningInfo = screeningInfo;
-        this.seats = seats;
+        this.screeningInfoList = screeningInfoList;
+        this.seatList = seatList;
         this.name = name;
         this.seatCount = seatCount;
+        this.seatPrice = seatPrice;
         this.screeningRank = screeningRank;
     }
 
