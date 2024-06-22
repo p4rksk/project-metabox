@@ -56,12 +56,17 @@ public class UserService {
 
 
     // 마이페이지 detail-book의 today best 무비차트
-    public UserResponse.DetailBookDTO findMyBookDetail() {
+    public UserResponse.DetailBookDTO findMyBookDetail(SessionUser sessionUser) {
+        User userOP = userRepository.findById(sessionUser.getId())
+                .orElseThrow(() -> new Exception401("로그인이 필요한 서비스입니다."));
+
         List<UserResponse.DetailBookDTO.MovieChartDTO> movieChartDTOS = movieQueryRepository.getMovieChart();
 //        System.out.println("쿼리 확인용 " + movieChartDTOS);
+        UserResponse.DetailBookDTO.UserDTO userDTO = new UserResponse.DetailBookDTO.UserDTO(userOP);
 
         // DetailBookDTO 로 변형
         UserResponse.DetailBookDTO detailBookDTO = UserResponse.DetailBookDTO.builder()
+                .userDTO(userDTO)
                 .movieCharts(movieChartDTOS).build();
 
         return detailBookDTO;

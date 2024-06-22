@@ -59,7 +59,8 @@ public class UserController {
 
     @GetMapping("/mypage/detail-book")
     public String myBookDetail(HttpServletRequest request) {
-        UserResponse.DetailBookDTO myBookDetail = userService.findMyBookDetail();
+        SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
+        UserResponse.DetailBookDTO myBookDetail = userService.findMyBookDetail(sessionUser);
         request.setAttribute("model", myBookDetail);
 
         return "user/mypage-detail-book";

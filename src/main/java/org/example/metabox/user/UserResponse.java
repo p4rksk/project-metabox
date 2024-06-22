@@ -111,11 +111,12 @@ public class UserResponse {
     //마이페이지 DetailBook
     @Data
     public static class DetailBookDTO {
-
+        private UserDTO userDTO;
         private List<MovieChartDTO> movieCharts = new ArrayList<>();
 
         @Builder
-        public DetailBookDTO(List<MovieChartDTO> movieCharts) {
+        public DetailBookDTO(UserDTO userDTO, List<MovieChartDTO> movieCharts) {
+            this.userDTO = userDTO;
             this.movieCharts = movieCharts;
         }
 
@@ -138,6 +139,23 @@ public class UserResponse {
                 this.ticketSales = ticketSales;
             }
 
+        }
+
+        @Data
+        static class UserDTO {
+            private Integer id;
+            private String name;
+            private String imgFilename;
+            private String nickname;
+            private Integer point;
+
+            public UserDTO(User sessionUser) {
+                this.id = sessionUser.getId();
+                this.name = sessionUser.getName();
+                this.imgFilename = sessionUser.getImgFilename();
+                this.nickname = sessionUser.getNickname();
+                this.point = sessionUser.getPoint();
+            }
         }
 
     }

@@ -7,21 +7,23 @@
 <div class="container">
     <div class="profile-card">
         <div class="header">
-            <img src="https://via.placeholder.com/100" alt="profile picture">
+            <img src="{{model.userDTO.imgFilename}}">
             <div class="info">
-                <h3>박찬혁님</h3>
-                <p><strong>cowtti97</strong></p>
+                <h3>{{model.userDTO.name}}님</h3>
+                <p><strong>{{model.userDTO.nickname}}</strong></p>
                 <p>고객님은 <span class="text-danger">일반</span> 입니다.</p>
             </div>
         </div>
         <div class="row">
             <div class="col-md-6 points">
-                <h4>POINT <span><i class="fas fa-plus"></i></span></h4>
-                <p>사용가능 포인트 <strong>300 점</strong></p>
+                <h4>POINT <i class="fas fa-question-circle" data-toggle="tooltip"
+                             title="1,000P 이상부터 10P 단위로 사용 가능합니다."></i></h4>
+                <p>사용가능 포인트 <strong>{{model.userDTO.point}} 점</strong></p>
             </div>
             <div class="col-md-6 vip-points">
-                <h4>VIP 점수 <i class="fas fa-question-circle"></i></h4>
-                <p>VIP 누적 점수 <strong>300/10,000점</strong></p>
+                <h4>VIP 점수 <i class="fas fa-question-circle" data-toggle="tooltip"
+                              title="1만점 누적 달성하시면 다음달 VIP로 승급됩니다."></i></h4>
+                <p>VIP 누적 점수 <strong>{{model.userDTO.point}}/10,000점</strong></p>
             </div>
         </div>
         <div class="grid">
