@@ -76,7 +76,7 @@
     margin-bottom: 20px;
     font-weight: bold;
 }
-.content-section .row div {
+.content-section .row-style div {
     border: 1px solid #ddd;
     border-radius: 5px;
     padding: 20px;
@@ -85,10 +85,20 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
     transition: transform 0.3s;
 }
-.content-section .row div:hover {
+.content-section .row-style div:hover {
     transform: translateY(-5px);
     cursor: pointer;
 }
+
+.content-section .row div {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    text-align: center;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
 .content-section .row div h6 {
     margin-top: 10px;
     font-weight: bold;

@@ -16,15 +16,16 @@
         </div>
         <div class="row">
             <div class="col-md-6 points">
-                <h4>POINT <i class="fas fa-question-circle" data-toggle="tooltip" title="1,000P 이상부터 10P 단위로 사용 가능합니다."></i></h4>
+                <h4>POINT <i class="fas fa-question-circle" data-toggle="tooltip"
+                             title="1,000P 이상부터 10P 단위로 사용 가능합니다."></i></h4>
                 <p>사용가능 포인트 <strong>300 점</strong></p>
             </div>
             <div class="col-md-6 vip-points">
-                <h4>VIP 점수 <i class="fas fa-question-circle" data-toggle="tooltip" title="1만점 누적 달성하시면 다음달 VIP로 승급됩니다."></i></h4>
+                <h4>VIP 점수 <i class="fas fa-question-circle" data-toggle="tooltip"
+                              title="1만점 누적 달성하시면 다음달 VIP로 승급됩니다."></i></h4>
                 <p>VIP 누적 점수 <strong>300/10,000점</strong></p>
             </div>
         </div>
-
 
 
         <div class="grid">
@@ -41,21 +42,27 @@
     <div class="row mt-5 justify-content-between">
         {{> layout/sidebar}}
         <div class="col-md-9 content-section">
-            <div class="row">
+            <div class="row row-style">
                 <div class="col-md-4">
+                    <a href="/mypage/detail-saw" style="text-decoration: none; color: inherit;">
                     🎈
                     <h6>기대되는 영화</h6>
                     <p>보고 싶은 영화를<br>미리 담아두고 싶다면?</p>
+                    </a>
                 </div>
                 <div class="col-md-4">
+                    <a href="/mypage/detail-saw" style="text-decoration: none; color: inherit;">
                     💖
                     <h6>내가 본 영화</h6>
                     <p>관람한 영화를<br>한 번에 모아 보고 싶다면?</p>
+                    </a>
                 </div>
                 <div class="col-md-4">
+                    <a href="/mypage/detail-saw" style="text-decoration: none; color: inherit;">
                     ⭐
                     <h6>내가 쓴 평점</h6>
                     <p>관람 후 내 느낌을<br>점수로 남기고 싶다면?</p>
+                    </a>
                 </div>
             </div>
 
@@ -134,7 +141,7 @@
         $("#myModal").css("display", "none");
     }
 
-    $('.tab-button').on('click', function() {
+    $('.tab-button').on('click', function () {
         $('.tab-button').removeClass('active');
         $('.tab-content').removeClass('active');
 
@@ -142,7 +149,7 @@
         $('#' + $(this).data('tab')).addClass('active');
     });
 
-    $(window).on('click', function(event) {
+    $(window).on('click', function (event) {
         if (event.target == $("#myModal")[0]) {
             closeModal();
         }
@@ -150,7 +157,7 @@
 
     const maxSelectedTheaters = 5;
 
-    $('.theater-list div').on('click', function() {
+    $('.theater-list div').on('click', function () {
         if ($('.selected-theater div').length >= maxSelectedTheaters) {
             alert('최대 5개의 극장만 선택할 수 있습니다.');
             return;
@@ -164,7 +171,7 @@
             </div>
         `);
 
-        selectedTheater.find('.delete-button').on('click', function() {
+        selectedTheater.find('.delete-button').on('click', function () {
             $(this).parent().remove();
         });
 
