@@ -14,6 +14,35 @@ import java.util.List;
 
 public class UserResponse {
 
+    @Data
+    public static class MyPageHomeDTO {
+        private UserDTO userDTO;
+
+        @Builder
+        public MyPageHomeDTO(UserDTO userDTO) {
+            this.userDTO = userDTO;
+        }
+
+        @Data
+        static class UserDTO {
+            private Integer id;
+            private String name;
+            private String imgFilename;
+            private String nickname;
+            private Integer point;
+
+            public UserDTO(User sessionUser) {
+                this.id = sessionUser.getId();
+                this.name = sessionUser.getName();
+                this.imgFilename = sessionUser.getImgFilename();
+                this.nickname = sessionUser.getNickname();
+                this.point = sessionUser.getPoint();
+            }
+        }
+
+    }
+
+
     // 메인 페이지 무비차트, 상영예정작
     @Data
     public static class MainChartDTO {

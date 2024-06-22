@@ -49,6 +49,11 @@ public class UserController {
 
     @GetMapping("/mypage/home")
     public String mypageHome(HttpServletRequest request) {
+        // user 타입 아니고 SessionUser 타입이니 조심! (sessionUser가 SessionUser 타입임)
+        SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
+        UserResponse.MyPageHomeDTO homeDTO = userService.findMyPageHome(sessionUser);
+        request.setAttribute("model", homeDTO);
+
         return "user/mypage-home";
     }
 

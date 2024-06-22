@@ -23,6 +23,7 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.UUID;
 
+@Transactional(readOnly = true)
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -66,6 +67,20 @@ public class UserService {
         return detailBookDTO;
     }
 
+    //mypage/home 유저조회 및 예매내역, 취소내역 조회
+    public UserResponse.MyPageHomeDTO findMyPageHome(SessionUser sessionUser) {
+        User userOP = userRepository.findById(sessionUser.getId())
+                .orElseThrow(() -> new Exception401("로그인이 필요한 서비스입니다."));
+
+        UserResponse.MyPageHomeDTO.UserDTO userDTO = new UserResponse.MyPageHomeDTO.UserDTO(userOP);
+
+        UserResponse.MyPageHomeDTO homeDTO = UserResponse.MyPageHomeDTO.builder()
+                .userDTO(userDTO)
+                .build();
+
+        return homeDTO;
+
+    }
 
 
     //비회원 회원가입
@@ -281,6 +296,5 @@ public class UserService {
         userRepository.deleteByNickname(nickname);
 
     }
-
 
 }
