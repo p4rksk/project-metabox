@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.metabox.user.UserResponse;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -14,6 +15,62 @@ import java.util.List;
 @Repository
 public class MovieQueryRepository {
     private final EntityManager em;
+
+    // 마이페이지의 내 예매내역
+    public List<UserResponse.MyPageHomeDTO.TicketingDTO> findMyTicketing(Integer sessionUserId) {
+        String q = """
+                SELECT m.title, m.img_filename, si.date as "관람일시", si.start_time as "시작시간", 
+                si.end_time as "종료시간", b.id, s.name, t.name, b.user_id as "유저"
+                FROM book_tb b
+                INNER JOIN seat_book_tb sb ON sb.book_id = b.id
+                INNER JOIN screening_info_tb si ON sb.screening_info_id = si.id
+                INNER JOIN screening_tb s ON s.id = si.screening_id
+                INNER JOIN theater_tb t ON s.theater_id = t.id
+                INNER JOIN movie_tb m ON si.movie_id = m.id
+                WHERE user_id = ?
+                AND b.created_at >= CURRENT_DATE - INTERVAL '1' MONTH
+                GROUP BY si.id          
+                """;
+
+        Query query = em.createNativeQuery(q);
+        query.setParameter(1, sessionUserId);
+
+        List<Object[]> rows = query.getResultList();
+        List<UserResponse.MyPageHomeDTO.TicketingDTO> ticketingDTOList = new ArrayList<>();
+
+        for (Object[] row : rows) {
+            String title = (String) row[0];
+            String imgFilename = (String) row[1];
+            LocalDate date = (LocalDate) row[2];
+            String startTime = (String) row[3];
+            String endTime = (String) row[4];
+            Integer bookId = (Integer) row[5];
+            String name = (String) row[6];  // 몇관인지
+            String theaterName = (String) row[7];  // 몇관인지
+            Integer userId = ((Number) row[8]).intValue();
+
+            UserResponse.MyPageHomeDTO.TicketingDTO ticketingDTO = UserResponse.MyPageHomeDTO.TicketingDTO.builder()
+                    .title(title)
+                    .imgFilename(imgFilename)
+                    .date(date)
+                    .startTime(startTime)
+                    .endTime(endTime)
+                    .id(bookId)
+                    .name(name)
+                    .theaterName(theaterName)
+                    .userId(userId)
+                    .build();
+
+            ticketingDTOList.add(ticketingDTO);
+
+        }
+
+        return ticketingDTOList;
+
+
+    }
+
+
 
     // 상영예정 영화 목록
     public List<UserResponse.MainChartDTO.ToBeChartDTO> getToBeChart() {
@@ -152,5 +209,6 @@ public class MovieQueryRepository {
         return movieChartDTOS;
 
     }
+
 
 }

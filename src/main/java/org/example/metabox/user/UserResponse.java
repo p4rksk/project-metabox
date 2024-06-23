@@ -8,6 +8,7 @@ import org.example.metabox._core.util.ScopeDeserializer;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -17,10 +18,39 @@ public class UserResponse {
     @Data
     public static class MyPageHomeDTO {
         private UserDTO userDTO;
+        private List<TicketingDTO> ticketingDTO = new ArrayList<>();
 
         @Builder
-        public MyPageHomeDTO(UserDTO userDTO) {
+        public MyPageHomeDTO(UserDTO userDTO, List<TicketingDTO> ticketingDTO) {
             this.userDTO = userDTO;
+            this.ticketingDTO = ticketingDTO;
+        }
+
+        // 마이페이지 내 예매내역
+        @Data
+        public static class TicketingDTO {
+            private Integer id;     // book pk
+            private String title;   //영화 제목
+            private String imgFilename;
+            private LocalDate date;     // 관람일시 타입 확인 필요
+            private String startTime;   // 시작 시간
+            private String endTime;     // 종료 시간
+            private String name;        // 몇 관인지
+            private String theaterName; // METABOX 어느 지점인지
+            private Integer userId;
+
+            @Builder
+            public TicketingDTO(Integer id, String title, String imgFilename, LocalDate date, String startTime, String endTime, String name, String theaterName, Integer userId) {
+                this.id = id;
+                this.title = title;
+                this.imgFilename = imgFilename;
+                this.date = date;
+                this.startTime = startTime;
+                this.endTime = endTime;
+                this.name = name;
+                this.theaterName = theaterName;
+                this.userId = userId;
+            }
         }
 
         @Data

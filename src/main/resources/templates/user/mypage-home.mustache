@@ -45,23 +45,23 @@
             <div class="row row-style">
                 <div class="col-md-4">
                     <a href="/mypage/detail-saw" style="text-decoration: none; color: inherit;">
-                    🎈
-                    <h6>기대되는 영화</h6>
-                    <p>보고 싶은 영화를<br>미리 담아두고 싶다면?</p>
+                        🎈
+                        <h6>기대되는 영화</h6>
+                        <p>보고 싶은 영화를<br>미리 담아두고 싶다면?</p>
                     </a>
                 </div>
                 <div class="col-md-4">
                     <a href="/mypage/detail-saw" style="text-decoration: none; color: inherit;">
-                    💖
-                    <h6>내가 본 영화</h6>
-                    <p>관람한 영화를<br>한 번에 모아 보고 싶다면?</p>
+                        💖
+                        <h6>내가 본 영화</h6>
+                        <p>관람한 영화를<br>한 번에 모아 보고 싶다면?</p>
                     </a>
                 </div>
                 <div class="col-md-4">
                     <a href="/mypage/detail-saw" style="text-decoration: none; color: inherit;">
-                    ⭐
-                    <h6>내가 쓴 평점</h6>
-                    <p>관람 후 내 느낌을<br>점수로 남기고 싶다면?</p>
+                        ⭐
+                        <h6>내가 쓴 평점</h6>
+                        <p>관람 후 내 느낌을<br>점수로 남기고 싶다면?</p>
                     </a>
                 </div>
             </div>
@@ -72,17 +72,20 @@
                 <h5>MY 예매내역 0건 <span class="add-button">+</span></h5>
 
                 <div class="mt-4 boxed">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <img src="https://via.placeholder.com/100" alt="movie poster" class="img-fluid">
-                            <p class="card-text">예매번호 0027-5201-5621</p>
+                    {{#model.ticketingDTO}}
+                        <div class="row">
+                            <div class="col-md-3">
+                                <img src="https://via.placeholder.com/100" alt="movie poster" class="img-fluid">
+                                <p class="card-text">예매번호 0027-5201-5621</p>
+                            </div>
+                            <div class="col-md-9" style="padding-top: 5%">
+                                <h5 class="card-title"><strong>{{title}}</strong></h5>
+                                <p class="card-text">관람극장 순천CGV</p>
+                                <p class="card-text">관람좌석 A15, V12</p>
+                                <p class="card-text">관람일시 2017.05.15(수) 21:30</p>
+                            </div>
                         </div>
-                        <div class="col-md-9" style="padding-top: 5%">
-                            <h5 class="card-title"><strong>범죄도시3</strong></h5>
-                            <p class="card-text">관람극장 순천CGV</p>
-                            <p class="card-text">관람일시 2017.05.15(수) 21:30</p>
-                        </div>
-                    </div>
+                    {{/model.ticketingDTO}}
                 </div>
 
                 <!--                <div class="mt-4 boxed">-->

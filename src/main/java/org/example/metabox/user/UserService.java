@@ -79,8 +79,11 @@ public class UserService {
 
         UserResponse.MyPageHomeDTO.UserDTO userDTO = new UserResponse.MyPageHomeDTO.UserDTO(userOP);
 
+        List<UserResponse.MyPageHomeDTO.TicketingDTO> ticketingDTOS = movieQueryRepository.findMyTicketing(sessionUser.getId());
+
         UserResponse.MyPageHomeDTO homeDTO = UserResponse.MyPageHomeDTO.builder()
                 .userDTO(userDTO)
+                .ticketingDTO(ticketingDTOS)
                 .build();
 
         return homeDTO;
