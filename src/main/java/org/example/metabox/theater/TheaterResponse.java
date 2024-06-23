@@ -12,11 +12,17 @@ public class TheaterResponse {
 
     @Data
     public static class TheaterDTO {
+        private String theaterName;
+        private int theaterId;
+        private String theaterImgFilename;
         private List<ScrapDTO> scrapDTOList;
         private List<TheaterAreaDTO> theaterAreaDTOList;
         private List<ScreeningInfoDTO> screeningInfoDTOList;
 
-        public TheaterDTO(List<TheaterScrap> theaterScrapList, List<Theater> theaterList, List<ScreeningInfo> screeningInfoList) {
+        public TheaterDTO(List<TheaterScrap> theaterScrapList, List<Theater> theaterList, List<ScreeningInfo> screeningInfoList, Theater theater) {
+            this.theaterName = theater.getName();
+            this.theaterId = theater.getId();
+            this.theaterImgFilename = theater.getImgFilename();
             this.scrapDTOList = theaterScrapList.stream().map(ScrapDTO::new).collect(Collectors.toList());
             this.theaterAreaDTOList = theaterList.stream()
                     .collect(Collectors.groupingBy(Theater::getAreaCode))
@@ -90,11 +96,13 @@ public class TheaterResponse {
             private class ScreeningDTO {
                 private String screeningName;
                 private Integer screeningSeatCount;
+                private String screeningRank;
                 private List<ScreeningTimeDTO> screeningTimeList;
 
                 public ScreeningDTO(Screening screening, List<ScreeningInfo> screeningInfoList) {
                     this.screeningName = screening.getName();
                     this.screeningSeatCount = screening.getSeatCount();
+                    this.screeningRank = screening.getScreeningRankKo();
                     this.screeningTimeList = screeningInfoList.stream()
                             .map(ScreeningTimeDTO::new)
                             .collect(Collectors.toList());

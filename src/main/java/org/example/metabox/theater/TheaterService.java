@@ -2,6 +2,7 @@ package org.example.metabox.theater;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.example.metabox._core.errors.exception.Exception404;
 import org.example.metabox.movie.MovieRepository;
 import org.example.metabox.screening_info.ScreeningInfo;
 import org.example.metabox.screening_info.ScreeningInfoRepository;
@@ -40,12 +41,13 @@ public class TheaterService {
         List<Theater> theaterList = theaterRepository.findAll();
 
         // 3. ScreeningInfo 가져오기
-        System.out.println(" 3. ScreeningInfo 가져오기");
         List<ScreeningInfo> screeningInfoList = screeningInfoRepository.findByTheaterId(theaterId);
-        System.out.println("네" + screeningInfoList.size());
+
+        // 4. theater 가져오기
+        Theater theater = theaterRepository.findById(theaterId).orElseThrow(() -> new Exception404("극장을 찾을 수 없습니다."));
+
         // 리턴
-        TheaterResponse.TheaterDTO respDTO = new TheaterResponse.TheaterDTO(theaterScrapList, theaterList, screeningInfoList);
-        System.out.println("안녕" + respDTO);
+        TheaterResponse.TheaterDTO respDTO = new TheaterResponse.TheaterDTO(theaterScrapList, theaterList, screeningInfoList, theater);
         return respDTO;
     }
 }

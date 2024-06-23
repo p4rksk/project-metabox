@@ -288,4 +288,21 @@
         </div>
     </div>
 </div>
+
+<script>
+    function getQueryParam(param) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+    }
+
+    window.onload = function () {
+        // Get the scroll position from the query parameter
+        const scrollPosition = getQueryParam('scroll');
+        if (scrollPosition) {
+            // Scroll to the specified position
+            window.scrollTo(0, parseInt(scrollPosition));
+        }
+    };
+</script>
+
 {{> layout/footer}}

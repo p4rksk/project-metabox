@@ -29,6 +29,7 @@ public class TheaterController {
         SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
         TheaterResponse.TheaterDTO respDTO = theaterService.movieSchedule(sessionUser, theaterId);
         request.setAttribute("model", respDTO);
+        System.out.println("영화관 이름 잘나오나?" + respDTO.getTheaterName());
         return "theater/movie-schedule";
     }
 }

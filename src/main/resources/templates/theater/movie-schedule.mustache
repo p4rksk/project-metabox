@@ -211,16 +211,28 @@
 </div>
 <br>
 <img src="/image/theater/theater_2.png" width="100%" alt="">
-<h2>META BOX 강남</h2>
-<img width="100%" src="/image/theater/theater_1.png" alt="">
+<h2>{{model.theaterName}}</h2>
+<img width="100%" src="/image/theater/{{model.theaterImgFilename}}" alt="">
 <div class="button-container">
-    <div onClick="location.href='#'" style="cursor:pointer" class="btn1 py-1 px-2">
-        <i class="fas fa-calendar-alt me-2"> </i>
-        상영시간표
-    </div>
-    <div style="background-color: #ff4d4d; color: #e0e0e0;" class="py-1">ㅣ</div>
-    <div onClick="location.href='#'" style="cursor:pointer" class="btn1 py-1 px-2">위치/주차안내</div>
+    <div onClick="location.href='/theaters/movie-schedule?theaterId={{model.theaterId}}'" style="cursor:pointer"
+    class="btn1 py-1 px-2">
+    <i class="fas fa-calendar-alt me-2"> </i>
+    상영시간표
 </div>
+<div style="background-color: #ff4d4d; color: #e0e0e0;" class="py-1">ㅣ</div>
+<button onClick="parkingInfo('/theaters/info',1200)" style="cursor:pointer"
+        class="btn1 py-1 px-2">
+    위치/주차안내
+</button>
+</div>
+
+<script>
+    function parkingInfo(url, scrollPosition) {
+        // Add the scroll position as a query parameter
+        window.location.href = `${url}?scroll=${scrollPosition}`;
+    }
+</script>
+
 <div class="schedule">
     <div class="date-pagination">
         <div class="arrow" onclick="prevPage()">&#9664;</div>
@@ -245,7 +257,7 @@
                 {{#screeningList}}
                     <div class="d-flex mb-1" style="font-size: 12px; font-weight: bold;">
                         <div class="me-2" style="color: #646464;">&#9654;</div>
-                        <div>2D(자막)</div>
+                        <div>{{screeningRank}}</div>
                         <div style="color: #a7a5a5;">ㅣ</div>
                         <div>{{screeningName}}</div>
                         <div style="color: #a7a5a5;">ㅣ</div>
