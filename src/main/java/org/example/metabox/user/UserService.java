@@ -1,9 +1,8 @@
 package org.example.metabox.user;
 
 import lombok.RequiredArgsConstructor;
-import org.example.metabox._core.errors.exception.Exception400;
 import org.example.metabox._core.errors.exception.Exception401;
-import org.example.metabox.movie.Movie;
+import org.example.metabox._core.errors.exception.Exception403;
 import org.example.metabox.movie.MovieQueryRepository;
 import org.example.metabox.movie.MovieRepository;
 import org.springframework.http.HttpEntity;
@@ -16,6 +15,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Optional;
 import java.text.DecimalFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -88,27 +88,31 @@ public class UserService {
     }
 
 
+
     //비회원 회원가입
-    public Guest join (UserRequest.JoinDTO reqDTO){
-        Optional<Guest> guestOP = guestRepository.findOneByPhone(reqDTO.getPhone());
+    public Guest join(UserRequest.JoinDTO reqDTO) {
+        // 1. 동일 한 휴대폰 정보가 있는지
+        Guest guest = guestRepository.findOneByPhone(reqDTO.getPhone());
 
-        if(guestOP.isPresent()){
-            throw new Exception400("동일한 휴대폰 번호가 존재 합니다.");
+
+        //2. 동일 한 정보가 있다면 바로 로그인
+        if (guest != null) {
+            guest = guestRepository.findByBirthAndPassword(reqDTO.getBirth(), reqDTO.getPassword());
+
+            return guest;
+
+        } else {
+            //3. 동일한 정보가 없으면 회원가입
+            Guest newGuest = guestRepository.save(Guest.builder()
+                    .birth(reqDTO.getBirth())
+                    .password(reqDTO.getPassword())
+                    .phone(reqDTO.getPhone())
+                    .build());
+
+            //4. 회원가입 됐으면 로그인 진행
+            newGuest = guestRepository.findByBirthAndPassword(reqDTO.getBirth(), reqDTO.getPassword());
+            return newGuest;
         }
-
-        //회원가입
-        Guest jguest = guestRepository.save(Guest.builder()
-                        .birth(reqDTO.getBirth())
-                        .password(reqDTO.getPassword())
-                        .phone(reqDTO.getPhone())
-                .build());
-
-        //회원가입 됐으면 로그인 진행
-        Guest guest =  guestRepository.findByBirthAndPassword(reqDTO.getBirth(), reqDTO.getPassword())
-                .orElseThrow(() -> new Exception401("존재하지 않는 계정입니다."));
-
-        return guest;
-
     }
 
     public SessionUser loginKakao(String code) {
@@ -163,11 +167,11 @@ public class UserService {
 
 
         // 4. 있으면? - 조회된 유저정보 리턴
-        if(userPS != null){
-            SessionUser sessionUser = new SessionUser(userPS,accessToken);
+        if (userPS != null) {
+            SessionUser sessionUser = new SessionUser(userPS, accessToken);
 //            System.out.println("어? 유저가 있네? 강제로그인 진행");
             return sessionUser;
-        }else{
+        } else {
 //            System.out.println("어? 유저가 없네? 강제회원가입 and 강제로그인 진행");
 
             User user = User.builder()
@@ -181,7 +185,7 @@ public class UserService {
                     .build();
 
             User returnUser = userRepository.save(user);
-            SessionUser sessionUser = new SessionUser(returnUser,accessToken);
+            SessionUser sessionUser = new SessionUser(returnUser, accessToken);
             return sessionUser;
         }
     }
@@ -239,12 +243,12 @@ public class UserService {
         User userPS = userRepository.findByNickname(nickname);
 
 //        // 4. 있으면? - 조회된 유저정보 리턴
-        if(userPS != null){
+        if (userPS != null) {
             SessionUser sessionUser = new SessionUser(userPS, accessToken);
 //            System.out.println("어? 유저가 있네? 강제로그인 진행");
             return sessionUser;
 
-        }else {
+        } else {
 //            System.out.println("어? 유저가 없네? 강제회원가입 and 강제로그인 진행");
             // 5. 없으면? - 강제 회원가입
             User user = User.builder()
