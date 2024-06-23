@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.metabox.movie_pic.MoviePic;
 import org.example.metabox.screening_info.ScreeningInfo;
+import lombok.ToString;import org.example.metabox.trailer.Trailer;
 
 import java.sql.Date;
 import java.util.List;
@@ -39,10 +40,14 @@ public class Movie {
     private String imgFilename;
 
     @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @ToString.Exclude
     private List<MoviePic> moviePicList;
 
     @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<ScreeningInfo> screeningInfoList;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Trailer> trailerList;
 
     // 영화 소개
     // VARCHAR 보다 긴 TEXT 사용

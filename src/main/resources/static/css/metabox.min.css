@@ -11468,15 +11468,13 @@ body.no-scroll .tab-list.fixed {
     background-color: #fff
 }
 
-.seat-condition.common {
-    background-color: #747474;
-    background-image: url(https://img.megabox.co.kr/static/pc/images/common/bg/bg-seat-condition-common.png)
+.seat-condition.light {
+    background-color: #ffcb88;
 }
 
 .seat-condition.disabled {
-    background-color: #328619;
+    background-color: #a3aae6;
     background-position: center 0;
-    background-image: url(https://img.megabox.co.kr/static/pc/images/common/bg/bg-seat-condition-disabled.png)
 }
 
 .seat-condition.sofa4 {
@@ -11558,15 +11556,13 @@ body.no-scroll .tab-list.fixed {
 }
 
 .seat-condition.choice {
-    background-color: #503396!important;
+    background-color: #ff6f61;
     background-position: right 0;
-    background-image: url(https://img.megabox.co.kr/static/pc/images/common/bg/bg-seat-condition-choice.png)!important
 }
 
-.seat-condition.finish {
-    background-color: #ccc!important;
+.seat-condition.possible {
+    background-color: #8ccf9c;
     background-position: center 0;
-    background-image: url(https://img.megabox.co.kr/static/pc/images/common/bg/bg-seat-condition-finish.png)!important
 }
 
 .seat-condition.finish.pos {
@@ -11580,9 +11576,8 @@ body.no-scroll .tab-list.fixed {
 }
 
 .seat-condition.impossible {
-    background-color: #ccc!important;
+    background-color: #807f7f;
     background-position: center 0;
-    background-image: url(https://img.megabox.co.kr/static/pc/images/common/bg/bg-seat-condition-impossible.png)!important
 }
 
 .btn-seat-row {
@@ -22301,7 +22296,8 @@ body.body-iframe .modal-layer2 {
 }
 
 .seat-select-section {
-    position: relative
+    position: relative;
+    display: flex;
 }
 
 .seat-select-section:after,.seat-select-section:before {
@@ -22319,7 +22315,7 @@ body.body-iframe .modal-layer2 {
 }
 
 .seat-select-section .seat-section {
-    float: left;
+    margin-left: 50px;
     width: 770px;
     height: 556px;
     border-top: 1px solid #000;
@@ -23049,10 +23045,10 @@ body.body-iframe .modal-layer2 {
 .seat-select-section .seat-result {
     overflow: hidden;
     position: absolute;
-    left: 770px;
-    top: 0;
+    left: 850px;
+    top: 80px;
     width: 310px;
-    height: 556px;
+    height: 600px;
     margin-left: 20px;
     color: #fff;
     background-color: #333;
@@ -23149,7 +23145,7 @@ body.body-iframe .modal-layer2 {
     padding: 0
 }
 
-.seat-select-section .seat-result .wrap .info-area .other-time button {
+.seat-select-section .seat-result .wrap .info-area .other-time div {
     display: block;
     width: 100%;
     height: 28px;
@@ -23164,12 +23160,7 @@ body.body-iframe .modal-layer2 {
     font-weight: 300
 }
 
-.seat-select-section .seat-result .wrap .info-area .other-time .now {
-    border: 1px solid #333;
-    border-bottom: 0;
-    border-radius: 5px 5px 0 0;
-    color: #fff
-}
+
 
 .seat-select-section .seat-result .wrap .info-area .other-time .now .arr {
     display: inline-block;
@@ -23244,7 +23235,7 @@ body.body-iframe .modal-layer2 {
 }
 
 .seat-select-section .seat-result .wrap .choice-seat-area .legend .list .seat-condition {
-    margin-right: 4px
+    margin-right: 1px
 }
 
 .seat-select-section .seat-result .wrap .choice-seat-area .legend .list .seat-condition {
@@ -23252,78 +23243,6 @@ body.body-iframe .modal-layer2 {
     height: 14px
 }
 
-.seat-select-section .seat-result .wrap .choice-seat-area .legend .list .seat-condition.choice {
-    background-image: url(https://img.megabox.co.kr/static/pc/images/common/bg/bg-seat-condition-choice-s.png)!important
-}
-
-.seat-select-section .seat-result .wrap .choice-seat-area .legend .list .seat-condition.finish {
-    background-image: url(https://img.megabox.co.kr/static/pc/images/common/bg/bg-seat-condition-finish-s.png)!important
-}
-
-.seat-select-section .seat-result .wrap .choice-seat-area .legend .list .seat-condition.pos {
-    background-color: #a59698!important;
-    background-image: none!important
-}
-
-.seat-select-section .seat-result .wrap .choice-seat-area .legend .list .seat-condition.impossible {
-    background-image: url(https://img.megabox.co.kr/static/pc/images/common/bg/bg-seat-condition-impossible-s.png)!important
-}
-
-.seat-select-section .seat-result .wrap .choice-seat-area .legend .list .seat-condition.common {
-    background-image: url(https://img.megabox.co.kr/static/pc/images/common/bg/bg-seat-condition-common-s.png)
-}
-
-.seat-select-section .seat-result .wrap .choice-seat-area .legend .list .seat-condition.disabled {
-    background-image: url(https://img.megabox.co.kr/static/pc/images/common/bg/bg-seat-condition-disabled-s.png)
-}
-
-.seat-select-section .seat-result .wrap .choice-seat-area .legend .list .seat-condition.sofa4 {
-    background-image: url(https://img.megabox.co.kr/static/pc/images/common/bg/bg-seat-condition-sofa4-s.png)
-}
-
-.seat-select-section .seat-result .wrap .choice-seat-area .legend .list .seat-condition.sofa2 {
-    background-image: url(https://img.megabox.co.kr/static/pc/images/common/bg/bg-seat-condition-sofa2-s.png)
-}
-
-.seat-select-section .seat-result .wrap .choice-seat-area .legend .list .seat-condition.royal {
-    background-image: url(https://img.megabox.co.kr/static/pc/images/common/bg/bg-seat-condition-royal-s.png)
-}
-
-.seat-select-section .seat-result .wrap .choice-seat-area .legend .list .seat-condition.couple {
-    background-image: url(https://img.megabox.co.kr/static/pc/images/common/bg/bg-seat-condition-couple-s.png)
-}
-
-.seat-select-section .seat-result .wrap .choice-seat-area .legend .list .seat-condition.table {
-    background-image: url(https://img.megabox.co.kr/static/pc/images/common/bg/bg-seat-condition-table-s.png)
-}
-
-.seat-select-section .seat-result .wrap .choice-seat-area .legend .list .seat-condition.kids {
-    background-image: url(https://img.megabox.co.kr/static/pc/images/common/bg/bg-seat-condition-kids-s.png)
-}
-
-.seat-select-section .seat-result .wrap .choice-seat-area .legend .list .seat-condition.sweet {
-    background-image: url(https://img.megabox.co.kr/static/pc/images/common/bg/bg-seat-condition-sweet-s.png)
-}
-
-.seat-select-section .seat-result .wrap .choice-seat-area .legend .list .seat-condition.balcony {
-    background-image: url(https://img.megabox.co.kr/static/pc/images/common/bg/bg-seat-condition-balcony-s.png)
-}
-
-.seat-select-section .seat-result .wrap .choice-seat-area .legend .list .seat-condition.balcony-d {
-    background-image: url(https://img.megabox.co.kr/static/pc/images/common/bg/bg-seat-condition-balcony-d-s.png)
-}
-
-.seat-select-section .seat-result .wrap .choice-seat-area .legend .list .seat-condition.balcony2p {
-    background-image: url(https://img.megabox.co.kr/static/pc/images/common/bg/bg-seat-condition-balcony-2-s.png)
-}
-
-.seat-select-section .seat-result .wrap .choice-seat-area .legend .list .seat-condition.balcony3p {
-    background-image: url(https://img.megabox.co.kr/static/pc/images/common/bg/bg-seat-condition-balcony-3-s.png)
-}
-
-.seat-select-section .seat-result .wrap .choice-seat-area .legend .list .seat-condition.special {
-    background-image: url(https://img.megabox.co.kr/static/pc/images/common/bg/bg-seat-condition-special-s.png)
-}
 
 .seat-select-section .seat-result .wrap .choice-seat-area .legend .list em {
     color: #c4c4c4;
@@ -23743,25 +23662,25 @@ body.body-iframe .modal-layer2 {
     border-top: 1px solid #f2f4f5
 }
 
-.reserve-ininfomation-box {
+.reserve-information-box {
     position: relative;
     width: 100%;
     height: 375px;
     background: url(https://img.megabox.co.kr/static/pc/images/reserve/bg-reserve-finish-top.png) no-repeat
 }
 
-.reserve-ininfomation-box:after {
+.reserve-information-box:after {
     display: block;
     content: '';
     clear: both
 }
 
-.reserve-ininfomation-box p {
+.reserve-information-box p {
     padding: 0;
     margin: 0
 }
 
-.reserve-ininfomation-box .movie-poster-area {
+.reserve-information-box .movie-poster-area {
     float: left;
     padding: 40px 0;
     width: 270px;
@@ -23769,24 +23688,24 @@ body.body-iframe .modal-layer2 {
     text-align: center
 }
 
-.reserve-ininfomation-box .movie-poster-area p {
+.reserve-information-box .movie-poster-area p {
     color: #c4c4c4;
     margin: 0 0 20px 0
 }
 
-.reserve-ininfomation-box .movie-poster-area p span {
+.reserve-information-box .movie-poster-area p span {
     display: block;
     color: #55b0ba;
     font-size: 1.3333em;
     font-weight: 700
 }
 
-.reserve-ininfomation-box .movie-poster-area img {
+.reserve-information-box .movie-poster-area img {
     width: 150px!important;
     height: 216px!important
 }
 
-.reserve-ininfomation-box .movie-infomation-area {
+.reserve-information-box .movie-infomation-area {
     float: left;
     padding: 20px 60px;
     width: 830px;
@@ -23794,26 +23713,26 @@ body.body-iframe .modal-layer2 {
     color: #c4c4c4
 }
 
-.reserve-ininfomation-box .movie-infomation-area .movie-info-top p.tit {
+.reserve-information-box .movie-infomation-area .movie-info-top p.tit {
     display: block;
     margin: 0
 }
 
-.reserve-ininfomation-box .movie-infomation-area .movie-info-top p.tit strong {
+.reserve-information-box .movie-infomation-area .movie-info-top p.tit strong {
     color: #55b0ba;
     font-size: 1.6em
 }
 
-.reserve-ininfomation-box .movie-infomation-area .movie-info-top p.tit span.righten {
+.reserve-information-box .movie-infomation-area .movie-info-top p.tit span.righten {
     float: right;
     line-height: 36px
 }
 
-.reserve-ininfomation-box .movie-infomation-area .movie-info-top p.tit span.righten em {
+.reserve-information-box .movie-infomation-area .movie-info-top p.tit span.righten em {
     color: #59bec9
 }
 
-.reserve-ininfomation-box .movie-infomation-area .movie-info-middle {
+.reserve-information-box .movie-infomation-area .movie-info-middle {
     display: block;
     margin: 10px 0;
     padding: 20px 0 15px 0;
@@ -23823,49 +23742,49 @@ body.body-iframe .modal-layer2 {
     border-width: 1px 0 1px 0
 }
 
-.reserve-ininfomation-box .movie-infomation-area .movie-info-middle .dot-list li {
+.reserve-information-box .movie-infomation-area .movie-info-middle .dot-list li {
     position: relative;
     padding-left: 130px;
     color: #fff
 }
 
-.reserve-ininfomation-box .movie-infomation-area .movie-info-middle .dot-list li span {
+.reserve-information-box .movie-infomation-area .movie-info-middle .dot-list li span {
     position: absolute;
     left: 10px;
     width: 120px;
     color: #c4c4c4
 }
 
-.reserve-ininfomation-box .movie-infomation-area .movie-info-middle .dot-list li strong {
+.reserve-information-box .movie-infomation-area .movie-info-middle .dot-list li strong {
     font-size: 1.2em;
     color: #59bec9
 }
 
-.reserve-ininfomation-box .movie-infomation-area .movie-info-middle .dot-list li em {
+.reserve-information-box .movie-infomation-area .movie-info-middle .dot-list li em {
     font-size: .8667em;
     color: #c4c4c4
 }
 
-.reserve-ininfomation-box .movie-infomation-area .movie-info-middle .inner-banner {
+.reserve-information-box .movie-infomation-area .movie-info-middle .inner-banner {
     position: absolute;
     top: 90px;
     right: 30px;
     z-index: 2
 }
 
-.reserve-ininfomation-box .movie-infomation-area .movie-info-middle .inner-banner .img-area a {
+.reserve-information-box .movie-infomation-area .movie-info-middle .inner-banner .img-area a {
     display: block;
     font-size: 0;
     line-height: 0
 }
 
-.reserve-ininfomation-box .movie-infomation-area .movie-info-middle .inner-banner .img-area a img {
+.reserve-information-box .movie-infomation-area .movie-info-middle .inner-banner .img-area a img {
     display: block;
     width: 184px;
     height: 156px
 }
 
-.reserve-ininfomation-box .movie-infomation-area .movie-info-middle .inner-banner button {
+.reserve-information-box .movie-infomation-area .movie-info-middle .inner-banner button {
     position: absolute;
     right: 25px;
     top: 5px;
@@ -23875,17 +23794,17 @@ body.body-iframe .modal-layer2 {
     background-color: transparent
 }
 
-.reserve-ininfomation-box .movie-infomation-area .movie-info-bottom {
+.reserve-information-box .movie-infomation-area .movie-info-bottom {
     width: 100%;
     height: 32px;
     line-height: 32px
 }
 
-.reserve-ininfomation-box .movie-infomation-area .movie-info-bottom .add-send {
+.reserve-information-box .movie-infomation-area .movie-info-bottom .add-send {
     display: inline-block
 }
 
-.reserve-ininfomation-box .movie-infomation-area .movie-info-bottom .add-send button {
+.reserve-information-box .movie-infomation-area .movie-info-bottom .add-send button {
     width: 54px;
     padding: 0;
     margin: 0 0 0 10px;
@@ -23894,14 +23813,14 @@ body.body-iframe .modal-layer2 {
     color: #fff
 }
 
-.reserve-ininfomation-box .movie-infomation-area .movie-info-bottom .point-save {
+.reserve-information-box .movie-infomation-area .movie-info-bottom .point-save {
     position: relative;
     display: inline-block;
     margin: 0 0 0 20px;
     padding: 0 0 0 20px
 }
 
-.reserve-ininfomation-box .movie-infomation-area .movie-info-bottom .point-save:before {
+.reserve-information-box .movie-infomation-area .movie-info-bottom .point-save:before {
     position: absolute;
     content: '';
     left: 0;
@@ -23911,7 +23830,7 @@ body.body-iframe .modal-layer2 {
     background-color: #434343
 }
 
-.reserve-ininfomation-box .movie-infomation-area .movie-info-bottom .point-save a.button {
+.reserve-information-box .movie-infomation-area .movie-info-bottom .point-save a.button {
     width: 112px;
     padding: 0;
     margin: 0 0 0 10px;

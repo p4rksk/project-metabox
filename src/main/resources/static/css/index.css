@@ -1,0 +1,342 @@
+/* MOVIE 부분 */
+.movie-main img {
+    width: 100%;
+    border-radius: 5px;
+    height: 500px;
+}
+
+.swiper-container {
+    width: 100%;
+    margin: auto;
+    overflow: hidden;
+    position: relative;
+}
+
+.swiper-slide {
+    width: 20%;
+    height: 100%;
+}
+
+.movie-item {
+    position: relative;
+    text-align: center;
+}
+
+.img-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.img-container img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+    transition: 0.3s ease;
+}
+
+.rank {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 2rem;
+    font-weight: bold;
+    color: white;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-family: 'Bebas Neue', cursive;
+}
+
+.movie-item p {
+    margin: 5px 0;
+}
+
+.percentage {
+    color: gray;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transition: 0.3s ease;
+    border-radius: 5px;
+}
+
+.img-container:hover .overlay {
+    opacity: 1;
+}
+
+.btn-detail, .btn-booking {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    color: black;
+    background-color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background-color 0.3s ease;
+    margin-top: -10%;
+}
+
+.btn-detail {
+    top: 40%;
+}
+
+.btn-booking {
+    top: 55%;
+    background-color: rgb(192, 25, 25);
+    color: white;
+}
+
+.btn-detail:hover {
+    opacity: 80%;
+    color: black;
+    text-decoration: none;
+}
+
+
+.btn-booking:hover {
+    opacity: 80%;
+    color: rgb(228, 228, 228);
+    text-decoration: none;
+}
+
+.btn-detail:focus, .btn-booking:focus {
+    color: black;
+    text-decoration: none;
+}
+
+.btn-detail:active, .btn-booking:active {
+    color: black;
+    text-decoration: none;
+}
+
+.notice-box {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.notice-header {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.notice-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.notice-text {
+    flex-grow: 1;
+}
+
+.notice-more {
+    margin-left: 10px;
+}
+
+.customer-center {
+    margin-top: 20px;
+}
+
+.customer-header {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.customer-content {
+    margin-bottom: 10px;
+}
+
+.btn-group {
+    display: flex;
+    justify-content: space-between;
+}
+
+.main-banner {
+    position: relative;
+    height: 500px;
+    color: white;
+    text-align: center;
+    background-color: #000;
+}
+
+.main-banner .movie-main {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.main-banner .movie-main img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.main-banner .content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+}
+
+.main-banner h1 {
+    font-size: 3rem;
+    color: purple;
+}
+
+.main-banner p {
+    font-size: 1.2rem;
+    color: red;
+}
+
+.btn-custom {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 20px;
+    border: 1px solid #ddd;
+    border-radius: 50px;
+    background-color: white;
+    color: black;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.btn-custom .arrow {
+    margin-left: 10px;
+    font-size: 15px;
+}
+
+.btn-more {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: white;
+    color: black;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.btn-custom:hover, .btn-more:hover {
+    color: rgb(54, 54, 54);
+    text-decoration: none;
+}
+
+.image-container {
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+    margin: 0;
+    border-radius: 10px;
+}
+
+.image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.image-container img:hover {
+    cursor: pointer;
+    transform: scale(1.05);
+}
+
+.swiper-button-next, .swiper-button-prev {
+    color: #000;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.swiper-container:hover .swiper-button-next, .swiper-container:hover .swiper-button-prev {
+    opacity: 0.7;
+}
+
+.swiper-button-next:after, .swiper-button-prev:after {
+    font-size: 1.2rem;
+    color: black;
+}
+
+.bold-p {
+    padding-top: 2%;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Custom styles for tab headers */
+.nav-tabs {
+    border-bottom: none;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav-tabs .nav-item {
+    margin-bottom: 0;
+}
+
+.nav-tabs .nav-link {
+    display: inline-block;
+    font-size: 1.7rem;
+    font-weight: bold;
+    padding: 10px 15px;
+    margin-right: 0;
+    margin-left: 0;
+    border: none;
+    color: black;
+    background: none;
+}
+
+
+.nav-tabs .nav-link.active {
+    color: #9b1453;
+    background: none;
+    border: none;
+}
+
+/* Vertical separator style */
+.vertical-separator {
+    font-size: 2rem;
+    margin: 0 10px;
+}
+
+/* Custom styles for "상영관 소개" heading */
+.section-heading {
+    font-size: 1.7rem;
+    font-weight: bold;
+    padding: 10px 15px;
+    color: black;
+    margin-left: 0;
+}

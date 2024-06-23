@@ -14,9 +14,15 @@ public class UserController {
 
     private final HttpSession session;
     private final UserService userService;
+    private final GuestRepository guestRepository;
+
 
     @GetMapping("/")
     public String mainForm(HttpServletRequest request) {
+        // 메인페이지 무비차트 / 상영예정작
+        UserResponse.MainChartDTO mainCharts = userService.findMainMovie();
+        request.setAttribute("model", mainCharts);
+
         return "index";
     }
 
@@ -25,18 +31,38 @@ public class UserController {
         return "user/login-form";
     }
 
-    @GetMapping("/non-member")
-    public String nonMember(HttpServletRequest request) {
+    @GetMapping("/guest/login-form")
+    public String nonMemberForm() {
         return "user/non-member";
+    }
+
+    @PostMapping("/guest/join")
+    public String login(UserRequest.JoinDTO reqDTO){
+        Guest guest = userService.join(reqDTO);
+
+        // 로그인 후 세션에 정보 저장
+        SessionGuest sessionGuest = new SessionGuest(guest.getId(), guest.getBirth(), guest.getPhone());
+        session.setAttribute("sessionGuest", sessionGuest);
+
+        return "book/book-form";
     }
 
     @GetMapping("/mypage/home")
     public String mypageHome(HttpServletRequest request) {
+        // user 타입 아니고 SessionUser 타입이니 조심! (sessionUser가 SessionUser 타입임)
+        SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
+        UserResponse.MyPageHomeDTO homeDTO = userService.findMyPageHome(sessionUser);
+        request.setAttribute("model", homeDTO);
+
         return "user/mypage-home";
     }
 
     @GetMapping("/mypage/detail-book")
     public String myBookDetail(HttpServletRequest request) {
+        SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
+        UserResponse.DetailBookDTO myBookDetail = userService.findMyBookDetail(sessionUser);
+        request.setAttribute("model", myBookDetail);
+
         return "user/mypage-detail-book";
     }
 
@@ -76,11 +102,11 @@ public class UserController {
         //토큰을 session에서 받아옴
         SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
         if (sessionUser.getProvider().equals("kakao")) {
-            userService.logoutKakao(sessionUser.getAccessToken(), sessionUser.getNickname());
+            userService.removeAccountKakao(sessionUser.getAccessToken(), sessionUser.getNickname());
         }
 
         if (sessionUser.getProvider().equals("naver")) {
-            userService.logoutNaver(sessionUser.getAccessToken(), sessionUser.getNickname());
+            userService.removeAccountNaver(sessionUser.getAccessToken(), sessionUser.getNickname());
         }
 
         session.invalidate();

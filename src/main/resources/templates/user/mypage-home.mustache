@@ -1,163 +1,40 @@
 {{> layout/header}}
-<style>
-    .container {
-        background-color: #fff;
-        font-family: 'Arial', sans-serif;
-    }
-    .profile-card {
-        max-width: 100%;
-        margin: 20px 10px;
-        padding: 30px;
-        background-color: #f8f9fa;
-        border: 1px solid #ddd;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        text-align: left;
-    }
+<head>
+    <link rel="stylesheet" href="/css/mypageHome.css">
+</head>
 
-    .profile-card img {
-        width: 100px;
-        height: 100px;
-        border-radius: 50%;
-        background-color: #ddd;
-    }
-    .profile-card .header {
-        display: flex;
-        align-items: center;
-        margin-bottom: 20px;
-    }
-    .profile-card .header .info {
-        margin-left: 20px;
-    }
-    .profile-card .header .info h3 {
-        margin: 0;
-        font-weight: 600;
-    }
-    .profile-card .header .info p {
-        margin: 5px 0;
-    }
-    .profile-card .points, .profile-card .vip-points {
-        margin-bottom: 20px;
-    }
-    .profile-card .points h4, .profile-card .vip-points h4 {
-        font-weight: bold;
-        display: flex;
-        justify-content: space-between;
-    }
-    .profile-card .points p, .profile-card .vip-points p {
-        margin: 0;
-        font-size: 1rem;
-    }
-    .profile-card .grid {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 20px;
-    }
-    .profile-card .grid div {
-        flex: 1;
-        margin: 0 5px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        height: 100px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: #f1f1f1;
-    }
-    .profile-card .grid .setting {
-        background-color: #4E0929;
-        color: white;
-        font-size: 0.9rem;
-        cursor: pointer;
-    }
-    .content-section {
-        padding: 20px;
-    }
-    .content-section h5 {
-        margin-bottom: 20px;
-        font-weight: bold;
-    }
-    .content-section .row div {
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        padding: 20px;
-        text-align: center;
-        background-color: #fff;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-        transition: transform 0.3s;
-    }
-    .content-section .row div:hover {
-        transform: translateY(-5px);
-        cursor: pointer;
-    }
-    .content-section .row div h6 {
-        margin-top: 10px;
-        font-weight: bold;
-    }
-    .content-section p {
-        font-size: 0.9rem;
-        color: #6c757d;
-    }
-
-    .boxed {
-        border: 1px solid #ddd; /* 테두리 설정 */
-        padding: 20px; /* 내용물과 테두리 사이의 여백 */
-        border-radius: 5px; /* 모서리 둥글게 */
-        background-color: #f9f9f9; /* 배경색 설정 */
-        text-align: center;
-    }
-
-    /* + 버튼 */
-    .add-button {
-        display: inline-block;
-        width: 24px; /* 크기 조정 */
-        height: 24px; /* 크기 조정 */
-        border: 1px solid #ccc;
-        border-radius: 50%;
-        text-align: center;
-        line-height: 22px; /* 중앙 정렬 */
-        margin-left: 10px;
-        cursor: pointer;
-        background-color: #f4f4f4; /* 배경색 추가 */
-        color: #333; /* 글자색 설정 */
-        font-weight: bold; /* 글자 두껍게 */
-        transition: background-color 0.3s, box-shadow 0.3s; /* 부드러운 전환 효과 */
-    }
-
-    .add-button:hover {
-        background-color: #ddd; /* 호버 시 배경색 변경 */
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 호버 시 그림자 추가 */
-    }
-
-</style>
 
 <div class="container">
     <div class="profile-card">
         <div class="header">
-            <img src="https://via.placeholder.com/100" alt="profile picture">
+            <img src="{{model.userDTO.imgFilename}}">
             <div class="info">
-                <h3>박찬혁님</h3>
-                <p><strong>cowtti97</strong></p>
+                <h3>{{model.userDTO.name}}님</h3>
+                <p><strong>{{model.userDTO.nickname}}</strong></p>
                 <p>고객님은 <span class="text-danger">일반</span> 입니다.</p>
             </div>
         </div>
         <div class="row">
             <div class="col-md-6 points">
-                <h4>POINT <span><i class="fas fa-plus"></i></span></h4>
-                <p>사용가능 포인트 <strong>300 점</strong></p>
+                <h4>POINT <i class="fas fa-question-circle" data-toggle="tooltip"
+                             title="1,000P 이상부터 10P 단위로 사용 가능합니다."></i></h4>
+                <p>사용가능 포인트 <strong>{{model.userDTO.point}} 점</strong></p>
             </div>
             <div class="col-md-6 vip-points">
-                <h4>VIP 점수 <i class="fas fa-question-circle"></i></h4>
-                <p>VIP 누적 점수 <strong>300/10,000점</strong></p>
+                <h4>VIP 점수 <i class="fas fa-question-circle" data-toggle="tooltip"
+                              title="1만점 누적 달성하시면 다음달 VIP로 승급됩니다."></i></h4>
+                <p>VIP 누적 점수 <strong>{{model.userDTO.point}}/10,000점</strong></p>
             </div>
         </div>
+
+
         <div class="grid">
             <div>1</div>
             <div>2</div>
             <div>3</div>
             <div>4</div>
             <div>5</div>
-            <div class="setting" style="text-align: center; font-weight: bold">빠른 극장 선택</div>
+            <div class="setting" style="text-align: center; font-weight: bold" onclick="openModal()">빠른 극장 선택</div>
         </div>
     </div>
 
@@ -165,21 +42,27 @@
     <div class="row mt-5 justify-content-between">
         {{> layout/sidebar}}
         <div class="col-md-9 content-section">
-            <div class="row">
+            <div class="row row-style">
                 <div class="col-md-4">
-                    <img src="https://via.placeholder.com/40" alt="icon">
+                    <a href="/mypage/detail-saw" style="text-decoration: none; color: inherit;">
+                    🎈
                     <h6>기대되는 영화</h6>
                     <p>보고 싶은 영화를<br>미리 담아두고 싶다면?</p>
+                    </a>
                 </div>
                 <div class="col-md-4">
-                    <img src="https://via.placeholder.com/40" alt="icon">
+                    <a href="/mypage/detail-saw" style="text-decoration: none; color: inherit;">
+                    💖
                     <h6>내가 본 영화</h6>
                     <p>관람한 영화를<br>한 번에 모아 보고 싶다면?</p>
+                    </a>
                 </div>
                 <div class="col-md-4">
-                    <img src="https://via.placeholder.com/40" alt="icon">
+                    <a href="/mypage/detail-saw" style="text-decoration: none; color: inherit;">
+                    ⭐
                     <h6>내가 쓴 평점</h6>
                     <p>관람 후 내 느낌을<br>점수로 남기고 싶다면?</p>
+                    </a>
                 </div>
             </div>
 
@@ -187,9 +70,24 @@
 
             <div class="mt-4">
                 <h5>MY 예매내역 0건 <span class="add-button">+</span></h5>
+
                 <div class="mt-4 boxed">
-                    <p>고객님의 최근 예매내역이 존재하지 않습니다.</p>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <img src="https://via.placeholder.com/100" alt="movie poster" class="img-fluid">
+                            <p class="card-text">예매번호 0027-5201-5621</p>
+                        </div>
+                        <div class="col-md-9" style="padding-top: 5%">
+                            <h5 class="card-title"><strong>범죄도시3</strong></h5>
+                            <p class="card-text">관람극장 순천CGV</p>
+                            <p class="card-text">관람일시 2017.05.15(수) 21:30</p>
+                        </div>
+                    </div>
                 </div>
+
+                <!--                <div class="mt-4 boxed">-->
+                <!--                    <p>고객님의 최근 예매내역이 존재하지 않습니다.</p>-->
+                <!--                </div>-->
             </div>
             <div class="mt-4">
                 <h5>MY Q&A 0건 <span class="add-button">+</span></h5>
@@ -200,6 +98,87 @@
         </div>
     </div>
 </div>
+
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <div class="tab">
+            <div class="tab-button active" data-tab="tab1">지역별</div>
+            <div class="tab-button" data-tab="tab2">특별관</div>
+        </div>
+        <div class="tab-content active" id="tab1">
+            <div class="theater-list">
+                <div data-theater="강남">강남</div>
+                <div data-theater="홍대">홍대</div>
+                <div data-theater="종로">종로</div>
+            </div>
+        </div>
+        <div class="tab-content" id="tab2">
+            <div class="theater-list">
+                <div data-theater="IMAX">IMAX</div>
+                <div data-theater="4DX">4DX</div>
+                <div data-theater="VIP">VIP</div>
+            </div>
+        </div>
+
+        <div class="selected-theater">
+            <!-- 선택한 극장이 여기 표시됩니다 -->
+        </div>
+
+    </div>
+</div>
+
+<script>
+
+    //툴팁
+    $('[data-toggle="tooltip"]').tooltip();
+
+    function openModal() {
+        $("#myModal").css("display", "block");
+    }
+
+    function closeModal() {
+        $("#myModal").css("display", "none");
+    }
+
+    $('.tab-button').on('click', function () {
+        $('.tab-button').removeClass('active');
+        $('.tab-content').removeClass('active');
+
+        $(this).addClass('active');
+        $('#' + $(this).data('tab')).addClass('active');
+    });
+
+    $(window).on('click', function (event) {
+        if (event.target == $("#myModal")[0]) {
+            closeModal();
+        }
+    });
+
+    const maxSelectedTheaters = 5;
+
+    $('.theater-list div').on('click', function () {
+        if ($('.selected-theater div').length >= maxSelectedTheaters) {
+            alert('최대 5개의 극장만 선택할 수 있습니다.');
+            return;
+        }
+
+        const theaterName = $(this).data('theater');
+        const selectedTheater = $(`
+            <div>
+                ${theaterName}
+                <button class="delete-button">&times;</button>
+            </div>
+        `);
+
+        selectedTheater.find('.delete-button').on('click', function () {
+            $(this).parent().remove();
+        });
+
+        $('.selected-theater').append(selectedTheater);
+    });
+
+</script>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>

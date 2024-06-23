@@ -1,6 +1,11 @@
 package org.example.metabox.user;
 
 import lombok.RequiredArgsConstructor;
+import org.example.metabox._core.errors.exception.Exception400;
+import org.example.metabox._core.errors.exception.Exception401;
+import org.example.metabox.movie.Movie;
+import org.example.metabox.movie.MovieQueryRepository;
+import org.example.metabox.movie.MovieRepository;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -11,14 +16,100 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import java.text.DecimalFormat;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import java.util.UUID;
 
+@Transactional(readOnly = true)
 @Service
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final MovieRepository movieRepository;
+    private final MovieQueryRepository movieQueryRepository;
+    private final GuestRepository guestRepository;
+
+
+    // 메인 페이지 무비차트, 상영예정작
+    public UserResponse.MainChartDTO findMainMovie() {
+        List<UserResponse.MainChartDTO.MainMovieChartDTO> movieChartDTOS = movieQueryRepository.getMainMovieChart();
+//        System.out.println("쿼리 확인용 = " + movieChartDTOS);
+
+        // 순위 계산
+        for (int i = 0; i < movieChartDTOS.size(); i++) {
+            movieChartDTOS.get(i).setRank(i + 1);
+        }
+
+        // 상영예정작
+        List<UserResponse.MainChartDTO.ToBeChartDTO> toBeChartDTOS = movieQueryRepository.getToBeChart();
+//        System.out.println("상영예정작 = " + toBeChartDTOS);
+
+        UserResponse.MainChartDTO mainChartDTO = UserResponse.MainChartDTO.builder()
+                .movieCharts(movieChartDTOS)
+                .toBeCharts(toBeChartDTOS).build();
+
+        return mainChartDTO;
+    }
+
+
+    // 마이페이지 detail-book의 today best 무비차트
+    public UserResponse.DetailBookDTO findMyBookDetail(SessionUser sessionUser) {
+        User userOP = userRepository.findById(sessionUser.getId())
+                .orElseThrow(() -> new Exception401("로그인이 필요한 서비스입니다."));
+
+        List<UserResponse.DetailBookDTO.MovieChartDTO> movieChartDTOS = movieQueryRepository.getMovieChart();
+//        System.out.println("쿼리 확인용 " + movieChartDTOS);
+        UserResponse.DetailBookDTO.UserDTO userDTO = new UserResponse.DetailBookDTO.UserDTO(userOP);
+
+        // DetailBookDTO 로 변형
+        UserResponse.DetailBookDTO detailBookDTO = UserResponse.DetailBookDTO.builder()
+                .userDTO(userDTO)
+                .movieCharts(movieChartDTOS).build();
+
+        return detailBookDTO;
+    }
+
+    //mypage/home 유저조회 및 예매내역, 취소내역 조회
+    public UserResponse.MyPageHomeDTO findMyPageHome(SessionUser sessionUser) {
+        User userOP = userRepository.findById(sessionUser.getId())
+                .orElseThrow(() -> new Exception401("로그인이 필요한 서비스입니다."));
+
+        UserResponse.MyPageHomeDTO.UserDTO userDTO = new UserResponse.MyPageHomeDTO.UserDTO(userOP);
+
+        UserResponse.MyPageHomeDTO homeDTO = UserResponse.MyPageHomeDTO.builder()
+                .userDTO(userDTO)
+                .build();
+
+        return homeDTO;
+
+    }
+
+
+    //비회원 회원가입
+    public Guest join (UserRequest.JoinDTO reqDTO){
+        Optional<Guest> guestOP = guestRepository.findOneByPhone(reqDTO.getPhone());
+
+        if(guestOP.isPresent()){
+            throw new Exception400("동일한 휴대폰 번호가 존재 합니다.");
+        }
+
+        //회원가입
+        Guest jguest = guestRepository.save(Guest.builder()
+                        .birth(reqDTO.getBirth())
+                        .password(reqDTO.getPassword())
+                        .phone(reqDTO.getPhone())
+                .build());
+
+        //회원가입 됐으면 로그인 진행
+        Guest guest =  guestRepository.findByBirthAndPassword(reqDTO.getBirth(), reqDTO.getPassword())
+                .orElseThrow(() -> new Exception401("존재하지 않는 계정입니다."));
+
+        return guest;
+
+    }
 
     public SessionUser loginKakao(String code) {
         // 1.1 RestTemplate 설정
@@ -172,7 +263,7 @@ public class UserService {
     }
 
     @Transactional
-    public void logoutKakao(String accessToken, String nickname) {
+    public void removeAccountKakao(String accessToken, String nickname) {
         RestTemplate rt = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
@@ -195,7 +286,7 @@ public class UserService {
     }
 
     @Transactional
-    public void logoutNaver(String accessToken, String nickname) {
+    public void removeAccountNaver(String accessToken, String nickname) {
         RestTemplate rt = new RestTemplate();
 
         String url = String.format(
@@ -210,4 +301,5 @@ public class UserService {
         userRepository.deleteByNickname(nickname);
 
     }
+
 }

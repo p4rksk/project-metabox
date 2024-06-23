@@ -23,14 +23,15 @@ public class Guest {
 
     private String password;
 
-    private String name;
+    @Column(unique = true, nullable = false)
+    private String phone;
 
     @Builder
-    public Guest(Integer id, Book book, String birth, String password, String name) {
+    public Guest(Integer id, Book book, String birth, String password, String phone) {
         this.id = id;
         this.book = book;
         this.birth = birth;
         this.password = password;
-        this.name = name;
+        this.phone = phone;
     }
 }
