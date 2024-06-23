@@ -6,6 +6,8 @@ import org.example.metabox._core.errors.exception.Exception401;
 import org.example.metabox.movie.Movie;
 import org.example.metabox.movie.MovieQueryRepository;
 import org.example.metabox.movie.MovieRepository;
+import org.example.metabox.theater.Theater;
+import org.example.metabox.theater.TheaterRepository;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -31,6 +33,7 @@ public class UserService {
     private final MovieRepository movieRepository;
     private final MovieQueryRepository movieQueryRepository;
     private final GuestRepository guestRepository;
+    private final TheaterRepository theaterRepository;
 
 
     // 메인 페이지 무비차트, 상영예정작
@@ -78,13 +81,19 @@ public class UserService {
                 .orElseThrow(() -> new Exception401("로그인이 필요한 서비스입니다."));
 
         UserResponse.MyPageHomeDTO.UserDTO userDTO = new UserResponse.MyPageHomeDTO.UserDTO(userOP);
-
         List<UserResponse.MyPageHomeDTO.TicketingDTO> ticketingDTOS = movieQueryRepository.findMyTicketing(sessionUser.getId());
 
-        UserResponse.MyPageHomeDTO homeDTO = UserResponse.MyPageHomeDTO.builder()
-                .userDTO(userDTO)
-                .ticketingDTO(ticketingDTOS)
-                .build();
+        System.out.println("어서터짐?");
+
+        // 상영관 가져오기
+        List<Theater> theaterList = theaterRepository.findAll();
+        System.out.println("확인 " + theaterList);
+
+        UserResponse.MyPageHomeDTO homeDTO = new UserResponse.MyPageHomeDTO(userDTO, ticketingDTOS);
+//        UserResponse.MyPageHomeDTO homeDTO = UserResponse.MyPageHomeDTO.builder()
+//                .userDTO(userDTO)
+//                .ticketingDTO(ticketingDTOS)
+//                .build();
 
         return homeDTO;
 

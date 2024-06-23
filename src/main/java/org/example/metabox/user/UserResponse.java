@@ -19,12 +19,35 @@ public class UserResponse {
     public static class MyPageHomeDTO {
         private UserDTO userDTO;
         private List<TicketingDTO> ticketingDTO = new ArrayList<>();
+        private List<TheaterDTO> theaterAreaDTOS = new ArrayList<>();
 
-        @Builder
         public MyPageHomeDTO(UserDTO userDTO, List<TicketingDTO> ticketingDTO) {
             this.userDTO = userDTO;
             this.ticketingDTO = ticketingDTO;
         }
+
+        @Data
+        public class TheaterDTO {
+            private Integer id;
+            private String areaName;
+            private List<TheaterNameDTO> theaterNameDTOS = new ArrayList<>();
+
+            public TheaterDTO(Integer id, String areaName, List<TheaterNameDTO> theaterNameDTOS) {
+                this.id = id;
+                this.areaName = areaName;
+                this.theaterNameDTOS = theaterNameDTOS;
+            }
+
+            @Data
+            public class TheaterNameDTO {
+                private String theaterName;
+
+                public TheaterNameDTO(String theaterName) {
+                    this.theaterName = theaterName;
+                }
+            }
+        }
+
 
         // 마이페이지 내 예매내역
         @Data
