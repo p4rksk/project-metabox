@@ -86,8 +86,8 @@ public class UserService {
         System.out.println("어서터짐?");
 
         // 상영관 가져오기
-        List<Theater> theaterList = theaterRepository.findAll();
-        System.out.println("확인 " + theaterList);
+//        List<Theater> theaterList = theaterRepository.findAll();
+//        System.out.println("확인 " + theaterList);
 
         UserResponse.MyPageHomeDTO homeDTO = new UserResponse.MyPageHomeDTO(userDTO, ticketingDTOS);
 //        UserResponse.MyPageHomeDTO homeDTO = UserResponse.MyPageHomeDTO.builder()
