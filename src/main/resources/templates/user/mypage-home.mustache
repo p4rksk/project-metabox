@@ -112,16 +112,18 @@
         </div>
         <div class="tab-content active" id="tab1">
             <div class="theater-list">
-                <div data-theater="강남">강남</div>
-                <div data-theater="홍대">홍대</div>
-                <div data-theater="종로">종로</div>
+                {{#model.theaterDTOS}}
+                    <div data-theater="{{areaName}}">{{areaName}}</div>
+                {{/model.theaterDTOS}}
             </div>
         </div>
         <div class="tab-content" id="tab2">
             <div class="theater-list">
-                <div data-theater="IMAX">IMAX</div>
-                <div data-theater="4DX">4DX</div>
-                <div data-theater="VIP">VIP</div>
+                {{#model.theaterDTOS}}
+                    {{#theaterNameDTOS}}
+                        <div data-theater="{{theaterName}}">{{theaterName}}</div>
+                    {{/theaterNameDTOS}}
+                {{/model.theaterDTOS}}
             </div>
         </div>
 

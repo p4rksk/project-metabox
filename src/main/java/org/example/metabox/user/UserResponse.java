@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Builder;
 import lombok.Data;
 import org.example.metabox._core.util.ScopeDeserializer;
+import org.example.metabox.theater.Theater;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -12,6 +13,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class UserResponse {
 
@@ -19,35 +21,38 @@ public class UserResponse {
     public static class MyPageHomeDTO {
         private UserDTO userDTO;
         private List<TicketingDTO> ticketingDTO = new ArrayList<>();
-        private List<TheaterDTO> theaterAreaDTOS = new ArrayList<>();
+        private List<TheaterDTO> theaterDTOS = new ArrayList<>();
 
-        public MyPageHomeDTO(UserDTO userDTO, List<TicketingDTO> ticketingDTO) {
+        public MyPageHomeDTO(UserDTO userDTO, List<TicketingDTO> ticketingDTO, List<TheaterDTO> theaterDTOS) {
             this.userDTO = userDTO;
             this.ticketingDTO = ticketingDTO;
+            this.theaterDTOS = theaterDTOS;
         }
 
         @Data
-        public class TheaterDTO {
-            private Integer id;
+        public static class TheaterDTO {
+//            private Integer id;       // 필요한가? 일단 보류
             private String areaName;
             private List<TheaterNameDTO> theaterNameDTOS = new ArrayList<>();
 
-            public TheaterDTO(Integer id, String areaName, List<TheaterNameDTO> theaterNameDTOS) {
-                this.id = id;
+            public TheaterDTO(String areaName, List<TheaterNameDTO> theaterNameDTOS) {
+//                this.id = id;     // 보류
                 this.areaName = areaName;
                 this.theaterNameDTOS = theaterNameDTOS;
+//                this.theaterNameDTOS = theaterNameDTOS.stream()
+//                        .filter(theaterNameDTO -> theaterNameDTO.getTheaterName().equals(this.areaName))
+//                        .collect(Collectors.toList());
             }
 
             @Data
-            public class TheaterNameDTO {
+            public static class TheaterNameDTO {
                 private String theaterName;
 
-                public TheaterNameDTO(String theaterName) {
-                    this.theaterName = theaterName;
+                public TheaterNameDTO(Theater theater) {
+                    this.theaterName = theater.getName();
                 }
             }
         }
-
 
         // 마이페이지 내 예매내역
         @Data

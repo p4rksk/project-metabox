@@ -20,10 +20,8 @@ import org.springframework.web.client.RestTemplate;
 
 import java.text.DecimalFormat;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Transactional(readOnly = true)
 @Service
@@ -75,7 +73,7 @@ public class UserService {
         return detailBookDTO;
     }
 
-    //mypage/home 유저조회 및 예매내역, 취소내역 조회
+    //mypage/home 유저조회 및 예매내역, 취소내역 조회, 극장 스크랩
     public UserResponse.MyPageHomeDTO findMyPageHome(SessionUser sessionUser) {
         User userOP = userRepository.findById(sessionUser.getId())
                 .orElseThrow(() -> new Exception401("로그인이 필요한 서비스입니다."));
@@ -86,10 +84,38 @@ public class UserService {
         System.out.println("어서터짐?");
 
         // 상영관 가져오기
-//        List<Theater> theaterList = theaterRepository.findAll();
-//        System.out.println("확인 " + theaterList);
+        List<Theater> theaterList = theaterRepository.findAll();
+        System.out.println("확인 " + theaterList);
 
-        UserResponse.MyPageHomeDTO homeDTO = new UserResponse.MyPageHomeDTO(userDTO, ticketingDTOS);
+        // pk 순으로 먼저 정렬해서 중복제거 하기
+        theaterList.sort(Comparator.comparing(theater -> theater.getId()));
+
+        // areaName 중복제거    //theaterDistinct = [서울, 경기, 인천, 강원, 대전/충청, 대구, 부산/울산, 경상, 광주/전라/제주]
+        List<String> theaterDistinct = theaterList.stream().map(theater -> theater.getAreaName())
+                        .distinct()
+                        .collect(Collectors.toList());
+
+        System.out.println("theaterDistinct = " + theaterDistinct);
+
+        // METABOX 강남 METABOX 여수 .. 이런 것이 지역별로 맞게 나와야함 . filter 사용
+        List<UserResponse.MyPageHomeDTO.TheaterDTO> theaterDTOS = new ArrayList<>();
+        for (String areaName : theaterDistinct) {
+            List<UserResponse.MyPageHomeDTO.TheaterDTO.TheaterNameDTO> theaterNameDTOS = theaterList.stream()
+                    .filter(theater -> theater.getAreaName().equals(areaName))
+                    .map(theater -> new UserResponse.MyPageHomeDTO.TheaterDTO.TheaterNameDTO(theater))
+                    .collect(Collectors.toList());
+
+            theaterDTOS.add(new UserResponse.MyPageHomeDTO.TheaterDTO(areaName, theaterNameDTOS));
+        }
+
+        System.out.println("theaterNameDTOS = " + theaterDTOS);
+
+//        List<UserResponse.MyPageHomeDTO.TheaterDTO> theaterDTOS = new ArrayList<>();
+//        for (int i = 0; i < theaterDistinct.size(); i++) {
+//            theaterDTOS.add(new UserResponse.MyPageHomeDTO.TheaterDTO(theaterDistinct.get(i), theaterNameDTOS));
+//        }
+
+        UserResponse.MyPageHomeDTO homeDTO = new UserResponse.MyPageHomeDTO(userDTO, ticketingDTOS, theaterDTOS);
 //        UserResponse.MyPageHomeDTO homeDTO = UserResponse.MyPageHomeDTO.builder()
 //                .userDTO(userDTO)
 //                .ticketingDTO(ticketingDTOS)

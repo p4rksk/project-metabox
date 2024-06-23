@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.example.metabox.screening.Screening;
 import org.example.metabox.theater_scrap.TheaterScrap;
 import java.util.List;
@@ -18,9 +19,11 @@ public class Theater {
     private int id;
 
     @OneToMany(mappedBy = "theater", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @ToString.Exclude
     private List<Screening> screeningList;
 
     @OneToMany(mappedBy = "theater", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @ToString.Exclude
     private List<TheaterScrap> theaterScrapList;
 
     private String name;
