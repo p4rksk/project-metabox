@@ -11,6 +11,67 @@ import java.util.stream.Collectors;
 public class TheaterResponse {
 
     @Data
+    public static class TheaterInfoDTO {
+        private String theaterName;
+        private int theaterId;
+        private String theaterImgFilename;
+        private List<ScrapDTO> scrapDTOList;
+        private List<TheaterAreaDTO> theaterAreaDTOList;
+
+        public TheaterInfoDTO(List<TheaterScrap> theaterScrapList, List<Theater> theaterList, Theater theater) {
+            this.theaterName = theater.getName();
+            this.theaterId = theater.getId();
+            this.theaterImgFilename = theater.getImgFilename();
+            this.scrapDTOList = theaterScrapList.stream().map(ScrapDTO::new).collect(Collectors.toList());
+            this.theaterAreaDTOList = theaterList.stream()
+                    .collect(Collectors.groupingBy(Theater::getAreaCode))
+                    .entrySet().stream()
+                    .map(entry -> new TheaterAreaDTO(entry.getKey(), entry.getValue()))
+                    .collect(Collectors.toList());
+            ;
+        }
+
+        @Data
+        private class ScrapDTO {
+            private String id;
+            private String theaterId;
+            private String theaterName;
+
+            public ScrapDTO(TheaterScrap theaterScrap) {
+                this.id = String.valueOf(theaterScrap.getId());
+                this.theaterId = String.valueOf(theaterScrap.getTheater().getId());
+                this.theaterName = theaterScrap.getTheater().getName();
+            }
+        }
+
+        @Data
+        private class TheaterAreaDTO {
+            private String areaCode;
+            private String areaName;
+            private List<TheaterNameDTO> theaterNameDTOList;
+
+            public TheaterAreaDTO(String areaCode, List<Theater> theaters) {
+                this.areaCode = areaCode;
+                this.areaName = theaters.isEmpty() ? "" : theaters.get(0).getAreaName();
+                this.theaterNameDTOList = theaters.stream().map(TheaterNameDTO::new).collect(Collectors.toList());
+            }
+
+            @Data
+            private class TheaterNameDTO {
+                private int theaterId;
+                private String theaterName;
+
+                public TheaterNameDTO(Theater theater) {
+                    this.theaterId = theater.getId();
+                    this.theaterName = theater.getName();
+                }
+            }
+        }
+
+    }
+
+
+    @Data
     public static class TheaterDTO {
         private String theaterName;
         private int theaterId;

@@ -50,4 +50,28 @@ public class TheaterService {
         TheaterResponse.TheaterDTO respDTO = new TheaterResponse.TheaterDTO(theaterScrapList, theaterList, screeningInfoList, theater);
         return respDTO;
     }
+
+    public TheaterResponse.TheaterInfoDTO theaterInfo(SessionUser sessionUser, Integer theaterId) {
+        // 1. 내가 Scrap한 목록 불러오기
+        List<TheaterScrap> theaterScrapList = new ArrayList<>();
+        if (sessionUser == null) {
+            while (theaterScrapList.size() < 5) {
+                theaterScrapList.add(TheaterScrap.builder().id(0).theater(Theater.builder().name("").build()).build());
+            }
+        } else {
+            theaterScrapList = theaterScrapRepository.findByUserId(sessionUser.getId());
+            // 무조건 theaterScrapList의 사이즈가 5가 되도록 설정
+            while (theaterScrapList.size() < 5) {
+                theaterScrapList.add(TheaterScrap.builder().id(0).theater(Theater.builder().name("").build()).build());
+            }
+        }
+        // 2. 지역 목록에 따른 극장 목록 가져오기
+        List<Theater> theaterList = theaterRepository.findAll();
+
+        //3. theater 가져오기
+        Theater theater = theaterRepository.findById(theaterId).orElseThrow(() -> new Exception404("극장을 찾을 수 없습니다."));
+
+        TheaterResponse.TheaterInfoDTO respDTO = new TheaterResponse.TheaterInfoDTO(theaterScrapList, theaterList, theater);
+        return respDTO;
+    }
 }

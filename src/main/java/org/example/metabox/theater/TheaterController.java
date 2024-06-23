@@ -15,7 +15,10 @@ public class TheaterController {
     private final HttpSession session;
 
     @GetMapping("/theaters/info")
-    public String theatersInfo() {
+    public String theatersInfo(HttpServletRequest request, @RequestParam(value = "theaterId", defaultValue = "1") Integer theaterId) {
+        SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
+        TheaterResponse.TheaterInfoDTO respDTO = theaterService.theaterInfo(sessionUser, theaterId);
+        request.setAttribute("model", respDTO);
         return "theater/info";
     }
 
@@ -29,7 +32,6 @@ public class TheaterController {
         SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
         TheaterResponse.TheaterDTO respDTO = theaterService.movieSchedule(sessionUser, theaterId);
         request.setAttribute("model", respDTO);
-        System.out.println("영화관 이름 잘나오나?" + respDTO.getTheaterName());
         return "theater/movie-schedule";
     }
 }
