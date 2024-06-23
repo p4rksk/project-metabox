@@ -44,37 +44,6 @@
         display: inline-block;
     }
 
-    /* 옆에 결제바 */
-    .summary-box {
-        padding: 5px; /* 줄어든 padding */
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        margin-bottom: 10px; /* 줄어든 margin */
-        text-align: center;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        overflow: hidden;
-        width: 80%;
-        margin-left: 25px;
-    }
-
-    .summary-box .summary-item {
-        margin-bottom: 5px; /* 줄어든 margin */
-    }
-
-    .summary-box .summary-item:last-child {
-        margin-bottom: 0;
-    }
-
-    .summary-box .summary-item .value {
-        font-weight: bold;
-        font-size: 1.2rem; /* 줄어든 font-size */
-    }
-
-    .summary-box .summary-item .label {
-        font-weight: bold;
-        font-size: 0.9rem; /* 줄어든 font-size */
-    }
-
 
     .b-color {
         background-color: #F9F9F9;
@@ -82,15 +51,10 @@
 
 
     .content-wrapper {
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
         padding: 20px;
+        margin-bottom: 30px;
     }
 
-    .content {
-        flex: 1;
-    }
 
     .custom-buttons {
         display: flex;
@@ -169,8 +133,6 @@
                         </div>
                     </div>
                 </div>
-
-
             </div>
         </div>
     </div>
@@ -207,11 +169,6 @@
             </div>
 
             <div class="pay-area">
-                <div class="add-thing">
-                    <p class="tit">추가차액 <!-- 추가금액 --></p>
-
-                    <div class="money">0</div>
-                </div>
                 <div class="pay">
                     <p class="tit">최종결제금액 <!-- 최종결제금액 --></p>
 
@@ -240,7 +197,4 @@
 </div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
 {{> layout/footer}}

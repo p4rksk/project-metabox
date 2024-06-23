@@ -12,10 +12,10 @@ public interface GuestRepository extends JpaRepository<Guest, Integer> {
 
     //비회원 회원 가입 때  동일한 휴대폰 번호 있는지 확인
     @Query("select g from Guest g where g.phone = :phone")
-    Optional<Guest> findOneByPhone(String phone);
+    Guest findOneByPhone(String phone);
 
     //비회원 로그인
     @Query("select g from Guest g where g.birth = :birth and g.password = :password")
-    Optional<Guest> findByBirthAndPassword(@Param("birth") String birth, @Param("password") String password);
+    Guest findByBirthAndPassword(@Param("birth") String birth, @Param("password") String password);
 
 }
