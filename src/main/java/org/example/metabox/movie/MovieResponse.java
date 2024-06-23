@@ -1,5 +1,6 @@
 package org.example.metabox.movie;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.example.metabox.movie_pic.MoviePic;
 import org.example.metabox.trailer.Trailer;
@@ -86,6 +87,31 @@ public class MovieResponse {
 
         }
 
+    }
+
+    @Data
+    @AllArgsConstructor
+    public static class UserMovieChartDTO {
+        private int id;               // 영화의 고유 식별자
+        private String title;         // 영화 제목
+        private String imgFilename;   // 영화 이미지 파일명
+        private String infoAgeLimit;  // 영화 정보의 첫 번째 부분
+        private Date startDate;       // 상영 시작일
+        private String releaseStatus; // 상영 상태(상영중, D-?)
+        private Double bookingRate;   // 예매율
+        private int rank;             // 순위
+
+        // Movie 객체를 받아서 UserMovieChartDTO 객체의 필드를 초기화합니다.
+        public UserMovieChartDTO(Movie movie, int rank, Double bookingRate, String releaseStatus) {
+            this.id = movie.getId();
+            this.imgFilename = movie.getImgFilename();
+            this.title = movie.getTitle();
+            this.infoAgeLimit = movie.getInfo().split(",")[0]; // Movie 객체에서 info 값을 쉼표로 분리하여 첫 번째 부분의 값을 할당
+            this.startDate = movie.getStartDate();
+            this.releaseStatus = releaseStatus; // 상영 상태(상영중, D-?)
+            this.bookingRate = bookingRate; // 예매율
+            this.rank = rank; // 순위
+        }
     }
 
 }

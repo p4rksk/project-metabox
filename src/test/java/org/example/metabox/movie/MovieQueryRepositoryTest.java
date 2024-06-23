@@ -52,4 +52,22 @@ public class MovieQueryRepositoryTest {
 
     }
 
+    @Test
+    public void getUserMovieChart_Test(){
+        // given
+
+        // when
+        List<Object[]> results = movieQueryRepository.getUserMovieChart();
+
+        // then
+        for (Object[] result : results) {
+            System.out.println("Movie ID: " + result[0]);
+            System.out.println("Title: " + result[1]);
+            System.out.println("Image Filename: " + result[2]);
+            System.out.println("Info: " + result[3]);
+            System.out.println("Start Date: " + result[4]);
+            System.out.println("Booking Rate: " + result[5]);
+        }
+    }
+
 }

@@ -153,4 +153,32 @@ public class MovieQueryRepository {
 
     }
 
+    public List<Object[]> getUserMovieChart() {
+        // PK, 순위, 연령, 포스터, 제목, 예매율, 개봉일, 상영 상태
+        // TODO: DB에 값이 없어서 '2024-06-21'로 설정함 -> CURRENT_DATE로 바꿔야함
+        String sql = """
+            SELECT
+                m.id,
+                m.title,
+                m.img_filename,
+                m.info,
+                m.start_date,
+                COUNT(sb.book_id) * 1.0 / (
+                                            SELECT COUNT(sb2.book_id)
+                                            FROM seat_book_tb sb2
+                                            JOIN screening_info_tb si2
+                                            ON sb2.screening_info_id = si2.id
+                                            WHERE si2.date >= '2024-06-21'
+                                            ) AS bookingRate
+            FROM movie_tb m
+            LEFT JOIN screening_info_tb si ON m.id = si.movie_id
+            LEFT JOIN seat_book_tb sb ON si.id = sb.screening_info_id
+            WHERE si.date >= '2024-06-21'
+            GROUP BY m.id, m.title, m.img_filename, m.info, m.start_date
+            ORDER BY bookingRate DESC;
+            """;
+        Query query = em.createNativeQuery(sql);
+        List<Object[]> results = query.getResultList();
+        return results;
+    }
 }

@@ -1,6 +1,8 @@
 package org.example.metabox.movie;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -30,6 +32,7 @@ public class MovieService {
     private final FileUtil fileUtil;
     private final MoviePicRepository moviePicRepository;
     private final TrailerRepository trailerRepository;
+    private final MovieQueryRepository movieQueryRepository;
 
     // 모든 영화를 조회하는 메서드
     public List<MovieResponse.MovieChartDTO> getAllMovies() {
@@ -65,12 +68,12 @@ public class MovieService {
 
         // 개봉일이 오늘 이전이거나 오늘과 같으면 "현재상영중"을 반환합니다.
         if (movieReleaseDate.isBefore(today) || movieReleaseDate.isEqual(today)) {
-            return "현재상영중";
+            return "개봉";
         } else {
             // 개봉일이 오늘 이후인 경우, 오늘부터 개봉일까지의 일수를 계산합니다.
             long dDay = ChronoUnit.DAYS.between(today, movieReleaseDate);
             // "상영예정 D-일수" 형식으로 반환합니다.
-            return "상영예정 D-" + dDay;
+            return "개봉 D-" + dDay;
         }
     }
 
@@ -96,8 +99,8 @@ public class MovieService {
                 .actor(reqDTO.getActor())               // 배우 설정
                 .genre(reqDTO.getGenre())               // 장르 설정
                 .info(reqDTO.getInfo())                 // 기본 정보 설정
-                .startDate(reqDTO.getStartDate())            // 개봉일 설정
-                .endDate(reqDTO.getEndDate())              // 상영 종료일 설정
+                .startDate(reqDTO.getStartDate())       // 개봉일 설정
+                .endDate(reqDTO.getEndDate())           // 상영 종료일 설정
                 .imgFilename(posterFileName)            // 포스터 파일 이름 설정
                 .description(reqDTO.getDescription())   // 영화 설명 설정
                 .build();
@@ -155,6 +158,39 @@ public class MovieService {
 
         // Movie 객체를 반환
         return movie;
+    }
+
+    public List<MovieResponse.UserMovieChartDTO> getMovieChart(){
+        // 상영 중 또는 개봉 예정인 영화를 예매율 순으로 조회
+        List<Object[]> results = movieQueryRepository.getUserMovieChart();
+        List<MovieResponse.UserMovieChartDTO> userMovieChartDTOList = new ArrayList<>();
+
+        for (int rank = 0; rank < results.size(); rank++) {
+            Object[] result = results.get(rank);
+            int movieId = (Integer) result[0];
+            String title = (String) result[1];
+            String imgFilename = (String) result[2];
+            String info = (String) result[3];
+            Date startDate = (Date) result[4];
+            BigDecimal bookingRateBigDecimal = (BigDecimal) result[5];
+            Double bookingRate = bookingRateBigDecimal.multiply(BigDecimal.valueOf(100)).setScale(2, RoundingMode.HALF_UP).doubleValue();
+
+            // 상영 상태 계산 (예: 상영 중, D-날짜)
+            String releaseStatus = checkMovieReleaseStatus(startDate);
+
+            MovieResponse.UserMovieChartDTO dto = new MovieResponse.UserMovieChartDTO(
+                    movieId,
+                    title,
+                    imgFilename,
+                    info.split(",")[0], // 연령 정보
+                    startDate,
+                    releaseStatus,
+                    bookingRate,
+                    rank + 1 // rank는 0부터 시작하므로 1을 더해줍니다.
+            );
+            userMovieChartDTOList.add(dto);
+        }
+        return userMovieChartDTOList;
     }
 
 }
