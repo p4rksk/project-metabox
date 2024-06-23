@@ -2,8 +2,9 @@ package org.example.metabox.theater;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.example.metabox.movie.Movie;
 import org.example.metabox.movie.MovieRepository;
+import org.example.metabox.screening_info.ScreeningInfo;
+import org.example.metabox.screening_info.ScreeningInfoRepository;
 import org.example.metabox.theater_scrap.TheaterScrap;
 import org.example.metabox.theater_scrap.TheaterScrapRepository;
 import org.example.metabox.user.SessionUser;
@@ -18,6 +19,7 @@ public class TheaterService {
     private final TheaterRepository theaterRepository;
     private final TheaterScrapRepository theaterScrapRepository;
     private final MovieRepository movieRepository;
+    private final ScreeningInfoRepository screeningInfoRepository;
 
     @Transactional
     public TheaterResponse.TheaterDTO movieSchedule(SessionUser sessionUser, Integer theaterId) {
@@ -38,9 +40,11 @@ public class TheaterService {
         List<Theater> theaterList = theaterRepository.findAll();
 
         // 3. ScreeningInfo 가져오기
-        List<Movie> movieList = movieRepository.findByTheaterId(theaterId);
+        System.out.println(" 3. ScreeningInfo 가져오기");
+        List<ScreeningInfo> screeningInfoList = screeningInfoRepository.findByTheaterId(theaterId);
+        System.out.println("네" + screeningInfoList.size());
         // 리턴
-        TheaterResponse.TheaterDTO respDTO = new TheaterResponse.TheaterDTO(theaterScrapList, theaterList, movieList);
+        TheaterResponse.TheaterDTO respDTO = new TheaterResponse.TheaterDTO(theaterScrapList, theaterList, screeningInfoList);
         System.out.println("안녕" + respDTO);
         return respDTO;
     }

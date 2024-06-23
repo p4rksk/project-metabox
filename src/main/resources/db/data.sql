@@ -50,7 +50,7 @@ values ('METABOX 계양', 'theater1.png', '인천광역시 계양구 작전동 8
        ('METABOX 대구', 'theater4.png', '대구광역시 북구 칠성동2가 20-1 스펙트럼시티 4층', '1988-3652', 'metabox14', 'metabox1234',
         'https://map.naver.com/p?title=CGV%EA%B4%91%EA%B5%90&lng=127.0571731324729&lat=37.285289431827294&zoom=15&type=0&c=15.00,0,0,0,dh',
         '', '대구', '06'),
-        ('METABOX 대연', 'theater4.png', '부산광역시 남구 대연동 73-15번지 스파크 5층', '1988-3652', 'metabox15', 'metabox1234',
+       ('METABOX 대연', 'theater4.png', '부산광역시 남구 대연동 73-15번지 스파크 5층', '1988-3652', 'metabox15', 'metabox1234',
         'https://map.naver.com/p?title=CGV%EA%B4%91%EA%B5%90&lng=127.0571731324729&lat=37.285289431827294&zoom=15&type=0&c=15.00,0,0,0,dh',
         '', '부산/울산', '07'),
        ('METABOX 거제', 'theater4.png', '경상남도 거제시 고현동 958-15 디큐브 백화점 6층', '1988-3652', 'metabox16', 'metabox1234',
@@ -61,7 +61,7 @@ values ('METABOX 계양', 'theater1.png', '인천광역시 계양구 작전동 8
         '', '광주/전라/제주', '09');
 
 -- 영화 생성 (10개)
-insert into movie_tb(title, eng_title, director, actor, genre, info, start_date, end_date,img_filename, description)
+insert into movie_tb(title, eng_title, director, actor, genre, info, start_date, end_date, img_filename, description)
 values
 -- 1
 ('인사이드 아웃 2', 'Inside Out 2', '켈시 만', '에이미 포엘러 , 마야 호크 ,  루이스 블랙 ,  필리스 스미스 ,  토니 헤일', '애니메이션', '전체관람가, 96분, 미국',
@@ -79,7 +79,8 @@ values
  다시 본부로 돌아가기 위해 위험천만한 모험을 시작하는데…\n\n
  2024년, 전 세계를 공감으로 물들인 유쾌한 상상이 다시 시작된다!'),
 -- 2
-('하이재킹', 'Hijack 1971', '김성한', '하정우, 여진구, 성동일, 채수빈', '범죄, 액션', '12세이상관람가, 100분, 한국', '2024-06-21', '2024-07-21', 'movie2.png',
+('하이재킹', 'Hijack 1971', '김성한', '하정우, 여진구, 성동일, 채수빈', '범죄, 액션', '12세이상관람가, 100분, 한국', '2024-06-21', '2024-07-21',
+ 'movie2.png',
  '1971년 겨울 속초공항\n
 여객기 조종사 태인(하정우)과 규식(성동일)은 김포행 비행에 나선다.\n
 승무원 옥순(채수빈)의 안내에 따라 탑승 중인 승객들의 분주함도 잠시,\n
@@ -94,7 +95,8 @@ values
 이 비행에 모두가 목숨을 걸었다!\n
 <하이재킹>'),
 -- 3
-('북극백화점의 안내원', 'The Concierge', '이타즈 요시미', '카와이다 나츠미, 오츠다 타케오', '애니메이션', '전체관람가, 70분, 일본', '2024-06-19', '2024-06-19','movie3.png',
+('북극백화점의 안내원', 'The Concierge', '이타즈 요시미', '카와이다 나츠미, 오츠다 타케오', '애니메이션', '전체관람가, 70분, 일본', '2024-06-19', '2024-06-19',
+ 'movie3.png',
  '어서 오세요!\n
 세상에 딱 하나뿐인 ‘북극백화점’으로!\n\n
 동물들이 고객인 ‘북극백화점’.\n
@@ -105,7 +107,8 @@ V.I.A(Very Important Animal)를 만족시키기 위한\n
 수습 안내원 ‘아키노’의 좌충우돌 정직원 되기 프로젝트!\n\n
 6월 19일, 웃음과 감동, 힐링 모두 다 담아 드릴게요!'),
 -- 4
-('핸섬가이즈', 'Handsome Guys', '남동협', '이성민, 이희준, 공승연, 박지환, 이규형', '코미디', '15세이상관람가, 101분, 한국', '2024-06-26', '2024-07-26', 'movie4.png',
+('핸섬가이즈', 'Handsome Guys', '남동협', '이성민, 이희준, 공승연, 박지환, 이규형', '코미디', '15세이상관람가, 101분, 한국', '2024-06-26', '2024-07-26',
+ 'movie4.png',
  '평화로운 전원생활을 꿈꾸던 ‘재필’과 ‘상구’가 하필이면\n
 귀신들린 집으로 이사 오며 벌어지는 고자극 오싹 코미디'),
 -- 5
@@ -126,7 +129,8 @@ V.I.A(Very Important Animal)를 만족시키기 위한\n
 하지만 ‘규남’이 본격적인 탈출을 감행하자\n
 ‘현상’은 물러설 길 없는 추격을 시작한다.'),
 -- 6
-('극장판 하이큐!! 쓰레기장의 결전', 'Haikyu!!: The Dumpster Battle', '미츠나카 스스무', '', '애미메이션', '전체관람가, 85분, 일본', '2024-05-15', '2024-06-21',
+('극장판 하이큐!! 쓰레기장의 결전', 'Haikyu!!: The Dumpster Battle', '미츠나카 스스무', '', '애미메이션', '전체관람가, 85분, 일본', '2024-05-15',
+ '2024-06-21',
  'movie6.png',
  '봄철 고교 배구대회 1회전과 2회전에서\n
 우승 후보를 차례로 꺾은 카라스노 고등학교는\n
@@ -136,7 +140,8 @@ V.I.A(Very Important Animal)를 만족시키기 위한\n
 통칭 까마귀 VS 고양이 ‘쓰레기장의 결전’.\n
 약속의 땅에서 ‘한 번 더’가 없는 싸움이 드디어 시작된다!'),
 -- 7
-('프렌치 수프 ', 'The Taste of Things', '트란 안 홍', '줄리엣 비노쉬, 브누아 마지멜', '로맨스', '12세이상관람가, 135분, 프랑스', '2024-06-19', '2024-07-19',
+('프렌치 수프 ', 'The Taste of Things', '트란 안 홍', '줄리엣 비노쉬, 브누아 마지멜', '로맨스', '12세이상관람가, 135분, 프랑스', '2024-06-19',
+ '2024-07-19',
  'movie7.png',
  '20년간 최고의 요리를 함께 탄생시킨 외제니와 도댕.\n
 그들의 요리 안에는 서로에 대한 존경과 배려, 그리고 사랑이 있다.\n
@@ -144,7 +149,8 @@ V.I.A(Very Important Animal)를 만족시키기 위한\n
 한여름과 자유를 사랑하는 외제니는 도댕의 청혼을 거절하고\n
 도댕은 오직 그녀만을 위한 요리를 만들기 시작한다.'),
 -- 8
-('프리실라', 'Priscilla', '소피아 코폴라', '케일리 스패니, 제이콥 엘로디', '드라마, 로맨스, 멜로, 뮤지컬', '15세이상관람가, 113분, 미국', '2024-06-19', '2024-07-19',
+('프리실라', 'Priscilla', '소피아 코폴라', '케일리 스패니, 제이콥 엘로디', '드라마, 로맨스, 멜로, 뮤지컬', '15세이상관람가, 113분, 미국', '2024-06-19',
+ '2024-07-19',
  'movie8.png',
  '독일 미군 기지의 파티에 참석한 소녀 ‘프리실라 볼리외’는\n
 당대 최고의 슈퍼스타 ‘엘비스 프레슬리’를 만난다.\n\n
@@ -180,137 +186,139 @@ V.I.A(Very Important Animal)를 만족시키기 위한\n
 필사의 탈출을 감행하는 드라이빙 액션 스릴러');
 
 -- 영화 스틸컷 등록
-insert into movie_pic_tb(movie_id, img_filename) values
+insert into movie_pic_tb(movie_id, img_filename)
+values
 -- 1번 영화
-(1,'movie1_pic1.png'),
-(1,'movie1_pic2.png'),
-(1,'movie1_pic3.png'),
-(1,'movie1_pic4.png'),
-(1,'movie1_pic5.png'),
+(1, 'movie1_pic1.png'),
+(1, 'movie1_pic2.png'),
+(1, 'movie1_pic3.png'),
+(1, 'movie1_pic4.png'),
+(1, 'movie1_pic5.png'),
 -- 2번 영화
-(2,'movie2_pic1.png'),
-(2,'movie2_pic2.png'),
-(2,'movie2_pic3.png'),
-(2,'movie2_pic4.png'),
-(2,'movie2_pic5.png'),
+(2, 'movie2_pic1.png'),
+(2, 'movie2_pic2.png'),
+(2, 'movie2_pic3.png'),
+(2, 'movie2_pic4.png'),
+(2, 'movie2_pic5.png'),
 -- 3번 영화
-(3,'movie3_pic1.png'),
-(3,'movie3_pic2.png'),
-(3,'movie3_pic3.png'),
-(3,'movie3_pic4.png'),
-(3,'movie3_pic5.png'),
-(3,'movie3_pic6.png'),
+(3, 'movie3_pic1.png'),
+(3, 'movie3_pic2.png'),
+(3, 'movie3_pic3.png'),
+(3, 'movie3_pic4.png'),
+(3, 'movie3_pic5.png'),
+(3, 'movie3_pic6.png'),
 -- 4번 영화
-(4,'movie4_pic1.png'),
-(4,'movie4_pic2.png'),
-(4,'movie4_pic3.png'),
-(4,'movie4_pic4.png'),
-(4,'movie4_pic5.png'),
+(4, 'movie4_pic1.png'),
+(4, 'movie4_pic2.png'),
+(4, 'movie4_pic3.png'),
+(4, 'movie4_pic4.png'),
+(4, 'movie4_pic5.png'),
 -- 5번 영화
-(5,'movie5_pic1.png'),
-(5,'movie5_pic2.png'),
-(5,'movie5_pic3.png'),
-(5,'movie5_pic4.png'),
-(5,'movie5_pic5.png'),
+(5, 'movie5_pic1.png'),
+(5, 'movie5_pic2.png'),
+(5, 'movie5_pic3.png'),
+(5, 'movie5_pic4.png'),
+(5, 'movie5_pic5.png'),
 -- 6번 영화
-(6,'movie6_pic1.png'),
-(6,'movie6_pic2.png'),
-(6,'movie6_pic3.png'),
-(6,'movie6_pic4.png'),
-(6,'movie6_pic5.png'),
+(6, 'movie6_pic1.png'),
+(6, 'movie6_pic2.png'),
+(6, 'movie6_pic3.png'),
+(6, 'movie6_pic4.png'),
+(6, 'movie6_pic5.png'),
 -- 7번 영화
-(7,'movie7_pic1.png'),
-(7,'movie7_pic2.png'),
-(7,'movie7_pic3.png'),
-(7,'movie7_pic4.png'),
-(7,'movie7_pic5.png'),
+(7, 'movie7_pic1.png'),
+(7, 'movie7_pic2.png'),
+(7, 'movie7_pic3.png'),
+(7, 'movie7_pic4.png'),
+(7, 'movie7_pic5.png'),
 -- 8번 영화
-(8,'movie8_pic1.png'),
-(8,'movie8_pic2.png'),
-(8,'movie8_pic3.png'),
-(8,'movie8_pic4.png'),
-(8,'movie8_pic5.png'),
+(8, 'movie8_pic1.png'),
+(8, 'movie8_pic2.png'),
+(8, 'movie8_pic3.png'),
+(8, 'movie8_pic4.png'),
+(8, 'movie8_pic5.png'),
 -- 9번 영화
-(9,'movie9_pic1.png'),
-(9,'movie9_pic2.png'),
-(9,'movie9_pic3.png'),
-(9,'movie9_pic4.png'),
-(9,'movie9_pic5.png'),
+(9, 'movie9_pic1.png'),
+(9, 'movie9_pic2.png'),
+(9, 'movie9_pic3.png'),
+(9, 'movie9_pic4.png'),
+(9, 'movie9_pic5.png'),
 -- 10번 영화
-(10,'movie10_pic1.png'),
-(10,'movie10_pic2.png'),
-(10,'movie10_pic3.png'),
-(10,'movie10_pic4.png'),
-(10,'movie10_pic5.png');
+(10, 'movie10_pic1.png'),
+(10, 'movie10_pic2.png'),
+(10, 'movie10_pic3.png'),
+(10, 'movie10_pic4.png'),
+(10, 'movie10_pic5.png');
 
 -- 극장 상영관 등록(일반관 : 109좌석, 특별관 : 30좌석 / 1~4관 일반관, 5관 특별관)
 -- 1번 극장
-INSERT INTO screening_tb(theater_id, name, seat_count, screening_rank, seat_price) VALUES
-(1, '1관', 109, 'GENERAL', 15000),
-(1, '2관', 109, 'GENERAL',15000),
-(1, '3관', 109, 'GENERAL',15000),
-(1, '4관', 109, 'GENERAL',15000),
-(1, '5관', 30, 'SPECIAL', 50000),
+INSERT INTO screening_tb(theater_id, name, seat_count, screening_rank, seat_price)
+VALUES (1, '1관', 109, 'GENERAL', 15000),
+       (1, '2관', 109, 'GENERAL', 15000),
+       (1, '3관', 109, 'GENERAL', 15000),
+       (1, '4관', 109, 'GENERAL', 15000),
+       (1, '5관', 30, 'SPECIAL', 50000),
 -- 2번 극장
-(2, '1관', 109, 'GENERAL', 15000),
-(2, '2관', 109, 'GENERAL', 15000),
-(2, '3관', 109, 'GENERAL', 15000),
-(2, '4관', 109, 'GENERAL', 15000),
-(2, '5관', 30, 'SPECIAL', 50000),
+       (2, '1관', 109, 'GENERAL', 15000),
+       (2, '2관', 109, 'GENERAL', 15000),
+       (2, '3관', 109, 'GENERAL', 15000),
+       (2, '4관', 109, 'GENERAL', 15000),
+       (2, '5관', 30, 'SPECIAL', 50000),
 -- 3번 극장
-(3, '1관', 109, 'GENERAL', 15000),
-(3, '2관', 109, 'GENERAL', 15000),
-(3, '3관', 109, 'GENERAL', 15000),
-(3, '4관', 109, 'GENERAL', 15000),
-(3, '5관', 30, 'SPECIAL', 50000),
+       (3, '1관', 109, 'GENERAL', 15000),
+       (3, '2관', 109, 'GENERAL', 15000),
+       (3, '3관', 109, 'GENERAL', 15000),
+       (3, '4관', 109, 'GENERAL', 15000),
+       (3, '5관', 30, 'SPECIAL', 50000),
 -- 4번 극장
-(4, '1관', 109, 'GENERAL', 15000),
-(4, '2관', 109, 'GENERAL', 15000),
-(4, '3관', 109, 'GENERAL', 15000),
-(4, '4관', 109, 'GENERAL', 15000),
-(4, '5관', 30, 'SPECIAL', 50000),
+       (4, '1관', 109, 'GENERAL', 15000),
+       (4, '2관', 109, 'GENERAL', 15000),
+       (4, '3관', 109, 'GENERAL', 15000),
+       (4, '4관', 109, 'GENERAL', 15000),
+       (4, '5관', 30, 'SPECIAL', 50000),
 -- 5번 극장
-(5, '1관', 109, 'GENERAL', 15000),
-(5, '2관', 109, 'GENERAL', 15000),
-(5, '3관', 109, 'GENERAL', 15000),
-(5, '4관', 109, 'GENERAL', 15000),
-(5, '5관', 30, 'SPECIAL', 50000),
+       (5, '1관', 109, 'GENERAL', 15000),
+       (5, '2관', 109, 'GENERAL', 15000),
+       (5, '3관', 109, 'GENERAL', 15000),
+       (5, '4관', 109, 'GENERAL', 15000),
+       (5, '5관', 30, 'SPECIAL', 50000),
 -- 6번 극장
-(6, '1관', 109, 'GENERAL', 15000),
-(6, '2관', 109, 'GENERAL', 15000),
-(6, '3관', 109, 'GENERAL', 15000),
-(6, '4관', 109, 'GENERAL', 15000),
-(6, '5관', 30, 'SPECIAL', 50000),
+       (6, '1관', 109, 'GENERAL', 15000),
+       (6, '2관', 109, 'GENERAL', 15000),
+       (6, '3관', 109, 'GENERAL', 15000),
+       (6, '4관', 109, 'GENERAL', 15000),
+       (6, '5관', 30, 'SPECIAL', 50000),
 -- 7번 극장
-(7, '1관', 109, 'GENERAL', 15000),
-(7, '2관', 109, 'GENERAL', 15000),
-(7, '3관', 109, 'GENERAL', 15000),
-(7, '4관', 109, 'GENERAL', 15000),
-(7, '5관', 30, 'SPECIAL', 50000),
+       (7, '1관', 109, 'GENERAL', 15000),
+       (7, '2관', 109, 'GENERAL', 15000),
+       (7, '3관', 109, 'GENERAL', 15000),
+       (7, '4관', 109, 'GENERAL', 15000),
+       (7, '5관', 30, 'SPECIAL', 50000),
 -- 8번 극장
-(8, '1관', 109, 'GENERAL', 15000),
-(8, '2관', 109, 'GENERAL', 15000),
-(8, '3관', 109, 'GENERAL', 15000),
-(8, '4관', 109, 'GENERAL', 15000),
-(8, '5관', 30, 'SPECIAL', 50000),
+       (8, '1관', 109, 'GENERAL', 15000),
+       (8, '2관', 109, 'GENERAL', 15000),
+       (8, '3관', 109, 'GENERAL', 15000),
+       (8, '4관', 109, 'GENERAL', 15000),
+       (8, '5관', 30, 'SPECIAL', 50000),
 -- 9번 극장
-(9, '1관', 109, 'GENERAL', 15000),
-(9, '2관', 109, 'GENERAL', 15000),
-(9, '3관', 109, 'GENERAL', 15000),
-(9, '4관', 109, 'GENERAL', 15000),
-(9, '5관', 30, 'SPECIAL', 50000),
+       (9, '1관', 109, 'GENERAL', 15000),
+       (9, '2관', 109, 'GENERAL', 15000),
+       (9, '3관', 109, 'GENERAL', 15000),
+       (9, '4관', 109, 'GENERAL', 15000),
+       (9, '5관', 30, 'SPECIAL', 50000),
 -- 10번 극장
-(10, '1관', 109, 'GENERAL', 15000),
-(10, '2관', 109, 'GENERAL', 15000),
-(10, '3관', 109, 'GENERAL', 15000),
-(10, '4관', 109, 'GENERAL', 15000),
-(10, '5관', 30, 'SPECIAL', 50000);
+       (10, '1관', 109, 'GENERAL', 15000),
+       (10, '2관', 109, 'GENERAL', 15000),
+       (10, '3관', 109, 'GENERAL', 15000),
+       (10, '4관', 109, 'GENERAL', 15000),
+       (10, '5관', 30, 'SPECIAL', 50000);
 
 -- 좌석 등록
 --- 상영관총 50개
 
 -- 1번 극장 1번 상영관
-INSERT INTO seat_tb(screening_id, code, type) VALUES
+INSERT INTO seat_tb(screening_id, code, type)
+VALUES
 --- 1번 상영관 A열
 (1, 'A1', 'LIGHT'),
 (1, 'A2', 'LIGHT'),
@@ -432,7 +440,8 @@ INSERT INTO seat_tb(screening_id, code, type) VALUES
 (1, 'H15', 'GENERAL');
 
 -- 1번 극장 2번 상영관
-INSERT INTO seat_tb(screening_id, code, type) VALUES
+INSERT INTO seat_tb(screening_id, code, type)
+VALUES
 --- 2번 상영관 A열
 (2, 'A1', 'LIGHT'),
 (2, 'A2', 'LIGHT'),
@@ -555,7 +564,8 @@ INSERT INTO seat_tb(screening_id, code, type) VALUES
 
 
 -- 1번 극장 3번 상영관
-INSERT INTO seat_tb(screening_id, code, type) VALUES
+INSERT INTO seat_tb(screening_id, code, type)
+VALUES
 --- 3번 상영관 A열
 (3, 'A1', 'LIGHT'),
 (3, 'A2', 'LIGHT'),
@@ -676,7 +686,8 @@ INSERT INTO seat_tb(screening_id, code, type) VALUES
 (3, 'H14', 'GENERAL'),
 (3, 'H15', 'GENERAL');
 -- 1번 극장 4번 상영관
-INSERT INTO seat_tb(screening_id, code, type) VALUES
+INSERT INTO seat_tb(screening_id, code, type)
+VALUES
 --- 4번 상영관 A열
 (4, 'A1', 'LIGHT'),
 (4, 'A2', 'LIGHT'),
@@ -798,7 +809,8 @@ INSERT INTO seat_tb(screening_id, code, type) VALUES
 (4, 'H15', 'GENERAL');
 
 -- 1번 극장 5번 상영관 (특별관)
-INSERT INTO seat_tb(screening_id, code, type) VALUES
+INSERT INTO seat_tb(screening_id, code, type)
+VALUES
 --- 5번 상영관 A열
 (5, 'A1', 'SPECIAL'),
 (5, 'A2', 'SPECIAL'),
@@ -836,7 +848,8 @@ INSERT INTO seat_tb(screening_id, code, type) VALUES
 (5, 'E6', 'SPECIAL');
 
 -- 2번 극장 1번 상영관
-INSERT INTO seat_tb(screening_id, code, type) VALUES
+INSERT INTO seat_tb(screening_id, code, type)
+VALUES
 -- 6번 상영관 A열
 (6, 'A1', 'LIGHT'),
 (6, 'A2', 'LIGHT'),
@@ -957,7 +970,8 @@ INSERT INTO seat_tb(screening_id, code, type) VALUES
 (6, 'H14', 'GENERAL'),
 (6, 'H15', 'GENERAL');
 -- 2번 극장 2번 상영관
-INSERT INTO seat_tb(screening_id, code, type) VALUES
+INSERT INTO seat_tb(screening_id, code, type)
+VALUES
 -- 7번 상영관 A열
 (7, 'A1', 'LIGHT'),
 (7, 'A2', 'LIGHT'),
@@ -1078,7 +1092,8 @@ INSERT INTO seat_tb(screening_id, code, type) VALUES
 (7, 'H14', 'GENERAL'),
 (7, 'H15', 'GENERAL');
 -- 2번 극장 3번 상영관
-INSERT INTO seat_tb(screening_id, code, type) VALUES
+INSERT INTO seat_tb(screening_id, code, type)
+VALUES
 -- 8번 상영관 A열
 (8, 'A1', 'LIGHT'),
 (8, 'A2', 'LIGHT'),
@@ -1199,7 +1214,8 @@ INSERT INTO seat_tb(screening_id, code, type) VALUES
 (8, 'H14', 'GENERAL'),
 (8, 'H15', 'GENERAL');
 -- 2번 극장 4번 상영관
-INSERT INTO seat_tb(screening_id, code, type) VALUES
+INSERT INTO seat_tb(screening_id, code, type)
+VALUES
 -- 9번 상영관 A열
 (9, 'A1', 'LIGHT'),
 (9, 'A2', 'LIGHT'),
@@ -1320,7 +1336,8 @@ INSERT INTO seat_tb(screening_id, code, type) VALUES
 (9, 'H14', 'GENERAL'),
 (9, 'H15', 'GENERAL');
 -- 2번 극장 5번 상영관
-INSERT INTO seat_tb(screening_id, code, type) VALUES
+INSERT INTO seat_tb(screening_id, code, type)
+VALUES
 --- 5번 상영관 A열
 (10, 'A1', 'SPECIAL'),
 (10, 'A2', 'SPECIAL'),
@@ -1358,7 +1375,8 @@ INSERT INTO seat_tb(screening_id, code, type) VALUES
 (10, 'E6', 'SPECIAL');
 
 -- 3번 극장 1번 상영관
-INSERT INTO seat_tb(screening_id, code, type) VALUES
+INSERT INTO seat_tb(screening_id, code, type)
+VALUES
 -- 11번 상영관 A열
 (11, 'A1', 'LIGHT'),
 (11, 'A2', 'LIGHT'),
@@ -1479,7 +1497,8 @@ INSERT INTO seat_tb(screening_id, code, type) VALUES
 (11, 'H14', 'GENERAL'),
 (11, 'H15', 'GENERAL');
 -- 3번 극장 2번 상영관
-INSERT INTO seat_tb(screening_id, code, type) VALUES
+INSERT INTO seat_tb(screening_id, code, type)
+VALUES
 -- 12번 상영관 A열
 (12, 'A1', 'LIGHT'),
 (12, 'A2', 'LIGHT'),
@@ -1600,7 +1619,8 @@ INSERT INTO seat_tb(screening_id, code, type) VALUES
 (12, 'H14', 'GENERAL'),
 (12, 'H15', 'GENERAL');
 -- 3번 극장 3번 상영관
-INSERT INTO seat_tb(screening_id, code, type) VALUES
+INSERT INTO seat_tb(screening_id, code, type)
+VALUES
 -- 13번 상영관 A열
 (13, 'A1', 'LIGHT'),
 (13, 'A2', 'LIGHT'),
@@ -1721,7 +1741,8 @@ INSERT INTO seat_tb(screening_id, code, type) VALUES
 (13, 'H14', 'GENERAL'),
 (13, 'H15', 'GENERAL');
 -- 3번 극장 4번 상영관
-INSERT INTO seat_tb(screening_id, code, type) VALUES
+INSERT INTO seat_tb(screening_id, code, type)
+VALUES
 -- 14번 상영관 A열
 (14, 'A1', 'LIGHT'),
 (14, 'A2', 'LIGHT'),
@@ -1842,7 +1863,8 @@ INSERT INTO seat_tb(screening_id, code, type) VALUES
 (14, 'H14', 'GENERAL'),
 (14, 'H15', 'GENERAL');
 -- 3번 극장 5번 상영관
-INSERT INTO seat_tb(screening_id, code, type) VALUES
+INSERT INTO seat_tb(screening_id, code, type)
+VALUES
 --- 5번 상영관 A열
 (15, 'A1', 'SPECIAL'),
 (15, 'A2', 'SPECIAL'),
@@ -1879,7 +1901,8 @@ INSERT INTO seat_tb(screening_id, code, type) VALUES
 (15, 'E5', 'SPECIAL'),
 (15, 'E6', 'SPECIAL');
 -- 4번 극장 1번 상영관
-INSERT INTO seat_tb(screening_id, code, type) VALUES
+INSERT INTO seat_tb(screening_id, code, type)
+VALUES
 -- 16번 상영관 A열
 (16, 'A1', 'LIGHT'),
 (16, 'A2', 'LIGHT'),
@@ -2001,7 +2024,8 @@ INSERT INTO seat_tb(screening_id, code, type) VALUES
 (16, 'H15', 'GENERAL');
 -- 4번 극장 2번 상영관
 -- 17번 극장
-INSERT INTO seat_tb(screening_id, code, type) VALUES
+INSERT INTO seat_tb(screening_id, code, type)
+VALUES
 -- 17번 상영관 A열
 (17, 'A1', 'LIGHT'),
 (17, 'A2', 'LIGHT'),
@@ -2122,7 +2146,8 @@ INSERT INTO seat_tb(screening_id, code, type) VALUES
 (17, 'H14', 'GENERAL'),
 (17, 'H15', 'GENERAL');
 -- 4번 극장 3번 상영관
-INSERT INTO seat_tb(screening_id, code, type) VALUES
+INSERT INTO seat_tb(screening_id, code, type)
+VALUES
 -- 18번 상영관 A열
 (18, 'A1', 'LIGHT'),
 (18, 'A2', 'LIGHT'),
@@ -2243,7 +2268,8 @@ INSERT INTO seat_tb(screening_id, code, type) VALUES
 (18, 'H14', 'GENERAL'),
 (18, 'H15', 'GENERAL');
 -- 4번 극장 4번 상영관
-INSERT INTO seat_tb(screening_id, code, type) VALUES
+INSERT INTO seat_tb(screening_id, code, type)
+VALUES
 -- 19번 상영관 A열
 (19, 'A1', 'LIGHT'),
 (19, 'A2', 'LIGHT'),
@@ -2364,7 +2390,8 @@ INSERT INTO seat_tb(screening_id, code, type) VALUES
 (19, 'H14', 'GENERAL'),
 (19, 'H15', 'GENERAL');
 -- 4번 극장 5번 상영관
-INSERT INTO seat_tb(screening_id, code, type) VALUES
+INSERT INTO seat_tb(screening_id, code, type)
+VALUES
 --- 5번 상영관 A열
 (20, 'A1', 'SPECIAL'),
 (20, 'A2', 'SPECIAL'),
@@ -2401,7 +2428,8 @@ INSERT INTO seat_tb(screening_id, code, type) VALUES
 (20, 'E5', 'SPECIAL'),
 (20, 'E6', 'SPECIAL');
 -- 5번 극장 1번 상영관
-INSERT INTO seat_tb(screening_id, code, type) VALUES
+INSERT INTO seat_tb(screening_id, code, type)
+VALUES
 -- 21번 상영관 A열
 (21, 'A1', 'LIGHT'),
 (21, 'A2', 'LIGHT'),
@@ -2522,7 +2550,8 @@ INSERT INTO seat_tb(screening_id, code, type) VALUES
 (21, 'H14', 'GENERAL'),
 (21, 'H15', 'GENERAL');
 -- 5번 극장 2번 상영관
-INSERT INTO seat_tb(screening_id, code, type) VALUES
+INSERT INTO seat_tb(screening_id, code, type)
+VALUES
 -- 22번 상영관 A열
 (22, 'A1', 'LIGHT'),
 (22, 'A2', 'LIGHT'),
@@ -2643,7 +2672,8 @@ INSERT INTO seat_tb(screening_id, code, type) VALUES
 (22, 'H14', 'GENERAL'),
 (22, 'H15', 'GENERAL');
 -- 5번 극장 3번 상영관
-INSERT INTO seat_tb(screening_id, code, type) VALUES
+INSERT INTO seat_tb(screening_id, code, type)
+VALUES
 -- 23번 상영관 A열
 (23, 'A1', 'LIGHT'),
 (23, 'A2', 'LIGHT'),
@@ -2764,7 +2794,8 @@ INSERT INTO seat_tb(screening_id, code, type) VALUES
 (23, 'H14', 'GENERAL'),
 (23, 'H15', 'GENERAL');
 -- 5번 극장 4번 상영관
-INSERT INTO seat_tb(screening_id, code, type) VALUES
+INSERT INTO seat_tb(screening_id, code, type)
+VALUES
 -- 24번 상영관 A열
 (24, 'A1', 'LIGHT'),
 (24, 'A2', 'LIGHT'),
@@ -2885,7 +2916,8 @@ INSERT INTO seat_tb(screening_id, code, type) VALUES
 (24, 'H14', 'GENERAL'),
 (24, 'H15', 'GENERAL');
 -- 5번 극장 5번 상영관
-INSERT INTO seat_tb(screening_id, code, type) VALUES
+INSERT INTO seat_tb(screening_id, code, type)
+VALUES
 --- 5번 상영관 A열
 (25, 'A1', 'SPECIAL'),
 (25, 'A2', 'SPECIAL'),
@@ -2922,7 +2954,8 @@ INSERT INTO seat_tb(screening_id, code, type) VALUES
 (25, 'E5', 'SPECIAL'),
 (25, 'E6', 'SPECIAL');
 -- 6번 극장 1번 상영관
-INSERT INTO seat_tb(screening_id, code, type) VALUES
+INSERT INTO seat_tb(screening_id, code, type)
+VALUES
 -- 26번 상영관 A열
 (26, 'A1', 'LIGHT'),
 (26, 'A2', 'LIGHT'),
@@ -3043,7 +3076,8 @@ INSERT INTO seat_tb(screening_id, code, type) VALUES
 (26, 'H14', 'GENERAL'),
 (26, 'H15', 'GENERAL');
 -- 6번 극장 2번 상영관
-INSERT INTO seat_tb(screening_id, code, type) VALUES
+INSERT INTO seat_tb(screening_id, code, type)
+VALUES
 -- 27번 상영관 A열
 (27, 'A1', 'LIGHT'),
 (27, 'A2', 'LIGHT'),
@@ -3164,7 +3198,8 @@ INSERT INTO seat_tb(screening_id, code, type) VALUES
 (27, 'H14', 'GENERAL'),
 (27, 'H15', 'GENERAL');
 -- 6번 극장 3번 상영관
-INSERT INTO seat_tb(screening_id, code, type) VALUES
+INSERT INTO seat_tb(screening_id, code, type)
+VALUES
 -- 28번 상영관 A열
 (28, 'A1', 'LIGHT'),
 (28, 'A2', 'LIGHT'),
@@ -3285,7 +3320,8 @@ INSERT INTO seat_tb(screening_id, code, type) VALUES
 (28, 'H14', 'GENERAL'),
 (28, 'H15', 'GENERAL');
 -- 6번 극장 4번 상영관
-INSERT INTO seat_tb(screening_id, code, type) VALUES
+INSERT INTO seat_tb(screening_id, code, type)
+VALUES
 -- 29번 상영관 A열
 (29, 'A1', 'LIGHT'),
 (29, 'A2', 'LIGHT'),
@@ -3406,7 +3442,8 @@ INSERT INTO seat_tb(screening_id, code, type) VALUES
 (29, 'H14', 'GENERAL'),
 (29, 'H15', 'GENERAL');
 -- 6번 극장 5번 상영관
-INSERT INTO seat_tb(screening_id, code, type) VALUES
+INSERT INTO seat_tb(screening_id, code, type)
+VALUES
 --- 5번 상영관 A열
 (30, 'A1', 'SPECIAL'),
 (30, 'A2', 'SPECIAL'),
@@ -3443,7 +3480,8 @@ INSERT INTO seat_tb(screening_id, code, type) VALUES
 (30, 'E5', 'SPECIAL'),
 (30, 'E6', 'SPECIAL');
 -- 7번 극장 1번 상영관
-INSERT INTO seat_tb(screening_id, code, type) VALUES
+INSERT INTO seat_tb(screening_id, code, type)
+VALUES
 -- 31번 상영관 A열
 (31, 'A1', 'LIGHT'),
 (31, 'A2', 'LIGHT'),
@@ -3564,7 +3602,8 @@ INSERT INTO seat_tb(screening_id, code, type) VALUES
 (31, 'H14', 'GENERAL'),
 (31, 'H15', 'GENERAL');
 -- 7번 극장 2번 상영관
-INSERT INTO seat_tb(screening_id, code, type) VALUES
+INSERT INTO seat_tb(screening_id, code, type)
+VALUES
 -- 32번 상영관 A열
 (32, 'A1', 'LIGHT'),
 (32, 'A2', 'LIGHT'),
@@ -3685,7 +3724,8 @@ INSERT INTO seat_tb(screening_id, code, type) VALUES
 (32, 'H14', 'GENERAL'),
 (32, 'H15', 'GENERAL');
 -- 7번 극장 3번 상영관
-INSERT INTO seat_tb(screening_id, code, type) VALUES
+INSERT INTO seat_tb(screening_id, code, type)
+VALUES
 -- 33번 상영관 A열
 (33, 'A1', 'LIGHT'),
 (33, 'A2', 'LIGHT'),
@@ -3806,7 +3846,8 @@ INSERT INTO seat_tb(screening_id, code, type) VALUES
 (33, 'H14', 'GENERAL'),
 (33, 'H15', 'GENERAL');
 -- 7번 극장 4번 상영관
-INSERT INTO seat_tb(screening_id, code, type) VALUES
+INSERT INTO seat_tb(screening_id, code, type)
+VALUES
 -- 34번 상영관 A열
 (34, 'A1', 'LIGHT'),
 (34, 'A2', 'LIGHT'),
@@ -3927,7 +3968,8 @@ INSERT INTO seat_tb(screening_id, code, type) VALUES
 (34, 'H14', 'GENERAL'),
 (34, 'H15', 'GENERAL');
 -- 7번 극장 5번 상영관
-INSERT INTO seat_tb(screening_id, code, type) VALUES
+INSERT INTO seat_tb(screening_id, code, type)
+VALUES
 --- 5번 상영관 A열
 (35, 'A1', 'SPECIAL'),
 (35, 'A2', 'SPECIAL'),
@@ -3964,7 +4006,8 @@ INSERT INTO seat_tb(screening_id, code, type) VALUES
 (35, 'E5', 'SPECIAL'),
 (35, 'E6', 'SPECIAL');
 -- 8번 극장 1번 상영관
-INSERT INTO seat_tb(screening_id, code, type) VALUES
+INSERT INTO seat_tb(screening_id, code, type)
+VALUES
 -- 36번 상영관 A열
 (36, 'A1', 'LIGHT'),
 (36, 'A2', 'LIGHT'),
@@ -4085,7 +4128,8 @@ INSERT INTO seat_tb(screening_id, code, type) VALUES
 (36, 'H14', 'GENERAL'),
 (36, 'H15', 'GENERAL');
 -- 8번 극장 2번 상영관
-INSERT INTO seat_tb(screening_id, code, type) VALUES
+INSERT INTO seat_tb(screening_id, code, type)
+VALUES
 -- 37번 상영관 A열
 (37, 'A1', 'LIGHT'),
 (37, 'A2', 'LIGHT'),
@@ -4206,7 +4250,8 @@ INSERT INTO seat_tb(screening_id, code, type) VALUES
 (37, 'H14', 'GENERAL'),
 (37, 'H15', 'GENERAL');
 -- 8번 극장 3번 상영관
-INSERT INTO seat_tb(screening_id, code, type) VALUES
+INSERT INTO seat_tb(screening_id, code, type)
+VALUES
 -- 38번 상영관 A열
 (38, 'A1', 'LIGHT'),
 (38, 'A2', 'LIGHT'),
@@ -4327,7 +4372,8 @@ INSERT INTO seat_tb(screening_id, code, type) VALUES
 (38, 'H14', 'GENERAL'),
 (38, 'H15', 'GENERAL');
 -- 8번 극장 4번 상영관
-INSERT INTO seat_tb(screening_id, code, type) VALUES
+INSERT INTO seat_tb(screening_id, code, type)
+VALUES
 -- 39번 상영관 A열
 (39, 'A1', 'LIGHT'),
 (39, 'A2', 'LIGHT'),
@@ -4448,7 +4494,8 @@ INSERT INTO seat_tb(screening_id, code, type) VALUES
 (39, 'H14', 'GENERAL'),
 (39, 'H15', 'GENERAL');
 -- 8번 극장 5번 상영관
-INSERT INTO seat_tb(screening_id, code, type) VALUES
+INSERT INTO seat_tb(screening_id, code, type)
+VALUES
 --- 5번 상영관 A열
 (40, 'A1', 'SPECIAL'),
 (40, 'A2', 'SPECIAL'),
@@ -4485,7 +4532,8 @@ INSERT INTO seat_tb(screening_id, code, type) VALUES
 (40, 'E5', 'SPECIAL'),
 (40, 'E6', 'SPECIAL');
 -- 9번 극장 1번 상영관
-INSERT INTO seat_tb(screening_id, code, type) VALUES
+INSERT INTO seat_tb(screening_id, code, type)
+VALUES
 -- 41번 상영관 A열
 (41, 'A1', 'LIGHT'),
 (41, 'A2', 'LIGHT'),
@@ -4606,7 +4654,8 @@ INSERT INTO seat_tb(screening_id, code, type) VALUES
 (41, 'H14', 'GENERAL'),
 (41, 'H15', 'GENERAL');
 -- 9번 극장 2번 상영관
-INSERT INTO seat_tb(screening_id, code, type) VALUES
+INSERT INTO seat_tb(screening_id, code, type)
+VALUES
 -- 42번 상영관 A열
 (42, 'A1', 'LIGHT'),
 (42, 'A2', 'LIGHT'),
@@ -4727,7 +4776,8 @@ INSERT INTO seat_tb(screening_id, code, type) VALUES
 (42, 'H14', 'GENERAL'),
 (42, 'H15', 'GENERAL');
 -- 9번 극장 3번 상영관
-INSERT INTO seat_tb(screening_id, code, type) VALUES
+INSERT INTO seat_tb(screening_id, code, type)
+VALUES
 -- 43번 상영관 A열
 (43, 'A1', 'LIGHT'),
 (43, 'A2', 'LIGHT'),
@@ -4848,7 +4898,8 @@ INSERT INTO seat_tb(screening_id, code, type) VALUES
 (43, 'H14', 'GENERAL'),
 (43, 'H15', 'GENERAL');
 -- 9번 극장 4번 상영관
-INSERT INTO seat_tb(screening_id, code, type) VALUES
+INSERT INTO seat_tb(screening_id, code, type)
+VALUES
 -- 44번 상영관 A열
 (44, 'A1', 'LIGHT'),
 (44, 'A2', 'LIGHT'),
@@ -4969,7 +5020,8 @@ INSERT INTO seat_tb(screening_id, code, type) VALUES
 (44, 'H14', 'GENERAL'),
 (44, 'H15', 'GENERAL');
 -- 9번 극장 5번 상영관
-INSERT INTO seat_tb(screening_id, code, type) VALUES
+INSERT INTO seat_tb(screening_id, code, type)
+VALUES
 --- 5번 상영관 A열
 (45, 'A1', 'SPECIAL'),
 (45, 'A2', 'SPECIAL'),
@@ -5006,7 +5058,8 @@ INSERT INTO seat_tb(screening_id, code, type) VALUES
 (45, 'E5', 'SPECIAL'),
 (45, 'E6', 'SPECIAL');
 -- 10번 극장 1번 상영관
-INSERT INTO seat_tb(screening_id, code, type) VALUES
+INSERT INTO seat_tb(screening_id, code, type)
+VALUES
 -- 46번 상영관 A열
 (46, 'A1', 'LIGHT'),
 (46, 'A2', 'LIGHT'),
@@ -5127,7 +5180,8 @@ INSERT INTO seat_tb(screening_id, code, type) VALUES
 (46, 'H14', 'GENERAL'),
 (46, 'H15', 'GENERAL');
 -- 10번 극장 2번 상영관
-INSERT INTO seat_tb(screening_id, code, type) VALUES
+INSERT INTO seat_tb(screening_id, code, type)
+VALUES
 -- 47번 상영관 A열
 (47, 'A1', 'LIGHT'),
 (47, 'A2', 'LIGHT'),
@@ -5248,7 +5302,8 @@ INSERT INTO seat_tb(screening_id, code, type) VALUES
 (47, 'H14', 'GENERAL'),
 (47, 'H15', 'GENERAL');
 -- 10번 극장 3번 상영관
-INSERT INTO seat_tb(screening_id, code, type) VALUES
+INSERT INTO seat_tb(screening_id, code, type)
+VALUES
 -- 48번 상영관 A열
 (48, 'A1', 'LIGHT'),
 (48, 'A2', 'LIGHT'),
@@ -5369,7 +5424,8 @@ INSERT INTO seat_tb(screening_id, code, type) VALUES
 (48, 'H14', 'GENERAL'),
 (48, 'H15', 'GENERAL');
 -- 10번 극장 4번 상영관
-INSERT INTO seat_tb(screening_id, code, type) VALUES
+INSERT INTO seat_tb(screening_id, code, type)
+VALUES
 -- 49번 상영관 A열
 (49, 'A1', 'LIGHT'),
 (49, 'A2', 'LIGHT'),
@@ -5490,7 +5546,8 @@ INSERT INTO seat_tb(screening_id, code, type) VALUES
 (49, 'H14', 'GENERAL'),
 (49, 'H15', 'GENERAL');
 -- 10번 극장 5번 상영관
-INSERT INTO seat_tb(screening_id, code, type) VALUES
+INSERT INTO seat_tb(screening_id, code, type)
+VALUES
 --- 5번 상영관 A열
 (50, 'A1', 'SPECIAL'),
 (50, 'A2', 'SPECIAL'),
@@ -5530,9 +5587,10 @@ INSERT INTO seat_tb(screening_id, code, type) VALUES
 -- 좌석 더미 끝
 -- 상영 정보 등록
 --- 1번 극장 상영 정보 등록
-insert into screening_info_tb(screening_id, movie_id, show_time, start_time, end_time, date) values
+insert into screening_info_tb(screening_id, movie_id, show_time, start_time, end_time, date)
+values
 ---- 1번 극장 1관 1번영화(인사이드 아웃) 상영 정보 등록
-(1, 1, '96분', '08:00', '09:50', '2024-06-21'),
+(1, 1, '96분', '08:00', '09:50', DATEADD('DAY', -1, CURRENT_TIMESTAMP)),
 (1, 1, '96분', '10:00', '11:50', '2024-06-21'),
 (1, 1, '96분', '12:00', '13:50', '2024-06-21'),
 (1, 1, '96분', '14:00', '15:50', '2024-06-21'),
@@ -5569,58 +5627,61 @@ insert into screening_info_tb(screening_id, movie_id, show_time, start_time, end
 
 -- 상영정보 등록 끝
 -- 유저 등록
-insert into user_tb(nickname, img_filename, name, birth_year, provider, created_at, password, point) values
-('kakao_3587969747', 'http://k.kakaocdn.net/dn/ML8Oz/btsF1tO0SFt/lDxdKk8EjuXx8K0Cfp8pYk/img_640x640.jpg	', '박찬혁', '1997', 'kakao', now(), 'asdfdsa', 21000),
-('바끄선규', 'default.png', '박선규', '2000', 'kakao', now(), 'asdfdsa', 0),
-('서르동훈', 'default.png', '설동훈', '1996', 'kakao', now(), 'fdsafdsa', 0),
-('영화박사', 'default.png', '손세정', '1976', 'naver', now(), 'fdsafdsa', 0),
-('포켓몬고', 'default.png', '김지우', '1964', 'naver', now(), 'asdfdsafa', 0),
-('사린자', 'default.png', '장난감', '1964', 'naver', now(), 'fdsafdsa', 0);
+insert into user_tb(nickname, img_filename, name, birth_year, provider, created_at, password, point)
+values ('kakao_3587969747', 'http://k.kakaocdn.net/dn/ML8Oz/btsF1tO0SFt/lDxdKk8EjuXx8K0Cfp8pYk/img_640x640.jpg	',
+        '박찬혁', '1997', 'kakao', now(), 'asdfdsa', 21000),
+       ('바끄선규', 'default.png', '박선규', '2000', 'kakao', now(), 'asdfdsa', 0),
+       ('서르동훈', 'default.png', '설동훈', '1996', 'kakao', now(), 'fdsafdsa', 0),
+       ('영화박사', 'default.png', '손세정', '1976', 'naver', now(), 'fdsafdsa', 0),
+       ('포켓몬고', 'default.png', '김지우', '1964', 'naver', now(), 'asdfdsafa', 0),
+       ('사린자', 'default.png', '장난감', '1964', 'naver', now(), 'fdsafdsa', 0);
 -- 유저 등록 끝
 
 -- 유저 자주가는 극장 스크랩(최대 5개 까지만)
-insert into theater_scrap_tb(user_id, theater_id) values
-(1,1),
-(1,2),
-(1,3),
-(2,1),
-(2,2),
-(2,3),
-(3,1),
-(4,1),
-(5,1),
-(6,1);
+insert into theater_scrap_tb(user_id, theater_id)
+values (1, 1),
+       (1, 2),
+       (1, 3),
+       (2, 1),
+       (2, 2),
+       (2, 3),
+       (3, 1),
+       (4, 1),
+       (5, 1),
+       (6, 1);
 
 -- 유저 영화 스크랩(찜) 1,2번 유저 5개씩 스크랩`
-insert into movie_scrap_tb(user_id, movie_id, created_at) values
-(1, 1, now()),
-(1, 2, now()),
-(1, 3, now()),
-(1, 4, now()),
-(1, 5, now()),
-(2, 1, now()),
-(2, 2, now()),
-(2, 3, now()),
-(2, 4, now()),
-(2, 5, now());
+insert into movie_scrap_tb(user_id, movie_id, created_at)
+values (1, 1, now()),
+       (1, 2, now()),
+       (1, 3, now()),
+       (1, 4, now()),
+       (1, 5, now()),
+       (2, 1, now()),
+       (2, 2, now()),
+       (2, 3, now()),
+       (2, 4, now()),
+       (2, 5, now());
 -- 비회원 등록
-insert into guest_tb(name, birth, password) values
-('박찬혁', '1997-07-23', 'pakchan0723'),
-('박선규', '2000-04-25', 'sunkyu0425'),
-('설동훈', '1996-04-29', 'donghun0429');
+insert into guest_tb(name, birth, password)
+values ('박찬혁', '1997-07-23', 'pakchan0723'),
+       ('박선규', '2000-04-25', 'sunkyu0425'),
+       ('설동훈', '1996-04-29', 'donghun0429');
 -- -- 회원 예매
 -- 1번 유저가 극장1의 1관에서 상영하는 인사이드 아웃2 E10, E11 좌석을 예매 (포인트 10%로 3000포인트 적립 더미수정)
-insert into book_tb(user_id, guest_id, total_price, created_at, point, used_point, book_price) values
-(1, null, 30000, now(), 3000, 0, 30000);
-insert into seat_book_tb(book_id, seat_id, screening_info_id) values
+insert into book_tb(user_id, guest_id, total_price, created_at, point, used_point, book_price)
+values (1, null, 30000, now(), 3000, 0, 30000);
+insert into seat_book_tb(book_id, seat_id, screening_info_id)
+values
 -- 1관 E10, 극장1 인사이드아웃2 12:00~13:50
 (1, 67, 3),
 -- 1관 E11, 극장1 인사이드아웃2 12:00~13:50
 (1, 68, 3);
 -- 1번 유저가 극장1의 2관에서 상영하는 인사이드 아웃2 E4~ E15 좌석을 예매 (포인트 10%로 18000원 적립 더미 수정)
-insert into book_tb(user_id, guest_id, total_price, created_at, point, used_point, book_price) values
-(1, null, 180000, now(), 18000, 0, 180000);
-insert into seat_book_tb(book_id, seat_id, screening_info_id) values
+insert into book_tb(user_id, guest_id, total_price, created_at, point, used_point, book_price)
+values (1, null, 180000, now(), 18000, 0, 180000);
+insert into seat_book_tb(book_id, seat_id, screening_info_id)
+values
 -- 극장1 2관 E4~E15(172~183) 19:00~20:50 하이재킹
 (2, 172, 12),
 (2, 173, 12),
@@ -5636,407 +5697,404 @@ insert into seat_book_tb(book_id, seat_id, screening_info_id) values
 (2, 183, 12);
 -------------------------------- 이제부터 대충 짜야함 관계 다신경쓰면 못짬
 -- 2번 유저가 걍 무한으로 삼(예매 3번)
-insert into book_tb(user_id, guest_id, total_price, created_at, point, used_point, book_price) values
-(2, null, 0, now(), 0, 0, 0);
-insert into seat_book_tb(book_id, seat_id, screening_info_id) values
-(3, 31, 1),
-(3, 32, 1),
-(3, 35, 1),
-(3, 36, 1),
-(3, 38, 1),
-(3, 39, 1),
-(3, 40, 1),
-(3, 41, 1),
-(3, 42, 1),
-(3, 45, 1),
-(3, 46, 1),
-(3, 50, 1),
-(3, 51, 1),
-(3, 52, 1),
-(3, 53, 1),
-(3, 55, 1),
-(3, 58, 1),
-(3, 60, 1),
-(3, 61, 1),
-(3, 62, 1),
-(3, 63, 1),
-(3, 64, 1),
-(3, 65, 1),
-(3, 72, 1),
-(3, 73, 1),
-(3, 75, 1),
-(3, 77, 1),
-(3, 79, 1),
-(3, 80, 1),
-(3, 81, 1),
-(3, 82, 1),
-(3, 84, 1),
-(3, 85, 1),
-(3, 86, 1),
-(3, 87, 1),
-(3, 88, 1),
-(3, 89, 1),
-(3, 90, 1),
-(3, 91, 1),
-(3, 92, 1),
-(3, 95, 1),
-(3, 97, 1),
-(3, 98, 1),
-(3, 99, 1),
-(3, 100, 1),
-(3, 101, 1),
-(3, 102, 1),
-(3, 104, 1),
-(3, 105, 1),
-(3, 106, 1),
-(3, 107, 1),
-(3, 108, 1),
-(3, 109, 1),
-(3, 110, 1),
-(3, 111, 1);
+insert into book_tb(user_id, guest_id, total_price, created_at, point, used_point, book_price)
+values (2, null, 0, now(), 0, 0, 0);
 insert into seat_book_tb(book_id, seat_id, screening_info_id)
-values
-    (3, 1, 2),
-    (3, 2, 2),
-    (3, 4, 2),
-    (3, 5, 2),
-    (3, 7, 2),
-    (3, 8, 2),
-    (3, 10, 2),
-    (3, 11, 2),
-    (3, 13, 2),
-    (3, 14, 2),
-    (3, 16, 2),
-    (3, 17, 2),
-    (3, 19, 2),
-    (3, 20, 2),
-    (3, 22, 2),
-    (3, 23, 2),
-    (3, 25, 2),
-    (3, 26, 2),
-    (3, 28, 2),
-    (3, 29, 2),
-    (3, 31, 2),
-    (3, 32, 2),
-    (3, 34, 2),
-    (3, 35, 2),
-    (3, 37, 2),
-    (3, 38, 2),
-    (3, 40, 2),
-    (3, 41, 2),
-    (3, 43, 2),
-    (3, 44, 2),
-    (3, 46, 2),
-    (3, 47, 2),
-    (3, 49, 2),
-    (3, 50, 2),
-    (3, 52, 2),
-    (3, 53, 2),
-    (3, 55, 2),
-    (3, 56, 2),
-    (3, 58, 2),
-    (3, 59, 2),
-    (3, 61, 2),
-    (3, 62, 2),
-    (3, 65, 2),
-    (3, 68, 2),
-    (3, 71, 2),
-    (3, 74, 2),
-    (3, 77, 2),
-    (3, 80, 2),
-    (3, 83, 2),
-    (3, 86, 2),
-    (3, 89, 2),
-    (3, 92, 2),
-    (3, 95, 2),
-    (3, 98, 2),
-    (3, 101, 2),
-    (3, 104, 2),
-    (3, 107, 2),
-    (3, 110, 2);
+values (3, 31, 1),
+       (3, 32, 1),
+       (3, 35, 1),
+       (3, 36, 1),
+       (3, 38, 1),
+       (3, 39, 1),
+       (3, 40, 1),
+       (3, 41, 1),
+       (3, 42, 1),
+       (3, 45, 1),
+       (3, 46, 1),
+       (3, 50, 1),
+       (3, 51, 1),
+       (3, 52, 1),
+       (3, 53, 1),
+       (3, 55, 1),
+       (3, 58, 1),
+       (3, 60, 1),
+       (3, 61, 1),
+       (3, 62, 1),
+       (3, 63, 1),
+       (3, 64, 1),
+       (3, 65, 1),
+       (3, 72, 1),
+       (3, 73, 1),
+       (3, 75, 1),
+       (3, 77, 1),
+       (3, 79, 1),
+       (3, 80, 1),
+       (3, 81, 1),
+       (3, 82, 1),
+       (3, 84, 1),
+       (3, 85, 1),
+       (3, 86, 1),
+       (3, 87, 1),
+       (3, 88, 1),
+       (3, 89, 1),
+       (3, 90, 1),
+       (3, 91, 1),
+       (3, 92, 1),
+       (3, 95, 1),
+       (3, 97, 1),
+       (3, 98, 1),
+       (3, 99, 1),
+       (3, 100, 1),
+       (3, 101, 1),
+       (3, 102, 1),
+       (3, 104, 1),
+       (3, 105, 1),
+       (3, 106, 1),
+       (3, 107, 1),
+       (3, 108, 1),
+       (3, 109, 1),
+       (3, 110, 1),
+       (3, 111, 1);
+insert into seat_book_tb(book_id, seat_id, screening_info_id)
+values (3, 1, 2),
+       (3, 2, 2),
+       (3, 4, 2),
+       (3, 5, 2),
+       (3, 7, 2),
+       (3, 8, 2),
+       (3, 10, 2),
+       (3, 11, 2),
+       (3, 13, 2),
+       (3, 14, 2),
+       (3, 16, 2),
+       (3, 17, 2),
+       (3, 19, 2),
+       (3, 20, 2),
+       (3, 22, 2),
+       (3, 23, 2),
+       (3, 25, 2),
+       (3, 26, 2),
+       (3, 28, 2),
+       (3, 29, 2),
+       (3, 31, 2),
+       (3, 32, 2),
+       (3, 34, 2),
+       (3, 35, 2),
+       (3, 37, 2),
+       (3, 38, 2),
+       (3, 40, 2),
+       (3, 41, 2),
+       (3, 43, 2),
+       (3, 44, 2),
+       (3, 46, 2),
+       (3, 47, 2),
+       (3, 49, 2),
+       (3, 50, 2),
+       (3, 52, 2),
+       (3, 53, 2),
+       (3, 55, 2),
+       (3, 56, 2),
+       (3, 58, 2),
+       (3, 59, 2),
+       (3, 61, 2),
+       (3, 62, 2),
+       (3, 65, 2),
+       (3, 68, 2),
+       (3, 71, 2),
+       (3, 74, 2),
+       (3, 77, 2),
+       (3, 80, 2),
+       (3, 83, 2),
+       (3, 86, 2),
+       (3, 89, 2),
+       (3, 92, 2),
+       (3, 95, 2),
+       (3, 98, 2),
+       (3, 101, 2),
+       (3, 104, 2),
+       (3, 107, 2),
+       (3, 110, 2);
 
 insert into seat_book_tb(book_id, seat_id, screening_info_id)
-values
-    (3, 20, 3),
-    (3, 22, 3),
-    (3, 23, 3),
-    (3, 25, 3),
-    (3, 26, 3),
-    (3, 28, 3),
-    (3, 29, 3),
-    (3, 31, 3),
-    (3, 32, 3),
-    (3, 34, 3),
-    (3, 35, 3),
-    (3, 37, 3),
-    (3, 38, 3),
-    (3, 40, 3),
-    (3, 41, 3),
-    (3, 43, 3),
-    (3, 44, 3),
-    (3, 46, 3),
-    (3, 47, 3),
-    (3, 49, 3),
-    (3, 50, 3),
-    (3, 52, 3),
-    (3, 53, 3),
-    (3, 55, 3),
-    (3, 56, 3),
-    (3, 58, 3),
-    (3, 59, 3),
-    (3, 61, 3),
-    (3, 62, 3),
-    (3, 65, 3),
-    (3, 68, 3),
-    (3, 71, 3),
-    (3, 74, 3),
-    (3, 77, 3),
-    (3, 80, 3),
-    (3, 83, 3),
-    (3, 86, 3),
-    (3, 89, 3),
-    (3, 92, 3),
-    (3, 95, 3),
-    (3, 98, 3),
-    (3, 101, 3),
-    (3, 104, 3),
-    (3, 107, 3),
-    (3, 110, 3);
+values (3, 20, 3),
+       (3, 22, 3),
+       (3, 23, 3),
+       (3, 25, 3),
+       (3, 26, 3),
+       (3, 28, 3),
+       (3, 29, 3),
+       (3, 31, 3),
+       (3, 32, 3),
+       (3, 34, 3),
+       (3, 35, 3),
+       (3, 37, 3),
+       (3, 38, 3),
+       (3, 40, 3),
+       (3, 41, 3),
+       (3, 43, 3),
+       (3, 44, 3),
+       (3, 46, 3),
+       (3, 47, 3),
+       (3, 49, 3),
+       (3, 50, 3),
+       (3, 52, 3),
+       (3, 53, 3),
+       (3, 55, 3),
+       (3, 56, 3),
+       (3, 58, 3),
+       (3, 59, 3),
+       (3, 61, 3),
+       (3, 62, 3),
+       (3, 65, 3),
+       (3, 68, 3),
+       (3, 71, 3),
+       (3, 74, 3),
+       (3, 77, 3),
+       (3, 80, 3),
+       (3, 83, 3),
+       (3, 86, 3),
+       (3, 89, 3),
+       (3, 92, 3),
+       (3, 95, 3),
+       (3, 98, 3),
+       (3, 101, 3),
+       (3, 104, 3),
+       (3, 107, 3),
+       (3, 110, 3);
 insert into seat_book_tb(book_id, seat_id, screening_info_id)
-values
- (3, 13, 4),
- (3, 14, 4),
- (3, 15, 4),
- (3, 16, 4),
- (3, 17, 4),
- (3, 18, 4),
- (3, 19, 4),
- (3, 20, 4),
- (3, 21, 4),
- (3, 22, 4),
+values (3, 13, 4),
+       (3, 14, 4),
+       (3, 15, 4),
+       (3, 16, 4),
+       (3, 17, 4),
+       (3, 18, 4),
+       (3, 19, 4),
+       (3, 20, 4),
+       (3, 21, 4),
+       (3, 22, 4),
 
- (3, 27, 4),
- (3, 28, 4),
- (3, 29, 4),
- (3, 30, 4),
- (3, 31, 4),
- (3, 32, 4),
- (3, 33, 4),
- (3, 34, 4),
- (3, 35, 4),
- (3, 36, 4),
- (3, 39, 4),
- (3, 40, 4),
- (3, 41, 4),
- (3, 42, 4),
- (3, 43, 4),
- (3, 44, 4),
- (3, 45, 4),
- (3, 47, 4),
- (3, 48, 4),
- (3, 49, 4),
- (3, 50, 4),
- (3, 51, 4),
- (3, 52, 4),
- (3, 53, 4),
- (3, 54, 4),
- (3, 55, 4),
- (3, 56, 4),
- (3, 57, 4),
- (3, 58, 4),
- (3, 61, 4),
- (3, 62, 4),
- (3, 63, 4),
- (3, 64, 4),
- (3, 65, 4),
- (3, 66, 4),
- (3, 67, 4),
- (3, 68, 4),
- (3, 69, 4),
- (3, 72, 4),
- (3, 73, 4),
- (3, 78, 4),
- (3, 79, 4),
- (3, 80, 4),
- (3, 81, 4),
- (3, 82, 4),
- (3, 83, 4),
- (3, 84, 4),
- (3, 85, 4),
- (3, 86, 4),
- (3, 87, 4),
- (3, 88, 4),
- (3, 89, 4),
- (3, 90, 4),
- (3, 91, 4),
- (3, 92, 4),
- (3, 95, 4),
- (3, 96, 4),
- (3, 97, 4),
- (3, 98, 4),
- (3, 99, 4),
- (3, 102, 4),
- (3, 103, 4),
- (3, 104, 4),
- (3, 105, 4),
- (3, 106, 4),
- (3, 109, 4),
- (3, 110, 4),
- (3, 111, 4);
+       (3, 27, 4),
+       (3, 28, 4),
+       (3, 29, 4),
+       (3, 30, 4),
+       (3, 31, 4),
+       (3, 32, 4),
+       (3, 33, 4),
+       (3, 34, 4),
+       (3, 35, 4),
+       (3, 36, 4),
+       (3, 39, 4),
+       (3, 40, 4),
+       (3, 41, 4),
+       (3, 42, 4),
+       (3, 43, 4),
+       (3, 44, 4),
+       (3, 45, 4),
+       (3, 47, 4),
+       (3, 48, 4),
+       (3, 49, 4),
+       (3, 50, 4),
+       (3, 51, 4),
+       (3, 52, 4),
+       (3, 53, 4),
+       (3, 54, 4),
+       (3, 55, 4),
+       (3, 56, 4),
+       (3, 57, 4),
+       (3, 58, 4),
+       (3, 61, 4),
+       (3, 62, 4),
+       (3, 63, 4),
+       (3, 64, 4),
+       (3, 65, 4),
+       (3, 66, 4),
+       (3, 67, 4),
+       (3, 68, 4),
+       (3, 69, 4),
+       (3, 72, 4),
+       (3, 73, 4),
+       (3, 78, 4),
+       (3, 79, 4),
+       (3, 80, 4),
+       (3, 81, 4),
+       (3, 82, 4),
+       (3, 83, 4),
+       (3, 84, 4),
+       (3, 85, 4),
+       (3, 86, 4),
+       (3, 87, 4),
+       (3, 88, 4),
+       (3, 89, 4),
+       (3, 90, 4),
+       (3, 91, 4),
+       (3, 92, 4),
+       (3, 95, 4),
+       (3, 96, 4),
+       (3, 97, 4),
+       (3, 98, 4),
+       (3, 99, 4),
+       (3, 102, 4),
+       (3, 103, 4),
+       (3, 104, 4),
+       (3, 105, 4),
+       (3, 106, 4),
+       (3, 109, 4),
+       (3, 110, 4),
+       (3, 111, 4);
 
 insert into seat_book_tb(book_id, seat_id, screening_info_id)
-values
-    (3, 21, 5),
-    (3, 22, 5),
-    (3, 23, 5),
-    (3, 24, 5),
-    (3, 26, 5),
-    (3, 30, 5),
-    (3, 31, 5),
-    (3, 32, 5),
-    (3, 33, 5),
-    (3, 34, 5),
-    (3, 35, 5),
-    (3, 36, 5),
-    (3, 37, 5),
-    (3, 38, 5),
-    (3, 39, 5),
-    (3, 40, 5),
-    (3, 41, 5),
-    (3, 42, 5),
-    (3, 45, 5),
-    (3, 46, 5),
-    (3, 47, 5),
-    (3, 48, 5),
-    (3, 49, 5),
-    (3, 52, 5),
-    (3, 53, 5),
-    (3, 54, 5),
-    (3, 55, 5),
-    (3, 56, 5),
-    (3, 57, 5),
-    (3, 58, 5),
-    (3, 60, 5),
-    (3, 61, 5),
-    (3, 62, 5),
-    (3, 63, 5),
-    (3, 64, 5),
-    (3, 65, 5),
-    (3, 66, 5),
-    (3, 67, 5),
-    (3, 68, 5),
-    (3, 69, 5),
-    (3, 70, 5),
-    (3, 71, 5),
-    (3, 72, 5),
-    (3, 73, 5),
-    (3, 75, 5),
-    (3, 76, 5),
-    (3, 77, 5),
-    (3, 78, 5),
-    (3, 79, 5),
-    (3, 80, 5),
-    (3, 81, 5),
-    (3, 82, 5),
-    (3, 83, 5),
-    (3, 84, 5),
-    (3, 85, 5),
-    (3, 86, 5),
-    (3, 87, 5),
-    (3, 88, 5),
-    (3, 89, 5),
-    (3, 91, 5),
-    (3, 92, 5),
-    (3, 93, 5),
-    (3, 94, 5),
-    (3, 95, 5),
-    (3, 96, 5),
-    (3, 97, 5),
-    (3, 98, 5),
-    (3, 99, 5),
-    (3, 100, 5),
-    (3, 101, 5),
-    (3, 102, 5),
-    (3, 103, 5),
-    (3, 104, 5),
-    (3, 105, 5),
-    (3, 106, 5),
-    (3, 107, 5),
-    (3, 108, 5),
-    (3, 109, 5);
+values (3, 21, 5),
+       (3, 22, 5),
+       (3, 23, 5),
+       (3, 24, 5),
+       (3, 26, 5),
+       (3, 30, 5),
+       (3, 31, 5),
+       (3, 32, 5),
+       (3, 33, 5),
+       (3, 34, 5),
+       (3, 35, 5),
+       (3, 36, 5),
+       (3, 37, 5),
+       (3, 38, 5),
+       (3, 39, 5),
+       (3, 40, 5),
+       (3, 41, 5),
+       (3, 42, 5),
+       (3, 45, 5),
+       (3, 46, 5),
+       (3, 47, 5),
+       (3, 48, 5),
+       (3, 49, 5),
+       (3, 52, 5),
+       (3, 53, 5),
+       (3, 54, 5),
+       (3, 55, 5),
+       (3, 56, 5),
+       (3, 57, 5),
+       (3, 58, 5),
+       (3, 60, 5),
+       (3, 61, 5),
+       (3, 62, 5),
+       (3, 63, 5),
+       (3, 64, 5),
+       (3, 65, 5),
+       (3, 66, 5),
+       (3, 67, 5),
+       (3, 68, 5),
+       (3, 69, 5),
+       (3, 70, 5),
+       (3, 71, 5),
+       (3, 72, 5),
+       (3, 73, 5),
+       (3, 75, 5),
+       (3, 76, 5),
+       (3, 77, 5),
+       (3, 78, 5),
+       (3, 79, 5),
+       (3, 80, 5),
+       (3, 81, 5),
+       (3, 82, 5),
+       (3, 83, 5),
+       (3, 84, 5),
+       (3, 85, 5),
+       (3, 86, 5),
+       (3, 87, 5),
+       (3, 88, 5),
+       (3, 89, 5),
+       (3, 91, 5),
+       (3, 92, 5),
+       (3, 93, 5),
+       (3, 94, 5),
+       (3, 95, 5),
+       (3, 96, 5),
+       (3, 97, 5),
+       (3, 98, 5),
+       (3, 99, 5),
+       (3, 100, 5),
+       (3, 101, 5),
+       (3, 102, 5),
+       (3, 103, 5),
+       (3, 104, 5),
+       (3, 105, 5),
+       (3, 106, 5),
+       (3, 107, 5),
+       (3, 108, 5),
+       (3, 109, 5);
 
 insert into seat_book_tb(book_id, seat_id, screening_info_id)
-values
-    (3, 43, 6),
-    (3, 44, 6),
-    (3, 45, 6),
-    (3, 46, 6),
-    (3, 47, 6),
-    (3, 48, 6),
-    (3, 50, 6),
-    (3, 51, 6),
-    (3, 53, 6),
-    (3, 56, 6),
-    (3, 57, 6),
-    (3, 59, 6),
-    (3, 60, 6),
-    (3, 63, 6),
-    (3, 64, 6),
-    (3, 65, 6),
-    (3, 67, 6),
-    (3, 68, 6),
-    (3, 71, 6),
-    (3, 72, 6),
-    (3, 73, 6),
-    (3, 74, 6),
-    (3, 76, 6),
-    (3, 77, 6),
-    (3, 78, 6),
-    (3, 79, 6),
-    (3, 80, 6),
-    (3, 81, 6),
-    (3, 83, 6),
-    (3, 84, 6),
-    (3, 85, 6),
-    (3, 86, 6),
-    (3, 87, 6),
-    (3, 88, 6),
-    (3, 89, 6),
-    (3, 90, 6),
-    (3, 91, 6),
-    (3, 93, 6),
-    (3, 94, 6),
-    (3, 95, 6),
-    (3, 96, 6),
-    (3, 97, 6),
-    (3, 98, 6),
-    (3, 99, 6),
-    (3, 100, 6),
-    (3, 101, 6),
-    (3, 102, 6),
-    (3, 103, 6),
-    (3, 104, 6),
-    (3, 105, 6),
-    (3, 106, 6),
-    (3, 107, 6),
-    (3, 108, 6),
-    (3, 109, 6);
+values (3, 43, 6),
+       (3, 44, 6),
+       (3, 45, 6),
+       (3, 46, 6),
+       (3, 47, 6),
+       (3, 48, 6),
+       (3, 50, 6),
+       (3, 51, 6),
+       (3, 53, 6),
+       (3, 56, 6),
+       (3, 57, 6),
+       (3, 59, 6),
+       (3, 60, 6),
+       (3, 63, 6),
+       (3, 64, 6),
+       (3, 65, 6),
+       (3, 67, 6),
+       (3, 68, 6),
+       (3, 71, 6),
+       (3, 72, 6),
+       (3, 73, 6),
+       (3, 74, 6),
+       (3, 76, 6),
+       (3, 77, 6),
+       (3, 78, 6),
+       (3, 79, 6),
+       (3, 80, 6),
+       (3, 81, 6),
+       (3, 83, 6),
+       (3, 84, 6),
+       (3, 85, 6),
+       (3, 86, 6),
+       (3, 87, 6),
+       (3, 88, 6),
+       (3, 89, 6),
+       (3, 90, 6),
+       (3, 91, 6),
+       (3, 93, 6),
+       (3, 94, 6),
+       (3, 95, 6),
+       (3, 96, 6),
+       (3, 97, 6),
+       (3, 98, 6),
+       (3, 99, 6),
+       (3, 100, 6),
+       (3, 101, 6),
+       (3, 102, 6),
+       (3, 103, 6),
+       (3, 104, 6),
+       (3, 105, 6),
+       (3, 106, 6),
+       (3, 107, 6),
+       (3, 108, 6),
+       (3, 109, 6);
 
 -- 비회원 예매
-insert into book_tb(user_id, guest_id, total_price, created_at, point, used_point, book_price) values
-    (null, 1, 15000, now(), 0, 0, 15000);
+insert into book_tb(user_id, guest_id, total_price, created_at, point, used_point, book_price)
+values (null, 1, 15000, now(), 0, 0, 15000);
 insert into seat_book_tb(book_id, seat_id, screening_info_id)
 values (4, 110, 6);
-insert into book_tb(user_id, guest_id, total_price, created_at, point, used_point, book_price) values
-    (null, 2, 30000, now(), 0, 0, 30000);
+insert into book_tb(user_id, guest_id, total_price, created_at, point, used_point, book_price)
+values (null, 2, 30000, now(), 0, 0, 30000);
 insert into seat_book_tb(book_id, seat_id, screening_info_id)
 values (5, 41, 6),
        (5, 42, 6);
 
 -- 리뷰 등록
-insert into review_tb(user_id, movie_id, comment, rating) values
-      (1, 1, '너무너무 좋으다 강력추천 합니다, 아주 나이스 합니다,', 4.5),
-      (2, 1, '불안아... 아흑 ㅠㅡ', 4),
-      (3, 1, 'T한테는 별로인 영화. F한테는 감동', 3.5);
-insert into review_tb(user_id, movie_id, comment, rating) values
-(1, 2, '스토리는 뻔했지만 대부분 주요인물 위주로만 극이 흘러가는게 참 다행이었고 질질 끌지 않고 영화가 짧아서 깔끔했다. 배우들 연기는 역시 다 좋았는데 초반에 여진구만 이런 역할을 많이 안해봐서인지 다소 어색했었지만 클라이맥스로 갈수록 자연스러워져서 볼만 했다', '4');
+insert into review_tb(user_id, movie_id, comment, rating)
+values (1, 1, '너무너무 좋으다 강력추천 합니다, 아주 나이스 합니다,', 4.5),
+       (2, 1, '불안아... 아흑 ㅠㅡ', 4),
+       (3, 1, 'T한테는 별로인 영화. F한테는 감동', 3.5);
+insert into review_tb(user_id, movie_id, comment, rating)
+values (1, 2,
+        '스토리는 뻔했지만 대부분 주요인물 위주로만 극이 흘러가는게 참 다행이었고 질질 끌지 않고 영화가 짧아서 깔끔했다. 배우들 연기는 역시 다 좋았는데 초반에 여진구만 이런 역할을 많이 안해봐서인지 다소 어색했었지만 클라이맥스로 갈수록 자연스러워져서 볼만 했다',
+        '4');

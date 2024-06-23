@@ -1,7 +1,7 @@
 package org.example.metabox.theater;
 
 import lombok.Data;
-import org.example.metabox.movie.Movie;
+import org.example.metabox.screening.Screening;
 import org.example.metabox.screening_info.ScreeningInfo;
 import org.example.metabox.theater_scrap.TheaterScrap;
 
@@ -10,21 +10,24 @@ import java.util.stream.Collectors;
 
 public class TheaterResponse {
 
-
     @Data
     public static class TheaterDTO {
         private List<ScrapDTO> scrapDTOList;
         private List<TheaterAreaDTO> theaterAreaDTOList;
         private List<ScreeningInfoDTO> screeningInfoDTOList;
 
-        public TheaterDTO(List<TheaterScrap> theaterScrapList, List<Theater> theaterList, List<Movie> movieList) {
+        public TheaterDTO(List<TheaterScrap> theaterScrapList, List<Theater> theaterList, List<ScreeningInfo> screeningInfoList) {
             this.scrapDTOList = theaterScrapList.stream().map(ScrapDTO::new).collect(Collectors.toList());
             this.theaterAreaDTOList = theaterList.stream()
                     .collect(Collectors.groupingBy(Theater::getAreaCode))
                     .entrySet().stream()
                     .map(entry -> new TheaterAreaDTO(entry.getKey(), entry.getValue()))
                     .collect(Collectors.toList());
-            this.screeningInfoDTOList = movieList.stream().map(ScreeningInfoDTO::new).collect(Collectors.toList());
+            this.screeningInfoDTOList = screeningInfoList.stream()
+                    .collect(Collectors.groupingBy(screeningInfo -> screeningInfo.getMovie().getTitle()))
+                    .entrySet().stream()
+                    .map(entry -> new ScreeningInfoDTO(entry.getValue()))
+                    .collect(Collectors.toList());
         }
 
         @Data
@@ -70,34 +73,45 @@ public class TheaterResponse {
             private String movieInfo;
             private List<ScreeningDTO> screeningList;
 
+            public ScreeningInfoDTO(List<ScreeningInfo> screeningInfoList) {
+                if (!screeningInfoList.isEmpty()) {
+                    ScreeningInfo firstScreeningInfo = screeningInfoList.get(0);
+                    this.movieTitle = firstScreeningInfo.getMovie().getTitle();
+                    this.movieInfo = firstScreeningInfo.getMovie().getInfo();
+                    this.screeningList = screeningInfoList.stream()
+                            .collect(Collectors.groupingBy(ScreeningInfo::getScreening))
+                            .entrySet().stream()
+                            .map(entry -> new ScreeningDTO(entry.getKey(), entry.getValue()))
+                            .collect(Collectors.toList());
+                }
+            }
+
             @Data
             private class ScreeningDTO {
                 private String screeningName;
                 private Integer screeningSeatCount;
                 private List<ScreeningTimeDTO> screeningTimeList;
 
+                public ScreeningDTO(Screening screening, List<ScreeningInfo> screeningInfoList) {
+                    this.screeningName = screening.getName();
+                    this.screeningSeatCount = screening.getSeatCount();
+                    this.screeningTimeList = screeningInfoList.stream()
+                            .map(ScreeningTimeDTO::new)
+                            .collect(Collectors.toList());
+                }
+
                 @Data
                 private class ScreeningTimeDTO {
                     private String startTime;
                     private Integer currentSeatCount;
+                    private Integer screeningInfoId;
 
                     public ScreeningTimeDTO(ScreeningInfo screeningInfo) {
                         this.startTime = screeningInfo.getStartTime();
                         this.currentSeatCount = screeningInfo.getScreening().getSeatCount() - screeningInfo.getSeatBookList().size();
+                        this.screeningInfoId = screeningInfo.getId();
                     }
                 }
-
-                public ScreeningDTO(ScreeningInfo screeningInfo) {
-                    this.screeningName = screeningInfo.getScreening().getName();
-                    this.screeningSeatCount = screeningInfo.getScreening().getSeatCount();
-                    this.screeningTimeList = screeningInfo.getScreening().getScreeningInfoList().stream().map(ScreeningTimeDTO::new).collect(Collectors.toList());
-                }
-            }
-
-            public ScreeningInfoDTO(Movie movie) {
-                this.movieTitle = movie.getTitle();
-                this.movieInfo = movie.getInfo();
-                this.screeningList = movie.getScreeningInfoList().stream().map(ScreeningDTO::new).collect(Collectors.toList());
             }
         }
     }
