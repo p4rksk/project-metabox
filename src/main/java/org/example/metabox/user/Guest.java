@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.metabox.book.Book;
 
+import java.util.List;
+
 @NoArgsConstructor
 @Entity
 @Data
@@ -15,8 +17,8 @@ public class Guest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @OneToOne(mappedBy = "guest", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
-    private Book book;
+    @OneToMany(mappedBy = "guest", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    private List<Book> bookList;
 
     // 생년 월일
     private String birth;
@@ -27,9 +29,9 @@ public class Guest {
     private String phone;
 
     @Builder
-    public Guest(Integer id, Book book, String birth, String password, String phone) {
+    public Guest(Integer id, List<Book> bookList, String birth, String password, String phone) {
         this.id = id;
-        this.book = book;
+        this.bookList = bookList;
         this.birth = birth;
         this.password = password;
         this.phone = phone;
