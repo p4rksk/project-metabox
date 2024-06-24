@@ -3,6 +3,7 @@ package org.example.metabox.movie;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import lombok.RequiredArgsConstructor;
+import org.example.metabox.trailer.Trailer;
 import org.example.metabox.user.UserResponse;
 import org.springframework.stereotype.Repository;
 
@@ -181,4 +182,5 @@ public class MovieQueryRepository {
         List<Object[]> results = query.getResultList();
         return results;
     }
+
 }

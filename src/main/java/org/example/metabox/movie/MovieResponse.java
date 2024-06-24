@@ -1,12 +1,15 @@
 package org.example.metabox.movie;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import org.example.metabox.movie_pic.MoviePic;
+import org.example.metabox.review.Review;
 import org.example.metabox.trailer.Trailer;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MovieResponse {
 
@@ -111,6 +114,73 @@ public class MovieResponse {
             this.releaseStatus = releaseStatus; // 상영 상태(상영중, D-?)
             this.bookingRate = bookingRate; // 예매율
             this.rank = rank; // 순위
+        }
+    }
+
+    @Data
+    @Builder
+    public static class UserMovieDetailDTO {
+        private int id;
+        private String imgFilename;
+        private String releaseStatus;
+        private String title;
+        private String engTitle;
+        private Double bookingRate;
+        private String director;
+        private String actor;
+        private String genre;
+        private String info;
+        private Date startDate;
+        private String description;
+        private List<MoviePicDTO> stills;
+        private List<TrailerDTO> trailers;
+        private List<ReviewDTO> reviews;
+        private Integer reviewCount;
+        private Integer stillsCount;
+
+        @Data
+        public static class MoviePicDTO {
+            private int id;
+            private String fileName;
+
+            public static MoviePicDTO fromEntity(MoviePic moviePic) {
+                MoviePicDTO dto = new MoviePicDTO();
+                dto.id = moviePic.getId();
+                dto.fileName = moviePic.getImgFilename();
+                return dto;
+            }
+        }
+
+        @Data
+        public static class TrailerDTO {
+            private int id;
+            private String fileName;
+
+            public static TrailerDTO fromEntity(Trailer trailer) {
+                TrailerDTO dto = new TrailerDTO();
+                dto.id = trailer.getId();
+                dto.fileName = trailer.getImgFilename();
+                return dto;
+            }
+        }
+
+        @Data
+        public static class ReviewDTO {
+            private int id;
+            private String comment;
+            private double rating;
+            private String reviewer;
+            private String userProfile;
+
+            public static ReviewDTO fromEntity(Review review) {
+                ReviewDTO dto = new ReviewDTO();
+                dto.id = review.getId();
+                dto.comment = review.getComment();
+                dto.rating = review.getRating();
+                dto.reviewer = review.getUser().getNickname();
+                dto.userProfile = review.getUser().getImgFilename();
+                return dto;
+            }
         }
     }
 

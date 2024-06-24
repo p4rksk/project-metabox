@@ -6,6 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.metabox.movie.Movie;
 import org.example.metabox.user.User;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -25,6 +28,9 @@ public class Review {
     private String comment;
     // TODO : Enum 처리?
     private double rating;
+
+    @CreationTimestamp
+    private LocalDateTime createdAt;    // 댓글 작성 시간
 
     @Builder
     public Review(int id, User user, Movie movie, String comment, int rating) {

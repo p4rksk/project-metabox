@@ -3,20 +3,19 @@ package org.example.metabox.movie;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.example.metabox._core.util.FileUtil;
 import org.example.metabox.movie_pic.MoviePic;
 import org.example.metabox.movie_pic.MoviePicRepository;
+import org.example.metabox.review.Review;
+import org.example.metabox.review.ReviewRepository;
 import org.example.metabox.trailer.Trailer;
 import org.example.metabox.trailer.TrailerRepository;
 import org.springframework.stereotype.Service;
@@ -33,6 +32,7 @@ public class MovieService {
     private final MoviePicRepository moviePicRepository;
     private final TrailerRepository trailerRepository;
     private final MovieQueryRepository movieQueryRepository;
+    private final ReviewRepository reviewRepository;
 
     // 모든 영화를 조회하는 메서드
     public List<MovieResponse.MovieChartDTO> getAllMovies() {
@@ -191,6 +191,64 @@ public class MovieService {
             userMovieChartDTOList.add(dto);
         }
         return userMovieChartDTOList;
+    }
+
+    @Transactional
+    public MovieResponse.UserMovieDetailDTO getMovieDetail(int movieId) {
+        // movieId로 영화 정보 조회
+        Optional<Movie> optionalMovie = movieRepository.findById(movieId);
+        Movie movie = optionalMovie.get();
+
+        // movieId로 트레일러 조회
+        List<Trailer> trailers = trailerRepository.findTrailersByMovieId(movieId);
+
+        // movieId로 스틸컷 조회
+        List<MoviePic> stills = moviePicRepository.findStillsByMovieId(movieId);
+        int posterCount = movie.getImgFilename() != null ? 1 : 0;
+        Integer stillsCount = stills.size() + posterCount;
+
+        // movieId로 리뷰 조회
+        List<Review> reviews = reviewRepository.findByMovieId(movieId);
+        Integer reviewCount = reviews.size();
+
+        // 영화의 개봉 상태 설정 (임의의 값 사용)
+        String releaseStatus = checkMovieReleaseStatus(movie.getStartDate());
+
+        // 예매율
+        Double bookingRate = 95.0;
+
+        // DTO에 정보 담기
+        return MovieResponse.UserMovieDetailDTO.builder()
+                .id(movie.getId())
+                .imgFilename(movie.getImgFilename())
+                .title(movie.getTitle())
+                .engTitle(movie.getEngTitle())
+                .releaseStatus(releaseStatus)
+                .bookingRate(bookingRate)
+                .director(movie.getDirector())
+                .actor(movie.getActor())
+                .genre(movie.getGenre())
+                .info(movie.getInfo())
+                .startDate(movie.getStartDate())
+                .description(movie.getDescription())
+                .stills(stills.stream().map(MovieResponse.UserMovieDetailDTO.MoviePicDTO::fromEntity).collect(Collectors.toList()))
+                .trailers(trailers.stream().map(MovieResponse.UserMovieDetailDTO.TrailerDTO::fromEntity).collect(Collectors.toList()))
+                .reviews(reviews.stream().map(MovieResponse.UserMovieDetailDTO.ReviewDTO::fromEntity).collect(Collectors.toList()))
+                .reviewCount(reviewCount)
+                .stillsCount(stillsCount)
+                .build();
+    }
+
+    public Double calculateBookingRate(Integer movieId){
+        // 오늘 이후 상영하는 전체 예매 건수를 가져옵니다.
+
+        // 오늘 이후 해당 영화의 예매 건수를 가져옵니다.
+
+        // 두 개 나누기
+
+        // %로 포멧팅
+
+        return 0.0;
     }
 
 }

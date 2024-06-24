@@ -1,6 +1,8 @@
 package org.example.metabox.movie;
 
 import jakarta.persistence.EntityManager;
+import org.example.metabox.review.Review;
+import org.example.metabox.review.ReviewRepository;
 import org.example.metabox.user.UserResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,8 @@ public class MovieQueryRepositoryTest {
     private MovieQueryRepository movieQueryRepository;
     @Autowired
     private EntityManager em;
+    @Autowired
+    private ReviewRepository reviewRepository;
 
 
     @Test
@@ -68,6 +72,18 @@ public class MovieQueryRepositoryTest {
             System.out.println("Start Date: " + result[4]);
             System.out.println("Booking Rate: " + result[5]);
         }
+    }
+
+    @Test
+    public void findByMovieId_Test(){
+        // given
+        int movieId = 1;
+
+        // when
+        List<Review> results = reviewRepository.findByMovieId(movieId);
+
+        // then
+        results.forEach(review -> System.out.println(review.getId() + ": " + review.getComment()));
     }
 
 }
