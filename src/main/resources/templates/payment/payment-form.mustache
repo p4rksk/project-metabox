@@ -47,12 +47,15 @@
 
     .b-color {
         background-color: #F9F9F9;
+        padding: 10px;
+
     }
 
 
     .content-wrapper {
-        padding: 20px;
         margin-bottom: 30px;
+        width: 100%;
+        height: 700px;
     }
 
 
@@ -60,73 +63,74 @@
         display: flex;
         justify-content: flex-end;
         gap: 10px;
-        max-width: 900px;
+        max-width: 405px;
         margin-top: 20px;
         margin-bottom: 20px;
         margin-left: 32%;
     }
 
 </style>
+<div class="container">
+    <div class="seat-select-section" >
+        <div class="content-wrapper">
+            <div class="container mt-5">
 
-<div class="seat-select-section">
-    <div class="content-wrapper">
-        <div class="container mt-5">
-
-            <div class="custom-buttons">
-                <button type="button" class="btn btn-secondary fa-solid fa-clock" style="background-color: #4E0929;">
-                    상영시간표
-                </button>
-                <button type="button" class="btn btn-secondary fa-solid fa-rotate-right"
-                        style="background-color: #4E0929;"> 예매 다시하기
-                </button>
-            </div>
-            <div class="row b-color">
-                <div class="col-md-8">
-                    <div class="step-header">포인트 및 결제</div>
-                    <div id="step3" class="collapse show step-content">
-                        <ul class="nav nav-tabs" id="myTab" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active">포인트</a>
-                            </li>
-                        </ul>
-                        <div class="tab-content" id="myTabContent">
-                            <div class="tab-pane fade show active" id="cjone" role="tabpanel"
-                                 aria-labelledby="cjone-tab">
-                                <br>
-                                <p>보유 포인트: <span class="text-danger">56 P</span></p>
-                                <div class="form-group">
-                                    <label for="usePoints">사용할 포인트</label>
-                                    <input type="number" class="form-control" id="usePoints" value="0"> P
-                                    <div class="form-check">
-                                        <input type="checkbox" class="form-check-input" id="allUse">
-                                        <label class="form-check-label" for="allUse">모두사용</label>
+                <div class="custom-buttons">
+                    <button type="button" class="btn btn-secondary fa-solid fa-clock" style="background-color: #4E0929;">
+                        상영시간표
+                    </button>
+                    <button type="button" class="btn btn-secondary fa-solid fa-rotate-right"
+                            style="background-color: #4E0929;"> 예매 다시하기
+                    </button>
+                </div>
+                <div class="b-color" style="width: 750px">
+                    <div class="col-md-8" style="max-width: 100%;">
+                        <div class="step-header">포인트 및 결제</div>
+                        <div id="step3" class="collapse show step-content">
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active">포인트</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active" id="cjone" role="tabpanel"
+                                     aria-labelledby="cjone-tab">
+                                    <br>
+                                    <p>보유 포인트: <span class="text-danger">56 P</span></p>
+                                    <div class="form-group">
+                                        <label for="usePoints">사용할 포인트</label>
+                                        <input type="number" class="form-control" id="usePoints" value="0"> P
+                                        <div class="form-check">
+                                            <input type="checkbox" class="form-check-input" id="allUse">
+                                            <label class="form-check-label" for="allUse">모두사용</label>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="alert alert-secondary" role="alert">
-                                    포인트는 1,000P 이상부터 10P 단위로 사용 가능합니다.
+                                    <div class="alert alert-secondary" role="alert">
+                                        포인트는 1,000P 이상부터 10P 단위로 사용 가능합니다.
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div id="step3" class="collapse show step-content">
-                        <ul class="nav nav-tabs" id="myTab" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active">신용카드</a>
-                            </li>
-                        </ul>
-                        <div class="tab-content" id="myTabContent">
-                            <div class="tab-pane fade show active" id="cjone" role="tabpanel">
-                                <div class="form-group">
+                        <div id="step3" class="collapse show step-content">
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active">신용카드</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active" id="cjone" role="tabpanel">
                                     <div class="form-group">
-                                        <label for="creditCardType">신용카드 종류를 선택하세요:</label>
-                                        <select class="form-control" id="creditCardType" name="creditCardType">
-                                            <option value="bc">BC카드</option>
-                                            <option value="hana">하나카드</option>
-                                            <option value="samsung">삼성카드</option>
-                                            <option value="woori">우리카드</option>
-                                            <option value="kb">KB국민카드</option>
-                                        </select>
+                                        <div class="form-group">
+                                            <label for="creditCardType">신용카드 종류를 선택하세요:</label>
+                                            <select class="form-control" id="creditCardType" name="creditCardType">
+                                                <option value="bc">BC카드</option>
+                                                <option value="hana">하나카드</option>
+                                                <option value="samsung">삼성카드</option>
+                                                <option value="woori">우리카드</option>
+                                                <option value="kb">KB국민카드</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -135,66 +139,67 @@
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="seat-result">
-        <div class="wrap">
-            <div class="tit-area type2">
-                <span class="movie-grade small age-all" id="admisClassNm">전체관람가</span>
+        <div class="seat-result">
+            <div class="wrap">
+                <div class="tit-area type2">
+                    <span class="movie-grade small age-all" id="admisClassNm">전체관람가</span>
 
-                <p class="tit" id="movieNm">인사이드 아웃 2</p>
-                <p class="cate" id="playKindNm">2D(자막)</p>
-                <p class="theater" id="brchNm">강남/1관</p>
-                <p class="date"><span id="playDe">2024.06.21</span><em id="dowNm">(금)</em> <span
-                        class="time" id="playTime"><i class="iconset ico-clock-white"></i>15:45~17:31</span>
-                </p>
-            </div>
-            <div class="price-process">
-                <div class="box">
-                    <div class="data"><span class="tit">성인 <em>1</em></span><span
-                            class="price">15,000</span></div>
-                    <div class="all">
-                        <span class="tit">금액 <!-- 금액 --></span>
-                        <span class="price"><em>15,000</em> <span>원 <!-- 원 --></span></span>
+                    <p class="tit" id="movieNm">인사이드 아웃 2</p>
+                    <p class="cate" id="playKindNm">2D(자막)</p>
+                    <p class="theater" id="brchNm">강남/1관</p>
+                    <p class="date"><span id="playDe">2024.06.21</span><em id="dowNm">(금)</em> <span
+                            class="time" id="playTime"><i class="iconset ico-clock-white"></i>15:45~17:31</span>
+                    </p>
+                </div>
+                <div class="price-process">
+                    <div class="box">
+                        <div class="data"><span class="tit">성인 <em>1</em></span><span
+                                class="price">15,000</span></div>
+                        <div class="all">
+                            <span class="tit">금액 <!-- 금액 --></span>
+                            <span class="price"><em>15,000</em> <span>원 <!-- 원 --></span></span>
+                        </div>
+                    </div>
+
+                    <div class="box discout-box">
+
+                        <div class="all">
+                            <span class="tit">할인적용 <!-- 할인적용 --></span>
+                            <span class="price"><em>0</em> 원 <!-- 원 --></span>
+                        </div>
                     </div>
                 </div>
 
-                <div class="box discout-box">
+                <div class="pay-area">
+                    <div class="pay">
+                        <p class="tit">최종결제금액 <!-- 최종결제금액 --></p>
 
-                    <div class="all">
-                        <span class="tit">할인적용 <!-- 할인적용 --></span>
-                        <span class="price"><em>0</em> 원 <!-- 원 --></span>
+                        <div class="money">
+                            <em>15,000</em>
+                            <span>원 <!-- 원 --></span>
+                        </div>
+                    </div>
+                    <div class="payment-thing">
+                        <span class="tit">결제수단 <!-- 결제수단 --></span>
+                        <span class="thing">신용/체크카드</span>
                     </div>
                 </div>
-            </div>
 
-            <div class="pay-area">
-                <div class="pay">
-                    <p class="tit">최종결제금액 <!-- 최종결제금액 --></p>
+                <div class="btn-group">
+                    <a href="#" class="button" id="btn_booking_back" title="이전">이전 <!-- 이전 --></a>
 
-                    <div class="money">
-                        <em>15,000</em>
-                        <span>원 <!-- 원 --></span>
-                    </div>
+
+                    <a href="#" w-data="600" h-data="400" class="button active btn-modal-open"
+                       id="btn_booking_pay" onclick="startPay()" title="결제">결제</a>
+
+
                 </div>
-                <div class="payment-thing">
-                    <span class="tit">결제수단 <!-- 결제수단 --></span>
-                    <span class="thing">신용/체크카드</span>
-                </div>
-            </div>
-
-            <div class="btn-group">
-                <a href="#" class="button" id="btn_booking_back" title="이전">이전 <!-- 이전 --></a>
-
-
-                <a href="#" w-data="600" h-data="400" class="button active btn-modal-open"
-                   id="btn_booking_pay" onclick="startPay()" title="결제">결제</a>
-
-
             </div>
         </div>
     </div>
 </div>
+
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 {{> layout/footer}}
