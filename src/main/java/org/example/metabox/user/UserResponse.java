@@ -15,6 +15,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
+
 public class UserResponse {
 
     @Data
@@ -28,6 +30,7 @@ public class UserResponse {
             this.ticketingDTO = ticketingDTO;
             this.theaterDTOS = theaterDTOS;
         }
+
 
         @Data
         public static class TheaterDTO {

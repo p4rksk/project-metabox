@@ -1,6 +1,8 @@
 package org.example.metabox.user;
 
 import lombok.Data;
+import org.example.metabox.theater.Theater;
+import org.example.metabox.theater_scrap.TheaterScrap;
 
 public class UserRequest {
 
@@ -10,6 +12,12 @@ public class UserRequest {
         private Integer theaterNameId;
         private Integer userId;
 
+        public TheaterScrap toEntity (Theater theaterNameId, User userId) {
+            return TheaterScrap.builder()
+                    .theater(theaterNameId)
+                    .user(userId)
+                    .build();
+        }
     }
 
 

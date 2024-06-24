@@ -3,11 +3,14 @@ package org.example.metabox.user;
 import lombok.RequiredArgsConstructor;
 import org.example.metabox._core.errors.exception.Exception400;
 import org.example.metabox._core.errors.exception.Exception401;
+import org.example.metabox._core.errors.exception.Exception404;
 import org.example.metabox.movie.Movie;
 import org.example.metabox.movie.MovieQueryRepository;
 import org.example.metabox.movie.MovieRepository;
 import org.example.metabox.theater.Theater;
 import org.example.metabox.theater.TheaterRepository;
+import org.example.metabox.theater_scrap.TheaterScrap;
+import org.example.metabox.theater_scrap.TheaterScrapRepository;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -32,7 +35,42 @@ public class UserService {
     private final MovieQueryRepository movieQueryRepository;
     private final GuestRepository guestRepository;
     private final TheaterRepository theaterRepository;
+    private final TheaterScrapRepository theaterScrapRepository;
 
+
+    @Transactional
+    public void myScrapSave(List<UserRequest.TheaterScrapDTO> reqDTOs) {
+
+        List<Integer> theaterIds = reqDTOs.stream().mapToInt(value -> value.getTheaterNameId()).boxed().toList();
+        System.out.println("아이디 뽑기 " + theaterIds);
+
+        User user = userRepository.findById(reqDTOs.get(0).getUserId()).orElseThrow(() -> new Exception404("유저 못찾음"));
+
+//        List<TheaterScrap> theaterScraps = theaterScrapRepository.findByIds(theaterIds);
+//        System.out.println("스크랩 있는지 " + theaterScraps);
+
+        // 일단 스크랩을 뿌린다. 없으면 없게 냅둔다.
+//        if (theaterScraps != null) {
+//            theaterScrapRepository.findByUserId(reqDTOs.get(0).getUserId());
+//        }
+
+        for (int i = 0; i < reqDTOs.size(); i++) {
+            Theater theater = theaterRepository.findById(theaterIds.get(i)).orElseThrow(() -> new Exception404("영화관 못찾음"));
+            theaterScrapRepository.save(TheaterScrap.builder()
+                    .user(user)
+                    .theater(theater)
+                    .build());
+        }
+
+//        for (TheaterScrapDTO scrap : reqDTOs) {
+//            // 극장 스크랩을 하면 극장 스크랩으로 save 한다.
+//            theaterScrapRepository.save(scrap.toEntity(scrap.getId(), scrap.getId()));
+
+        // 극장 스크랩을 바꾸면 극장 스크랩을 update 한다.
+
+//    }
+
+    }
 
     // 메인 페이지 무비차트, 상영예정작
     public UserResponse.MainChartDTO findMainMovie() {
@@ -91,8 +129,8 @@ public class UserService {
 
         // areaName 중복제거    //theaterDistinct = [서울, 경기, 인천, 강원, 대전/충청, 대구, 부산/울산, 경상, 광주/전라/제주]
         List<String> theaterDistinct = theaterList.stream().map(theater -> theater.getAreaName())
-                        .distinct()
-                        .collect(Collectors.toList());
+                .distinct()
+                .collect(Collectors.toList());
 
         System.out.println("theaterDistinct = " + theaterDistinct);
 
@@ -109,6 +147,13 @@ public class UserService {
 
             theaterDTOS.add(new UserResponse.MyPageHomeDTO.TheaterDTO(theaterId, areaName, theaterNameDTOS));
         }
+
+//        List<TheaterScrap> theaterScraps = theaterScrapRepository.findAll();
+//        // 일단 스크랩을 뿌린다. 없으면 없게 냅둔다.
+//        if (theaterScraps != null) {
+//            List<TheaterScrap> scraps = theaterScrapRepository.findByUserId(sessionUser.getId());
+//            System.out.println("스크랩 = " + scraps);
+//        }
 
         // id값 확인
 //        for (int i = 0; i < theaterDTOS.size(); i++) {
@@ -129,22 +174,22 @@ public class UserService {
 
 
     //비회원 회원가입
-    public Guest join (UserRequest.JoinDTO reqDTO){
+    public Guest join(UserRequest.JoinDTO reqDTO) {
         Optional<Guest> guestOP = guestRepository.findOneByPhone(reqDTO.getPhone());
 
-        if(guestOP.isPresent()){
+        if (guestOP.isPresent()) {
             throw new Exception400("동일한 휴대폰 번호가 존재 합니다.");
         }
 
         //회원가입
         Guest jguest = guestRepository.save(Guest.builder()
-                        .birth(reqDTO.getBirth())
-                        .password(reqDTO.getPassword())
-                        .phone(reqDTO.getPhone())
+                .birth(reqDTO.getBirth())
+                .password(reqDTO.getPassword())
+                .phone(reqDTO.getPhone())
                 .build());
 
         //회원가입 됐으면 로그인 진행
-        Guest guest =  guestRepository.findByBirthAndPassword(reqDTO.getBirth(), reqDTO.getPassword())
+        Guest guest = guestRepository.findByBirthAndPassword(reqDTO.getBirth(), reqDTO.getPassword())
                 .orElseThrow(() -> new Exception401("존재하지 않는 계정입니다."));
 
         return guest;
@@ -203,11 +248,11 @@ public class UserService {
 
 
         // 4. 있으면? - 조회된 유저정보 리턴
-        if(userPS != null){
-            SessionUser sessionUser = new SessionUser(userPS,accessToken);
+        if (userPS != null) {
+            SessionUser sessionUser = new SessionUser(userPS, accessToken);
 //            System.out.println("어? 유저가 있네? 강제로그인 진행");
             return sessionUser;
-        }else{
+        } else {
 //            System.out.println("어? 유저가 없네? 강제회원가입 and 강제로그인 진행");
 
             User user = User.builder()
@@ -221,7 +266,7 @@ public class UserService {
                     .build();
 
             User returnUser = userRepository.save(user);
-            SessionUser sessionUser = new SessionUser(returnUser,accessToken);
+            SessionUser sessionUser = new SessionUser(returnUser, accessToken);
             return sessionUser;
         }
     }
@@ -279,12 +324,12 @@ public class UserService {
         User userPS = userRepository.findByNickname(nickname);
 
 //        // 4. 있으면? - 조회된 유저정보 리턴
-        if(userPS != null){
+        if (userPS != null) {
             SessionUser sessionUser = new SessionUser(userPS, accessToken);
 //            System.out.println("어? 유저가 있네? 강제로그인 진행");
             return sessionUser;
 
-        }else {
+        } else {
 //            System.out.println("어? 유저가 없네? 강제회원가입 and 강제로그인 진행");
             // 5. 없으면? - 강제 회원가입
             User user = User.builder()

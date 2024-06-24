@@ -10,4 +10,10 @@ public interface TheaterScrapRepository extends JpaRepository<TheaterScrap, Inte
 
     @Query("SELECT ts FROM TheaterScrap ts WHERE ts.user.id = :userId")
     List<TheaterScrap> findByUserId(@Param("userId") int userId);
+
+    // 스크랩 조회
+    @Query("select ts from TheaterScrap ts where ts.theater.id IN :theaterIds")
+    List<TheaterScrap> findByIds(@Param("theaterIds") List<Integer> theaterIds);
+
+
 }
