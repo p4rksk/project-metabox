@@ -151,24 +151,14 @@
 
     // area 거는 것
     $('.theater-area-list').on('click', '.tab-button', function () {
-        alert("찍힘 ")
+        // alert("찍힘 ")
        let id = $(this).data('theater-id');
-       console.log("id " + id)
+       // console.log("id " + id)
        $('.area-name-list').removeClass('active');
         // 클릭한 버튼과 일치하는 영역 표시
         $('#area-name-list-' + id).addClass('active');
 
     });
-
-    // $('.tab-button').on('click', function () {
-    //     // $('.tab-button').removeClass('active');
-    //
-    //
-    //     $('.area-name-list').addClass('active');
-    //
-    //     // $(this).addClass('active');
-    //     $('#' + $(this).data('tab')).addClass('active');
-    // });
 
     // 모달창 닫기
     $(window).on('click', function (event) {
@@ -183,15 +173,34 @@
     // MEATABOX 강남 거는 것
     $('.theater-list-name div').on('click', function () {
 
-        alert("zmfflr");
+        // alert("알림");
+
+        // 중복체크 용 값
+        const theaterName = $(this).data('theater');
+        console.log("네임 " + theaterName)
+
+        // 중복제거
+        let isSelected = false;
+        $('.selected-theater div').each(function () {
+            if ($(this).text().trim() === theaterName) {
+                isSelected = true;
+                return false;
+            }
+        });
+
+        if (isSelected) {
+            alert('이미 선택한 극장입니다.');
+            return;
+        }
+
 
         if ($('.selected-theater div').length >= maxSelectedTheaters) {
             alert('최대 5개의 극장만 선택할 수 있습니다.');
             return;
         }
 
-        const theaterName = $(this).data('theater');
-        console.log("네임아 " + theaterName);
+        // 극장 추가
+        // console.log("네임아 " + theaterName);
         const selectedTheater = $(`
             <div>
                 ${theaterName}
@@ -205,6 +214,22 @@
 
         $('.selected-theater').append(selectedTheater);
     });
+
+
+    // $(".selected-theater").each(function () {
+    //     alert("dd");
+    //     let id = $('.theater-area-list').data('theater-id');
+    //     console.log("idid = " + id);
+    //
+    //     const theaterName = $('.theater-list-name div').data('theater');
+    //
+    //     console.log("then = " + theaterName);
+    //     if (theaterName === id) {
+    //         isOptionSelected = true;
+    //         return false;
+    //     }
+    // });
+
 
 </script>
 
