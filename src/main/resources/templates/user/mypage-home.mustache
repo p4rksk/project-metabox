@@ -75,7 +75,8 @@
                     {{#model.ticketingDTO}}
                         <div class="row">
                             <div class="col-md-3">
-                                <img src="/image/movie/{{imgFilename}}" class="img-fluid" style="width: 100px; height: 150px">
+                                <img src="/image/movie/{{imgFilename}}" class="img-fluid"
+                                     style="width: 100px; height: 150px">
                                 <p class="card-text">예매번호 이거 맞춰야합니다~</p>
                             </div>
                             <div class="col-md-9" style="padding-top: 5%">
@@ -88,7 +89,7 @@
                     {{/model.ticketingDTO}}
 
                     {{^model.ticketingDTO}}
-                            <p>고객님의 최근 예매내역이 존재하지 않습니다.</p>
+                        <p>고객님의 최근 예매내역이 존재하지 않습니다.</p>
                     {{/model.ticketingDTO}}
                 </div>
 
@@ -111,21 +112,21 @@
             <div style="background-color: #4E0929; color: white">자주가는 META BOX</div>
         </div>
         <div class="tab-content active" id="tab1">
-            <div class="theater-list">
+            <div class="theater-list theater-area-list">
                 {{#model.theaterDTOS}}
-                    <div data-theater="{{areaName}}">{{areaName}}</div>
+                    <div class="tab-button" data-theater-id="{{id}}" data-area="{{areaName}}">{{areaName}}</div>
                 {{/model.theaterDTOS}}
             </div>
         </div>
-        <div class="tab-content active" id="tab2">
-            <div class="theater-list">
-                {{#model.theaterDTOS}}
-                    {{#theaterNameDTOS}}
+        {{#model.theaterDTOS}}
+            <div class="tab-content area-name-list" id="area-name-list-{{id}}">
+                {{#theaterNameDTOS}}
+                    <div class="theater-list theater-list-name">
                         <div data-theater="{{theaterName}}">{{theaterName}}</div>
-                    {{/theaterNameDTOS}}
-                {{/model.theaterDTOS}}
+                    </div>
+                {{/theaterNameDTOS}}
             </div>
-        </div>
+        {{/model.theaterDTOS}}
 
         <div class="selected-theater">
             <!-- 선택한 극장이 여기 표시됩니다 -->
@@ -148,29 +149,49 @@
         $("#myModal").css("display", "none");
     }
 
-    $('.tab-button').on('click', function () {
-        $('.tab-button').removeClass('active');
-        $('.tab-content').removeClass('active');
+    // area 거는 것
+    $('.theater-area-list').on('click', '.tab-button', function () {
+        alert("찍힘 ")
+       let id = $(this).data('theater-id');
+       console.log("id " + id)
+       $('.area-name-list').removeClass('active');
+        // 클릭한 버튼과 일치하는 영역 표시
+        $('#area-name-list-' + id).addClass('active');
 
-        $(this).addClass('active');
-        $('#' + $(this).data('tab')).addClass('active');
     });
 
+    // $('.tab-button').on('click', function () {
+    //     // $('.tab-button').removeClass('active');
+    //
+    //
+    //     $('.area-name-list').addClass('active');
+    //
+    //     // $(this).addClass('active');
+    //     $('#' + $(this).data('tab')).addClass('active');
+    // });
+
+    // 모달창 닫기
     $(window).on('click', function (event) {
         if (event.target == $("#myModal")[0]) {
             closeModal();
         }
     });
 
+    // 최대 5개. 중복체크도 필요함
     const maxSelectedTheaters = 5;
 
-    $('.theater-list div').on('click', function () {
+    // MEATABOX 강남 거는 것
+    $('.theater-list-name div').on('click', function () {
+
+        alert("zmfflr");
+
         if ($('.selected-theater div').length >= maxSelectedTheaters) {
             alert('최대 5개의 극장만 선택할 수 있습니다.');
             return;
         }
 
         const theaterName = $(this).data('theater');
+        console.log("네임아 " + theaterName);
         const selectedTheater = $(`
             <div>
                 ${theaterName}
