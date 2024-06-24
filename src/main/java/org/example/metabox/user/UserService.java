@@ -128,7 +128,6 @@ public class UserService {
     }
 
 
-
     //비회원 회원가입
     public Guest join(UserRequest.JoinDTO reqDTO) {
         // 1. 동일 한 휴대폰 정보가 있는지

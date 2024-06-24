@@ -3,7 +3,6 @@ package org.example.metabox.admin;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.example.metabox.movie.Movie;
 import org.example.metabox.movie.MovieRequest;
 import org.example.metabox.movie.MovieResponse;
 import org.example.metabox.movie.MovieService;
@@ -22,10 +21,12 @@ public class AdminController {
     private final MovieService movieService;
     private final HttpSession session;
 
-    @GetMapping("admin-login-form")
-    public String Login(){return "admin/login-form";}
+    @GetMapping("/admin-login-form")
+    public String Login() {
+        return "admin/login-form";
+    }
 
-    @PostMapping("admin-login")
+    @PostMapping("/admin-login")
     public String adminLogin(AdminRequest.LoginDTO reqDTO) {
         Admin admin = adminService.login(reqDTO);
 

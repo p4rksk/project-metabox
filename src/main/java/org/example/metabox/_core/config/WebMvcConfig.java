@@ -10,6 +10,17 @@ import org.springframework.web.servlet.resource.PathResourceResolver;
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
+    // 로그인 인터셉터
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new LoginInterceptor())
+                .addPathPatterns("/api-admin/**", "/api-user/**", "/api-theater/**", "/api-guest/**");
+//                 예외 처리
+//                .excludePathPatterns("");
+    }
+
+
+    //외부이미지 경로설정
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         // /video/** 경로로 들어오는 요청에 대해 비디오 스트리밍을 제공합니다.
@@ -31,10 +42,4 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .addResolver(new PathResourceResolver());
     }
 
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        // 로그인 인터셉터를 등록합니다.
-        registry.addInterceptor(new LoginInterceptor())
-                .addPathPatterns("/api-admin/**", "/api-user/**", "/api-theater/");
-    }
 }

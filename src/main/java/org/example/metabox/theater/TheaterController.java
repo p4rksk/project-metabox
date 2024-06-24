@@ -15,7 +15,10 @@ public class TheaterController {
     private final HttpSession session;
 
     @GetMapping("/theaters/info")
-    public String theatersInfo() {
+    public String theatersInfo(HttpServletRequest request, @RequestParam(value = "theaterId", defaultValue = "1") Integer theaterId) {
+        SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
+        TheaterResponse.TheaterInfoDTO respDTO = theaterService.theaterInfo(sessionUser, theaterId);
+        request.setAttribute("model", respDTO);
         return "theater/info";
     }
 
