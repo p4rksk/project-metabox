@@ -175,6 +175,10 @@
 
         // alert("알림");
 
+        $(this).css({
+            'background-color': '#c6c6c6', // 배경색도 추가
+        });
+
         // 중복체크 용 값
         const theaterName = $(this).data('theater');
         console.log("네임 " + theaterName)
@@ -182,14 +186,22 @@
         // 중복제거
         let isSelected = false;
         $('.selected-theater div').each(function () {
-            if ($(this).text().trim() === theaterName) {
+
+            // 악 이거 지금 그냥 text만 찍으니까 &times; 이값이랑 같이 가져와서 그런다 ㅠㅠ contents~filter 같이 써야한다
+            const textNode = $(this).contents().filter(function() {
+                return this.nodeType === 3; // 텍스트 노드만 선택
+            }).text().trim();
+
+            console.log("왜안될까요 " + $(this).text());
+            if (textNode === theaterName) {
                 isSelected = true;
                 return false;
             }
         });
 
+        // 이 코드도 있어야지 중복 해결 됨!!
         if (isSelected) {
-            alert('이미 선택한 극장입니다.');
+            // alert("중복");
             return;
         }
 
@@ -202,33 +214,31 @@
         // 극장 추가
         // console.log("네임아 " + theaterName);
         const selectedTheater = $(`
-            <div>
+            <div data-theater="${theaterName}">
                 ${theaterName}
                 <button class="delete-button">&times;</button>
             </div>
         `);
 
         selectedTheater.find('.delete-button').on('click', function () {
+            // delete-button 의 parent인 div data-theater에서 theaterName 을 찾음
+            const parentDiv = $(this).parent();
+            // console.log("이거 뭘까 = " + parentDiv);
+            // 그 theaterName에서 date 값을 가져옴
+            const theaterName = parentDiv.data('theater');
+            // console.log("이건? = " + theaterName);
+
+            // 해당 극장의 배경색 초기화
+            // 그럼 data-theater에서 theaterName 인 div 를 찾아 css 를 빼주면 됨!
+            $(`.theater-list-name div[data-theater="${theaterName}"]`).css({
+                'background-color': '', // 배경색 초기화
+            });
+
             $(this).parent().remove();
         });
 
         $('.selected-theater').append(selectedTheater);
     });
-
-
-    // $(".selected-theater").each(function () {
-    //     alert("dd");
-    //     let id = $('.theater-area-list').data('theater-id');
-    //     console.log("idid = " + id);
-    //
-    //     const theaterName = $('.theater-list-name div').data('theater');
-    //
-    //     console.log("then = " + theaterName);
-    //     if (theaterName === id) {
-    //         isOptionSelected = true;
-    //         return false;
-    //     }
-    // });
 
 
 </script>
