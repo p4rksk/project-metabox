@@ -38,6 +38,15 @@ public class Screening {
     @Enumerated(EnumType.STRING)
     private ScreeningRank screeningRank; //상영관 등급
 
+    public String getScreeningRankKo() {
+        if (this.screeningRank == ScreeningRank.GENERAL) {
+            return "일반관";
+        } else {
+            return "특별관";
+        }
+
+    }
+
     @Builder
     public Screening(Integer id, Theater theater, List<ScreeningInfo> screeningInfoList, List<Seat> seatList, String name, Integer seatCount, Integer seatPrice, ScreeningRank screeningRank) {
         this.id = id;

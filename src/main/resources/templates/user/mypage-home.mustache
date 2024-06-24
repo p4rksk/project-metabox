@@ -45,23 +45,23 @@
             <div class="row row-style">
                 <div class="col-md-4">
                     <a href="/mypage/detail-saw" style="text-decoration: none; color: inherit;">
-                    🎈
-                    <h6>기대되는 영화</h6>
-                    <p>보고 싶은 영화를<br>미리 담아두고 싶다면?</p>
+                        🎈
+                        <h6>기대되는 영화</h6>
+                        <p>보고 싶은 영화를<br>미리 담아두고 싶다면?</p>
                     </a>
                 </div>
                 <div class="col-md-4">
                     <a href="/mypage/detail-saw" style="text-decoration: none; color: inherit;">
-                    💖
-                    <h6>내가 본 영화</h6>
-                    <p>관람한 영화를<br>한 번에 모아 보고 싶다면?</p>
+                        💖
+                        <h6>내가 본 영화</h6>
+                        <p>관람한 영화를<br>한 번에 모아 보고 싶다면?</p>
                     </a>
                 </div>
                 <div class="col-md-4">
                     <a href="/mypage/detail-saw" style="text-decoration: none; color: inherit;">
-                    ⭐
-                    <h6>내가 쓴 평점</h6>
-                    <p>관람 후 내 느낌을<br>점수로 남기고 싶다면?</p>
+                        ⭐
+                        <h6>내가 쓴 평점</h6>
+                        <p>관람 후 내 느낌을<br>점수로 남기고 싶다면?</p>
                     </a>
                 </div>
             </div>
@@ -72,22 +72,26 @@
                 <h5>MY 예매내역 0건 <span class="add-button">+</span></h5>
 
                 <div class="mt-4 boxed">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <img src="https://via.placeholder.com/100" alt="movie poster" class="img-fluid">
-                            <p class="card-text">예매번호 0027-5201-5621</p>
+                    {{#model.ticketingDTO}}
+                        <div class="row">
+                            <div class="col-md-3">
+                                <img src="/image/movie/{{imgFilename}}" class="img-fluid" style="width: 100px; height: 150px">
+                                <p class="card-text">예매번호 이거 맞춰야합니다~</p>
+                            </div>
+                            <div class="col-md-9" style="padding-top: 5%">
+                                <h5 class="card-title"><strong>{{title}}</strong></h5>
+                                <p class="card-text">관람극장 {{theaterName}} ({{name}})</p>
+                                <p class="card-text">관람일시 {{date}}</p>
+                                <p class="card-text">상영시간 {{startTime}} ({{startTime}} ~ {{endTime}})</p>
+                            </div>
                         </div>
-                        <div class="col-md-9" style="padding-top: 5%">
-                            <h5 class="card-title"><strong>범죄도시3</strong></h5>
-                            <p class="card-text">관람극장 순천CGV</p>
-                            <p class="card-text">관람일시 2017.05.15(수) 21:30</p>
-                        </div>
-                    </div>
+                    {{/model.ticketingDTO}}
+
+                    {{^model.ticketingDTO}}
+                            <p>고객님의 최근 예매내역이 존재하지 않습니다.</p>
+                    {{/model.ticketingDTO}}
                 </div>
 
-                <!--                <div class="mt-4 boxed">-->
-                <!--                    <p>고객님의 최근 예매내역이 존재하지 않습니다.</p>-->
-                <!--                </div>-->
             </div>
             <div class="mt-4">
                 <h5>MY Q&A 0건 <span class="add-button">+</span></h5>
@@ -99,25 +103,27 @@
     </div>
 </div>
 
+<!-- 모달창 html 디자인 -->
 <div id="myModal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>
-        <div class="tab">
-            <div class="tab-button active" data-tab="tab1">지역별</div>
-            <div class="tab-button" data-tab="tab2">특별관</div>
+        <div class="title">
+            <div style="background-color: #4E0929; color: white">자주가는 META BOX</div>
         </div>
         <div class="tab-content active" id="tab1">
             <div class="theater-list">
-                <div data-theater="강남">강남</div>
-                <div data-theater="홍대">홍대</div>
-                <div data-theater="종로">종로</div>
+                {{#model.theaterDTOS}}
+                    <div class="area" data-area="{{areaName}}">{{areaName}}</div>
+                {{/model.theaterDTOS}}
             </div>
         </div>
-        <div class="tab-content" id="tab2">
+        <div class="tab-content active" id="tab2">
             <div class="theater-list">
-                <div data-theater="IMAX">IMAX</div>
-                <div data-theater="4DX">4DX</div>
-                <div data-theater="VIP">VIP</div>
+                {{#model.theaterDTOS}}
+                    {{#theaterNameDTOS}}
+                        <div data-theater="{{theaterName}}">{{theaterName}}</div>
+                    {{/theaterNameDTOS}}
+                {{/model.theaterDTOS}}
             </div>
         </div>
 
@@ -133,6 +139,7 @@
     //툴팁
     $('[data-toggle="tooltip"]').tooltip();
 
+    // 모달창 script
     function openModal() {
         $("#myModal").css("display", "block");
     }

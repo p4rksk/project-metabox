@@ -133,159 +133,184 @@
 </style>
 
 <div class="mx-auto d-block" style="width: 1000px;">
-    <div class="container1 mx-auto">
-        <div class="header">자주가는 META BOX</div>
-        <div class="input-group">
-            <input type="text" placeholder="1" disabled>
-            <input type="text" placeholder="2" disabled>
-            <input type="text" placeholder="3" disabled>
-            <input type="text" placeholder="4" disabled>
-            <input type="text" placeholder="5" disabled>
-            <div class="add-btn">+</div>
+<div class="container1" style="user-select: none; height: 383px">
+    <div class="header" style="user-select: none;">자주가는 META BOX</div>
+    <div class="input-group">
+        {{#model.scrapDTOList}}
+            <div style="padding:10px; width: 173px; height: 46px; background: #555555; user-select: none;">{{theaterName}}</div>
+        {{/model.scrapDTOList}}
+        <div class="add-btn" style="user-select: none;">+</div>
+    </div>
+
+    <div class="tab" style="border-bottom: 1px solid #b1b1b1; border-top: 1px solid #b1b1b1">
+        {{#model.theaterAreaDTOList}}
+            <div class="tablinks" onclick="openCity(event, '{{areaCode}}')">{{areaName}}</div>
+        {{/model.theaterAreaDTOList}}
+    </div>
+
+    <!--         탭 콘텐츠 -->
+    {{#model.theaterAreaDTOList}}
+    <div style="padding: 10px;" id="{{areaCode}}" class="tabcontent">
+        {{#theaterNameDTOList}}
+            <div onclick="location.href='?theaterId={{theaterId}}'" style="display: inline-block;">{{theaterName}}
+            <span>ㅣ</span>
         </div>
-        <hr>
-        <div class="regions">
-            <div></div>
-            <div>서울</div>
-            <div>경기</div>
-            <div>인천</div>
-            <div>강원</div>
-            <div>대전/충청</div>
-            <div>대구</div>
-            <div>부산/울산</div>
-            <div>경상</div>
-            <div>광주/전라/제주</div>
-            <div></div>
+        {{/theaterNameDTOList}}
+    </div>
+    {{/model.theaterAreaDTOList}}
+
+    <script>
+        function openCity(evt, cityName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(cityName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            openCity(new Event('click'), '01');
+        });
+    </script>
+
+    <style>
+        /*탭 링크 스타일 */
+        .tab {
+            overflow: hidden;
+            text-align: center;
+            user-select: none;
+        }
+
+        /* 탭 링크 버튼 스타일 */
+        .tab div {
+            background-color: inherit;
+            user-select: none;
+            display: inline-block;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+            font-size: 17px;
+            text-align: center;
+        }
+
+        /* 탭 콘텐츠 스타일 */
+        .tabcontent {
+            display: inline-block;
+            user-select: none;
+            padding: 6px 12px;
+            border-top: none;
+        }
+    </style>
+</div>
+<br>
+<img src="/image/theater/theater_2.png" width="100%" alt="">
+<h2>{{model.theaterName}}</h2>
+<img width="100%" src="/image/theater/{{model.theaterImgFilename}}" alt="">
+<div class="button-container">
+    <div onClick="location.href='/theaters/movie-schedule?theaterId={{model.theaterId}}'" style="cursor:pointer"
+    class="btn1 py-1 px-2">
+    <i class="fas fa-calendar-alt me-2"> </i>
+    상영시간표
+</div>
+<div style="background-color: #ff4d4d; color: #e0e0e0;" class="py-1">ㅣ</div>
+<button onClick="parkingInfo('/theaters/info',1200)" style="cursor:pointer"
+        class="btn1 py-1 px-2">
+    위치/주차안내
+</button>
+</div>
+
+<!--위치안내 페이지 자동으로 위치에 맞게 스크롤-->
+<script>
+    function parkingInfo(url, scrollPosition) {
+        // Add the scroll position as a query parameter
+        window.location.href = `${url}?scroll=${scrollPosition}`;
+    }
+</script>
+<div class="mt-3 mb-5">
+    <div class="section-content">
+        <div class="d-flex justify-content-between">
+            <h5 style="font-weight: bold;" class="section-title"><i class="fas fa-bus icon"></i> 교통안내</h5>
+            <div onclick="location.href='https://map.naver.com/p/search/cgv%20%EA%B0%95%EB%82%A8/place/12272750?c=15.00,0,0,0,dh&placePath=%3Fentry%253Dbmp'"
+                 class="my-1 p-1"
+                 style=" border: 2px solid #ff4d4d; font-size: 12px; color: #ff4d4d; font-weight: bold; cursor: pointer;">
+                실시간 빠른 길 찾기
+            </div>
         </div>
-        <hr>
-        <div class="theaters">
-            <div>CGV강남</div>
-            <div>ㅣ</div>
-            <div>CGV건대입구</div>
-            <div>ㅣ</div>
-            <div>CGV대학로</div>
-            <div>ㅣ</div>
-            <div>CGV동대문</div>
-            <div>ㅣ</div>
-            <div>CGV등촌</div>
-            <div>ㅣ</div>
-            <div>CGV명동</div>
-            <div>ㅣ</div>
-            <div>CGV미아</div>
-            <div>ㅣ</div>
-            <div>CGV불광</div>
-            <div>ㅣ</div>
-            <div>CGV상봉</div>
-            <div>ㅣ</div>
-            <div>CGV성신여대입구</div>
-            <div>ㅣ</div>
-            <div>CGV송파</div>
-            <div>ㅣ</div>
-            <div>CGV수유</div>
-            <div>ㅣ</div>
-            <div>CGV신촌아트레온</div>
-            <div>ㅣ</div>
-            <div>CGV압구정</div>
-            <div>ㅣ</div>
-            <div>CGV여의도</div>
-            <div>ㅣ</div>
-            <div>CGV연남</div>
-            <div>ㅣ</div>
-            <div>CGV영등포</div>
-            <div>ㅣ</div>
-            <div>CGV왕십리</div>
-            <div>ㅣ</div>
-            <div>CGV용산아이파크몰</div>
-            <div>ㅣ</div>
-            <div>CGV중계</div>
-            <div>ㅣ</div>
-            <div>CGV천호</div>
-            <div>ㅣ</div>
-            <div>CGV청담씨네시티</div>
-            <div>ㅣ</div>
-            <div>CGV피카디리1958</div>
-            <div>ㅣ</div>
-            <div>CGV하계</div>
-            <div>ㅣ</div>
-            <div>CGV홍대</div>
-            <div>ㅣ</div>
-            <div>CINE de CHEF 압구정</div>
-            <div>ㅣ</div>
-            <div>CINE de CHEF 용산아이파크몰</div>
+
+        <div style="border: 0; height: 2px; background-color: black;"></div>
+        <br>
+        <div># 지하철</div>
+        <div>
+            <div>- 2호선 강남역 11번 출구 도보 5분</div>
+            <div>- 9호선 신논현역 6번 출구 도보 5분</div>
+            <div>- 신분당선 신논현역 6번 출구 도보 3분</div>
+        </div>
+        <br>
+        <div># 버스</div>
+        <div>
+            <div>- 간선버스: 140, 144, 145, 146, 360, 400, 402, 420, 421, 440, 441, 452, 470, 542, 640, 643, 741
+            </div>
+            <div>- 심야: N13, N31, N37, N75</div>
+            <div>- 지선버스: 3412, 4312, 8146, 8541</div>
+            <div>- 광역버스: 1005, 1100, 1101, 1151, 1241, 1311, 1311B, 1550, 1550-1, 1551, 1551B, 1552, 1560, 1570,
+                1700, 2000, 2000-1, 3008, 3030, 3100, 3401, 3600, 4043, 5001, 5001-1, 5002A, 5002B, 5003A,
+                5003B, 5006, 5100, 5200, 5300, 6001, 6002, 6002-1, 6004, 6427, 6600, 7007, 8001, 8502, 9004,
+                9202, 9303, 9400, 9404, 9408, 9409, 9500, 9501, 9600, 9700, 9711, 9800, 9802, G5100, G7426,
+                M4403, M4434, M4448, M4449, M5422, M5438, M6427, M7412, P2901, 이음2
+            </div>
+            <div>- 심야: 1101N, 3100N</div>
+            <div>- 마을버스: 서초03</div>
+            <div>- 공항버스: 6009</div>
         </div>
     </div>
     <br>
-    <img src="/image/theater/theater_1.png" width="100%" alt="">
-    <h2>META BOX 강남</h2>
-    <img width="100%" src="/image/theater/theater_2.png" alt="">
-    <div class="button-container">
-        <div onClick="location.href='#'" style="cursor:pointer" class="btn1 py-1 px-2">
-            <i class="fas fa-calendar-alt me-2"> </i>
-            상영시간표
-        </div>
-        <div style="background-color: #ff4d4d; color: #e0e0e0;" class="py-1">ㅣ</div>
-        <div onClick="location.href='#'" style="cursor:pointer" class="btn1 py-1 px-2">위치/주차안내</div>
-    </div>
-    <div class="mt-3 mb-5">
-        <div class="section-content">
-            <div class="d-flex justify-content-between">
-                <h5 style="font-weight: bold;" class="section-title"><i class="fas fa-bus icon"></i> 교통안내</h5>
-                <div onclick="location.href='https://map.naver.com/p/search/cgv%20%EA%B0%95%EB%82%A8/place/12272750?c=15.00,0,0,0,dh&placePath=%3Fentry%253Dbmp'"
-                     class="my-1 p-1"
-                     style=" border: 2px solid #ff4d4d; font-size: 12px; color: #ff4d4d; font-weight: bold; cursor: pointer;">
-                    실시간 빠른 길 찾기
-                </div>
-            </div>
-
-            <div style="border: 0; height: 2px; background-color: black;"></div>
-            <br>
-            <div># 지하철</div>
-            <div>
-                <div>- 2호선 강남역 11번 출구 도보 5분</div>
-                <div>- 9호선 신논현역 6번 출구 도보 5분</div>
-                <div>- 신분당선 신논현역 6번 출구 도보 3분</div>
-            </div>
-            <br>
-            <div># 버스</div>
-            <div>
-                <div>- 간선버스: 140, 144, 145, 146, 360, 400, 402, 420, 421, 440, 441, 452, 470, 542, 640, 643, 741
-                </div>
-                <div>- 심야: N13, N31, N37, N75</div>
-                <div>- 지선버스: 3412, 4312, 8146, 8541</div>
-                <div>- 광역버스: 1005, 1100, 1101, 1151, 1241, 1311, 1311B, 1550, 1550-1, 1551, 1551B, 1552, 1560, 1570,
-                    1700, 2000, 2000-1, 3008, 3030, 3100, 3401, 3600, 4043, 5001, 5001-1, 5002A, 5002B, 5003A,
-                    5003B, 5006, 5100, 5200, 5300, 6001, 6002, 6002-1, 6004, 6427, 6600, 7007, 8001, 8502, 9004,
-                    9202, 9303, 9400, 9404, 9408, 9409, 9500, 9501, 9600, 9700, 9711, 9800, 9802, G5100, G7426,
-                    M4403, M4434, M4448, M4449, M5422, M5438, M6427, M7412, P2901, 이음2
-                </div>
-                <div>- 심야: 1101N, 3100N</div>
-                <div>- 마을버스: 서초03</div>
-                <div>- 공항버스: 6009</div>
-            </div>
+    <div class="section-content">
+        <h5 style="font-weight: bold;" class="section-title"><i class="fas fa-car icon"></i> 주차안내</h5>
+        <div style="border: 0; height: 2px; background-color: black;"></div>
+        <br>
+        <div># 주차정보</div>
+        <div>- 위치: 건물 지하2F ~ 지하4F</div>
+        <br>
+        <div># 주차요금</div>
+        <div>
+            <div>- CGV 영화 관람 시 주차 3시간 6,000원</div>
+            <div>- 주차시간 (3시간) 초과 시 10분 당 1,000원</div>
+            <div>- 발렛서비스 운영시간: 오전 8시 이후 ~ 오후 20시</div>
+            <div>- 발렛 무료 서비스는 영화 관련 고객 한 함. (영화 미관람 시 건물 주차장에서 별도 정산)</div>
+            <div>- 20시 이후 입차 차량은 발렛서비스 이용이 제한될 수 있으며, 별도 운영되는 주차팀의 사정에 따라 변경될 수 있습니다.</div>
         </div>
         <br>
-        <div class="section-content">
-            <h5 style="font-weight: bold;" class="section-title"><i class="fas fa-car icon"></i> 주차안내</h5>
-            <div style="border: 0; height: 2px; background-color: black;"></div>
-            <br>
-            <div># 주차정보</div>
-            <div>- 위치: 건물 지하2F ~ 지하4F</div>
-            <br>
-            <div># 주차요금</div>
-            <div>
-                <div>- CGV 영화 관람 시 주차 3시간 6,000원</div>
-                <div>- 주차시간 (3시간) 초과 시 10분 당 1,000원</div>
-                <div>- 발렛서비스 운영시간: 오전 8시 이후 ~ 오후 20시</div>
-                <div>- 발렛 무료 서비스는 영화 관련 고객 한 함. (영화 미관람 시 건물 주차장에서 별도 정산)</div>
-                <div>- 20시 이후 입차 차량은 발렛서비스 이용이 제한될 수 있으며, 별도 운영되는 주차팀의 사정에 따라 변경될 수 있습니다.</div>
-            </div>
-            <br>
-            <div># 이용안내</div>
-            <div>
-                <div>- 주차공간이 협소하여 평일 오후/주말은 주차가 어렵습니다.</div>
-                <div>- 편리한 대중교통 이용을 이용하여 주시기 바랍니다.</div>
-            </div>
+        <div># 이용안내</div>
+        <div>
+            <div>- 주차공간이 협소하여 평일 오후/주말은 주차가 어렵습니다.</div>
+            <div>- 편리한 대중교통 이용을 이용하여 주시기 바랍니다.</div>
         </div>
     </div>
 </div>
+</div>
+
+<script>
+    function getQueryParam(param) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+    }
+
+    window.onload = function () {
+        // Get the scroll position from the query parameter
+        const scrollPosition = getQueryParam('scroll');
+        if (scrollPosition) {
+            // Scroll to the specified position
+            window.scrollTo(0, parseInt(scrollPosition));
+        }
+    };
+</script>
+
 {{> layout/footer}}

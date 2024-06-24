@@ -192,7 +192,8 @@
 }
 
 .tab div.active {
-    background-color: #ddd;
+    background-color: #4E0929;
+    color: white;
     font-weight: bold;
 }
 
@@ -229,11 +230,13 @@
 .selected-theater div {
     flex: 1;
     margin: 5px;
+    width: 220px;
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 5px;
     text-align: center;
-    background-color: #e9ecef;
+    background-color: #f9f9f9;
+    color: black;
     position: relative;
 }
 
@@ -245,6 +248,7 @@
     background: none;
     font-size: 18px;
     cursor: pointer;
+    color: black;
 }
 
 @keyframes fadeIn {

@@ -1,40 +1,47 @@
-{{> layout/header-admin}}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>영화 등록</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        #photoPreviewContainer {
+            display: flex;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+        }
 
-<style>
-    #photoPreviewContainer {
-        display: flex;
-        flex-wrap: nowrap;
-        overflow-x: auto;
-    }
+        #photoPreviewContainer .photo-item {
+            position: relative;
+            margin-right: 10px;
+            width: 150px;
+            height: 150px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-sizing: border-box;
+        }
 
-    #photoPreviewContainer .photo-item {
-        position: relative;
-        margin-right: 10px;
-        width: 150px; /* 고정 너비 설정 */
-        height: 150px; /* 고정 높이 설정 */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        box-sizing: border-box;
-    }
+        #photoPreviewContainer img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
 
-    #photoPreviewContainer img {
-        width: 100%; /* 고정 너비 설정 */
-        height: 100%; /* 고정 높이 설정 */
-        object-fit: cover; /* 이미지 비율 유지하며 잘라내기 */
-    }
-
-    #photoPreviewContainer .remove-btn {
-        position: absolute;
-        top: 5px;
-        right: 5px;
-        background-color: red;
-        color: white;
-        border: none;
-        border-radius: 50%;
-        cursor: pointer;
-    }
-</style>
+        #photoPreviewContainer .remove-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
 <div class="container mt-5">
     <h2>영화 등록</h2>
     <hr>
@@ -68,13 +75,13 @@
                 </div>
                 <div class="form-group">
                     <label for="releaseDate">개봉일</label>
-                    <input type="date" class="form-control" id="Date" name="startDate">
+                    <input type="date" class="form-control" id="releaseDate" name="startDate">
                 </div>
             </div>
             <div style="width: 100%;">
                 <div class="form-group">
                     <label for="movieTitle">영문 제목</label>
-                    <input type="text" class="form-control" id="movieTitle" name="engTitle" placeholder="영어 제목을 입력하세요">
+                    <input type="text" class="form-control" id="engTitle" name="engTitle" placeholder="영어 제목을 입력하세요">
                 </div>
                 <div class="form-group">
                     <label for="movieGenre">장르</label>
@@ -85,8 +92,8 @@
                     <input type="text" class="form-control" id="actors" name="actor" placeholder="배우를 입력하세요">
                 </div>
                 <div class="form-group">
-                    <label for="releaseDate">상영 종료일</label>
-                    <input type="date" class="form-control" id="Date" name="endDate">
+                    <label for="endDate">상영 종료일</label>
+                    <input type="date" class="form-control" id="endDate" name="endDate">
                 </div>
             </div>
         </div>
@@ -107,7 +114,6 @@
             <input type="file" class="form-control-file" id="trailer" name="trailers" accept="video/*" onchange="previewVideo();" multiple>
         </div>
         <button type="submit" class="btn btn-primary">등록</button>
-
     </form>
 </div>
 
@@ -123,7 +129,7 @@
             var placeholderText = document.getElementById("placeholderText");
             imgElement.src = e.target.result;
             imgElement.style.display = "block";
-            placeholderText.style.display = "none"; // 문구 숨기기
+            placeholderText.style.display = "none";
         };
 
         if (file) {
@@ -134,10 +140,11 @@
     function previewImages() {
         var files = document.getElementById("stills").files;
         var previewContainer = document.getElementById("photoPreviewContainer");
+        previewContainer.innerHTML = "";
 
         for (var i = 0; i < files.length; i++) {
             var file = files[i];
-            stillFiles.push(file); // 파일을 배열에 추가
+            stillFiles.push(file);
             var reader = new FileReader();
 
             reader.onload = (function (file) {
@@ -154,7 +161,7 @@
                     removeBtn.onclick = function () {
                         var index = stillFiles.indexOf(file);
                         if (index > -1) {
-                            stillFiles.splice(index, 1); // 배열에서 파일 제거
+                            stillFiles.splice(index, 1);
                         }
                         previewContainer.removeChild(photoItem);
                     };
@@ -171,25 +178,19 @@
         }
     }
 
-    document.getElementById("movieForm").onsubmit = function (e) {
-        var formData = new FormData(this);
-        stillFiles.forEach(function (file, index) {
-            formData.append("stills[]", file); // 모든 파일을 폼 데이터에 추가
-        });
+    function previewVideo() {
+        var fileInput = document.getElementById('trailer');
+        var file = fileInput.files[0];
+        var videoPreview = document.getElementById('videoPreview');
 
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", this.action, true);
-        xhr.onload = function () {
-            if (xhr.status === 200) {
-                window.location.href = "/movie-list";
-            } else {
-                alert("Error: " + xhr.statusText);
-            }
-        };
-        xhr.send(formData);
-        e.preventDefault(); // 기본 폼 제출 동작 방지
-    };
+        if (file) {
+            videoPreview.src = URL.createObjectURL(file);
+            videoPreview.style.display = 'block';
+        }
+    }
+
 </script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
