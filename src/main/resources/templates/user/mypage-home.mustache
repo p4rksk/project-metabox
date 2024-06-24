@@ -133,7 +133,7 @@
         </div>
 
         <div class="button-container">
-            <button id="checkListButton" onclick="checkList()">확인</button>
+            <button id="checkListButton" type="button" onclick="checkList()">확인</button>
         </div>
 
     </div>
@@ -145,37 +145,42 @@
     let myTheaterScrap = [];
 
     function checkList() {
+
+        // alert("작동함1");
+
+        let userId = {{model.userDTO.id}};
+        console.log("userId " + userId);
+
+        // alert("작동함2");
+
         // theaterName 의 id, theater 값 잘 받아오는지 확인용
-        $('.theater-list-name div').each(function () {
+        $('.selected-theater div').each(function () {
+
+            // alert("작동함3");
             // theater pk 키
-            let theaterName = $('').data("theater-name-id");
-            console.log("극장pk " + theaterName);
-            let userPk = {{model.userDTO.id}};
-            console.log("userPk " + userPk);
+            let theaterNameId = $(this).data("theater-name-id");
+            console.log("극장pk " + theaterNameId);
+
+            let selectList = {
+                theaterNameId: theaterNameId,
+                userId: userId
+            };
+
+            myTheaterScrap.push(selectList);
+
+            // alert("작동함4");
+
         });
 
-        $(".selected-item").each(function () {
-            let productId = $('input[name="productId"]').val();
-            let orderQty = $(this).find(".quantity").val();
-            let optionIdNumber = $(this).attr('id');
-            let optionId = optionIdNumber.match(/\d+/)[0];
+        // alert("작동함5");
+        console.log("이거 나오나요? " + myTheaterScrap);
+        console.log("이쪽은 나오나요 ?? " + JSON.stringify(myTheaterScrap));
 
-            let checkedList = {
-                productId: productId,
-                optionId: optionId,
-                orderQty: orderQty
-
-            };    //객체 형식으로 만들어주기
-
-            requestBody.push(checkedList); // orderId를 객체로 추가
-        });
-
-        console.log(requestBody);
-        console.log(JSON.stringify(requestBody));
+        // alert("작동함6");
 
         $.ajax({
-            url: '/cart/save',
-            data: JSON.stringify(requestBody),
+            url: '/mypage/home/scrap',
+            data: JSON.stringify(myTheaterScrap),
             contentType: 'application/json; charset=utf-8',
             type: 'POST'
 
@@ -186,7 +191,6 @@
             alert("error!")
         });
     }
-
 
     //툴팁
     $('[data-toggle="tooltip"]').tooltip();
@@ -239,6 +243,7 @@
         $('.selected-theater div').each(function () {
 
             // 악 이거 지금 그냥 text만 찍으니까 &times; 이값이랑 같이 가져와서 그런다 ㅠㅠ contents~filter 같이 써야한다
+            // 지금은 밑에 data 넣어놔서 data 값으로 꺼내와도 되는데 번거로우니 바꾸지 않겠다!!
             const textNode = $(this).contents().filter(function () {
                 return this.nodeType === 3; // 텍스트 노드만 선택
             }).text().trim();
@@ -299,7 +304,7 @@
 
 </script>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 {{> layout/footer}}

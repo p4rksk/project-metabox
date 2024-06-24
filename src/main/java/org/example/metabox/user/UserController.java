@@ -4,9 +4,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -56,6 +56,15 @@ public class UserController {
 
         return "user/mypage-home";
     }
+
+    @PostMapping("/mypage/home/scrap")
+    public @ResponseBody String mypageHomeScrap(HttpServletRequest request, @RequestBody List<UserRequest.TheaterScrapDTO> reqDTO) {
+
+        System.out.println("값 들어오나요 = " + reqDTO);
+
+        return "user/mypage-home";
+    }
+
 
     @GetMapping("/mypage/detail-book")
     public String myBookDetail(HttpServletRequest request) {
