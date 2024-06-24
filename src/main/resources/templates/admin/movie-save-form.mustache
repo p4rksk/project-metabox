@@ -178,54 +178,6 @@
         }
     }
 
-    async function uploadVideo() {
-        const fileInput = document.getElementById('trailer');
-        const file = fileInput.files[0];
-        const formData = new FormData();
-        formData.append('file', file);
-
-        const overlay = document.createElement('div');
-        overlay.className = 'overlay';
-        overlay.innerHTML = `
-                <div class="progress-container">
-                    <div class="loader"></div>
-                    <div class="progress-bar"><div></div></div>
-                    <p id="progress-text">0%</p>
-                </div>
-            `;
-        document.body.appendChild(overlay);
-
-        try {
-            const response = await axios.post('http://localhost:8080/videos/upload', formData, {
-                onUploadProgress: function (event) {
-                    if (event.lengthComputable) {
-                        const percentComplete = (event.loaded / event.total) * 100;
-                        const progressBar = document.querySelector('.progress-bar div');
-                        const progressText = document.getElementById('progress-text');
-
-                        progressBar.style.width = percentComplete + '%';
-                        progressBar.innerHTML = percentComplete.toFixed(2) + '%';
-                        progressText.innerText = percentComplete.toFixed(2) + '%';
-                    }
-                }
-            });
-
-            if (response.status === 200) {
-                console.log('Upload successful:', response.data);
-                // Handle success here
-            } else {
-                console.error('Upload failed:', response.statusText);
-                // Handle failure here
-            }
-        } catch (error) {
-            console.error('Error uploading file:', error);
-            // Handle error here
-        } finally {
-            document.body.removeChild(overlay);
-        }
-        return true;
-    }
-
     function previewVideo() {
         var fileInput = document.getElementById('trailer');
         var file = fileInput.files[0];

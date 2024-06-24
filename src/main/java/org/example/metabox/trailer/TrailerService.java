@@ -20,8 +20,4 @@ import java.nio.file.Paths;
 @Slf4j
 @Service
 public class TrailerService {
-
-    private final Path videoLocation = Paths.get(System.getProperty("user.dir"), "video");
-
-
 }
