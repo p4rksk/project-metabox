@@ -86,4 +86,14 @@ public class MovieQueryRepositoryTest {
         results.forEach(review -> System.out.println(review.getId() + ": " + review.getComment()));
     }
 
+
+    @Test
+    public void getBookingRate_Test(){
+        int movieId = 1;
+
+        double result = movieQueryRepository.getBookingRate(movieId);
+
+        System.out.println("##########"+ result);
+
+    }
 }

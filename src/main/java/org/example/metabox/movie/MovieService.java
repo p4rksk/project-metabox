@@ -16,6 +16,8 @@ import org.example.metabox.movie_pic.MoviePic;
 import org.example.metabox.movie_pic.MoviePicRepository;
 import org.example.metabox.review.Review;
 import org.example.metabox.review.ReviewRepository;
+import org.example.metabox.seat.SeatBookRepository;
+import org.example.metabox.seat.SeatRepository;
 import org.example.metabox.trailer.Trailer;
 import org.example.metabox.trailer.TrailerRepository;
 import org.springframework.stereotype.Service;
@@ -33,6 +35,7 @@ public class MovieService {
     private final TrailerRepository trailerRepository;
     private final MovieQueryRepository movieQueryRepository;
     private final ReviewRepository reviewRepository;
+    private final SeatBookRepository seatBookRepository;
 
     // 모든 영화를 조회하는 메서드
     public List<MovieResponse.MovieChartDTO> getAllMovies() {
@@ -215,7 +218,7 @@ public class MovieService {
         String releaseStatus = checkMovieReleaseStatus(movie.getStartDate());
 
         // 예매율
-        Double bookingRate = 95.0;
+        Double bookingRate = movieQueryRepository.getBookingRate(movie.getId());
 
         // DTO에 정보 담기
         return MovieResponse.UserMovieDetailDTO.builder()
@@ -237,18 +240,6 @@ public class MovieService {
                 .reviewCount(reviewCount)
                 .stillsCount(stillsCount)
                 .build();
-    }
-
-    public Double calculateBookingRate(Integer movieId){
-        // 오늘 이후 상영하는 전체 예매 건수를 가져옵니다.
-
-        // 오늘 이후 해당 영화의 예매 건수를 가져옵니다.
-
-        // 두 개 나누기
-
-        // %로 포멧팅
-
-        return 0.0;
     }
 
 }
