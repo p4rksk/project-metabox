@@ -42,7 +42,7 @@ public class MovieService {
     private final TrailerRepository trailerRepository;
     private final TrailerService trailerService;
 
-    private final Path videoLocation = Paths.get(System.getProperty("user.dir"), "video");
+    private final Path videoLocation = Paths.get(System.getProperty("user.dir"), "upload");
     private final MovieQueryRepository movieQueryRepository;
 
     // 모든 영화를 조회하는 메서드
@@ -147,17 +147,21 @@ public class MovieService {
 
         // 트레일러 파일 처리
         List<Trailer> movieTrailerList = new ArrayList<>();
+        System.out.println(1);
         MultipartFile[] trailers = reqDTO.getTrailers();
+        System.out.println(2);
         if (trailers != null && trailers.length > 0) {
+            System.out.println(3);
             for (MultipartFile trailer : trailers) {
+                System.out.println(4);
                 try {
                     //m3u8파일 상대 경로 변수에 저장
                     String trailerM3u8FilePath = uploadAndEncodeVideo(trailer);
-
+                    System.out.println(5);
                     //생성된 .mp4 파일 불러오기
                     String mp4FileName = trailer.getOriginalFilename();
                     String mp4FilePath = fileUtil.getRelativePathToMp4File(mp4FileName);
-
+                    System.out.println(6);
                     //트레일러 엔티티에 저장
                     Trailer movieTrailer = new Trailer();
                     movieTrailer.setStreamingFilePath(mp4FilePath);
@@ -178,28 +182,24 @@ public class MovieService {
         return movie;
     }
 
-    //트레일러 스트리밍 시스템 업로드
+    // 트레일러 스트리밍 시스템 업로드
     public String uploadAndEncodeVideo(MultipartFile file) throws IOException {
-        try {
-            Files.createDirectories(videoLocation);
-        } catch (IOException e) {
-            log.warn("Failed to create video directory: " + e.getMessage());
-            throw new RuntimeException("Could not create video directory", e);
-        }
-
-
+        // 파일 이름 확인
         String originalFilename = file.getOriginalFilename();
         if (originalFilename == null || originalFilename.isBlank()) {
             throw new IllegalArgumentException("파일 이름이 비어 있습니다.");
         }
 
+        // 파일 경로 설정
         String baseName = originalFilename.substring(0, originalFilename.lastIndexOf('.'));
         String inputFilePath = videoLocation.resolve(originalFilename).toString();
         String outputFilePath = videoLocation.resolve(baseName + ".m3u8").toString();
 
+        // 입력 파일 생성 및 저장
         File inputFile = new File(inputFilePath);
         file.transferTo(inputFile);
 
+        // FFmpegFrameGrabber로 비디오 정보 읽기
         log.info("Starting FFmpegFrameGrabber for input file: " + inputFilePath);
         try (FFmpegFrameGrabber grabber = new FFmpegFrameGrabber(inputFilePath)) {
             grabber.start();
@@ -212,6 +212,7 @@ public class MovieService {
             log.info("Frame Rate: " + frameRate);
             log.info("Duration (seconds): " + durationInSeconds);
 
+            // FFmpegFrameRecorder로 비디오 인코딩 및 저장
             try (FFmpegFrameRecorder recorder = new FFmpegFrameRecorder(outputFilePath, grabber.getImageWidth(), grabber.getImageHeight(), grabber.getAudioChannels())) {
                 recorder.setFormat("hls");
                 recorder.setOption("hls_time", "10");
@@ -240,19 +241,21 @@ public class MovieService {
                 }
 
                 recorder.stop();
-                grabber.stop();
             } catch (Exception e) {
                 log.warn("비디오 인코딩 중 오류가 발생했습니다: " + e.getMessage());
                 throw new IOException("비디오 인코딩 중 오류가 발생했습니다: " + e.getMessage(), e);
+            } finally {
+                grabber.stop();
             }
         }
 
-        String m3u8FileName  = baseName + ".m3u8";
-
+        // 파일 이름으로 상대 경로 가져오기
+        String m3u8FileName = baseName + ".m3u8";
         String m3u8Path = fileUtil.getRelativePathToM3u8File(m3u8FileName);
 
         return m3u8Path;
     }
+
 
 
     public List<MovieResponse.UserMovieChartDTO> getMovieChart(){
