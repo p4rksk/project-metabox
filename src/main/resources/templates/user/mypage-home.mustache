@@ -107,17 +107,17 @@
 <div id="myModal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>
-        <div class="tab">
+        <div class="title">
             <div style="background-color: #4E0929; color: white">자주가는 META BOX</div>
         </div>
         <div class="tab-content active" id="tab1">
             <div class="theater-list">
                 {{#model.theaterDTOS}}
-                    <div data-theater="{{areaName}}">{{areaName}}</div>
+                    <div class="area" data-area="{{areaName}}">{{areaName}}</div>
                 {{/model.theaterDTOS}}
             </div>
         </div>
-        <div class="tab-content" id="tab2">
+        <div class="tab-content active" id="tab2">
             <div class="theater-list">
                 {{#model.theaterDTOS}}
                     {{#theaterNameDTOS}}

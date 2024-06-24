@@ -19,11 +19,9 @@ public class Theater {
     private int id;
 
     @OneToMany(mappedBy = "theater", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    @ToString.Exclude
     private List<Screening> screeningList;
 
     @OneToMany(mappedBy = "theater", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    @ToString.Exclude
     private List<TheaterScrap> theaterScrapList;
 
     private String name;

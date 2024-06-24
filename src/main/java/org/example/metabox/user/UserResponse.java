@@ -31,12 +31,12 @@ public class UserResponse {
 
         @Data
         public static class TheaterDTO {
-//            private Integer id;       // 필요한가? 일단 보류
+            private Integer id;       // 필요해여
             private String areaName;
             private List<TheaterNameDTO> theaterNameDTOS = new ArrayList<>();
 
-            public TheaterDTO(String areaName, List<TheaterNameDTO> theaterNameDTOS) {
-//                this.id = id;     // 보류
+            public TheaterDTO(Integer id, String areaName, List<TheaterNameDTO> theaterNameDTOS) {
+                this.id = id;
                 this.areaName = areaName;
                 this.theaterNameDTOS = theaterNameDTOS;
 //                this.theaterNameDTOS = theaterNameDTOS.stream()

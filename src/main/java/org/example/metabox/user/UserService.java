@@ -85,7 +85,6 @@ public class UserService {
 
         // 상영관 가져오기
         List<Theater> theaterList = theaterRepository.findAll();
-        System.out.println("확인 " + theaterList);
 
         // pk 순으로 먼저 정렬해서 중복제거 하기
         theaterList.sort(Comparator.comparing(theater -> theater.getId()));
@@ -100,20 +99,23 @@ public class UserService {
         // METABOX 강남 METABOX 여수 .. 이런 것이 지역별로 맞게 나와야함 . filter 사용
         List<UserResponse.MyPageHomeDTO.TheaterDTO> theaterDTOS = new ArrayList<>();
         for (String areaName : theaterDistinct) {
+            Integer theaterId = theaterList.stream().filter(theater -> theater.getAreaName().equals(areaName))
+                    .map(theater -> theater.getId()).findFirst().orElse(null);
+
             List<UserResponse.MyPageHomeDTO.TheaterDTO.TheaterNameDTO> theaterNameDTOS = theaterList.stream()
                     .filter(theater -> theater.getAreaName().equals(areaName))
                     .map(theater -> new UserResponse.MyPageHomeDTO.TheaterDTO.TheaterNameDTO(theater))
                     .collect(Collectors.toList());
 
-            theaterDTOS.add(new UserResponse.MyPageHomeDTO.TheaterDTO(areaName, theaterNameDTOS));
+            theaterDTOS.add(new UserResponse.MyPageHomeDTO.TheaterDTO(theaterId, areaName, theaterNameDTOS));
         }
 
-        System.out.println("theaterNameDTOS = " + theaterDTOS);
-
-//        List<UserResponse.MyPageHomeDTO.TheaterDTO> theaterDTOS = new ArrayList<>();
-//        for (int i = 0; i < theaterDistinct.size(); i++) {
-//            theaterDTOS.add(new UserResponse.MyPageHomeDTO.TheaterDTO(theaterDistinct.get(i), theaterNameDTOS));
+        // id값 확인
+//        for (int i = 0; i < theaterDTOS.size(); i++) {
+//            System.out.println("id " + theaterDTOS.get(i).getId());
 //        }
+//
+//        System.out.println("theaterNameDTOS = " + theaterDTOS);
 
         UserResponse.MyPageHomeDTO homeDTO = new UserResponse.MyPageHomeDTO(userDTO, ticketingDTOS, theaterDTOS);
 //        UserResponse.MyPageHomeDTO homeDTO = UserResponse.MyPageHomeDTO.builder()
