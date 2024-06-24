@@ -27,7 +27,6 @@ import org.example.metabox.movie_pic.MoviePicRepository;
 import org.example.metabox.review.Review;
 import org.example.metabox.review.ReviewRepository;
 import org.example.metabox.seat.SeatBookRepository;
-import org.example.metabox.seat.SeatRepository;
 import org.example.metabox.trailer.Trailer;
 import org.example.metabox.trailer.TrailerRepository;
 import org.example.metabox.trailer.TrailerService;
@@ -50,29 +49,38 @@ public class MovieService {
     private final ReviewRepository reviewRepository;
     private final SeatBookRepository seatBookRepository;
 
-    // 모든 영화를 조회하는 메서드
-    public List<MovieResponse.MovieChartDTO> getAllMovies() {
-        // movieRepository를 사용하여 모든 Movie 객체를 데이터베이스로부터 가져옵니다.
-        List<Movie> movies = movieRepository.findAll();
+    // 관리자 무비차트
+    public List<MovieResponse.AdminMovieChartDTO> getAdminMovieChart(){
+        // 상영 중 또는 개봉 예정인 영화를 예매율 순으로 조회
+        List<Object[]> results = movieQueryRepository.getAdminMovieChart();
+        List<MovieResponse.AdminMovieChartDTO> adminMovieChartDTOList = new ArrayList<>();
 
-        // 가져온 Movie 객체들을 MovieResponse.MovieDTO 객체로 변환하여 리스트로 만듭니다.
-        return movies.stream()
-                     .map(MovieResponse.MovieChartDTO::new)
-                     .collect(Collectors.toList());
-    }
+        for (int rank = 0; rank < results.size(); rank++) {
+            Object[] result = results.get(rank);
+            int movieId = (Integer) result[0];
+            String title = (String) result[1];
+            String imgFilename = (String) result[2];
+            String info = (String) result[3];
+            Date startDate = (Date) result[4];
+            BigDecimal bookingRateBigDecimal = (BigDecimal) result[5];
+            Double bookingRate = bookingRateBigDecimal.multiply(BigDecimal.valueOf(100)).setScale(2, RoundingMode.HALF_UP).doubleValue();
 
-    // movieId에 해당하는 상세 정보를 조회하는 메서드
-    @Transactional
-    public MovieResponse.MovieDetailDTO findById(Integer movieId) {
-        // movieId에 해당하는 영화 정보를 데이터베이스에서 조회합니다.
-        Movie movie = movieRepository.findById(movieId)
-                .orElseThrow(() -> new RuntimeException("해당 영화가 존재하지 않습니다. " + movieId));
+            // 상영 상태 계산 (예: 상영 중, D-날짜)
+            String releaseStatus = checkMovieReleaseStatus(startDate);
 
-        // 영화 개봉 상태를 계산합니다.
-        String status = checkMovieReleaseStatus(movie.getStartDate());
-
-        // 조회한 영화 정보를 MovieDetailDTO로 변환하여 반환합니다.
-        return MovieResponse.MovieDetailDTO.formEntity(movie, status);
+            MovieResponse.AdminMovieChartDTO dto = new MovieResponse.AdminMovieChartDTO(
+                    movieId,
+                    title,
+                    imgFilename,
+                    info.split(",")[0], // 연령 정보
+                    startDate,
+                    releaseStatus,
+                    bookingRate,
+                    rank + 1 // rank는 0부터 시작하므로 1을 더해줍니다.
+            );
+            adminMovieChartDTOList.add(dto);
+        }
+        return adminMovieChartDTOList;
     }
 
     // 상영 상태를 확인하는 메서드
@@ -245,7 +253,6 @@ public class MovieService {
         return baseName + ".m3u8";
     }
 
-
     public List<MovieResponse.UserMovieChartDTO> getMovieChart(){
         // 상영 중 또는 개봉 예정인 영화를 예매율 순으로 조회
         List<Object[]> results = movieQueryRepository.getUserMovieChart();
@@ -280,7 +287,7 @@ public class MovieService {
     }
 
     @Transactional
-    public MovieResponse.UserMovieDetailDTO getMovieDetail(int movieId) {
+    public MovieResponse.MovieDetailDTO getMovieDetail(int movieId) {
         // movieId로 영화 정보 조회
         Optional<Movie> optionalMovie = movieRepository.findById(movieId);
         Movie movie = optionalMovie.get();
@@ -304,7 +311,7 @@ public class MovieService {
         Double bookingRate = movieQueryRepository.getBookingRate(movie.getId());
 
         // DTO에 정보 담기
-        return MovieResponse.UserMovieDetailDTO.builder()
+        return MovieResponse.MovieDetailDTO.builder()
                 .id(movie.getId())
                 .imgFilename(movie.getImgFilename())
                 .title(movie.getTitle())
@@ -317,9 +324,9 @@ public class MovieService {
                 .info(movie.getInfo())
                 .startDate(movie.getStartDate())
                 .description(movie.getDescription())
-                .stills(stills.stream().map(MovieResponse.UserMovieDetailDTO.MoviePicDTO::fromEntity).collect(Collectors.toList()))
-                .trailers(trailers.stream().map(MovieResponse.UserMovieDetailDTO.TrailerDTO::fromEntity).collect(Collectors.toList()))
-                .reviews(reviews.stream().map(MovieResponse.UserMovieDetailDTO.ReviewDTO::fromEntity).collect(Collectors.toList()))
+                .stills(stills.stream().map(MovieResponse.MovieDetailDTO.MoviePicDTO::fromEntity).collect(Collectors.toList()))
+                .trailers(trailers.stream().map(MovieResponse.MovieDetailDTO.TrailerDTO::fromEntity).collect(Collectors.toList()))
+                .reviews(reviews.stream().map(MovieResponse.MovieDetailDTO.ReviewDTO::fromEntity).collect(Collectors.toList()))
                 .reviewCount(reviewCount)
                 .stillsCount(stillsCount)
                 .build();
