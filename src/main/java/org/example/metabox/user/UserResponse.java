@@ -60,7 +60,7 @@ public class UserResponse {
             private Integer id;     // book pk
             private String title;   //영화 제목
             private String imgFilename;
-            private LocalDate date;     // 관람일시 타입 확인 필요
+            private Date date;     // 관람일시 타입 확인 필요
             private String startTime;   // 시작 시간
             private String endTime;     // 종료 시간
             private String name;        // 몇 관인지
@@ -68,7 +68,7 @@ public class UserResponse {
             private Integer userId;
 
             @Builder
-            public TicketingDTO(Integer id, String title, String imgFilename, LocalDate date, String startTime, String endTime, String name, String theaterName, Integer userId) {
+            public TicketingDTO(Integer id, String title, String imgFilename, Date date, String startTime, String endTime, String name, String theaterName, Integer userId) {
                 this.id = id;
                 this.title = title;
                 this.imgFilename = imgFilename;

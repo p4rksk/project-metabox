@@ -81,7 +81,7 @@ public class UserService {
         UserResponse.MyPageHomeDTO.UserDTO userDTO = new UserResponse.MyPageHomeDTO.UserDTO(userOP);
         List<UserResponse.MyPageHomeDTO.TicketingDTO> ticketingDTOS = movieQueryRepository.findMyTicketing(sessionUser.getId());
 
-        System.out.println("어서터짐?");
+        System.out.println("ticketingDTOS = " + ticketingDTOS);
 
         // 상영관 가져오기
         List<Theater> theaterList = theaterRepository.findAll();

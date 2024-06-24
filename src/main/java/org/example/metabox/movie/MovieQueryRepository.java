@@ -41,7 +41,7 @@ public class MovieQueryRepository {
         for (Object[] row : rows) {
             String title = (String) row[0];
             String imgFilename = (String) row[1];
-            LocalDate date = (LocalDate) row[2];
+            Date date = (Date) row[2];
             String startTime = (String) row[3];
             String endTime = (String) row[4];
             Integer bookId = (Integer) row[5];

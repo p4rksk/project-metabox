@@ -75,14 +75,14 @@
                     {{#model.ticketingDTO}}
                         <div class="row">
                             <div class="col-md-3">
-                                <img src="{{imgFilename}}" alt="movie poster" class="img-fluid">
+                                <img src="/image/movie/{{imgFilename}}" class="img-fluid" style="width: 100px; height: 150px">
                                 <p class="card-text">예매번호 이거 맞춰야합니다~</p>
                             </div>
                             <div class="col-md-9" style="padding-top: 5%">
                                 <h5 class="card-title"><strong>{{title}}</strong></h5>
                                 <p class="card-text">관람극장 {{theaterName}} ({{name}})</p>
                                 <p class="card-text">관람일시 {{date}}</p>
-                                <p class="card-text">상영시간 {{startTime}} ({{startTime}} ~ {{endTime}}</p>
+                                <p class="card-text">상영시간 {{startTime}} ({{startTime}} ~ {{endTime}})</p>
                             </div>
                         </div>
                     {{/model.ticketingDTO}}
