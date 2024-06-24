@@ -196,6 +196,7 @@ public class MovieService {
         String outputFilePath = videoLocation.resolve(baseName + ".m3u8").toString();
 
         // 입력 파일 생성 및 저장
+        Files.createDirectories(videoLocation);
         File inputFile = new File(inputFilePath);
         file.transferTo(inputFile);
 

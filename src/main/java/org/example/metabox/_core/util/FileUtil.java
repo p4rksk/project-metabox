@@ -51,16 +51,16 @@ public class FileUtil {
     //m3u8파일을 상대경로로 변환하는 메서드
     public String getRelativePathToM3u8File(String fileName) {
         try {
-            // video 폴더 경로 설정
+            // upload 폴더 경로 설정
             Path videoFolder = Paths.get(System.getProperty("user.dir"), "upload");
 
-            // video 폴더 내에서 fileName으로 끝나는 첫 번째 .m3u8 파일 경로 찾기
+            // upload 폴더 내에서 fileName으로 끝나는 첫 번째 .m3u8 파일 경로 찾기
             Path m3u8FilePath = Files.walk(videoFolder)
                     .filter(path -> path.getFileName().toString().endsWith(fileName))
                     .findFirst()
                     .orElseThrow(() -> new RuntimeException("해당 파일이 video 폴더 내에 존재하지 않습니다: " + fileName));
 
-            // video 폴더로부터 상대 경로 생성
+            // upload 폴더로부터 상대 경로 생성
             Path relativePath = videoFolder.relativize(m3u8FilePath);
 
             // 상대 경로를 문자열로 반환
@@ -74,16 +74,16 @@ public class FileUtil {
     //mp4 파일을 상대경로로 변환하는 메서드
     public String getRelativePathToMp4File(String fileName) {
         try {
-            // video 폴더 경로 설정
+            // upload 폴더 경로 설정
             Path videoFolder = Paths.get(System.getProperty("user.dir"), "upload");
 
-            // video 폴더 내에서 fileName으로 끝나는 첫 번째 .mp4 파일 경로 찾기
+            // upload 폴더 내에서 fileName으로 끝나는 첫 번째 .mp4 파일 경로 찾기
             Path mp4FilePath = Files.walk(videoFolder)
                     .filter(path -> path.getFileName().toString().endsWith(fileName))
                     .findFirst()
                     .orElseThrow(() -> new RuntimeException("해당 파일이 video 폴더 내에 존재하지 않습니다: " + fileName));
 
-            // video 폴더로부터 상대 경로 생성
+            // upload 폴더로부터 상대 경로 생성
             Path relativePath = videoFolder.relativize(mp4FilePath);
 
             // 상대 경로를 문자열로 반환
