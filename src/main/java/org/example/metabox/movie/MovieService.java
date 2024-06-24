@@ -20,6 +20,7 @@ import org.bytedeco.ffmpeg.global.avcodec;
 import org.bytedeco.javacv.FFmpegFrameGrabber;
 import org.bytedeco.javacv.FFmpegFrameRecorder;
 import org.bytedeco.javacv.Frame;
+import org.example.metabox._core.errors.exception.Exception404;
 import org.example.metabox._core.util.FileUtil;
 import org.example.metabox.movie_pic.MoviePic;
 import org.example.metabox.movie_pic.MoviePicRepository;
@@ -64,6 +65,8 @@ public class MovieService {
 
         // 영화 개봉 상태를 계산합니다.
         String status = checkMovieReleaseStatus(movie.getStartDate());
+
+
 
         // 조회한 영화 정보를 MovieDetailDTO로 변환하여 반환합니다.
         return MovieResponse.MovieDetailDTO.formEntity(movie, status);
@@ -148,9 +151,17 @@ public class MovieService {
         if (trailers != null && trailers.length > 0) {
             for (MultipartFile trailer : trailers) {
                 try {
-                    String trailerFileName = uploadAndEncodeVideo(trailer);
+                    //m3u8파일 상대 경로 변수에 저장
+                    String trailerM3u8FilePath = uploadAndEncodeVideo(trailer);
+
+                    //생성된 .mp4 파일 불러오기
+                    String mp4FileName = trailer.getOriginalFilename();
+                    String mp4FilePath = fileUtil.getRelativePathToMp4File(mp4FileName);
+
+                    //트레일러 엔티티에 저장
                     Trailer movieTrailer = new Trailer();
-                    movieTrailer.setStreamingFilename(trailerFileName);
+                    movieTrailer.setStreamingFilePath(mp4FilePath);
+                    movieTrailer.setM3u8FilePath(trailerM3u8FilePath);
                     movieTrailer.setMovie(movie); // 외래 키 설정
                     movieTrailerList.add(movieTrailer);
                 } catch (IOException e) {
@@ -167,6 +178,7 @@ public class MovieService {
         return movie;
     }
 
+    //트레일러 스트리밍 시스템 업로드
     public String uploadAndEncodeVideo(MultipartFile file) throws IOException {
         try {
             Files.createDirectories(videoLocation);
@@ -235,7 +247,11 @@ public class MovieService {
             }
         }
 
-        return baseName + ".m3u8";
+        String m3u8FileName  = baseName + ".m3u8";
+
+        String m3u8Path = fileUtil.getRelativePathToM3u8File(m3u8FileName);
+
+        return m3u8Path;
     }
 
 

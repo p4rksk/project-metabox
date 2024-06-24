@@ -82,7 +82,7 @@ public class MovieResponse {
             private String fileName; // 트레일러 파일 이름
 
             public TrailerDTO(Trailer trailer) {
-                this.fileName = trailer.getStreamingFilename();
+                this.fileName = trailer.getStreamingFilePath();
             }
 
         }
