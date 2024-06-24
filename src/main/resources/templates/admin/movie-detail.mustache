@@ -264,6 +264,13 @@
         margin-top: 10px;
         gap: 20px;
     }
+
+    .comment img.profile-img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        margin-right: 10px;
+    }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <body>
@@ -274,12 +281,12 @@
         <div class="movie-info">
             <h2>{{model.title}} <span class="badge badge-primary">{{model.releaseStatus}}</span></h2>
             <p class="sub-title">{{model.engTitle}}</p>
-            <p class="rating">예매율: %</p>
+            <p class="rating">{{model.bookingRate}} %</p>
             <div class="details">
                 <p>감독: {{model.director}}</p>
                 <p>배우: {{model.actor}}</p>
                 <p>장르: {{model.genre}}</p>
-                <p>기본 정보: {{model.infoAgeLimit}}, {{model.infoRunningTime}}, {{model.infoRegion}}</p>
+                <p>기본 정보: {{model.info}}</p>
                 <p>개봉: {{model.startDate}}</p>
             </div>
             <div class="btn-custom">
@@ -344,7 +351,7 @@
     <div class="carousel-container">
         <div class="container stills-container">
             <div class="stills-header">
-                <span>스틸컷 1/22건</span>
+                <span>스틸컷 {{model.stillsCount}}건</span>
             </div>
         </div>
         <div id="imageCarousel" class="carousel slide" data-ride="carousel">
@@ -371,65 +378,21 @@
     <div class="review-section">
         <div>
             <p>관람일 포함 7일 이내 관람평을 남기시면 <span class="highlight">20P</span>가 적립됩니다.</p>
-            <p><strong>4,070</strong>명의 실관람객이 평가해주셨습니다.</p>
+            <p><strong>{{model.reviewCount}}</strong>명의 실관람객이 평가해주셨습니다.</p>
         </div>
     </div>
     <div class="container comment-section">
+        {{#model.reviews}}
         <div class="comment">
-            <img src="https://via.placeholder.com/50" alt="User 1">
+            <img src="/image/user/{{userProfile}}" alt="User 1" class="profile-img">
             <div class="comment-body">
-                <p><strong>he**hang93:</strong> 사람심리를 캐릭터로 풀었는거뿐</p>
+                <p><strong>{{reviewer}}: </strong>{{comment}}</p>
                 <div class="comment-footer">
                     <span>2024.06.14</span>
                 </div>
             </div>
         </div>
-        <div class="comment">
-            <img src="https://via.placeholder.com/50" alt="User 2">
-            <div class="comment-body">
-                <p><strong>곰탱탱:</strong> 1편에 비해서 나쁘지않다</p>
-                <div class="comment-footer">
-                    <span>2024.06.14</span>
-                </div>
-            </div>
-        </div>
-        <div class="comment">
-            <img src="https://via.placeholder.com/50" alt="User 3">
-            <div class="comment-body">
-                <p><strong>춘식이:</strong> 기대만큼 재밌었던 영화 중간중간코미디가 섞여있는데 이해하면서 재밌다 슬프다고 듣고 보러갔는데 그렇게 슬프진않음...</p>
-                <div class="comment-footer">
-                    <span>2024.06.14</span>
-                </div>
-            </div>
-        </div>
-        <div class="comment">
-            <img src="https://via.placeholder.com/50" alt="User 4">
-            <div class="comment-body">
-                <p><strong>LoveSALT:</strong> 아이들이 재미있다고 하네요!</p>
-                <div class="comment-footer">
-                    <span>2024.06.14</span>
-                </div>
-            </div>
-        </div>
-        <div class="comment">
-            <img src="https://via.placeholder.com/50" alt="User 5">
-            <div class="comment-body">
-                <p><strong>dlgusqls:</strong> 굿굿굿 짱짱짱 최고</p>
-                <div class="comment-footer">
-                    <span>2024.06.14</span>
-                </div>
-            </div>
-        </div>
-        <div class="comment">
-            <img src="https://via.placeholder.com/50" alt="User 6">
-            <div class="comment-body">
-                <p><strong>hu**rygr:</strong> 사춘기때 처음 느껴봤던 복잡미묘한 감정선을 잘 그려낸거 같아 당시 심리상태의 기억나 눈물이 나더군요! 어른이 되는건 정말
-                    쉽지않은것같아요 1편 못지않게 재미있어요</p>
-                <div class="comment-footer">
-                    <span>2024.06.14</span>
-                </div>
-            </div>
-        </div>
+        {{/model.reviews}}
         <nav aria-label="Page navigation">
             <ul class="pagination">
                 <li class="page-item active"><a class="page-link" href="#">1</a></li>
