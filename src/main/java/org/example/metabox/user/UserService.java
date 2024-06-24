@@ -5,6 +5,8 @@ import org.example.metabox._core.errors.exception.Exception401;
 import org.example.metabox._core.errors.exception.Exception403;
 import org.example.metabox.movie.MovieQueryRepository;
 import org.example.metabox.movie.MovieRepository;
+import org.example.metabox.theater.Theater;
+import org.example.metabox.theater.TheaterRepository;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -18,10 +20,8 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Optional;
 import java.text.DecimalFormat;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Transactional(readOnly = true)
 @Service
@@ -31,6 +31,7 @@ public class UserService {
     private final MovieRepository movieRepository;
     private final MovieQueryRepository movieQueryRepository;
     private final GuestRepository guestRepository;
+    private final TheaterRepository theaterRepository;
 
 
     // 메인 페이지 무비차트, 상영예정작
@@ -72,16 +73,55 @@ public class UserService {
         return detailBookDTO;
     }
 
-    //mypage/home 유저조회 및 예매내역, 취소내역 조회
+    //mypage/home 유저조회 및 예매내역, 취소내역 조회, 극장 스크랩
     public UserResponse.MyPageHomeDTO findMyPageHome(SessionUser sessionUser) {
         User userOP = userRepository.findById(sessionUser.getId())
                 .orElseThrow(() -> new Exception401("로그인이 필요한 서비스입니다."));
 
         UserResponse.MyPageHomeDTO.UserDTO userDTO = new UserResponse.MyPageHomeDTO.UserDTO(userOP);
+        List<UserResponse.MyPageHomeDTO.TicketingDTO> ticketingDTOS = movieQueryRepository.findMyTicketing(sessionUser.getId());
 
-        UserResponse.MyPageHomeDTO homeDTO = UserResponse.MyPageHomeDTO.builder()
-                .userDTO(userDTO)
-                .build();
+        System.out.println("ticketingDTOS = " + ticketingDTOS);
+
+        // 상영관 가져오기
+        List<Theater> theaterList = theaterRepository.findAll();
+
+        // pk 순으로 먼저 정렬해서 중복제거 하기
+        theaterList.sort(Comparator.comparing(theater -> theater.getId()));
+
+        // areaName 중복제거    //theaterDistinct = [서울, 경기, 인천, 강원, 대전/충청, 대구, 부산/울산, 경상, 광주/전라/제주]
+        List<String> theaterDistinct = theaterList.stream().map(theater -> theater.getAreaName())
+                        .distinct()
+                        .collect(Collectors.toList());
+
+        System.out.println("theaterDistinct = " + theaterDistinct);
+
+        // METABOX 강남 METABOX 여수 .. 이런 것이 지역별로 맞게 나와야함 . filter 사용
+        List<UserResponse.MyPageHomeDTO.TheaterDTO> theaterDTOS = new ArrayList<>();
+        for (String areaName : theaterDistinct) {
+            Integer theaterId = theaterList.stream().filter(theater -> theater.getAreaName().equals(areaName))
+                    .map(theater -> theater.getId()).findFirst().orElse(null);
+
+            List<UserResponse.MyPageHomeDTO.TheaterDTO.TheaterNameDTO> theaterNameDTOS = theaterList.stream()
+                    .filter(theater -> theater.getAreaName().equals(areaName))
+                    .map(theater -> new UserResponse.MyPageHomeDTO.TheaterDTO.TheaterNameDTO(theater))
+                    .collect(Collectors.toList());
+
+            theaterDTOS.add(new UserResponse.MyPageHomeDTO.TheaterDTO(theaterId, areaName, theaterNameDTOS));
+        }
+
+        // id값 확인
+//        for (int i = 0; i < theaterDTOS.size(); i++) {
+//            System.out.println("id " + theaterDTOS.get(i).getId());
+//        }
+//
+//        System.out.println("theaterNameDTOS = " + theaterDTOS);
+
+        UserResponse.MyPageHomeDTO homeDTO = new UserResponse.MyPageHomeDTO(userDTO, ticketingDTOS, theaterDTOS);
+//        UserResponse.MyPageHomeDTO homeDTO = UserResponse.MyPageHomeDTO.builder()
+//                .userDTO(userDTO)
+//                .ticketingDTO(ticketingDTOS)
+//                .build();
 
         return homeDTO;
 

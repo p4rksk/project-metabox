@@ -5,22 +5,80 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Builder;
 import lombok.Data;
 import org.example.metabox._core.util.ScopeDeserializer;
+import org.example.metabox.theater.Theater;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class UserResponse {
 
     @Data
     public static class MyPageHomeDTO {
         private UserDTO userDTO;
+        private List<TicketingDTO> ticketingDTO = new ArrayList<>();
+        private List<TheaterDTO> theaterDTOS = new ArrayList<>();
 
-        @Builder
-        public MyPageHomeDTO(UserDTO userDTO) {
+        public MyPageHomeDTO(UserDTO userDTO, List<TicketingDTO> ticketingDTO, List<TheaterDTO> theaterDTOS) {
             this.userDTO = userDTO;
+            this.ticketingDTO = ticketingDTO;
+            this.theaterDTOS = theaterDTOS;
+        }
+
+        @Data
+        public static class TheaterDTO {
+            private Integer id;       // 필요해여
+            private String areaName;
+            private List<TheaterNameDTO> theaterNameDTOS = new ArrayList<>();
+
+            public TheaterDTO(Integer id, String areaName, List<TheaterNameDTO> theaterNameDTOS) {
+                this.id = id;
+                this.areaName = areaName;
+                this.theaterNameDTOS = theaterNameDTOS;
+//                this.theaterNameDTOS = theaterNameDTOS.stream()
+//                        .filter(theaterNameDTO -> theaterNameDTO.getTheaterName().equals(this.areaName))
+//                        .collect(Collectors.toList());
+            }
+
+            @Data
+            public static class TheaterNameDTO {
+                private String theaterName;
+
+                public TheaterNameDTO(Theater theater) {
+                    this.theaterName = theater.getName();
+                }
+            }
+        }
+
+        // 마이페이지 내 예매내역
+        @Data
+        public static class TicketingDTO {
+            private Integer id;     // book pk
+            private String title;   //영화 제목
+            private String imgFilename;
+            private Date date;     // 관람일시 타입 확인 필요
+            private String startTime;   // 시작 시간
+            private String endTime;     // 종료 시간
+            private String name;        // 몇 관인지
+            private String theaterName; // METABOX 어느 지점인지
+            private Integer userId;
+
+            @Builder
+            public TicketingDTO(Integer id, String title, String imgFilename, Date date, String startTime, String endTime, String name, String theaterName, Integer userId) {
+                this.id = id;
+                this.title = title;
+                this.imgFilename = imgFilename;
+                this.date = date;
+                this.startTime = startTime;
+                this.endTime = endTime;
+                this.name = name;
+                this.theaterName = theaterName;
+                this.userId = userId;
+            }
         }
 
         @Data
