@@ -206,11 +206,112 @@ V.I.A(Very Important Animal)를 만족시키기 위한
 ('드라이브', 'Drive', '박동희', '박주현, 김여진, 김도윤, 정웅인', '스릴러', '15세이상관람가, 90분, 한국', '2024-06-12', '2024-07-12', 'movie10.png',
  '도심 한복판을 질주하는 자동차 트렁크에 갇힌
 인기 스트리머가 실시간 라이브 방송을 하며
-필사의 탈출을 감행하는 드라이빙 액션 스릴러');
+필사의 탈출을 감행하는 드라이빙 액션 스릴러'),
+-- 11
+('콰이어트 플레이스-첫째 날', 'A Quiet Place: Day One', '마이클 사노스키', '루피타 뇽오 ,  디몬 하운수 ,  알렉스 울프', '스릴러',
+ '15세이상관람가, 99분, 미국', DATEADD('DAY', +1, CURRENT_TIMESTAMP), DATEADD('DAY', +31, CURRENT_TIMESTAMP), 'movie11.jpg',
+ '쉿, 살고 싶다면 절대 소리내지 말 것!
 
--- 상영 예정작 생성 (10개)
--- insert into movie_tb(title, eng_title, director, actor, genre, info, start_date, end_date, img_filename, description)
--- values
+평균 소음 90 데시벨을 자랑하는 미국 최대도시 뉴욕,
+고양이 ‘프로도’와 함께 간만에 외출을 나온
+‘사미라’는 공연을 보고 돌아가던 중
+하늘에서 떨어져 내리는 섬광을 목격하고
+곧 사람들을 닥치는 대로 공격하는
+정체불명 괴생명체의 출현에 충격에 휩싸인다.
+
+아수라장이 된 뉴욕 도심에 ‘절대 소리 내지 말라’는
+안내방송이 울려퍼지는 가운데
+맨해튼의 모든 다리가 폭격으로 끊어지고,
+사람들은 온갖 위협이 도사리는 도시에 고립되고 만다.
+
+살아남기 위해 홀로 사투를 벌이던 ''사미라''는
+우연히 또 다른 생존자 ‘에릭’을 만나고
+두 사람은 괴생명체를 피해 지하철역부터 시가지,
+할렘까지 숨죽인 여정을 이어 나가는데…'),
+-- 12
+('태풍 클럽', 'Typhoon Club', '소마이 신지', '미카미 유이치 ,  쿠도 유키', '', '
+15세이상관람가, 115분, 일본', DATEADD('DAY', +3, CURRENT_TIMESTAMP), DATEADD('DAY', +34, CURRENT_TIMESTAMP), 'movie12.png',
+ '태풍이 불어 닥친 날,
+
+ 미카미 쿄이치를 비롯한 6명의 중학생이 학교에 갇히고,
+ 교이치의 절친 리에는 등교하던 중 홀연 방향을 바꿔 도쿄로 향한다.
+
+ 고립된 상황 속에서 결핍과 욕망,
+ 불안과 쾌락이 뒤섞인 이상야릇한 축제가 벌어진다.'),
+-- 13
+('피렌체와 우피치 미술관', 'FLORENCE AND THE UFFIZI GALLERY', '루카 비오토', '사이먼 머렐스', '다큐멘터리', '전체관람가, 91분, 이탈리아',
+ DATEADD('DAY', +4, CURRENT_TIMESTAMP), DATEADD('DAY', +34, CURRENT_TIMESTAMP), 'movie13.png',
+ '미켈란젤로, 레오나르도, 라파엘로, 브루넬레스키, 보티첼리의
+ 예술적 고향이었던 "르네상스의 제련소",
+ 피렌체의 심장부로의 시대를 초월한
+ 아름다움을 향한 다차원적 여정.'),
+-- 14
+('우리와 상관없이', 'Regardless of Us', '유형준', '조현진 ,  곽민규 ,  최성원 ,  김미숙 ,  조소연', '드라마', '12세이상관람가, 81분, 한국',
+ DATEADD('DAY', +5, CURRENT_TIMESTAMP), DATEADD('DAY', +34, CURRENT_TIMESTAMP), 'movie14.png',
+ '중년의 여배우 화령은
+ 갑작스러운 뇌졸중으로 그녀의 영화 시사회에 참석할 수 없었다.
+ 그녀와 함께 일했던 사람들이 찾아와서
+ 완성된 영화의 이야기를 들려주지만,
+ 그들의 이야기는 어떤 이유에서인지 서로 맞지 않는다.
+ 홀로 남은 화령은 잠에 드는데, 모든 걸 끌어안고 싶다.'),
+-- 15
+('정직한 사람들', '-', '박찬혁', '박선규, 송채현, 이서현, 임준식', '드라마', '12세이상관람가, 78분, 한국', DATEADD('DAY', +7, CURRENT_TIMESTAMP),
+ DATEADD('DAY', +34, CURRENT_TIMESTAMP), 'movie15.png',
+ '그녀의 손만 거치면 새로운 인생과 합격의 문이 열린다!
+ 합격률 99%, 고객 만족도 100%를 자랑하는
+ 자소서 대필가 보윤.
+ 정작 본인은 공무원 시험 준비와
+ 마트 알바로 하루하루가 벅찬 삶이다.
+ 취업을 위해 의뢰인
+ 강민, 세민, 태호의 자소서를 작성하던
+ 그녀는 고객의 컴플레인을 맞게 되고
+ 예상치 못한 사건에 얽히게 된다.
+ 보윤의 인생은 점점 겉잡을 수 없는 난항으로 빠져들고
+ 새로운 위기를 맞이하게 되는데…
+
+ 한치 앞도 예상할 수 없는 우리 인생
+ 한 사건에 얽힌 그들의 좌충우돌 이야기가 시작된다!'),
+-- 16
+('언더더씨-마법 산호초를 찾아서', 'Shorty and The Legend of the enchanted reef', '피터 팝', '-', '애니메이션', '전체관람가, 66분, 독일',
+ DATEADD('DAY', +9, CURRENT_TIMESTAMP), DATEADD('DAY', +34, CURRENT_TIMESTAMP), 'movie16.png',
+ '구해줘! 홈즈~~
+ 산호초 물고기 삼총사의 짠 내 나는
+ 새집 찾기 모험!
+ 전설의 마법 산호초를 찾아 떠나는
+ 리얼 생생 해양 에듀벤처!
+
+ 무분별하게 물고기를 포획하는
+ 트롤 어선에 의해 산호초 집이 파괴되며
+ 물고기들은 하루아침에 집을 잃고 만다.
+ 개구쟁이 열대어 쇼티와
+ 똑똑한 인디, 의리의 톱상어 제이크는
+ 영원히 파괴되지 않는 전설 속의 마법 산호초를 찾아
+ 미지의 바닷속으로 모험을 떠나는데....
+ “구해줘! 홈즈~~!” 산호초 물고기 삼총사의 짠 내 나는
+ 새집 찾기 리얼 생생 모험이 펼쳐진다!
+ 성별 예매 분포'),
+-- 17
+('언더더씨-마법 산호초를 찾아서', 'Shorty and The Legend of the enchanted reef', '피터 팝', '-', '애니메이션', '전체관람가, 66분, 독일',
+ DATEADD('DAY', +9, CURRENT_TIMESTAMP), DATEADD('DAY', +34, CURRENT_TIMESTAMP), 'movie16.png',
+ '구해줘! 홈즈~~
+ 산호초 물고기 삼총사의 짠 내 나는
+ 새집 찾기 모험!
+ 전설의 마법 산호초를 찾아 떠나는
+ 리얼 생생 해양 에듀벤처!
+
+ 무분별하게 물고기를 포획하는
+ 트롤 어선에 의해 산호초 집이 파괴되며
+ 물고기들은 하루아침에 집을 잃고 만다.
+ 개구쟁이 열대어 쇼티와
+ 똑똑한 인디, 의리의 톱상어 제이크는
+ 영원히 파괴되지 않는 전설 속의 마법 산호초를 찾아
+ 미지의 바닷속으로 모험을 떠나는데....
+ “구해줘! 홈즈~~!” 산호초 물고기 삼총사의 짠 내 나는
+ 새집 찾기 리얼 생생 모험이 펼쳐진다!
+ 성별 예매 분포');
+
+
+-- TODO : 스틸컷 등록해야함 새로 추가한 영화들
 
 -- 영화 스틸컷 등록
 insert into movie_pic_tb(movie_id, img_filename)
@@ -228,30 +329,30 @@ values
 (2, 'movie2_pic4.png'),
 (2, 'movie2_pic5.png'),
 -- 3번 영화
-(3, 'movie3_pic1.png'),
-(3, 'movie3_pic2.png'),
-(3, 'movie3_pic3.png'),
-(3, 'movie3_pic4.png'),
-(3, 'movie3_pic5.png'),
-(3, 'movie3_pic6.png'),
+(3, 'movie4_pic1.png'),
+(3, 'movie4_pic2.png'),
+(3, 'movie4_pic3.png'),
+(3, 'movie4_pic4.png'),
+(3, 'movie4_pic5.png'),
 -- 4번 영화
-(4, 'movie4_pic1.png'),
-(4, 'movie4_pic2.png'),
-(4, 'movie4_pic3.png'),
-(4, 'movie4_pic4.png'),
-(4, 'movie4_pic5.png'),
+(4, 'movie3_pic1.png'),
+(4, 'movie3_pic2.png'),
+(4, 'movie3_pic3.png'),
+(4, 'movie3_pic4.png'),
+(4, 'movie3_pic5.png'),
+(4, 'movie3_pic6.png'),
 -- 5번 영화
-(5, 'movie5_pic1.png'),
-(5, 'movie5_pic2.png'),
-(5, 'movie5_pic3.png'),
-(5, 'movie5_pic4.png'),
-(5, 'movie5_pic5.png'),
+(5, 'movie6_pic1.png'),
+(5, 'movie6_pic2.png'),
+(5, 'movie6_pic3.png'),
+(5, 'movie6_pic4.png'),
+(5, 'movie6_pic5.png'),
 -- 6번 영화
-(6, 'movie6_pic1.png'),
-(6, 'movie6_pic2.png'),
-(6, 'movie6_pic3.png'),
-(6, 'movie6_pic4.png'),
-(6, 'movie6_pic5.png'),
+(6, 'movie5_pic1.png'),
+(6, 'movie5_pic2.png'),
+(6, 'movie5_pic3.png'),
+(6, 'movie5_pic4.png'),
+(6, 'movie5_pic5.png'),
 -- 7번 영화
 (7, 'movie7_pic1.png'),
 (7, 'movie7_pic2.png'),
