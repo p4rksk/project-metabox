@@ -9,6 +9,7 @@ import org.example.metabox.user.SessionUser;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
@@ -30,6 +31,14 @@ public class TheaterController {
     @GetMapping("/theaters/login-form")
     public String theatersLoginForm() {
         return "theater/login-form";
+    }
+
+    @PostMapping("/theaters-login")
+    public String theaterLogin(TheaterRequest.LoginDTO reqDTO) {
+        Theater theater = theaterService.login(reqDTO);
+        SessionTheater sessionTheater = new SessionTheater(theater);
+        session.setAttribute("sessionTheater", sessionTheater);
+        return "/theater/main";
     }
 
     @GetMapping("/theaters/movie-schedule")

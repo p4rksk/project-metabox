@@ -2,6 +2,7 @@ package org.example.metabox.theater;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.example.metabox._core.errors.exception.Exception401;
 import org.example.metabox._core.errors.exception.Exception404;
 import org.example.metabox.movie.MovieRepository;
 import org.example.metabox.screening_info.ScreeningInfo;
@@ -83,5 +84,12 @@ public class TheaterService {
         List<ScreeningInfo> screeningInfoList = screeningInfoRepository.findByTheaterId(theaterId, date);
         TheaterResponse.TheaterAjaxDTO respDTO = new TheaterResponse.TheaterAjaxDTO(screeningInfoList);
         return respDTO;
+    }
+
+    public Theater login(TheaterRequest.LoginDTO reqDTO) {
+        System.out.println("아이디 : " + reqDTO.getLoginId());
+        System.out.println("비밀번호 : " + reqDTO.getPassword());
+        Theater theater = theaterRepository.findByLoginIdAndPassword(reqDTO.getLoginId(), reqDTO.getPassword()).orElseThrow(() -> new Exception401("아이디 또는 비밀번호가 틀렸습니다."));
+        return theater;
     }
 }
