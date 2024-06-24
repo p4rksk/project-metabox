@@ -11,6 +11,7 @@ import org.example.metabox.theater_scrap.TheaterScrapRepository;
 import org.example.metabox.user.SessionUser;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class TheaterService {
     private final ScreeningInfoRepository screeningInfoRepository;
 
     @Transactional
-    public TheaterResponse.TheaterDTO movieSchedule(SessionUser sessionUser, Integer theaterId) {
+    public TheaterResponse.TheaterDTO movieSchedule(SessionUser sessionUser, Integer theaterId, LocalDate date) {
         // 1. 내가 Scrap한 목록 불러오기
         List<TheaterScrap> theaterScrapList = new ArrayList<>();
         if (sessionUser == null) {
@@ -41,7 +42,8 @@ public class TheaterService {
         List<Theater> theaterList = theaterRepository.findAll();
 
         // 3. ScreeningInfo 가져오기
-        List<ScreeningInfo> screeningInfoList = screeningInfoRepository.findByTheaterId(theaterId);
+
+        List<ScreeningInfo> screeningInfoList = screeningInfoRepository.findByTheaterId(theaterId, date);
 
         // 4. theater 가져오기
         Theater theater = theaterRepository.findById(theaterId).orElseThrow(() -> new Exception404("극장을 찾을 수 없습니다."));
@@ -51,6 +53,7 @@ public class TheaterService {
         return respDTO;
     }
 
+    @Transactional
     public TheaterResponse.TheaterInfoDTO theaterInfo(SessionUser sessionUser, Integer theaterId) {
         // 1. 내가 Scrap한 목록 불러오기
         List<TheaterScrap> theaterScrapList = new ArrayList<>();
@@ -72,6 +75,13 @@ public class TheaterService {
         Theater theater = theaterRepository.findById(theaterId).orElseThrow(() -> new Exception404("극장을 찾을 수 없습니다."));
 
         TheaterResponse.TheaterInfoDTO respDTO = new TheaterResponse.TheaterInfoDTO(theaterScrapList, theaterList, theater);
+        return respDTO;
+    }
+
+    @Transactional
+    public TheaterResponse.TheaterAjaxDTO movieScheduleDate(Integer theaterId, LocalDate date) {
+        List<ScreeningInfo> screeningInfoList = screeningInfoRepository.findByTheaterId(theaterId, date);
+        TheaterResponse.TheaterAjaxDTO respDTO = new TheaterResponse.TheaterAjaxDTO(screeningInfoList);
         return respDTO;
     }
 }
