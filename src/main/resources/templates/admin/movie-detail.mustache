@@ -306,39 +306,19 @@
             <span>트레일러 3건</span>
         </div>
         <div class="row">
+            {{#model.trailers}}
             <div class="col-md-4 trailer-item">
-                <img src="https://via.placeholder.com/300x200" alt="Trailer 1">
-                <button class="play-button">&#9658;</button>
+                <video src="./upload/{{fileName}}" alt="Trailer 1" id="video" controls></video>
+                <button class="play-button" onclick = >&#9658;</button>
                 <div class="trailer-info">
                     <span class="badge">HD</span>
-                    <span>메인 예고편</span>
+                    <span></span>
                 </div>
                 <div class="trailer-info">
                     <span>2024.03.14</span>
                 </div>
             </div>
-            <div class="col-md-4 trailer-item">
-                <img src="https://via.placeholder.com/300x200" alt="Trailer 2">
-                <button class="play-button">&#9658;</button>
-                <div class="trailer-info">
-                    <span class="badge">HD</span>
-                    <span>감정 컨트롤 본부 중계 영상</span>
-                </div>
-                <div class="trailer-info">
-                    <span>2024.02.21</span>
-                </div>
-            </div>
-            <div class="col-md-4 trailer-item">
-                <img src="https://via.placeholder.com/300x200" alt="Trailer 3">
-                <button class="play-button">&#9658;</button>
-                <div class="trailer-info">
-                    <span class="badge">HD</span>
-                    <span>티저 예고편</span>
-                </div>
-                <div class="trailer-info">
-                    <span>2024.02.20</span>
-                </div>
-            </div>
+            {{/model.trailers}}
         </div>
     </div>
     <div class="carousel-container">
@@ -459,10 +439,39 @@
 <footer class="text-center mt-4">
     <p class="footer-text">© CGV. All Rights Reserved.</p>
 </footer>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
+    //스트리밍 영상 재생
+    function playVideo() {
+        var video = document.getElementById('video');
+        var url = 'http://localhost:8080/{hlsName}.m3u8';
+
+        if (Hls.isSupported()) {
+            var hls = new Hls({
+                debug: true,
+            });
+            hls.loadSource(url);
+            hls.attachMedia(video);
+
+            hls.on(Hls.Events.MEDIA_ATTACHED, function () {
+                video.muted = true; // 음소거 된 영상만 자동 재생됨 (정책임)
+                video.play();
+            });
+        }
+                // hls.js is not supported on platforms that do not have Media Source Extensions (MSE) enabled.
+                // When the browser has built-in HLS support (check using `canPlayType`), we can provide an HLS manifest (i.e. .m3u8 URL) directly to the video element through the `src` property.
+        // This is using the built-in support of the plain video element, without using hls.js.
+        else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+            video.src = url;
+            video.addEventListener('canplay', function () {
+                video.play();
+            });
+        }
+    }
+
     var ctxGender = document.getElementById('genderChart').getContext('2d');
     var genderChart = new Chart(ctxGender, {
         type: 'doughnut',
