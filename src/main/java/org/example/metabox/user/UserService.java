@@ -38,16 +38,17 @@ public class UserService {
     private final TheaterScrapRepository theaterScrapRepository;
 
 
+    // 마이페이지의 theater Scrap save, update
     @Transactional
     public void myScrapSave(List<UserRequest.TheaterScrapDTO> reqDTOs) {
         List<Integer> theaterIds = reqDTOs.stream().mapToInt(value -> value.getTheaterNameId()).boxed().toList();
-        System.out.println("아이디 뽑기 " + theaterIds);
+//        System.out.println("아이디 뽑기 " + theaterIds);
 
         // 세션에서 받아오는게 더 나은가
         User user = userRepository.findById(reqDTOs.get(0).getUserId()).orElseThrow(() -> new Exception404("유저 못찾음"));
         // 존재하는지 한 번 더 확인
         Boolean userExist = theaterScrapRepository.findByExistUserId(user.getId());
-        System.out.println("존재하나 " + userExist);
+//        System.out.println("존재하나 " + userExist);
 
         if (userExist) {
             // 기존 스크랩 삭제 (유저에 있는 것 모두 삭제 되어야함! )
@@ -110,7 +111,7 @@ public class UserService {
         UserResponse.MyPageHomeDTO.UserDTO userDTO = new UserResponse.MyPageHomeDTO.UserDTO(userOP);
         List<UserResponse.MyPageHomeDTO.TicketingDTO> ticketingDTOS = movieQueryRepository.findMyTicketing(sessionUser.getId());
 
-        System.out.println("ticketingDTOS = " + ticketingDTOS);
+//        System.out.println("ticketingDTOS = " + ticketingDTOS);
 
         // 상영관 가져오기
         List<Theater> theaterList = theaterRepository.findAll();
@@ -123,7 +124,7 @@ public class UserService {
                 .distinct()
                 .collect(Collectors.toList());
 
-        System.out.println("theaterDistinct = " + theaterDistinct);
+//        System.out.println("theaterDistinct = " + theaterDistinct);
 
         // METABOX 강남 METABOX 여수 .. 이런 것이 지역별로 맞게 나와야함 . filter 사용
         List<UserResponse.MyPageHomeDTO.TheaterDTO> theaterDTOS = new ArrayList<>();
@@ -139,21 +140,12 @@ public class UserService {
             theaterDTOS.add(new UserResponse.MyPageHomeDTO.TheaterDTO(theaterId, areaName, theaterNameDTOS));
         }
 
-//        List<TheaterScrap> theaterScraps = theaterScrapRepository.findAll();
-//        // 일단 스크랩을 뿌린다. 없으면 없게 냅둔다.
-//        if (theaterScraps != null) {
-//            List<TheaterScrap> scraps = theaterScrapRepository.findByUserId(sessionUser.getId());
-//            System.out.println("스크랩 = " + scraps);
-//        }
+        List<TheaterScrap> scraps = theaterScrapRepository.findByUserId(sessionUser.getId());
+//        System.out.println("스크랩 " + scraps);   // 스크랩 [TheaterScrap(id=4), TheaterScrap(id=5), TheaterScrap(id=6)]
+        List<UserResponse.MyPageHomeDTO.TheaterScrapDTO> theaterScrapDTOS = scraps.stream().map(theaterScrap ->
+                new UserResponse.MyPageHomeDTO.TheaterScrapDTO(theaterScrap.getTheater().getName())).toList();
 
-        // id값 확인
-//        for (int i = 0; i < theaterDTOS.size(); i++) {
-//            System.out.println("id " + theaterDTOS.get(i).getId());
-//        }
-//
-//        System.out.println("theaterNameDTOS = " + theaterDTOS);
-
-        UserResponse.MyPageHomeDTO homeDTO = new UserResponse.MyPageHomeDTO(userDTO, ticketingDTOS, theaterDTOS);
+        UserResponse.MyPageHomeDTO homeDTO = new UserResponse.MyPageHomeDTO(userDTO, ticketingDTOS, theaterDTOS, theaterScrapDTOS);
 //        UserResponse.MyPageHomeDTO homeDTO = UserResponse.MyPageHomeDTO.builder()
 //                .userDTO(userDTO)
 //                .ticketingDTO(ticketingDTOS)

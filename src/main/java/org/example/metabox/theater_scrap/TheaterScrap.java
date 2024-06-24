@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.example.metabox.theater.Theater;
 import org.example.metabox.user.User;
 
@@ -17,9 +18,11 @@ public class TheaterScrap {
     private int id;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @ToString.Exclude
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @ToString.Exclude
     private Theater theater;
 
     @Builder

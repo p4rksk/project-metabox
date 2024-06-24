@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import org.example.metabox._core.util.ScopeDeserializer;
 import org.example.metabox.theater.Theater;
+import org.example.metabox.theater_scrap.TheaterScrap;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -24,13 +25,23 @@ public class UserResponse {
         private UserDTO userDTO;
         private List<TicketingDTO> ticketingDTO = new ArrayList<>();
         private List<TheaterDTO> theaterDTOS = new ArrayList<>();
+        private List<TheaterScrapDTO> theaterScrapDTOS = new ArrayList<>();
 
-        public MyPageHomeDTO(UserDTO userDTO, List<TicketingDTO> ticketingDTO, List<TheaterDTO> theaterDTOS) {
+        public MyPageHomeDTO(UserDTO userDTO, List<TicketingDTO> ticketingDTO, List<TheaterDTO> theaterDTOS, List<TheaterScrapDTO> theaterScrapDTOS) {
             this.userDTO = userDTO;
             this.ticketingDTO = ticketingDTO;
             this.theaterDTOS = theaterDTOS;
+            this.theaterScrapDTOS = theaterScrapDTOS;
         }
 
+        @Data
+        public static class TheaterScrapDTO {
+            private String name;    //theaterName
+
+            public TheaterScrapDTO(String name) {
+                this.name = name;
+            }
+        }
 
         @Data
         public static class TheaterDTO {

@@ -27,15 +27,19 @@
             </div>
         </div>
 
-
         <div class="grid">
-            <div>1</div>
-            <div>2</div>
-            <div>3</div>
-            <div>4</div>
-            <div>5</div>
+            {{#model.theaterScrapDTOS}}
+                <div>{{name}}</div>
+            {{/model.theaterScrapDTOS}}
             <div class="setting" style="text-align: center; font-weight: bold" onclick="openModal()">빠른 극장 선택</div>
         </div>
+
+        {{^model.theaterScrapDTOS}}
+            <div class="grid">
+                <div></div>
+                <div class="setting" style="text-align: center; font-weight: bold" onclick="openModal()">빠른 극장 선택</div>
+            </div>
+        {{/model.theaterScrapDTOS}}
     </div>
 
     <!-- 밑의 부분 -->
@@ -145,7 +149,6 @@
     let myTheaterScrap = [];
 
     function checkList() {
-        closeModal();
         // alert("작동함1");
 
         let userId = {{model.userDTO.id}};
@@ -189,10 +192,13 @@
 
         }).done((res) => {
             alert("자주가는 META BOX 설정이 완료되었습니다.");
+            closeModal();
+            location.reload();
 
         }).fail((res) => {
             alert("error!")
         });
+
     }
 
     //툴팁
