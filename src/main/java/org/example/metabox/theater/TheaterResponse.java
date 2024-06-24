@@ -184,4 +184,67 @@ public class TheaterResponse {
             }
         }
     }
+
+    @Data
+    public static class TheaterAjaxDTO {
+        private List<ScreeningInfoDTO> screeningInfoDTOList;
+
+        public TheaterAjaxDTO(List<ScreeningInfo> screeningInfoList) {
+            this.screeningInfoDTOList = screeningInfoList.stream()
+                    .collect(Collectors.groupingBy(screeningInfo -> screeningInfo.getMovie().getTitle()))
+                    .entrySet().stream()
+                    .map(entry -> new ScreeningInfoDTO(entry.getValue()))
+                    .collect(Collectors.toList());
+        }
+
+        @Data
+        private class ScreeningInfoDTO {
+            private String movieTitle;
+            private String movieInfo;
+            private List<ScreeningDTO> screeningList;
+
+            public ScreeningInfoDTO(List<ScreeningInfo> screeningInfoList) {
+                if (!screeningInfoList.isEmpty()) {
+                    ScreeningInfo firstScreeningInfo = screeningInfoList.get(0);
+                    this.movieTitle = firstScreeningInfo.getMovie().getTitle();
+                    this.movieInfo = firstScreeningInfo.getMovie().getInfo();
+                    this.screeningList = screeningInfoList.stream()
+                            .collect(Collectors.groupingBy(ScreeningInfo::getScreening))
+                            .entrySet().stream()
+                            .map(entry -> new ScreeningDTO(entry.getKey(), entry.getValue()))
+                            .collect(Collectors.toList());
+                }
+            }
+
+            @Data
+            private class ScreeningDTO {
+                private String screeningName;
+                private Integer screeningSeatCount;
+                private String screeningRank;
+                private List<ScreeningTimeDTO> screeningTimeList;
+
+                public ScreeningDTO(Screening screening, List<ScreeningInfo> screeningInfoList) {
+                    this.screeningName = screening.getName();
+                    this.screeningSeatCount = screening.getSeatCount();
+                    this.screeningRank = screening.getScreeningRankKo();
+                    this.screeningTimeList = screeningInfoList.stream()
+                            .map(ScreeningTimeDTO::new)
+                            .collect(Collectors.toList());
+                }
+
+                @Data
+                private class ScreeningTimeDTO {
+                    private String startTime;
+                    private Integer currentSeatCount;
+                    private Integer screeningInfoId;
+
+                    public ScreeningTimeDTO(ScreeningInfo screeningInfo) {
+                        this.startTime = screeningInfo.getStartTime();
+                        this.currentSeatCount = screeningInfo.getScreening().getSeatCount() - screeningInfo.getSeatBookList().size();
+                        this.screeningInfoId = screeningInfo.getId();
+                    }
+                }
+            }
+        }
+    }
 }

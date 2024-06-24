@@ -1,4 +1,5 @@
 {{> layout/header}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/4.3.0/mustache.min.js"></script>
 
 <style>
     .container1 {
@@ -235,71 +236,143 @@
 </script>
 
 <div class="schedule">
-    <div class="date-pagination">
+    <div class="date-pagination" id="datePagination">
         <div class="arrow" onclick="prevPage()">&#9664;</div>
-        <div class="date" onclick="selectDate(this)">06월 16일</div>
-        <div class="date" onclick="selectDate(this)">06월 17일</div>
-        <div class="date" onclick="selectDate(this)">06월 18일</div>
-        <div class="date" onclick="selectDate(this)">06월 19일</div>
-        <div class="date" onclick="selectDate(this)">06월 20일</div>
-        <div class="date" onclick="selectDate(this)">06월 21일</div>
-        <div class="date" onclick="selectDate(this)">06월 22일</div>
-        <div class="date" onclick="selectDate(this)">06월 23일</div>
         <div class="arrow" onclick="nextPage()">&#9654;</div>
     </div>
+
     <hr>
-    {{#model.screeningInfoDTOList}}
-        <div class="movie">
-            <div class="d-flex mb-2">
-                <h5 style="font-weight:bold" class="me-2">{{movieTitle}}</h5>
-                <div class="text-align-center">{{movieInfo}}</div>
-            </div>
-            <div class="mb-3">
-                {{#screeningList}}
-                    <div class="d-flex mb-1" style="font-size: 12px; font-weight: bold;">
-                        <div class="me-2" style="color: #646464;">&#9654;</div>
-                        <div>{{screeningRank}}</div>
-                        <div style="color: #a7a5a5;">ㅣ</div>
-                        <div>{{screeningName}}</div>
-                        <div style="color: #a7a5a5;">ㅣ</div>
-                        <div>총 {{screeningSeatCount}}석</div>
-                    </div>
-                    <div class="times mb-1">
-                        {{#screeningTimeList}}
-                            <div class="timeitems" onclick="location.href='#{{screeningInfoId}}'">
-                                <div>{{startTime}}</div>
-                                <div style="color: #2275B8">{{currentSeatCount}}석
+    <div id="ajax">
+        {{#model.screeningInfoDTOList}}
+            <div class="movie">
+                <div class="d-flex mb-2">
+                    <h5 style="font-weight:bold" class="me-2">{{movieTitle}}</h5>
+                    <div class="text-align-center">{{movieInfo}}</div>
+                </div>
+                <div class="mb-3">
+                    {{#screeningList}}
+                        <div class="d-flex mb-1" style="font-size: 12px; font-weight: bold;">
+                            <div class="me-2" style="color: #646464;">&#9654;</div>
+                            <div>{{screeningRank}}</div>
+                            <div style="color: #a7a5a5;">ㅣ</div>
+                            <div>{{screeningName}}</div>
+                            <div style="color: #a7a5a5;">ㅣ</div>
+                            <div>총 {{screeningSeatCount}}석</div>
+                        </div>
+                        <div class="times mb-1">
+                            {{#screeningTimeList}}
+                                <div class="timeitems" onclick="location.href='#{{screeningInfoId}}'">
+                                    <div>{{startTime}}</div>
+                                    <div style="color: #2275B8">{{currentSeatCount}}석
+                                    </div>
                                 </div>
-                            </div>
-                        {{/screeningTimeList}}
-                    </div>
-                {{/screeningList}}
+                            {{/screeningTimeList}}
+                        </div>
+                    {{/screeningList}}
+                </div>
+                <hr>
             </div>
-            <hr>
-        </div>
-    {{/model.screeningInfoDTOList}}
+        {{/model.screeningInfoDTOList}}
+    </div>
+
 </div>
 </div>
 <script>
-    function selectDate(element) {
-        const dates = document.querySelectorAll('.date');
-        dates.forEach(date => date.classList.remove('selected'));
-        element.classList.add('selected');
-        // 여기에 날짜 선택 시 실행할 코드를 추가하세요.
+    // 현재 날짜 가져오기
+    let currentDate = new Date();
+    let currentDay = currentDate.getDate();
+    let currentMonth = currentDate.getMonth() + 1; // 월은 0부터 시작하므로 +1 해줌
+    let currentYear = currentDate.getFullYear();
+
+    // 동적으로 날짜 생성
+    let datePagination = document.getElementById('datePagination');
+    for (let i = 0; i < 7; i++) {
+        let date = new Date(currentYear, currentMonth - 1, currentDay + i); // 새로운 날짜 객체 생성
+        let month = date.getMonth() + 1; // 월은 0부터 시작하므로 +1 해줌
+        let day = date.getDate();
+
+        // 두 자리 숫자로 변환
+        month = month < 10 ? '0' + month : month;
+        day = day < 10 ? '0' + day : day;
+
+        let dateElement = document.createElement('div');
+        dateElement.classList.add('date');
+        dateElement.textContent = `${month}월 ${day}일`;
+        dateElement.onclick = function () {
+            selectDate(`${currentYear}-${month}-${day}`);
+        };
+        datePagination.insertBefore(dateElement, datePagination.children[datePagination.children.length - 1]);
     }
 
-    function prevPage() {
-        // 이전 페이지로 이동하는 로직을 여기에 추가하세요.
-    }
-
+    // 다음 페이지로 이동
     function nextPage() {
-        // 다음 페이지로 이동하는 로직을 여기에 추가하세요.
+        // 다음 날짜로 이동하는 로직 추가
     }
 
-    // 페이지 로드 시 6월 16일을 자동으로 선택
-    window.onload = function () {
-        const initialDate = document.querySelector('.date');
-        selectDate(initialDate);
+    // 이전 페이지로 이동
+    function prevPage() {
+        // 이전 날짜로 이동하는 로직 추가
     }
+
+    // 날짜 선택 시 처리하는 함수
+    function generateMovieHtml(screeningInfoDTOList) {
+        return screeningInfoDTOList.map(screeningInfo => {
+            const screeningListHtml = screeningInfo.screeningList.map(screening => {
+                const screeningTimeListHtml = screening.screeningTimeList.map(screeningTime => {
+                    return `
+                    <div class="timeitems" onclick="location.href='#${screeningTime.screeningInfoId}'">
+                        <div>${screeningTime.startTime}</div>
+                        <div style="color: #2275B8">${screeningTime.currentSeatCount}석</div>
+                    </div>
+                `;
+                }).join('');
+
+                return `
+                <div class="d-flex mb-1" style="font-size: 12px; font-weight: bold;">
+                    <div class="me-2" style="color: #646464;">&#9654;</div>
+                    <div>${screening.screeningRank}</div>
+                    <div style="color: #a7a5a5;">ㅣ</div>
+                    <div>${screening.screeningName}</div>
+                    <div style="color: #a7a5a5;">ㅣ</div>
+                    <div>총 ${screening.screeningSeatCount}석</div>
+                </div>
+                <div class="times mb-1">
+                    ${screeningTimeListHtml}
+                </div>
+            `;
+            }).join('');
+
+            return `
+            <div class="movie">
+                <div class="d-flex mb-2">
+                    <h5 style="font-weight:bold" class="me-2">${screeningInfo.movieTitle}</h5>
+                    <div class="text-align-center">${screeningInfo.movieInfo}</div>
+                </div>
+                <div class="mb-3">
+                    ${screeningListHtml}
+                </div>
+                <hr>
+            </div>
+        `;
+        }).join('');
+    }
+
+    function selectDate(date) {
+        // 선택한 날짜에 대한 처리 로직 추가
+        $.ajax({
+            url: `/theaters/movie-schedule-ajax?date=${date}&theaterId={{model.theaterId}}`,
+            type: 'GET',
+            success: function (data) {
+                const screeningInfoDTOList = data.body.screeningInfoDTOList;
+                const newHtml = generateMovieHtml(screeningInfoDTOList);
+
+                // 기존 콘텐츠를 새로운 HTML로 대체
+                $('#ajax').empty();
+                $('#ajax').append(newHtml);
+            },
+        });
+    }
+
 </script>
+
 {{> layout/footer}}
