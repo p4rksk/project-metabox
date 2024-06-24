@@ -46,9 +46,11 @@ public class UserResponse {
 
             @Data
             public static class TheaterNameDTO {
+                private Integer theaterId;
                 private String theaterName;
 
                 public TheaterNameDTO(Theater theater) {
+                    this.theaterId = theater.getId();
                     this.theaterName = theater.getName();
                 }
             }

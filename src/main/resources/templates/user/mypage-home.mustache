@@ -122,7 +122,7 @@
             <div class="tab-content area-name-list" id="area-name-list-{{id}}">
                 {{#theaterNameDTOS}}
                     <div class="theater-list theater-list-name">
-                        <div data-theater="{{theaterName}}">{{theaterName}}</div>
+                        <div data-theater-name-id="{{theaterId}}" data-theater="{{theaterName}}">{{theaterName}}</div>
                     </div>
                 {{/theaterNameDTOS}}
             </div>
@@ -132,10 +132,61 @@
             <!-- 선택한 극장이 여기 표시됩니다 -->
         </div>
 
+        <div class="button-container">
+            <button id="checkListButton" onclick="checkList()">확인</button>
+        </div>
+
     </div>
 </div>
 
 <script>
+
+    // 스크랩 납치
+    let myTheaterScrap = [];
+
+    function checkList() {
+        // theaterName 의 id, theater 값 잘 받아오는지 확인용
+        $('.theater-list-name div').each(function () {
+            // theater pk 키
+            let theaterName = $('').data("theater-name-id");
+            console.log("극장pk " + theaterName);
+            let userPk = {{model.userDTO.id}};
+            console.log("userPk " + userPk);
+        });
+
+        $(".selected-item").each(function () {
+            let productId = $('input[name="productId"]').val();
+            let orderQty = $(this).find(".quantity").val();
+            let optionIdNumber = $(this).attr('id');
+            let optionId = optionIdNumber.match(/\d+/)[0];
+
+            let checkedList = {
+                productId: productId,
+                optionId: optionId,
+                orderQty: orderQty
+
+            };    //객체 형식으로 만들어주기
+
+            requestBody.push(checkedList); // orderId를 객체로 추가
+        });
+
+        console.log(requestBody);
+        console.log(JSON.stringify(requestBody));
+
+        $.ajax({
+            url: '/cart/save',
+            data: JSON.stringify(requestBody),
+            contentType: 'application/json; charset=utf-8',
+            type: 'POST'
+
+        }).done((res) => {
+            alert("자주가는 META BOX 설정이 완료되었습니다.");
+
+        }).fail((res) => {
+            alert("error!")
+        });
+    }
+
 
     //툴팁
     $('[data-toggle="tooltip"]').tooltip();
@@ -152,9 +203,9 @@
     // area 거는 것
     $('.theater-area-list').on('click', '.tab-button', function () {
         // alert("찍힘 ")
-       let id = $(this).data('theater-id');
-       // console.log("id " + id)
-       $('.area-name-list').removeClass('active');
+        let id = $(this).data('theater-id');
+        // console.log("id " + id)
+        $('.area-name-list').removeClass('active');
         // 클릭한 버튼과 일치하는 영역 표시
         $('#area-name-list-' + id).addClass('active');
 
@@ -188,11 +239,11 @@
         $('.selected-theater div').each(function () {
 
             // 악 이거 지금 그냥 text만 찍으니까 &times; 이값이랑 같이 가져와서 그런다 ㅠㅠ contents~filter 같이 써야한다
-            const textNode = $(this).contents().filter(function() {
+            const textNode = $(this).contents().filter(function () {
                 return this.nodeType === 3; // 텍스트 노드만 선택
             }).text().trim();
 
-            console.log("왜안될까요 " + $(this).text());
+            // console.log("왜안될까요 " + $(this).text());
             if (textNode === theaterName) {
                 isSelected = true;
                 return false;
@@ -211,10 +262,14 @@
             return;
         }
 
+        // 스크랩용
+        let theaterNameIds = $(this).data("theater-name-id");
+        console.log("아이디아이디 = " + theaterNameIds);
+
         // 극장 추가
         // console.log("네임아 " + theaterName);
         const selectedTheater = $(`
-            <div data-theater="${theaterName}">
+            <div data-theater="${theaterName}" data-theater-name-id="${theaterNameIds}">
                 ${theaterName}
                 <button class="delete-button">&times;</button>
             </div>
@@ -238,6 +293,7 @@
         });
 
         $('.selected-theater').append(selectedTheater);
+
     });
 
 
