@@ -28,7 +28,6 @@ import org.example.metabox.trailer.TrailerRepository;
 import org.example.metabox.trailer.TrailerService;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
