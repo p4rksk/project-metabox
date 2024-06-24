@@ -40,19 +40,19 @@ public class UserService {
 
     @Transactional
     public void myScrapSave(List<UserRequest.TheaterScrapDTO> reqDTOs) {
-
         List<Integer> theaterIds = reqDTOs.stream().mapToInt(value -> value.getTheaterNameId()).boxed().toList();
         System.out.println("아이디 뽑기 " + theaterIds);
 
+        // 세션에서 받아오는게 더 나은가
         User user = userRepository.findById(reqDTOs.get(0).getUserId()).orElseThrow(() -> new Exception404("유저 못찾음"));
+        // 존재하는지 한 번 더 확인
+        Boolean userExist = theaterScrapRepository.findByExistUserId(user.getId());
+        System.out.println("존재하나 " + userExist);
 
-//        List<TheaterScrap> theaterScraps = theaterScrapRepository.findByIds(theaterIds);
-//        System.out.println("스크랩 있는지 " + theaterScraps);
-
-        // 일단 스크랩을 뿌린다. 없으면 없게 냅둔다.
-//        if (theaterScraps != null) {
-//            theaterScrapRepository.findByUserId(reqDTOs.get(0).getUserId());
-//        }
+        if (userExist) {
+            // 기존 스크랩 삭제 (유저에 있는 것 모두 삭제 되어야함! )
+            theaterScrapRepository.deleteAllByUser(user.getId());
+        }
 
         for (int i = 0; i < reqDTOs.size(); i++) {
             Theater theater = theaterRepository.findById(theaterIds.get(i)).orElseThrow(() -> new Exception404("영화관 못찾음"));
@@ -61,15 +61,6 @@ public class UserService {
                     .theater(theater)
                     .build());
         }
-
-//        for (TheaterScrapDTO scrap : reqDTOs) {
-//            // 극장 스크랩을 하면 극장 스크랩으로 save 한다.
-//            theaterScrapRepository.save(scrap.toEntity(scrap.getId(), scrap.getId()));
-
-        // 극장 스크랩을 바꾸면 극장 스크랩을 update 한다.
-
-//    }
-
     }
 
     // 메인 페이지 무비차트, 상영예정작

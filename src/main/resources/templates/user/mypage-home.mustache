@@ -145,7 +145,7 @@
     let myTheaterScrap = [];
 
     function checkList() {
-
+        closeModal();
         // alert("작동함1");
 
         let userId = {{model.userDTO.id}};
@@ -161,14 +161,17 @@
             let theaterNameId = $(this).data("theater-name-id");
             console.log("극장pk " + theaterNameId);
 
-            let selectList = {
-                theaterNameId: theaterNameId,
-                userId: userId
-            };
+            // 중복 확인
+            if (!myTheaterScrap.some(item => item.theaterNameId === theaterNameId)) {
+                let selectList = {
+                    theaterNameId: theaterNameId,
+                    userId: userId
+                };
 
-            myTheaterScrap.push(selectList);
+                myTheaterScrap.push(selectList);
 
-            // alert("작동함4");
+                // alert("작동함4");
+            }
 
         });
 
@@ -293,6 +296,9 @@
             $(`.theater-list-name div[data-theater="${theaterName}"]`).css({
                 'background-color': '', // 배경색 초기화
             });
+
+            // myTheaterScrap에서 해당 극장 제거
+            myTheaterScrap = myTheaterScrap.filter(item => item.theaterNameId !== parentDiv.data('theater-name-id'));
 
             $(this).parent().remove();
         });
