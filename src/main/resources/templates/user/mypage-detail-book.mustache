@@ -43,7 +43,7 @@
                     {{#model.movieCharts}}
                         <div class="swiper-slide">
                             <img src="/image/movie/{{imgFilename}}">
-                            <p class="mt-3" style="font-weight: bolder;">{{title}}</p>
+                            <p class="mt-3" style="font-weight: bolder; font-size: 20px;">{{title}}</p>
                             <div class="rating">
                                 <span>예매율 {{ticketSales}} %</span>
                             </div>
@@ -299,6 +299,7 @@
 
     });
 
+    // 애는 ready 써줘야함
     $(document).ready(function() {
         var swiper = new Swiper('.swiper-container', {
             slidesPerView: 3,
