@@ -535,15 +535,13 @@ iframe.FB_UI_Dialog {
 
 .time-schedule .date-area {
     height: 73px;
-    float: left
 }
 
 .time-schedule .date-area button {
-    width: 70px;
+    width: 100px;
     height: 72px;
     border: 0;
     background-color: transparent;
-    float: left;
     border-bottom: 3px solid transparent;
     font-weight: 400
 }
@@ -910,7 +908,7 @@ iframe.FB_UI_Dialog {
     position: relative;
     width: 100%;
     margin: 0;
-    padding: 40px 0 0 0
+    padding: 0 0 0 0
 }
 
 .quick-reserve-area .list-area .btn-tab {
