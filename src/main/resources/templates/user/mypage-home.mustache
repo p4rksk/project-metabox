@@ -139,14 +139,16 @@
 
 <script>
 
-        const maxSlots = 5;
-        const $grid = $('.grid');
-        const currentSlots = $grid.children().length - 1; // 설정 버튼 제외
-        const emptySlots = maxSlots - currentSlots;
 
-        for (let i = 0; i < emptySlots; i++) {
-            $('<div></div>').insertBefore('.setting');
-        }
+    // 항상 div 5개 유지하게
+    const maxSlots = 5;
+    const $grid = $('.grid');
+    const currentSlots = $grid.children().length - 1; // 설정 버튼 제외
+    const emptySlots = maxSlots - currentSlots;
+
+    for (let i = 0; i < emptySlots; i++) {
+        $('<div></div>').insertBefore('.setting');
+    }
 
 
     // 스크랩 납치
