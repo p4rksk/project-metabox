@@ -17,10 +17,14 @@ import java.nio.file.Paths;
 import java.util.logging.Logger;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
 public class UserController {
+
     private final HttpSession session;
     private final UserService userService;
     private final GuestRepository guestRepository;
@@ -65,6 +69,15 @@ public class UserController {
 
         return "user/mypage-home";
     }
+
+    @PostMapping("/mypage/home/scrap")
+    public @ResponseBody String mypageHomeScrap(HttpServletRequest request, @RequestBody List<UserRequest.TheaterScrapDTO> reqDTOs) {
+        System.out.println("값 들어오나요 = " + reqDTOs);
+        userService.myScrapSave(reqDTOs);
+
+        return "user/mypage-home";
+    }
+
 
     @GetMapping("/mypage/detail-book")
     public String myBookDetail(HttpServletRequest request) {
