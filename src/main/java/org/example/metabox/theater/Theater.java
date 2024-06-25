@@ -4,9 +4,9 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 import org.example.metabox.screening.Screening;
 import org.example.metabox.theater_scrap.TheaterScrap;
+
 import java.util.List;
 
 @Data
@@ -47,7 +47,6 @@ public class Theater {
     }
 
     @Builder
-
     public Theater(int id, List<Screening> screeningList, List<TheaterScrap> theaterScrapList, String name, String imgFilename, String address, String areaCode, String areaName, String number, String loginId, String password, String url, String parkingInfo) {
         this.id = id;
         this.screeningList = screeningList;
