@@ -134,7 +134,7 @@ public class UserResponse {
         // 메인의 무비차트
             @Data
             public static class MainMovieChartDTO {
-                private Integer id;
+                private Integer movieId;
                 private String imgFilename;
                 private String title;
                 private Double ticketSales;     // 예매율 - 쿼리에서 계산해서 가져오기
@@ -143,8 +143,8 @@ public class UserResponse {
                 private String ageColor;
 
             @Builder
-            public MainMovieChartDTO(Integer id, String imgFilename, String title, Double ticketSales, Integer rank, String ageInfo) {
-                this.id = id;
+            public MainMovieChartDTO(Integer movieId, String imgFilename, String title, Double ticketSales, Integer rank, String ageInfo) {
+                this.movieId = movieId;
                 this.imgFilename = imgFilename;
                 this.title = title;
                 this.ticketSales = ticketSales;
@@ -173,7 +173,7 @@ public class UserResponse {
             // 메인의 상영 예정작
             @Data
             public static class ToBeChartDTO {
-                private Integer id;
+                private Integer movieId;
                 private String imgFilename;
                 private String title;
                 private Integer dDay;   //개봉일까지
@@ -183,8 +183,8 @@ public class UserResponse {
 
 
                 @Builder
-                public ToBeChartDTO(Integer id, String imgFilename, String title, Integer dDay, Date startDate, String ageInfo) {
-                    this.id = id;
+                public ToBeChartDTO(Integer movieId, String imgFilename, String title, Integer dDay, Date startDate, String ageInfo) {
+                    this.movieId = movieId;
                     this.imgFilename = imgFilename;
                     this.title = title;
                     this.dDay = dDay;

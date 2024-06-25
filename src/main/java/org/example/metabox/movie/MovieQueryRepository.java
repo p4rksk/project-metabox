@@ -105,7 +105,7 @@ public class MovieQueryRepository {
             }
 
             UserResponse.MainChartDTO.ToBeChartDTO toBeChartDTO = UserResponse.MainChartDTO.ToBeChartDTO.builder()
-                    .id(id)
+                    .movieId(id)
                     .imgFilename(imgFilename)
                     .title(title)
                     .ageInfo(ageInfo)
@@ -160,7 +160,7 @@ public class MovieQueryRepository {
             }
 
             UserResponse.MainChartDTO.MainMovieChartDTO movieChartDTO = UserResponse.MainChartDTO.MainMovieChartDTO.builder()
-                    .id(id)
+                    .movieId(id)
                     .imgFilename(imgFilename)
                     .title(title)
                     .ageInfo(ageInfo)
