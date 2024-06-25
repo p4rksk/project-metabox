@@ -38,7 +38,7 @@ public class MovieService {
     private final TrailerRepository trailerRepository;
     private final TrailerService trailerService;
 
-    private final Path videoLocation = Paths.get(System.getProperty("user.dir"), "video");
+    private final Path videoLocation = Paths.get(System.getProperty("user.dir"), "upload");
 
     // 모든 영화를 조회하는 메서드
     public List<MovieResponse.MovieChartDTO> getAllMovies() {
@@ -138,9 +138,12 @@ public class MovieService {
         if (trailers != null && trailers.length > 0) {
             for (MultipartFile trailer : trailers) {
                 try {
-                    String trailerFileName = uploadAndEncodeVideo(trailer);
+                    String trailerM3u8FileName = uploadAndEncodeVideo(trailer);
+                    String mp4FileName = trailer.getOriginalFilename();
+
                     Trailer movieTrailer = new Trailer();
-                    movieTrailer.setStreamingFilename(trailerFileName);
+                    movieTrailer.setStreamingFilename(mp4FileName);
+                    movieTrailer.setM3u8Filename(trailerM3u8FileName);
                     movieTrailer.setMovie(movie); // 외래 키 설정
                     movieTrailerList.add(movieTrailer);
                 } catch (IOException e) {
