@@ -261,7 +261,7 @@
 }
 
 .tooltip-inner {
-    max-width: 250px; /* 툴팁 최대 너비를 300px로 설정 */
+    max-width: 230px; /* 툴팁 최대 너비를 300px로 설정 */
     white-space: pre-wrap; /* 툴팁에서 줄바꿈 허용 */
 }
 
