@@ -181,6 +181,7 @@ public class MovieService {
         return movie;
     }
 
+    //스트리밍 동영상 업로드
     public String uploadAndEncodeVideo(MultipartFile file) throws IOException {
         try {
             Files.createDirectories(videoLocation);

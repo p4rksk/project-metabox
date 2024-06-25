@@ -84,6 +84,7 @@ public class MovieResponse {
         private List<ReviewDTO> reviews;
         private Integer reviewCount;
         private Integer stillsCount;
+        private Integer trailersCount;
 
         @Data
         public static class MoviePicDTO {
@@ -102,85 +103,89 @@ public class MovieResponse {
         public static class TrailerDTO {
             private int id;
             private String fileName;
+            private String m3u8name;
 
             public static TrailerDTO fromEntity(Trailer trailer) {
                 TrailerDTO dto = new TrailerDTO();
                 dto.id = trailer.getId();
-                dto.fileName = trailer.getImgFilename();
+                dto.fileName = trailer.getStreamingFilename();
+                dto.m3u8name= trailer.getM3u8Filename();
                 return dto;
             }
         }
 
-        @Data
-        public static class ReviewDTO {
-            private int id;
-            private String comment;
-            private double rating;
-            private String reviewer;
-            private String userProfile;
-            // TODO: 더미 데이터에 리뷰 작성일 null이라서 머스테치에 적용하면 에러남 더미 데이터 수정 후 적용
-            private LocalDateTime reviewDate;
-
-            public static ReviewDTO fromEntity(Review review) {
-                ReviewDTO dto = new ReviewDTO();
-                dto.id = review.getId();
-                dto.comment = review.getComment();
-                dto.rating = review.getRating();
-                dto.reviewer = review.getUser().getNickname();
-                dto.userProfile = review.getUser().getImgFilename();
-                dto.reviewDate = review.getCreatedAt();
-                return dto;
-            }
-        }
-    }
-
-    @Data
-    @Builder
-    public static class AdminMovieDetailDTO {
-        private int id;
-        private String imgFilename;
-        private String releaseStatus;
-        private String title;
-        private String engTitle;
-        private Double bookingRate;
-        private String director;
-        private String actor;
-        private String genre;
-        private String info;
-        private Date startDate;
-        private String description;
-        private List<MoviePicDTO> stills;
-        private List<TrailerDTO> trailers;
-        private List<ReviewDTO> reviews;
-        private Integer reviewCount;
-        private Integer stillsCount;
-
-        @Data
-        public static class MoviePicDTO {
-            private int id;
-            private String fileName;
-
-            public static MoviePicDTO fromEntity(MoviePic moviePic) {
-                MoviePicDTO dto = new MoviePicDTO();
-                dto.id = moviePic.getId();
-                dto.fileName = moviePic.getImgFilename();
-                return dto;
-            }
-        }
-
-        @Data
-        public static class TrailerDTO {
-            private int id;
-            private String fileName;
-
-            public static TrailerDTO fromEntity(Trailer trailer) {
-                TrailerDTO dto = new TrailerDTO();
-                dto.id = trailer.getId();
-                dto.fileName = trailer.getImgFilename();
-                return dto;
-            }
-        }
-
+        // TODO: 더미 데이터에 리뷰 작성일 null이라서 머스테치에 적용하면 에러남 더미 데이터 수정 후 적용
+//        @Data
+//        public static class ReviewDTO {
+//            private int id;
+//            private String comment;
+//            private double rating;
+//            private String reviewer;
+//            private String userProfile;
+//
+//            private LocalDateTime reviewDate;
+//
+//            public static ReviewDTO fromEntity(Review review) {
+//                ReviewDTO dto = new ReviewDTO();
+//                dto.id = review.getId();
+//                dto.comment = review.getComment();
+//                dto.rating = review.getRating();
+//                dto.reviewer = review.getUser().getNickname();
+//                dto.userProfile = review.getUser().getImgFilename();
+//                dto.reviewDate = review.getCreatedAt();
+//                return dto;
+//            }
+//        }
+//    }
+//
+//    //ToDo  User,Admin DetailDTO 나누기
+////    @Data
+////    @Builder
+////    public static class AdminMovieDetailDTO {
+////        private int id;
+////        private String imgFilename;
+////        private String releaseStatus;
+////        private String title;
+////        private String engTitle;
+////        private Double bookingRate;
+////        private String director;
+////        private String actor;
+////        private String genre;
+////        private String info;
+////        private Date startDate;
+////        private String description;
+////        private List<MoviePicDTO> stills;
+////        private List<TrailerDTO> trailers;
+////        private List<ReviewDTO> reviews;
+////        private Integer reviewCount;
+////        private Integer stillsCount;
+////
+////        @Data
+////        public static class MoviePicDTO {
+////            private int id;
+////            private String fileName;
+////
+////            public static MoviePicDTO fromEntity(MoviePic moviePic) {
+////                MoviePicDTO dto = new MoviePicDTO();
+////                dto.id = moviePic.getId();
+////                dto.fileName = moviePic.getImgFilename();
+////                return dto;
+////            }
+////        }
+//
+//        @Data
+//        public static class TrailerDTO {
+//            private int id;
+//            private String fileName;
+//
+//            public static TrailerDTO fromEntity(Trailer trailer) {
+//                TrailerDTO dto = new TrailerDTO();
+//                dto.id = trailer.getId();
+//                dto.fileName = trailer.getFilename();
+//                return dto;
+//            }
+//        }
+//
         @Data
         public static class ReviewDTO {
             private int id;
