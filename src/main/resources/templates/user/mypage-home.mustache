@@ -34,12 +34,6 @@
             <div class="setting" style="text-align: center; font-weight: bold" onclick="openModal()">빠른 극장 선택</div>
         </div>
 
-        {{^model.theaterScrapDTOS}}
-            <div class="grid">
-                <div></div>
-                <div class="setting" style="text-align: center; font-weight: bold" onclick="openModal()">빠른 극장 선택</div>
-            </div>
-        {{/model.theaterScrapDTOS}}
     </div>
 
     <!-- 밑의 부분 -->
@@ -144,6 +138,16 @@
 </div>
 
 <script>
+
+        const maxSlots = 5;
+        const $grid = $('.grid');
+        const currentSlots = $grid.children().length - 1; // 설정 버튼 제외
+        const emptySlots = maxSlots - currentSlots;
+
+        for (let i = 0; i < emptySlots; i++) {
+            $('<div></div>').insertBefore('.setting');
+        }
+
 
     // 스크랩 납치
     let myTheaterScrap = [];
