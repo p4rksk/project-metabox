@@ -278,7 +278,7 @@ public class UserResponse {
         // today best 무비차트 뿌리는 DTO
         @Data
         public static class MovieChartDTO {
-            private Integer id;     //movie Id
+            private Integer movieId;     //movie Id
             private String imgFilename;
             private String title;
             private Date startDate;
@@ -286,8 +286,8 @@ public class UserResponse {
             private Double ticketSales;     // 예매율 - 계산해서 가져오기
 
             @Builder
-            public MovieChartDTO(Integer id, String imgFilename, String title, Date startDate, Double ticketSales) {
-                this.id = id;
+            public MovieChartDTO(Integer movieId, String imgFilename, String title, Date startDate, Double ticketSales) {
+                this.movieId = movieId;
                 this.imgFilename = imgFilename;
                 this.title = title;
                 this.startDate = startDate;

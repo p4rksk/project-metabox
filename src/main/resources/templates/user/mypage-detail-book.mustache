@@ -20,7 +20,9 @@
             <div class="my-3 d-flex align-items-center justify-content-between">
                 <p class="mb-0" style="font-size: 15px; margin-top: -2%">지난 <span class="text-danger">1개월</span>까지의
                     예매내역을 확인하실 수 있습니다.</p>
-                <a href="/mypage/detail-saw"><button class="custom-button" style="margin-top: -5%; font-weight: bolder;">내가 본 영화</button></a>
+                <a href="/mypage/detail-saw">
+                    <button class="custom-button" style="margin-top: -5%; font-weight: bolder;">내가 본 영화</button>
+                </a>
             </div>
 
             <hr style="height: 2px; background-color: black;">
@@ -36,18 +38,21 @@
             </div>
 
             <br>
-            <hr style="height: 1px; background-color: rgb(209, 209, 209);"><br>
+            <hr style="height: 1px; background-color: rgb(209, 209, 209);">
+            <br>
             <div style="background-color: #F1F1F1; text-align: center;"><h5 class="my-3">TODAY BEST 무비차트</h5></div>
             <div class="swiper-container">
                 <div class="swiper-wrapper">
                     {{#model.movieCharts}}
                         <div class="swiper-slide">
-                            <img src="/image/movie/{{imgFilename}}">
-                            <p class="mt-3" style="font-weight: bolder; font-size: 20px;">{{title}}</p>
-                            <div class="rating">
-                                <span>예매율 {{ticketSales}} %</span>
-                            </div>
-                            <p>{{startDate}} 개봉</p>
+                            <a href="/movies/detail/{{movieId}}" style="text-decoration: none; color: black;">
+                                <img src="/image/movie/{{imgFilename}}">
+                                <p class="mt-3" style="font-weight: bolder; font-size: 20px;">{{title}}</p>
+                                <div class="rating">
+                                    <span>예매율 {{ticketSales}} %</span>
+                                </div>
+                                <p>{{startDate}} 개봉</p>
+                            </a>
                         </div>
                     {{/model.movieCharts}}
                 </div>
@@ -300,7 +305,7 @@
     });
 
     // 애는 ready 써줘야함
-    $(document).ready(function() {
+    $(document).ready(function () {
         var swiper = new Swiper('.swiper-container', {
             slidesPerView: 3,
             spaceBetween: 0,

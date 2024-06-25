@@ -216,7 +216,7 @@ public class MovieQueryRepository {
             ticketSales = Math.round(ticketSales * 100.0) / 100.0;
 
             UserResponse.DetailBookDTO.MovieChartDTO movieChartDTO = UserResponse.DetailBookDTO.MovieChartDTO.builder()
-                    .id(id)
+                    .movieId(id)
                     .imgFilename(imgFilename)
                     .title(title)
                     .startDate(startDate)
