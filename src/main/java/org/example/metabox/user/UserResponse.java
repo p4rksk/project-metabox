@@ -187,11 +187,51 @@ public class UserResponse {
     public static class DetailBookDTO {
         private UserDTO userDTO;
         private List<MovieChartDTO> movieCharts = new ArrayList<>();
+        private List<TheaterDTO> theaterDTOS = new ArrayList<>();
+        private List<TheaterScrapDTO> theaterScrapDTOS = new ArrayList<>();
 
         @Builder
-        public DetailBookDTO(UserDTO userDTO, List<MovieChartDTO> movieCharts) {
+        public DetailBookDTO(UserDTO userDTO, List<MovieChartDTO> movieCharts, List<TheaterDTO> theaterDTOS, List<TheaterScrapDTO> theaterScrapDTOS) {
             this.userDTO = userDTO;
             this.movieCharts = movieCharts;
+            this.theaterDTOS = theaterDTOS;
+            this.theaterScrapDTOS = theaterScrapDTOS;
+        }
+
+        @Data
+        public static class TheaterScrapDTO {
+            private String name;    //theaterName
+
+            public TheaterScrapDTO(String name) {
+                this.name = name;
+            }
+        }
+
+        @Data
+        public static class TheaterDTO {
+            private Integer id;       // 필요해여
+            private String areaName;
+            private List<TheaterNameDTO> theaterNameDTOS = new ArrayList<>();
+
+            public TheaterDTO(Integer id, String areaName, List<TheaterNameDTO> theaterNameDTOS) {
+                this.id = id;
+                this.areaName = areaName;
+                this.theaterNameDTOS = theaterNameDTOS;
+//                this.theaterNameDTOS = theaterNameDTOS.stream()
+//                        .filter(theaterNameDTO -> theaterNameDTO.getTheaterName().equals(this.areaName))
+//                        .collect(Collectors.toList());
+            }
+
+            @Data
+            public static class TheaterNameDTO {
+                private Integer theaterId;
+                private String theaterName;
+
+                public TheaterNameDTO(Theater theater) {
+                    this.theaterId = theater.getId();
+                    this.theaterName = theater.getName();
+                }
+            }
         }
 
         // today best 무비차트 뿌리는 DTO

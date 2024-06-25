@@ -94,11 +94,47 @@ public class UserService {
         List<UserResponse.DetailBookDTO.MovieChartDTO> movieChartDTOS = movieQueryRepository.getMovieChart();
 //        System.out.println("쿼리 확인용 " + movieChartDTOS);
         UserResponse.DetailBookDTO.UserDTO userDTO = new UserResponse.DetailBookDTO.UserDTO(userOP);
+//        //내 예매내역
+//        List<UserResponse.MyPageHomeDTO.TicketingDTO> ticketingDTOS = movieQueryRepository.findMyTicketing(sessionUser.getId());
+
+        // 상영관 가져오기
+        List<Theater> theaterList = theaterRepository.findAll();
+
+        // pk 순으로 먼저 정렬해서 중복제거 하기
+        theaterList.sort(Comparator.comparing(theater -> theater.getId()));
+
+        // areaName 중복제거    //theaterDistinct = [서울, 경기, 인천, 강원, 대전/충청, 대구, 부산/울산, 경상, 광주/전라/제주]
+        List<String> theaterDistinct = theaterList.stream().map(theater -> theater.getAreaName())
+                .distinct()
+                .collect(Collectors.toList());
+
+        // METABOX 강남 METABOX 여수 .. 이런 것이 지역별로 맞게 나와야함 . filter 사용
+        List<UserResponse.DetailBookDTO.TheaterDTO> theaterDTOS = new ArrayList<>();
+        for (String areaName : theaterDistinct) {
+            Integer theaterId = theaterList.stream().filter(theater -> theater.getAreaName().equals(areaName))
+                    .map(theater -> theater.getId()).findFirst().orElse(null);
+
+            List<UserResponse.DetailBookDTO.TheaterDTO.TheaterNameDTO> theaterNameDTOS = theaterList.stream()
+                    .filter(theater -> theater.getAreaName().equals(areaName))
+                    .map(theater -> new UserResponse.DetailBookDTO.TheaterDTO.TheaterNameDTO(theater))
+                    .collect(Collectors.toList());
+
+            theaterDTOS.add(new UserResponse.DetailBookDTO.TheaterDTO(theaterId, areaName, theaterNameDTOS));
+        }
+
+        // 스크랩
+        List<TheaterScrap> scraps = theaterScrapRepository.findByUserId(sessionUser.getId());
+//        System.out.println("스크랩 " + scraps);   // 스크랩 [TheaterScrap(id=4), TheaterScrap(id=5), TheaterScrap(id=6)]
+        List<UserResponse.DetailBookDTO.TheaterScrapDTO> theaterScrapDTOS = scraps.stream().map(theaterScrap ->
+                new UserResponse.DetailBookDTO.TheaterScrapDTO(theaterScrap.getTheater().getName())).toList();
 
         // DetailBookDTO 로 변형
         UserResponse.DetailBookDTO detailBookDTO = UserResponse.DetailBookDTO.builder()
                 .userDTO(userDTO)
-                .movieCharts(movieChartDTOS).build();
+                .movieCharts(movieChartDTOS)
+                .theaterDTOS(theaterDTOS)
+                .theaterScrapDTOS(theaterScrapDTOS)
+                .build();
 
         return detailBookDTO;
     }
