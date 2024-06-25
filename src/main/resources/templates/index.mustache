@@ -53,7 +53,9 @@
                                     </div>
                                 </div>
                                 <div class="rank">{{rank}}</div>
-                                <p class="bold-p">{{ageInfo}}{{title}}</p>
+                                <p class="bold-p">
+                                    <span class="{{ageColor}}">{{ageInfo}}</span>{{title}}
+                                </p>
                                 <p class="percentage">예매율 {{ticketSales}} %</p>
                             </div>
                         {{/model.movieCharts}}

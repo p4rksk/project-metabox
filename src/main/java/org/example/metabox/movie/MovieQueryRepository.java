@@ -138,10 +138,17 @@ public class MovieQueryRepository {
             Integer id = ((Number) row[0]).intValue();
             String imgFilename = (String) row[1];
             String title = (String) row[2];
-            String ageInfo = (String) row[3];
+            String info = (String) row[3];
             Double ticketSales = ((Number) row[4]).doubleValue() * 100;
             // 소수점 이하 두 자리까지 반올림
             ticketSales = Math.round(ticketSales * 100.0) / 100.0;
+
+            String ageInfo;
+            if ("전체".equals(info)) {
+                ageInfo = info.substring(0, 1);  // "전체"의 첫 글자만 사용
+            } else {
+                ageInfo = info.substring(0, Math.min(2, info.length()));  // 첫 두 글자 사용
+            }
 
             UserResponse.MainChartDTO.MainMovieChartDTO movieChartDTO = UserResponse.MainChartDTO.MainMovieChartDTO.builder()
                     .id(id)
