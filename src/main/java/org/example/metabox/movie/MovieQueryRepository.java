@@ -118,15 +118,15 @@ public class MovieQueryRepository {
     public List<UserResponse.MainChartDTO.MainMovieChartDTO> getMainMovieChart() {
 
         String q = """
-                select id, img_filename, title, movieCount * 1.0 / allCount as ticketSales
-                from (select id, img_filename, title, start_date, 
-                (select count(id) from seat_book_tb) as allCount,
-                (select count(*) from seat_book_tb sb
-                inner join screening_info_tb si on sb.screening_info_id = si.id
-                where si.movie_id = m.id) as movieCount from movie_tb m) 
-                as subquery order by ticketSales 
-                desc limit 10
-                   """;
+                select id, img_filename, title, SUBSTRING(info, 1, 2) as info, movieCount * 1.0 / allCount as ticketSales
+                                from (select id, img_filename, title, SUBSTRING(info, 1, 2) as info, start_date,
+                                (select count(id) from seat_book_tb) as allCount,
+                                (select count(*) from seat_book_tb sb
+                                inner join screening_info_tb si on sb.screening_info_id = si.id
+                                where si.movie_id = m.id) as movieCount from movie_tb m)
+                                as subquery order by ticketSales
+                                desc limit 10
+                """;
 
         Query query = em.createNativeQuery(q);
 //        query.setParameter(1, 2);
@@ -138,7 +138,8 @@ public class MovieQueryRepository {
             Integer id = ((Number) row[0]).intValue();
             String imgFilename = (String) row[1];
             String title = (String) row[2];
-            Double ticketSales = ((Number) row[3]).doubleValue() * 100;
+            String ageInfo = (String) row[3];
+            Double ticketSales = ((Number) row[4]).doubleValue() * 100;
             // 소수점 이하 두 자리까지 반올림
             ticketSales = Math.round(ticketSales * 100.0) / 100.0;
 
@@ -146,6 +147,7 @@ public class MovieQueryRepository {
                     .id(id)
                     .imgFilename(imgFilename)
                     .title(title)
+                    .ageInfo(ageInfo)
                     .ticketSales(ticketSales)
                     .build();
 

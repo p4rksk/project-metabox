@@ -229,8 +229,7 @@ V.I.A(Very Important Animal)를 만족시키기 위한
 두 사람은 괴생명체를 피해 지하철역부터 시가지,
 할렘까지 숨죽인 여정을 이어 나가는데…'),
 -- 12
-('태풍 클럽', 'Typhoon Club', '소마이 신지', '미카미 유이치 ,  쿠도 유키', '', '
-15세이상관람가, 115분, 일본', DATEADD('DAY', +3, CURRENT_TIMESTAMP), DATEADD('DAY', +34, CURRENT_TIMESTAMP), 'movie12.png',
+('태풍 클럽', 'Typhoon Club', '소마이 신지', '미카미 유이치 ,  쿠도 유키', '', '15세이상관람가, 115분, 일본', DATEADD('DAY', +3, CURRENT_TIMESTAMP), DATEADD('DAY', +34, CURRENT_TIMESTAMP), 'movie12.png',
  '태풍이 불어 닥친 날,
 
  미카미 쿄이치를 비롯한 6명의 중학생이 학교에 갇히고,

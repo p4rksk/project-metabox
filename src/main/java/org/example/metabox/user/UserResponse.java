@@ -139,14 +139,16 @@ public class UserResponse {
                 private String title;
                 private Double ticketSales;     // 예매율 - 쿼리에서 계산해서 가져오기
                 private Integer rank;       //순위
+                private String ageInfo;     // 전체, 12세, 15세, 19세
 
                 @Builder
-                public MainMovieChartDTO(Integer id, String imgFilename, String title, Double ticketSales, Integer rank) {
+                public MainMovieChartDTO(Integer id, String imgFilename, String title, Double ticketSales, Integer rank, String ageInfo) {
                     this.id = id;
                     this.imgFilename = imgFilename;
                     this.title = title;
                     this.ticketSales = ticketSales;
                     this.rank = rank;
+                    this.ageInfo = ageInfo;
                 }
         }
 
