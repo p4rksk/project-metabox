@@ -315,4 +315,30 @@ public class MovieQueryRepository {
             return 0.0;
         }
     }
+
+    // 영화 테이블 업데이트
+    public int updateMovieById(MovieRequest.MovieInfoEditDTO reqDTO) {
+        String sql = """
+                update Movie m 
+                set m.director = : director, 
+                    m.actor = : actor, 
+                    m.genre = : genre, 
+                    m.info = : info, 
+                    m.startDate = :startDate, 
+                    m.endDate = : endDate, 
+                    m.description = : description 
+                where m.id = :id
+                """;
+        Query query = em.createQuery(sql);
+        query.setParameter("id", reqDTO.getId());
+        query.setParameter("director", reqDTO.getDirector());
+        query.setParameter("actor", reqDTO.getActor());
+        query.setParameter("genre", reqDTO.getGenre());
+        query.setParameter("info", reqDTO.getInfo());
+        query.setParameter("startDate", reqDTO.getStartDate());
+        query.setParameter("endDate", reqDTO.getEndDate());
+        query.setParameter("description", reqDTO.getDescription());
+
+        return query.executeUpdate();
+    }
 }

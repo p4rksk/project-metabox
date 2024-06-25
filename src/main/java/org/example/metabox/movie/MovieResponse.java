@@ -78,6 +78,7 @@ public class MovieResponse {
         private String genre;
         private String info;
         private Date startDate;
+        private Date endDate;
         private String description;
         private List<MoviePicDTO> stills;
         private List<TrailerDTO> trailers;

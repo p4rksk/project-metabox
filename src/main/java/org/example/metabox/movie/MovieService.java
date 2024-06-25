@@ -92,7 +92,7 @@ public class MovieService {
 
         // 개봉일이 오늘 이전이거나 오늘과 같으면 "현재상영중"을 반환합니다.
         if (movieReleaseDate.isBefore(today) || movieReleaseDate.isEqual(today)) {
-            return "개봉";
+            return "현재상영중";
         } else {
             // 개봉일이 오늘 이후인 경우, 오늘부터 개봉일까지의 일수를 계산합니다.
             long dDay = ChronoUnit.DAYS.between(today, movieReleaseDate);
@@ -102,7 +102,7 @@ public class MovieService {
     }
 
     // 영화 등록 메서드
-    public Movie addMovie(MovieRequest.movieSavaFormDTO reqDTO) {
+    public Movie addMovie(MovieRequest.MovieSavaFormDTO reqDTO) {
         // MultipartFile 객체로부터 포스터 파일 가져오기
         MultipartFile poster = reqDTO.getImgFilename();
         String posterFileName = null;
@@ -323,6 +323,7 @@ public class MovieService {
                 .genre(movie.getGenre())
                 .info(movie.getInfo())
                 .startDate(movie.getStartDate())
+                .endDate(movie.getEndDate())
                 .description(movie.getDescription())
                 .stills(stills.stream().map(MovieResponse.MovieDetailDTO.MoviePicDTO::fromEntity).collect(Collectors.toList()))
                 .trailers(trailers.stream().map(MovieResponse.MovieDetailDTO.TrailerDTO::fromEntity).collect(Collectors.toList()))
@@ -332,4 +333,11 @@ public class MovieService {
                 .build();
     }
 
+    // 영화 수정(기본 정보만)
+    @Transactional
+    public int editMovieInfo(MovieRequest.MovieInfoEditDTO reqDTO) {
+        int result = movieQueryRepository.updateMovieById(reqDTO);
+        if (result != 1) throw new RuntimeException("업데이트 실패");
+        return reqDTO.getId();
+    }
 }

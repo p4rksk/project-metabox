@@ -61,14 +61,23 @@ public class AdminController {
 
     // 영화 등록을 처리하는 POST 요청 메서드
     @PostMapping("/movie-save")
-    public String movieAdd(MovieRequest.movieSavaFormDTO reqDTO) {
+    public String movieAdd(MovieRequest.MovieSavaFormDTO reqDTO) {
         movieService.addMovie(reqDTO);
         return "redirect:movie-list";
     }
 
-    @GetMapping("/movie-edit-form")
-    public String movieEditForm() {
+    @GetMapping("/movie-edit-form/{movieId}")
+    public String movieEditForm(@PathVariable("movieId") Integer movieId, HttpServletRequest request) {
+        MovieResponse.MovieDetailDTO movieDetail = movieService.getMovieDetail(movieId);
+        request.setAttribute("model", movieDetail);
         return "admin/movie-edit-form";
+    }
+
+    // 영화 수정
+    @PostMapping("/movie-edit")
+    public String movieEdit(MovieRequest.MovieInfoEditDTO reqDTO) {
+        int movieId = movieService.editMovieInfo(reqDTO);
+        return "redirect:movie-detail/" + movieId;
     }
 
     @GetMapping("/theater-save-form")
