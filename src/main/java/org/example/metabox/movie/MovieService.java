@@ -335,7 +335,21 @@ public class MovieService {
     // 영화 수정(기본 정보만)
     @Transactional
     public int editMovieInfo(MovieRequest.MovieInfoEditDTO reqDTO) {
-        int result = movieQueryRepository.updateMovieById(reqDTO);
+        int result;
+        try {
+            // 포스터와 같이 업데이트할 때
+            MultipartFile poster = reqDTO.getImgFilename();
+            if (poster != null && !poster.isEmpty()) {
+                String posterFileName = fileUtil.saveMoviePoster(poster);
+                reqDTO.setPosterName(posterFileName);
+                result = movieQueryRepository.updateMovieById(reqDTO);
+            } else {
+                // 포스터 없이 업데이트 할 때
+                result = movieQueryRepository.updateMovieByIdWithoutPoster(reqDTO);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("이미지 오류", e);
+        }
         if (result != 1) throw new RuntimeException("업데이트 실패");
         return reqDTO.getId();
     }

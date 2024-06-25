@@ -325,7 +325,8 @@ public class MovieQueryRepository {
                     m.info = : info, 
                     m.startDate = :startDate, 
                     m.endDate = : endDate, 
-                    m.description = : description 
+                    m.description = : description, 
+                    m.imgFilename = : imgFilename
                 where m.id = :id
                 """;
         Query query = em.createQuery(sql);
@@ -337,7 +338,31 @@ public class MovieQueryRepository {
         query.setParameter("startDate", reqDTO.getStartDate());
         query.setParameter("endDate", reqDTO.getEndDate());
         query.setParameter("description", reqDTO.getDescription());
+        query.setParameter("imgFilename", reqDTO.getPosterName());
+        return query.executeUpdate();
+    }
 
+    public int updateMovieByIdWithoutPoster(MovieRequest.MovieInfoEditDTO reqDTO) {
+        String sql = """
+                update Movie m 
+                set m.director = : director, 
+                    m.actor = : actor, 
+                    m.genre = : genre, 
+                    m.info = : info, 
+                    m.startDate = :startDate, 
+                    m.endDate = : endDate, 
+                    m.description = : description
+                where m.id = :id
+                """;
+        Query query = em.createQuery(sql);
+        query.setParameter("id", reqDTO.getId());
+        query.setParameter("director", reqDTO.getDirector());
+        query.setParameter("actor", reqDTO.getActor());
+        query.setParameter("genre", reqDTO.getGenre());
+        query.setParameter("info", reqDTO.getInfo());
+        query.setParameter("startDate", reqDTO.getStartDate());
+        query.setParameter("endDate", reqDTO.getEndDate());
+        query.setParameter("description", reqDTO.getDescription());
         return query.executeUpdate();
     }
 }

@@ -1,6 +1,40 @@
 {{> layout/header-admin}}
 
 <style>
+    #photoPreviewContainer {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+    }
+
+    #photoPreviewContainer .photo-item {
+        position: relative;
+        margin-right: 10px;
+        width: 150px;
+        height: 150px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-sizing: border-box;
+    }
+
+    #photoPreviewContainer img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    #photoPreviewContainer .remove-btn {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        background-color: red;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+
     .movie-poster {
         width: 100%;
         height: auto;
@@ -298,11 +332,21 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <div class="container">
-    <form action="/movie-edit" method="post">
+    <form action="/movie-edit" method="post" enctype="multipart/form-data">
         <hr>
         <div class="movie-detail">
             <input type="hidden" name="id" value="{{model.id}}">
-            <img src="/image/movie/{{model.imgFilename}}" alt="Movie Poster" class="movie-poster">
+            <div class="form-group mt-4">
+                <div class="d-flex justify-content-center align-items-center"
+                     style="width: 250px; height: 300px; border: 2px solid #E6E6E6; color: #E6E6E6;" id="profilePreview">
+                    <img id="photoPreview" src="/image/movie/{{model.imgFilename}}" alt="Photo Preview"
+                         style="width: 250px; height: 300px;">
+                </div>
+                <div class="file-input-container mt-4">
+                    <input type="file" class="form-control-file" id="moviePhotos" name="imgFilename" accept="image/*"
+                           onchange="previewImage();">
+                </div>
+            </div>
             <div class="movie-info">
                 <div class="btn-group">
                     <button type="button" class="btn btn-outline-secondary" style="height: 40px;" onclick="location.href='/movie-list'">목록으로</button>
@@ -523,6 +567,7 @@
         }
     });
 </script>
+
 <script>
     function addTrailer() {
         const container = document.querySelector('.row'); // 트레일러가 추가될 컨테이너 선택
@@ -542,6 +587,7 @@
         container.appendChild(newTrailer); // 컨테이너에 새 트레일러 아이템 추가
     }
 </script>
+
 <script>
     function addCarouselImage() {
         const carouselInner = document.querySelector('#imageCarousel .carousel-inner'); // 캐러셀 내부 선택
@@ -556,6 +602,57 @@
 
         newCarouselItem.appendChild(newImage); // 새 캐러셀 아이템에 이미지 추가
         carouselInner.appendChild(newCarouselItem); // 캐러셀 내부에 새 아이템 추가
+    }
+
+    function previewImage() {
+        var file = document.getElementById("moviePhotos").files[0]; // 파일 입력 요소에서 파일을 가져옴
+        var reader = new FileReader(); // 파일 읽기 객체 생성
+
+        reader.onload = function (e) {
+            var imgElement = document.getElementById("photoPreview"); // 이미지 미리보기 요소 선택
+            imgElement.src = e.target.result; // 이미지 미리보기 요소에 파일 데이터 설정
+            imgElement.style.display = "block"; // 이미지 미리보기 요소를 표시
+        };
+
+        if (file) {
+            reader.readAsDataURL(file); // 파일을 데이터 URL로 읽음
+        }
+    }
+
+    function previewImages() {
+        var files = document.getElementById("stills").files;
+        var previewContainer = document.getElementById("photoPreviewContainer");
+        previewContainer.innerHTML = "";
+
+        for (var i = 0; i < files.length; i++) {
+            var file = files[i];
+            var reader = new FileReader();
+
+            reader.onload = (function (file) {
+                return function (e) {
+                    var photoItem = document.createElement("div");
+                    photoItem.classList.add("photo-item");
+
+                    var imgElement = document.createElement("img");
+                    imgElement.src = e.target.result;
+
+                    var removeBtn = document.createElement("button");
+                    removeBtn.classList.add("remove-btn");
+                    removeBtn.innerText = "X";
+                    removeBtn.onclick = function () {
+                        previewContainer.removeChild(photoItem);
+                    };
+
+                    photoItem.appendChild(imgElement);
+                    photoItem.appendChild(removeBtn);
+                    previewContainer.appendChild(photoItem);
+                };
+            })(file);
+
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        }
     }
 </script>
 {{> layout/footer}}

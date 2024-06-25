@@ -35,5 +35,7 @@ public class MovieRequest {
         private Date startDate;
         private Date endDate;
         private String description;
+        private MultipartFile imgFilename;
+        private String posterName;
     }
 }
