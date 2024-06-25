@@ -84,11 +84,23 @@ public class AdminController {
     }
 
     // 영화 삭제
-    @PostMapping("/movie-delete/{movieId}")
     @ResponseBody
+    @PostMapping("/movie-delete/{movieId}")
     public String deleteMovie(@PathVariable("movieId") int movieId) {
         try {
             movieService.deleteMovie(movieId);
+            return "success";
+        } catch (Exception e) {
+            return "error";
+        }
+    }
+
+    // 스틸컷 삭제
+    @ResponseBody
+    @PostMapping("/stills-delete/{id}")
+    public String deleteStills(@PathVariable("id") int id){
+        try {
+            movieService.deleteStills(id);
             return "success";
         } catch (Exception e) {
             return "error";

@@ -359,4 +359,8 @@ public class MovieService {
     public void deleteMovie(Integer movieId) {
         movieRepository.deleteById(movieId);
     }
+
+    public void deleteStills(int id) {
+        moviePicRepository.deleteById(id);
+    }
 }
