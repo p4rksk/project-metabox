@@ -91,6 +91,7 @@ public class MovieResponse {
             private int id;
             private String fileName;
 
+            // TODO: 생성자 코드 변경하기
             public static MoviePicDTO fromEntity(MoviePic moviePic) {
                 MoviePicDTO dto = new MoviePicDTO();
                 dto.id = moviePic.getId();
