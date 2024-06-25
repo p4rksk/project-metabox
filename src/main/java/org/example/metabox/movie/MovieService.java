@@ -162,23 +162,22 @@ public class MovieService {
         if (trailers != null && trailers.length > 0) {
             for (MultipartFile trailer : trailers) {
                 try {
-                    String trailerFileName = uploadAndEncodeVideo(trailer);
+                    String trailerM3u8FileName = uploadAndEncodeVideo(trailer);
+                    String mp4FileName = trailer.getOriginalFilename();
+
                     Trailer movieTrailer = new Trailer();
-                    movieTrailer.setStreamingFilename(trailerFileName);
+                    movieTrailer.setStreamingFilename(mp4FileName);
+                    movieTrailer.setM3u8Filename(trailerM3u8FileName);
                     movieTrailer.setMovie(movie); // 외래 키 설정
-                    // Trailer 리스트에 추가
                     movieTrailerList.add(movieTrailer);
                 } catch (IOException e) {
                     throw new RuntimeException("트레일러 파일 오류", e);
                 }
             }
-            // Trailer 리스트를 저장
             trailerRepository.saveAll(movieTrailerList);
         }
-        // Movie 엔티티에 Trailer 리스트 설정
         movie.setTrailerList(movieTrailerList);
 
-        // Movie 객체를 반환
         return movie;
     }
 
