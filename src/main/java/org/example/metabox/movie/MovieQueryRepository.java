@@ -37,37 +37,76 @@ public class MovieQueryRepository {
 //    WHERE b.user_id = 1 AND si.date >= CURRENT_DATE GROUP BY si.id
 
 
-    //아직 관람 안한 영화 // 좌석, totalPrice 받기
-    public List<UserResponse.DetailBookDTO.SeatAndPriceDTO> findUnwatchTicketV1(Integer sessionUserId) {
+    // 서버에서 가져오는거 실패해서.. 그냥 한번 더 가져오겠다 최악 ~
+//    select b.id, b.total_price from book_tb b
+//    INNER JOIN seat_book_tb sb ON sb.book_id = b.id
+//    INNER JOIN seat_tb s ON sb.seat_id = s.id
+//    INNER JOIN screening_info_tb si ON sb.screening_info_id = si.id
+//    WHERE b.user_id = 1 AND si.date >= CURRENT_DATE GROUP BY b.id;
+
+
+    public List<UserResponse.DetailBookDTO.TotalPriceDTO> findUnwatchTicketV3(Integer sessionUserId) {
         String q = """
-                    select b.total_price, s.code from book_tb b 
-                    INNER JOIN seat_book_tb sb ON sb.book_id = b.id
-                    INNER JOIN seat_tb s ON sb.seat_id = s.id
-                    INNER JOIN screening_info_tb si ON sb.screening_info_id = si.id
-                    WHERE b.user_id = ? AND si.date >= CURRENT_DATE
-                """;
+                select b.id, b.total_price from book_tb b
+                INNER JOIN seat_book_tb sb ON sb.book_id = b.id
+                INNER JOIN seat_tb s ON sb.seat_id = s.id
+                INNER JOIN screening_info_tb si ON sb.screening_info_id = si.id
+                WHERE b.user_id = ? AND si.date >= CURRENT_DATE GROUP BY b.id
+            """;
 
         Query query = em.createNativeQuery(q);
         query.setParameter(1, sessionUserId);
 
         List<Object[]> rows = query.getResultList();
-        List<UserResponse.DetailBookDTO.SeatAndPriceDTO> seatAndPriceDTOS = new ArrayList<>();
+        List<UserResponse.DetailBookDTO.TotalPriceDTO> totalPriceDTOS = new ArrayList<>();
 
         for (Object[] row : rows) {
-            Integer totalPrice = (Integer) row[0];
-            String code = (String) row[1];  //좌석코드
+            Integer ticketId = (Integer) row[0];
+            Integer totalPrice = (Integer) row[1];
 
-            UserResponse.DetailBookDTO.SeatAndPriceDTO seatAndPriceDTO = UserResponse.DetailBookDTO.SeatAndPriceDTO.builder()
+            UserResponse.DetailBookDTO.TotalPriceDTO totalPriceDTO = UserResponse.DetailBookDTO.TotalPriceDTO.builder()
+                    .ticketId(ticketId)
                     .totalPrice(totalPrice)
+                    .build();
+
+            totalPriceDTOS.add(totalPriceDTO);
+        }
+
+        return totalPriceDTOS;
+    }
+
+
+    //아직 관람 안한 영화 // 좌석, totalPrice 받기
+    public List<UserResponse.DetailBookDTO.SeatDTO> findUnwatchTicketV1(Integer sessionUserId) {
+        String q = """
+                select sb.book_id, s.code from book_tb b 
+                INNER JOIN seat_book_tb sb ON sb.book_id = b.id
+                INNER JOIN seat_tb s ON sb.seat_id = s.id
+                INNER JOIN screening_info_tb si ON sb.screening_info_id = si.id
+                WHERE b.user_id = ? AND si.date >= CURRENT_DATE
+            """;
+
+        Query query = em.createNativeQuery(q);
+        query.setParameter(1, sessionUserId);
+
+        List<Object[]> rows = query.getResultList();
+        List<UserResponse.DetailBookDTO.SeatDTO> seatDTOS = new ArrayList<>();
+
+        for (Object[] row : rows) {
+            Integer ticketId = (Integer) row[0];
+            String code = (String) row[1];
+
+            UserResponse.DetailBookDTO.SeatDTO seatDTO = UserResponse.DetailBookDTO.SeatDTO.builder()
+                    .ticketId(ticketId)
                     .seatCode(code)
                     .build();
 
-            seatAndPriceDTOS.add(seatAndPriceDTO);
-
+            seatDTOS.add(seatDTO);
         }
 
-        return seatAndPriceDTOS;
+        return seatDTOS;
     }
+
 
     //아직 관람 안한 영화 // 나머지 받기
     public List<UserResponse.DetailBookDTO.TicketingDTO> findUnwatchTicketV2(Integer sessionUserId) {

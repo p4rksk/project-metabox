@@ -26,6 +26,7 @@ import java.util.Optional;
 import java.text.DecimalFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Transactional(readOnly = true)
@@ -96,12 +97,14 @@ public class UserService {
         List<UserResponse.DetailBookDTO.MovieChartDTO> movieChartDTOS = movieQueryRepository.getMovieChart();
 //        System.out.println("쿼리 확인용 " + movieChartDTOS);
         UserResponse.DetailBookDTO.UserDTO userDTO = new UserResponse.DetailBookDTO.UserDTO(userOP);
-//        //내 예매내역
-        List<UserResponse.DetailBookDTO.SeatAndPriceDTO> ticketingDTOs1 = movieQueryRepository.findUnwatchTicketV1(sessionUser.getId());
-        List<UserResponse.DetailBookDTO.TicketingDTO> ticketingDTOs2 = movieQueryRepository.findUnwatchTicketV2(sessionUser.getId());
-        System.out.println("1111" + ticketingDTOs1);
-//        System.out.println("2222" + ticketingDTOs2);
+//        //내 예매내역 중 좌석, 티켓
+        List<UserResponse.DetailBookDTO.SeatDTO> seatDTOs = movieQueryRepository.findUnwatchTicketV1(sessionUser.getId());
+        List<UserResponse.DetailBookDTO.TicketingDTO> ticketingDTOs = movieQueryRepository.findUnwatchTicketV2(sessionUser.getId());
+        List<UserResponse.DetailBookDTO.TotalPriceDTO> totalPriceDTOs = movieQueryRepository.findUnwatchTicketV3(sessionUser.getId());
 
+        System.out.println("1111" + seatDTOs);
+//        System.out.println("2222" + ticketingDTOs);
+        System.out.println("3333" + totalPriceDTOs );
 
         // 상영관 가져오기
         List<Theater> theaterList = theaterRepository.findAll();
@@ -140,11 +143,14 @@ public class UserService {
                 .movieCharts(movieChartDTOS)
                 .theaterDTOS(theaterDTOS)
                 .theaterScrapDTOS(theaterScrapDTOS)
-                .ticketingDTO(ticketingDTOs2)
+                .seatDTOS(seatDTOs)
+                .ticketingDTO(ticketingDTOs)
+                .totalPriceDTO(totalPriceDTOs)
                 .build();
 
         return detailBookDTO;
     }
+
 
     //mypage/home 유저조회 및 예매내역, 취소내역 조회, 극장 스크랩
     public UserResponse.MyPageHomeDTO findMyPageHome(SessionUser sessionUser) {

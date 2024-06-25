@@ -38,8 +38,8 @@
                                 <small>{{engTitle}}</small></strong></h5>
                             <p class="card-text">관람일시 {{date}} ({{startTime}} ~ {{endTime}})</p>
                             <p class="card-text">관람극장 {{theaterName}} ({{name}})</p>
-                            <p class="card-text">관람좌석 ???</p>
-                            <p class="card-text">관람인원 2명 가격 10,000</p>
+                            <p class="card-text">관람좌석 {{#model.seatDTOS}}{{seatCode}}{{/model.seatDTOS}}</p>
+                            <p class="card-text">가격 {{#model.totalPriceDTO}}{{totalPrice}}{{/model.totalPriceDTO}}</p>
                         </div>
                     {{/model.ticketingDTO}}
                 </div>

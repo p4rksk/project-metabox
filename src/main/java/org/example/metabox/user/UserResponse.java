@@ -233,26 +233,40 @@ public class UserResponse {
         private List<TheaterDTO> theaterDTOS = new ArrayList<>();
         private List<TheaterScrapDTO> theaterScrapDTOS = new ArrayList<>();
         private List<TicketingDTO> ticketingDTO = new ArrayList<>();
-        private List<SeatAndPriceDTO> seatAndPriceDTOS = new ArrayList<>();
+        private List<SeatDTO> seatDTOS = new ArrayList<>();
+        private List<TotalPriceDTO> totalPriceDTO;
 
         @Builder
-        public DetailBookDTO(UserDTO userDTO, List<MovieChartDTO> movieCharts, List<TheaterDTO> theaterDTOS, List<TheaterScrapDTO> theaterScrapDTOS, List<TicketingDTO> ticketingDTO, List<SeatAndPriceDTO> seatAndPriceDTOS) {
+        public DetailBookDTO(UserDTO userDTO, List<MovieChartDTO> movieCharts, List<TheaterDTO> theaterDTOS, List<TheaterScrapDTO> theaterScrapDTOS, List<TicketingDTO> ticketingDTO, List<SeatDTO> seatDTOS, List<TotalPriceDTO> totalPriceDTO) {
             this.userDTO = userDTO;
             this.movieCharts = movieCharts;
             this.theaterDTOS = theaterDTOS;
             this.theaterScrapDTOS = theaterScrapDTOS;
             this.ticketingDTO = ticketingDTO;
-            this.seatAndPriceDTOS = seatAndPriceDTOS;
+            this.seatDTOS = seatDTOS;
+            this.totalPriceDTO = totalPriceDTO;
         }
 
         @Data
-        public static class SeatAndPriceDTO {
-            private Integer totalPrice;     //
+        public static class TotalPriceDTO {
+            private Integer ticketId;
+            private Integer totalPrice;
+
+            @Builder
+            public TotalPriceDTO(Integer ticketId, Integer totalPrice) {
+                this.ticketId = ticketId;
+                this.totalPrice = totalPrice;
+            }
+        }
+
+        @Data
+        public static class SeatDTO {
+            private Integer ticketId;
             private String seatCode;   //좌석
 
             @Builder
-            public SeatAndPriceDTO(Integer totalPrice, String seatCode) {
-                this.totalPrice = totalPrice;
+            public SeatDTO(Integer ticketId, String seatCode) {
+                this.ticketId = ticketId;
                 this.seatCode = seatCode;
             }
         }
