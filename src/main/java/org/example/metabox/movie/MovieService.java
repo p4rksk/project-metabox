@@ -339,4 +339,10 @@ public class MovieService {
         if (result != 1) throw new RuntimeException("업데이트 실패");
         return reqDTO.getId();
     }
+
+    // 영화 삭제
+    @Transactional
+    public void deleteMovie(Integer movieId) {
+        movieRepository.deleteById(movieId);
+    }
 }

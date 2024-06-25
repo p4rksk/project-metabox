@@ -1,5 +1,5 @@
 {{> layout/header-admin}}
-<style>
+<<style>
 
     .header-title {
         font-size: 2rem;
@@ -129,7 +129,7 @@
                         <p class="card-text">{{bookingRate}} %</p>
                         <p class="release-date">{{startDate}} {{releaseStatus}}</p>
                         <span><a href="/movie-edit-form/{{id}}" class="btn btn-outline-secondary">수정하기</a></span>
-                        <button class="btn btn-danger">삭제하기</button>
+                        <button class="btn btn-danger deleteButton" data-movie-id="{{id}}">삭제하기</button>
                     </div>
                 </div>
             </div>
@@ -137,3 +137,64 @@
     </div>
 </div>
 {{> layout/footer}}
+<script>
+    // 영화 삭제 요청을 서버로 보내는 함수
+    function deleteMovieById(movieId) {
+        // fetch를 사용하여 지정된 영화 ID를 가진 영화를 삭제하는 POST 요청을 보냄
+        return fetch(`/movie-delete/${movieId}`, {
+            method: 'POST', // HTTP 메서드로 POST 사용
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded', // 요청 헤더에 Content-Type 설정
+            }
+        }).then(response => response.text()); // 서버 응답을 텍스트로 변환하여 반환
+    }
+
+    // 모든 삭제 버튼에 이벤트 리스너를 추가
+    $(document).ready(function() {
+        $('.deleteButton').on('click', function() {
+            // 클릭된 버튼의 data-movie-id 속성에서 영화 ID를 가져옴
+            const movieId = $(this).data('movie-id');
+            // 삭제 확인 다이얼로그를 표시
+            showDeleteConfirm(movieId);
+        });
+    });
+
+    // SweetAlert을 사용하여 확인 및 삭제 기능을 수행하는 함수
+    function showDeleteConfirm(movieId) {
+        // SweetAlert2의 Swal.fire 메서드를 사용하여 경고창을 띄움
+        Swal.fire({
+            title: "정말 삭제하시겠습니까?", // 경고창의 제목
+            text: "삭제를 원하면 '삭제' 버튼을 눌러주세요.", // 경고창의 텍스트
+            icon: "warning", // 경고 아이콘 사용
+            showCancelButton: true, // 취소 버튼을 표시
+            confirmButtonColor: '#3085d6', // 확인 버튼 색상
+            cancelButtonColor: '#d33', // 취소 버튼 색상
+            confirmButtonText: '삭제', // 확인 버튼 텍스트
+            cancelButtonText: '취소', // 취소 버튼 텍스트
+            reverseButtons: true, // 버튼 순서 반전
+        }).then(result => {
+            // 사용자가 확인 버튼을 클릭했는지 확인
+            if (result.isConfirmed) {
+                // 영화 삭제 요청을 보냄
+                deleteMovieById(movieId).then(data => {
+                    // 서버 응답을 확인
+                    if (data === "success") {
+                        // 삭제 성공 메시지를 표시하고 페이지를 새로고침
+                        Swal.fire("삭제되었습니다!", "영화가 성공적으로 삭제되었습니다.", "success").then(() => {
+                            location.reload(); // 페이지를 새로고침하여 변경사항 반영
+                        });
+                    } else {
+                        // 삭제 실패 메시지를 표시
+                        Swal.fire("오류", "영화 삭제에 실패하였습니다.", "error");
+                    }
+                }).catch(error => {
+                    // 요청 실패 시 오류 메시지를 표시
+                    Swal.fire("오류", "영화 삭제에 실패하였습니다.", "error");
+                });
+            } else {
+                // 삭제가 취소되었음을 알리는 메시지를 표시
+                Swal.fire("취소되었습니다.", "삭제 요청이 취소되었습니다.", "info");
+            }
+        });
+    }
+</script>

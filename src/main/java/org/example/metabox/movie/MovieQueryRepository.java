@@ -252,13 +252,12 @@ public class MovieQueryRepository {
                 m.img_filename,
                 m.info,
                 m.start_date,
-                COUNT(sb.book_id) * 1.0 / (
-                                            SELECT COUNT(sb2.book_id)
-                                            FROM seat_book_tb sb2
-                                            JOIN screening_info_tb si2
-                                            ON sb2.screening_info_id = si2.id
-                                            WHERE si2.date >= '2024-06-21'
-                                            ) AS bookingRate
+                COALESCE(COUNT(sb.book_id) * 1.0 / NULLIF((
+                                                            SELECT COUNT(sb2.book_id)
+                                                            FROM seat_book_tb sb2
+                                                            JOIN screening_info_tb si2 ON sb2.screening_info_id = si2.id
+                                                            WHERE si2.date >= '2024-06-21'
+                                                            ), 0), 0) AS bookingRate
             FROM movie_tb m
             LEFT JOIN screening_info_tb si ON m.id = si.movie_id
             LEFT JOIN seat_book_tb sb ON si.id = sb.screening_info_id

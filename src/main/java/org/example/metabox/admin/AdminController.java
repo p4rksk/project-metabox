@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -66,6 +67,7 @@ public class AdminController {
         return "redirect:movie-list";
     }
 
+    // 영화 수정 페이지 이동
     @GetMapping("/movie-edit-form/{movieId}")
     public String movieEditForm(@PathVariable("movieId") Integer movieId, HttpServletRequest request) {
         MovieResponse.MovieDetailDTO movieDetail = movieService.getMovieDetail(movieId);
@@ -77,7 +79,20 @@ public class AdminController {
     @PostMapping("/movie-edit")
     public String movieEdit(MovieRequest.MovieInfoEditDTO reqDTO) {
         int movieId = movieService.editMovieInfo(reqDTO);
+        // 수정한 영화 페이지로 리다이렉트
         return "redirect:movie-detail/" + movieId;
+    }
+
+    // 영화 삭제
+    @PostMapping("/movie-delete/{movieId}")
+    @ResponseBody
+    public String deleteMovie(@PathVariable("movieId") int movieId) {
+        try {
+            movieService.deleteMovie(movieId);
+            return "success";
+        } catch (Exception e) {
+            return "error";
+        }
     }
 
     @GetMapping("/theater-save-form")
