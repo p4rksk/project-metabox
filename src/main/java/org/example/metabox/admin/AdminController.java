@@ -103,7 +103,7 @@ public class AdminController {
     @PostMapping("/stills-delete/{id}")
     public String deleteStills(@PathVariable("id") int id){
         try {
-            movieService.deleteStills(id);
+            moviePicService.deleteStills(id);
             return "success";
         } catch (Exception e) {
             return "error";

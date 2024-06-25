@@ -45,4 +45,9 @@ public class MoviePicService {
         // MoviePic 리스트를 저장
         moviePicRepository.saveAll(moviePicList);
     }
+
+    // 스틸컷 삭제
+    public void deleteStills(int id) {
+        moviePicRepository.deleteById(id);
+    }
 }
