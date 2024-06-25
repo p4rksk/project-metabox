@@ -148,8 +148,10 @@ public class UserService {
 
         UserResponse.MyPageHomeDTO.UserDTO userDTO = new UserResponse.MyPageHomeDTO.UserDTO(userOP);
         List<UserResponse.MyPageHomeDTO.TicketingDTO> ticketingDTOS = movieQueryRepository.findMyTicketing(sessionUser.getId());
-
 //        System.out.println("ticketingDTOS = " + ticketingDTOS);
+
+        //개수파악 (0건 <- 여기 뿌릴라고)
+        int ticketCount = ticketingDTOS.size();
 
         // 상영관 가져오기
         List<Theater> theaterList = theaterRepository.findAll();
@@ -183,7 +185,7 @@ public class UserService {
         List<UserResponse.MyPageHomeDTO.TheaterScrapDTO> theaterScrapDTOS = scraps.stream().map(theaterScrap ->
                 new UserResponse.MyPageHomeDTO.TheaterScrapDTO(theaterScrap.getTheater().getName())).toList();
 
-        UserResponse.MyPageHomeDTO homeDTO = new UserResponse.MyPageHomeDTO(userDTO, ticketingDTOS, theaterDTOS, theaterScrapDTOS);
+        UserResponse.MyPageHomeDTO homeDTO = new UserResponse.MyPageHomeDTO(userDTO, ticketingDTOS, theaterDTOS, theaterScrapDTOS, ticketCount);
 //        UserResponse.MyPageHomeDTO homeDTO = UserResponse.MyPageHomeDTO.builder()
 //                .userDTO(userDTO)
 //                .ticketingDTO(ticketingDTOS)

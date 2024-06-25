@@ -26,12 +26,14 @@ public class UserResponse {
         private List<TicketingDTO> ticketingDTO = new ArrayList<>();
         private List<TheaterDTO> theaterDTOS = new ArrayList<>();
         private List<TheaterScrapDTO> theaterScrapDTOS = new ArrayList<>();
+        private int ticketCount;
 
-        public MyPageHomeDTO(UserDTO userDTO, List<TicketingDTO> ticketingDTO, List<TheaterDTO> theaterDTOS, List<TheaterScrapDTO> theaterScrapDTOS) {
+        public MyPageHomeDTO(UserDTO userDTO, List<TicketingDTO> ticketingDTO, List<TheaterDTO> theaterDTOS, List<TheaterScrapDTO> theaterScrapDTOS, int ticketCount) {
             this.userDTO = userDTO;
             this.ticketingDTO = ticketingDTO;
             this.theaterDTOS = theaterDTOS;
             this.theaterScrapDTOS = theaterScrapDTOS;
+            this.ticketCount = ticketCount;
         }
 
         @Data
