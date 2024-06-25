@@ -232,13 +232,67 @@ public class UserResponse {
         private List<MovieChartDTO> movieCharts = new ArrayList<>();
         private List<TheaterDTO> theaterDTOS = new ArrayList<>();
         private List<TheaterScrapDTO> theaterScrapDTOS = new ArrayList<>();
+        private List<TicketingDTO> ticketingDTO = new ArrayList<>();
 
         @Builder
-        public DetailBookDTO(UserDTO userDTO, List<MovieChartDTO> movieCharts, List<TheaterDTO> theaterDTOS, List<TheaterScrapDTO> theaterScrapDTOS) {
+        public DetailBookDTO(UserDTO userDTO, List<MovieChartDTO> movieCharts, List<TheaterDTO> theaterDTOS, List<TheaterScrapDTO> theaterScrapDTOS, List<TicketingDTO> ticketingDTO) {
             this.userDTO = userDTO;
             this.movieCharts = movieCharts;
             this.theaterDTOS = theaterDTOS;
             this.theaterScrapDTOS = theaterScrapDTOS;
+            this.ticketingDTO = ticketingDTO;
+        }
+
+        // 마이페이지 아직 관람 안한 예매내역
+        @Data
+        public static class TicketingDTO {
+            private Integer id;     // book pk
+            private Integer totalPrice;     //
+            private String seatCode;   //좌석
+            private String title;   //영화 제목
+            private String imgFilename;
+            private String engTitle;   //영화 제목
+            private Date date;     // 관람일시 타입 확인 필요
+            private String startTime;   // 시작 시간
+            private String endTime;     // 종료 시간
+            private String name;        // 몇 관인지
+            private String theaterName; // METABOX 어느 지점인지
+            private Integer userId;
+            private String ageInfo;     // 전체, 12세, 15세, 19세
+            private String ageColor;
+
+            @Builder
+            public TicketingDTO(Integer id, Integer totalPrice, String seatCode, String title, String imgFilename, String engTitle, Date date, String startTime, String endTime, String name, String theaterName, Integer userId, String ageInfo) {
+                this.id = id;
+                this.totalPrice = totalPrice;
+                this.seatCode = seatCode;
+                this.title = title;
+                this.imgFilename = imgFilename;
+                this.engTitle = engTitle;
+                this.date = date;
+                this.startTime = startTime;
+                this.endTime = endTime;
+                this.name = name;
+                this.theaterName = theaterName;
+                this.userId = userId;
+                this.ageInfo = ageInfo;
+                this.ageColor = classColor();
+            }
+
+            public String classColor() {
+                if ("12".equals(ageInfo)) {
+                    return "age-info-yellow";
+                } else if ("15".equals(ageInfo)) {
+                    return "age-info-blue";
+                } else if ("전".equals(ageInfo)) {
+                    return "age-info-green";
+                } else if ("19".equals(ageInfo)) {
+                    return "age-info-red";
+                } else {
+                    return "";
+                }
+
+            }
         }
 
         @Data
