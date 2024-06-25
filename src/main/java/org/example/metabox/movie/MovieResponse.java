@@ -107,7 +107,7 @@ public class MovieResponse {
             public static TrailerDTO fromEntity(Trailer trailer) {
                 TrailerDTO dto = new TrailerDTO();
                 dto.id = trailer.getId();
-                dto.fileName = trailer.getImgFilename();
+                dto.fileName = trailer.getStreamingFilename();
                 return dto;
             }
         }
@@ -177,7 +177,7 @@ public class MovieResponse {
             public static TrailerDTO fromEntity(Trailer trailer) {
                 TrailerDTO dto = new TrailerDTO();
                 dto.id = trailer.getId();
-                dto.fileName = trailer.getImgFilename();
+                dto.fileName = trailer.getStreamingFilename();
                 return dto;
             }
         }
