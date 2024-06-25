@@ -233,22 +233,34 @@ public class UserResponse {
         private List<TheaterDTO> theaterDTOS = new ArrayList<>();
         private List<TheaterScrapDTO> theaterScrapDTOS = new ArrayList<>();
         private List<TicketingDTO> ticketingDTO = new ArrayList<>();
+        private List<SeatAndPriceDTO> seatAndPriceDTOS = new ArrayList<>();
 
         @Builder
-        public DetailBookDTO(UserDTO userDTO, List<MovieChartDTO> movieCharts, List<TheaterDTO> theaterDTOS, List<TheaterScrapDTO> theaterScrapDTOS, List<TicketingDTO> ticketingDTO) {
+        public DetailBookDTO(UserDTO userDTO, List<MovieChartDTO> movieCharts, List<TheaterDTO> theaterDTOS, List<TheaterScrapDTO> theaterScrapDTOS, List<TicketingDTO> ticketingDTO, List<SeatAndPriceDTO> seatAndPriceDTOS) {
             this.userDTO = userDTO;
             this.movieCharts = movieCharts;
             this.theaterDTOS = theaterDTOS;
             this.theaterScrapDTOS = theaterScrapDTOS;
             this.ticketingDTO = ticketingDTO;
+            this.seatAndPriceDTOS = seatAndPriceDTOS;
+        }
+
+        @Data
+        public static class SeatAndPriceDTO {
+            private Integer totalPrice;     //
+            private String seatCode;   //좌석
+
+            @Builder
+            public SeatAndPriceDTO(Integer totalPrice, String seatCode) {
+                this.totalPrice = totalPrice;
+                this.seatCode = seatCode;
+            }
         }
 
         // 마이페이지 아직 관람 안한 예매내역
         @Data
         public static class TicketingDTO {
             private Integer id;     // book pk
-            private Integer totalPrice;     //
-            private String seatCode;   //좌석
             private String title;   //영화 제목
             private String imgFilename;
             private String engTitle;   //영화 제목
@@ -262,10 +274,8 @@ public class UserResponse {
             private String ageColor;
 
             @Builder
-            public TicketingDTO(Integer id, Integer totalPrice, String seatCode, String title, String imgFilename, String engTitle, Date date, String startTime, String endTime, String name, String theaterName, Integer userId, String ageInfo) {
+            public TicketingDTO(Integer id, String title, String imgFilename, String engTitle, Date date, String startTime, String endTime, String name, String theaterName, Integer userId, String ageInfo) {
                 this.id = id;
-                this.totalPrice = totalPrice;
-                this.seatCode = seatCode;
                 this.title = title;
                 this.imgFilename = imgFilename;
                 this.engTitle = engTitle;

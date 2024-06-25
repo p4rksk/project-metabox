@@ -97,8 +97,11 @@ public class UserService {
 //        System.out.println("쿼리 확인용 " + movieChartDTOS);
         UserResponse.DetailBookDTO.UserDTO userDTO = new UserResponse.DetailBookDTO.UserDTO(userOP);
 //        //내 예매내역
-        List<UserResponse.DetailBookDTO.TicketingDTO> ticketingDTOs1 = movieQueryRepository.findUnwatchTicketV1(sessionUser.getId());
+        List<UserResponse.DetailBookDTO.SeatAndPriceDTO> ticketingDTOs1 = movieQueryRepository.findUnwatchTicketV1(sessionUser.getId());
         List<UserResponse.DetailBookDTO.TicketingDTO> ticketingDTOs2 = movieQueryRepository.findUnwatchTicketV2(sessionUser.getId());
+        System.out.println("1111" + ticketingDTOs1);
+//        System.out.println("2222" + ticketingDTOs2);
+
 
         // 상영관 가져오기
         List<Theater> theaterList = theaterRepository.findAll();
@@ -137,6 +140,7 @@ public class UserService {
                 .movieCharts(movieChartDTOS)
                 .theaterDTOS(theaterDTOS)
                 .theaterScrapDTOS(theaterScrapDTOS)
+                .ticketingDTO(ticketingDTOs2)
                 .build();
 
         return detailBookDTO;

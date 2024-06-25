@@ -38,7 +38,7 @@ public class MovieQueryRepository {
 
 
     //아직 관람 안한 영화 // 좌석, totalPrice 받기
-    public List<UserResponse.DetailBookDTO.TicketingDTO> findUnwatchTicketV1(Integer sessionUserId) {
+    public List<UserResponse.DetailBookDTO.SeatAndPriceDTO> findUnwatchTicketV1(Integer sessionUserId) {
         String q = """
                     select b.total_price, s.code from book_tb b 
                     INNER JOIN seat_book_tb sb ON sb.book_id = b.id
@@ -51,22 +51,22 @@ public class MovieQueryRepository {
         query.setParameter(1, sessionUserId);
 
         List<Object[]> rows = query.getResultList();
-        List<UserResponse.DetailBookDTO.TicketingDTO> ticketingDTOList = new ArrayList<>();
+        List<UserResponse.DetailBookDTO.SeatAndPriceDTO> seatAndPriceDTOS = new ArrayList<>();
 
         for (Object[] row : rows) {
             Integer totalPrice = (Integer) row[0];
             String code = (String) row[1];  //좌석코드
 
-            UserResponse.DetailBookDTO.TicketingDTO ticketingDTO = UserResponse.DetailBookDTO.TicketingDTO.builder()
+            UserResponse.DetailBookDTO.SeatAndPriceDTO seatAndPriceDTO = UserResponse.DetailBookDTO.SeatAndPriceDTO.builder()
                     .totalPrice(totalPrice)
                     .seatCode(code)
                     .build();
 
-            ticketingDTOList.add(ticketingDTO);
+            seatAndPriceDTOS.add(seatAndPriceDTO);
 
         }
 
-        return ticketingDTOList;
+        return seatAndPriceDTOS;
     }
 
     //아직 관람 안한 영화 // 나머지 받기

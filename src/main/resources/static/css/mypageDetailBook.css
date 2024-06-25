@@ -382,3 +382,55 @@
     background-color: #f9f9f9; /* 배경색 설정 */
     text-align: center;
 }
+
+/*초록*/
+.age-info-green {
+    display: inline-block;
+    width: 24px; /* 원하는 크기로 조정하세요 */
+    height: 24px; /* 원하는 크기로 조정하세요 */
+    border-radius: 50%;
+    background-color: green; /* 초록색 배경 */
+    color: white; /* 텍스트 색상 */
+    text-align: center;
+    line-height: 24px; /* 높이와 동일하게 설정하여 텍스트를 가운데로 맞춤 */
+    margin-right: 5px; /* 텍스트와 약간의 간격을 둠 */
+}
+
+/*노랑*/
+.age-info-yellow {
+    display: inline-block;
+    width: 24px; /* 원하는 크기로 조정하세요 */
+    height: 24px; /* 원하는 크기로 조정하세요 */
+    border-radius: 50%;
+    background-color: #ffd600; /* 초록색 배경 */
+    color: white; /* 텍스트 색상 */
+    text-align: center;
+    line-height: 24px; /* 높이와 동일하게 설정하여 텍스트를 가운데로 맞춤 */
+    margin-right: 5px; /* 텍스트와 약간의 간격을 둠 */
+}
+
+/*파랑*/
+.age-info-blue {
+    display: inline-block;
+    width: 24px; /* 원하는 크기로 조정하세요 */
+    height: 24px; /* 원하는 크기로 조정하세요 */
+    border-radius: 50%;
+    background-color: #223cd5; /* 초록색 배경 */
+    color: white; /* 텍스트 색상 */
+    text-align: center;
+    line-height: 24px; /* 높이와 동일하게 설정하여 텍스트를 가운데로 맞춤 */
+    margin-right: 5px; /* 텍스트와 약간의 간격을 둠 */
+}
+
+/*빨강*/
+.age-info-red {
+    display: inline-block;
+    width: 24px; /* 원하는 크기로 조정하세요 */
+    height: 24px; /* 원하는 크기로 조정하세요 */
+    border-radius: 50%;
+    background-color: #da0000; /* 초록색 배경 */
+    color: white; /* 텍스트 색상 */
+    text-align: center;
+    line-height: 24px; /* 높이와 동일하게 설정하여 텍스트를 가운데로 맞춤 */
+    margin-right: 5px; /* 텍스트와 약간의 간격을 둠 */
+}
