@@ -79,7 +79,7 @@ public class MovieQueryRepository {
     public List<UserResponse.MainChartDTO.ToBeChartDTO> getToBeChart() {
 
         String q = """
-                select id, img_filename, title, start_date, DATEDIFF('DAY', CURRENT_DATE(), start_date) as d_day
+                select id, img_filename, title, SUBSTRING(info, 1, 2) as info, start_date, DATEDIFF('DAY', CURRENT_DATE(), start_date) as d_day
                 from movie_tb where start_date > CURRENT_DATE()
                 """;
 
@@ -93,13 +93,22 @@ public class MovieQueryRepository {
             Integer id = ((Number) row[0]).intValue();
             String imgFilename = (String) row[1];
             String title = (String) row[2];
-            Date startDate = (Date) row[3];
-            Integer dDay = ((Number) row[4]).intValue();    // integer로 변환시켜서 가져오기
+            String info = (String) row[3];
+            Date startDate = (Date) row[4];
+            Integer dDay = ((Number) row[5]).intValue();    // integer로 변환시켜서 가져오기
+
+            String ageInfo;
+            if ("전체".equals(info)) {
+                ageInfo = info.substring(0, 1);  // "전체"의 첫 글자만 사용
+            } else {
+                ageInfo = info.substring(0, Math.min(2, info.length()));  // 첫 두 글자 사용
+            }
 
             UserResponse.MainChartDTO.ToBeChartDTO toBeChartDTO = UserResponse.MainChartDTO.ToBeChartDTO.builder()
                     .id(id)
                     .imgFilename(imgFilename)
                     .title(title)
+                    .ageInfo(ageInfo)
                     .startDate(startDate)
                     .dDay(dDay)
                     .build();

@@ -178,15 +178,36 @@ public class UserResponse {
                 private String title;
                 private Integer dDay;   //개봉일까지
                 private String startDate; //개봉일자
+                private String ageInfo;     // 전체, 12세, 15세, 19세
+                private String ageColor;
+
 
                 @Builder
-                public ToBeChartDTO(Integer id, String imgFilename, String title, Integer dDay, Date startDate) {
+                public ToBeChartDTO(Integer id, String imgFilename, String title, Integer dDay, Date startDate, String ageInfo) {
                     this.id = id;
                     this.imgFilename = imgFilename;
                     this.title = title;
                     this.dDay = dDay;
                     this.startDate = getStartDateFormat(startDate);
+                    this.ageInfo = ageInfo;
+                    this.ageColor = classColor();
                 }
+
+                public String classColor() {
+                    if ("12".equals(ageInfo)) {
+                        return "age-info-yellow";
+                    } else if ("15".equals(ageInfo)) {
+                        return "age-info-blue";
+                    } else if ("전".equals(ageInfo)) {
+                        return "age-info-green";
+                    } else if ("19".equals(ageInfo)) {
+                        return "age-info-red";
+                    } else {
+                        return "";
+                    }
+
+                }
+
 
                 // 날짜 가공
                 public String getStartDateFormat(Date startDate) {
