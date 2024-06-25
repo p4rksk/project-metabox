@@ -169,17 +169,12 @@
             <div>
                 <div class="list-title">지역</div>
                 <ul id="main-list" class="list-group">
-                    <li class="list-group-item"
-                        data-options="강남, 강변, 건대입구, 구로, 대학로, 동대문, 등촌, 명동, 명동역 씨네라이브러리, 미아, 방학, 불광, 상봉, 성신여대입구, 송파, 수유">
-                        서울(23)
-                    </li>
-                    <li class="list-group-item" data-options="Option 4, Option 5, Option 6">경기/인천(47)</li>
-                    <li class="list-group-item" data-options="Option 7, Option 8, Option 9">충청/대전(11)</li>
-                    <li class="list-group-item" data-options="Option 10, Option 11, Option 12">전라/광주(11)</li>
-                    <li class="list-group-item" data-options="Option 13, Option 14, Option 15">경북/대구(16)</li>
-                    <li class="list-group-item" data-options="Option 16, Option 17, Option 18">경남/부산/울산(23)</li>
-                    <li class="list-group-item" data-options="Option 19, Option 20">강원(4)</li>
-                    <li class="list-group-item" data-options="Option 21, Option 22">제주(2)</li>
+                    {{#model.theaterAreaDTOList}}
+                        <li class="list-group-item"
+                            data-options="{{#theaterNameDTOList}}{{theaterName}}{{^isLast}}, {{/isLast}}{{/theaterNameDTOList}}">
+                            {{areaName}}
+                        </li>
+                    {{/model.theaterAreaDTOList}}
                 </ul>
             </div>
             <!-- 두 번째 리스트 -->
