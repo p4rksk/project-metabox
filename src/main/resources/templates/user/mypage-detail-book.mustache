@@ -1,8 +1,12 @@
 {{> layout/header}}
 <head>
     <link rel="stylesheet" href="/css/mypageDetailBook.css">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 </head>
-
 
 <div class="container">
     {{> layout/userbar}}
@@ -37,18 +41,16 @@
             <div class="swiper-container">
                 <div class="swiper-wrapper">
                     {{#model.movieCharts}}
-                    <div class="swiper-slide">
-                        <img src="/image/movie/{{imgFilename}}">
-                        <p class="mt-3" style="font-weight: bolder;">{{title}}</p>
-                        <div class="rating">
-                            <span>예매율 {{ticketSales}} %</span>
+                        <div class="swiper-slide">
+                            <img src="/image/movie/{{imgFilename}}">
+                            <p class="mt-3" style="font-weight: bolder;">{{title}}</p>
+                            <div class="rating">
+                                <span>예매율 {{ticketSales}} %</span>
+                            </div>
+                            <p>{{startDate}} 개봉</p>
                         </div>
-                        <p>{{startDate}} 개봉</p>
-                    </div>
                     {{/model.movieCharts}}
-                    <!-- Add more slides if needed -->
                 </div>
-                <!-- Add Navigation -->
                 <div class="swiper-button-next"></div>
                 <div class="swiper-button-prev"></div>
             </div>
@@ -82,7 +84,6 @@
     </div>
 </div>
 
-<!-- 모달창 html 디자인 -->
 <div id="myModal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>
@@ -117,37 +118,23 @@
     </div>
 </div>
 
-
 <script>
-    var swiper = new Swiper('.swiper-container', {
-        slidesPerView: 3,
-        spaceBetween: 0,
-        slidesPerGroup: 3,
-        loop: true,
-        loopFillGroupWithBlank: true,
-        navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-        },
-    });
 
+    // 항상 div 5개 유지하게
+    const maxSlots = 5;
+    const $grid = $('.grid');
+    const currentSlots = $grid.children().length - 1; // 설정 버튼 제외
+    const emptySlots = maxSlots - currentSlots;
 
-
-        // 항상 div 5개 유지하게
-        const maxSlots = 5;
-        const $grid = $('.grid');
-        const currentSlots = $grid.children().length - 1; // 설정 버튼 제외
-        const emptySlots = maxSlots - currentSlots;
-
-        for (let i = 0; i < emptySlots; i++) {
+    for (let i = 0; i < emptySlots; i++) {
         $('<div></div>').insertBefore('.setting');
     }
 
 
-        // 스크랩 납치
-        let myTheaterScrap = [];
+    // 스크랩 납치
+    let myTheaterScrap = [];
 
-        function checkList() {
+    function checkList() {
         // alert("작동함1");
 
         let userId = {{model.userDTO.id}};
@@ -158,24 +145,24 @@
         // theaterName 의 id, theater 값 잘 받아오는지 확인용
         $('.selected-theater div').each(function () {
 
-        // alert("작동함3");
-        // theater pk 키
-        let theaterNameId = $(this).data("theater-name-id");
-        console.log("극장pk " + theaterNameId);
+            // alert("작동함3");
+            // theater pk 키
+            let theaterNameId = $(this).data("theater-name-id");
+            console.log("극장pk " + theaterNameId);
 
-        // 중복 확인
-        if (!myTheaterScrap.some(item => item.theaterNameId === theaterNameId)) {
-        let selectList = {
-        theaterNameId: theaterNameId,
-        userId: userId
-    };
+            // 중복 확인
+            if (!myTheaterScrap.some(item => item.theaterNameId === theaterNameId)) {
+                let selectList = {
+                    theaterNameId: theaterNameId,
+                    userId: userId
+                };
 
-        myTheaterScrap.push(selectList);
+                myTheaterScrap.push(selectList);
 
-        // alert("작동함4");
-    }
+                // alert("작동함4");
+            }
 
-    });
+        });
 
         // alert("작동함5");
         console.log("이거 나오나요? " + myTheaterScrap);
@@ -184,36 +171,36 @@
         // alert("작동함6");
 
         $.ajax({
-        url: '/mypage/home/scrap',
-        data: JSON.stringify(myTheaterScrap),
-        contentType: 'application/json; charset=utf-8',
-        type: 'POST'
+            url: '/mypage/home/scrap',
+            data: JSON.stringify(myTheaterScrap),
+            contentType: 'application/json; charset=utf-8',
+            type: 'POST'
 
-    }).done((res) => {
-        alert("자주가는 META BOX 설정이 완료되었습니다.");
-        closeModal();
-        location.reload();
+        }).done((res) => {
+            alert("자주가는 META BOX 설정이 완료되었습니다.");
+            closeModal();
+            location.reload();
 
-    }).fail((res) => {
-        alert("error!")
-    });
+        }).fail((res) => {
+            alert("error!")
+        });
 
     }
 
-        //툴팁
-        $('[data-toggle="tooltip"]').tooltip();
+    //툴팁
+    $('[data-toggle="tooltip"]').tooltip();
 
-        // 모달창 script
-        function openModal() {
+    // 모달창 script
+    function openModal() {
         $("#myModal").css("display", "block");
     }
 
-        function closeModal() {
+    function closeModal() {
         $("#myModal").css("display", "none");
     }
 
-        // area 거는 것
-        $('.theater-area-list').on('click', '.tab-button', function () {
+    // area 거는 것
+    $('.theater-area-list').on('click', '.tab-button', function () {
         // alert("찍힘 ")
         let id = $(this).data('theater-id');
         // console.log("id " + id)
@@ -223,18 +210,18 @@
 
     });
 
-        // 모달창 닫기
-        $(window).on('click', function (event) {
+    // 모달창 닫기
+    $(window).on('click', function (event) {
         if (event.target == $("#myModal")[0]) {
-        closeModal();
-    }
+            closeModal();
+        }
     });
 
-        // 최대 5개. 중복체크도 필요함
-        const maxSelectedTheaters = 5;
+    // 최대 5개. 중복체크도 필요함
+    const maxSelectedTheaters = 5;
 
-        // MEATABOX 강남 거는 것
-        $('.theater-list-name div').on('click', function () {
+    // MEATABOX 강남 거는 것
+    $('.theater-list-name div').on('click', function () {
 
         // alert("알림");
 
@@ -250,30 +237,30 @@
         let isSelected = false;
         $('.selected-theater div').each(function () {
 
-        // 악 이거 지금 그냥 text만 찍으니까 &times; 이값이랑 같이 가져와서 그런다 ㅠㅠ contents~filter 같이 써야한다
-        // 지금은 밑에 data 넣어놔서 data 값으로 꺼내와도 되는데 번거로우니 바꾸지 않겠다!!
-        const textNode = $(this).contents().filter(function () {
-        return this.nodeType === 3; // 텍스트 노드만 선택
-    }).text().trim();
+            // 악 이거 지금 그냥 text만 찍으니까 &times; 이값이랑 같이 가져와서 그런다 ㅠㅠ contents~filter 같이 써야한다
+            // 지금은 밑에 data 넣어놔서 data 값으로 꺼내와도 되는데 번거로우니 바꾸지 않겠다!!
+            const textNode = $(this).contents().filter(function () {
+                return this.nodeType === 3; // 텍스트 노드만 선택
+            }).text().trim();
 
-        // console.log("왜안될까요 " + $(this).text());
-        if (textNode === theaterName) {
-        isSelected = true;
-        return false;
-    }
-    });
+            // console.log("왜안될까요 " + $(this).text());
+            if (textNode === theaterName) {
+                isSelected = true;
+                return false;
+            }
+        });
 
         // 이 코드도 있어야지 중복 해결 됨!!
         if (isSelected) {
-        // alert("중복");
-        return;
-    }
+            // alert("중복");
+            return;
+        }
 
 
         if ($('.selected-theater div').length >= maxSelectedTheaters) {
-        alert('최대 5개의 극장만 선택할 수 있습니다.');
-        return;
-    }
+            alert('최대 5개의 극장만 선택할 수 있습니다.');
+            return;
+        }
 
         // 스크랩용
         let theaterNameIds = $(this).data("theater-name-id");
@@ -289,36 +276,43 @@
         `);
 
         selectedTheater.find('.delete-button').on('click', function () {
-        // delete-button 의 parent인 div data-theater에서 theaterName 을 찾음
-        const parentDiv = $(this).parent();
-        // console.log("이거 뭘까 = " + parentDiv);
-        // 그 theaterName에서 date 값을 가져옴
-        const theaterName = parentDiv.data('theater');
-        // console.log("이건? = " + theaterName);
+            // delete-button 의 parent인 div data-theater에서 theaterName 을 찾음
+            const parentDiv = $(this).parent();
+            // console.log("이거 뭘까 = " + parentDiv);
+            // 그 theaterName에서 date 값을 가져옴
+            const theaterName = parentDiv.data('theater');
+            // console.log("이건? = " + theaterName);
 
-        // 해당 극장의 배경색 초기화
-        // 그럼 data-theater에서 theaterName 인 div 를 찾아 css 를 빼주면 됨!
-        $(`.theater-list-name div[data-theater="${theaterName}"]`).css({
-        'background-color': '', // 배경색 초기화
-    });
+            // 해당 극장의 배경색 초기화
+            // 그럼 data-theater에서 theaterName 인 div 를 찾아 css 를 빼주면 됨!
+            $(`.theater-list-name div[data-theater="${theaterName}"]`).css({
+                'background-color': '', // 배경색 초기화
+            });
 
-        // myTheaterScrap에서 해당 극장 제거
-        myTheaterScrap = myTheaterScrap.filter(item => item.theaterNameId !== parentDiv.data('theater-name-id'));
+            // myTheaterScrap에서 해당 극장 제거
+            myTheaterScrap = myTheaterScrap.filter(item => item.theaterNameId !== parentDiv.data('theater-name-id'));
 
-        $(this).parent().remove();
-    });
+            $(this).parent().remove();
+        });
 
         $('.selected-theater').append(selectedTheater);
 
     });
 
+    $(document).ready(function() {
+        var swiper = new Swiper('.swiper-container', {
+            slidesPerView: 3,
+            spaceBetween: 0,
+            slidesPerGroup: 3,
+            loop: true,
+            loopFillGroupWithBlank: true,
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+        });
+    });
 
 </script>
-
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="https://kit.fontawesome.com/a076d05399.js"></script>
-<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 
 {{> layout/footer}}
