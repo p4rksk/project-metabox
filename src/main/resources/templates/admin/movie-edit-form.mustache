@@ -361,6 +361,18 @@
         border: none;
     }
 
+    .stills-header {
+        display: flex;
+        align-items: center;
+    }
+
+    .file-input-wrapper {
+        margin-left: 10px;
+    }
+
+    .file-input-wrapper input[type="file"] {
+        width: auto;
+    }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -466,7 +478,10 @@
             <div class="container stills-container">
                 <div class="stills-header">
                     <span>스틸컷 {{model.stillsCount}}건</span>
-                    <button class="btn btn-secondary btn-sm" onclick="addCarouselImage()">+</button>
+                    <button class="btn btn-secondary btn-sm" onclick="addStillImage({{model.id}})">+</button>
+                    <div class="file-input-wrapper">
+                        <input type="file" class="form-control-file" id="newStillInput" name="stills" accept="image/*" multiple>
+                    </div>
                 </div>
             </div>
             <div class="row">
@@ -729,6 +744,37 @@
                 // 삭제가 취소되었음을 알리는 메시지를 표시
                 Swal.fire("취소되었습니다.", "삭제 요청이 취소되었습니다.", "info");
             }
+        });
+    }
+
+    // 스틸컷 추가 기능
+    function addStillImage(movieId) {
+        const fileInput = document.getElementById('newStillInput');
+        const files = fileInput.files;
+
+        if (files.length === 0) {
+            Swal.fire("오류", "이미지를 선택해 주세요.", "error");
+            return;
+        }
+
+        const formData = new FormData();
+        for (let i = 0; i < files.length; i++) {
+            formData.append('stills', files[i]);
+        }
+
+        fetch(`/stills-add/${movieId}`, {
+            method: 'POST',
+            body: formData
+        }).then(response => response.text()).then(data => {
+            if (data === "success") {
+                Swal.fire("추가되었습니다!", "스틸컷이 성공적으로 추가되었습니다.", "success").then(() => {
+                    location.reload();
+                });
+            } else {
+                Swal.fire("오류", "스틸컷 추가에 실패하였습니다.", "error");
+            }
+        }).catch(error => {
+            Swal.fire("오류", "스틸컷 추가에 실패하였습니다.", "error");
         });
     }
 </script>

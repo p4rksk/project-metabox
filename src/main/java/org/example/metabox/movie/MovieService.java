@@ -360,7 +360,9 @@ public class MovieService {
         movieRepository.deleteById(movieId);
     }
 
+    // 스틸컷 삭제
     public void deleteStills(int id) {
         moviePicRepository.deleteById(id);
     }
+
 }

@@ -38,4 +38,5 @@ public class MovieRequest {
         private MultipartFile imgFilename;
         private String posterName;
     }
+
 }

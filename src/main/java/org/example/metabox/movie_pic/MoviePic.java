@@ -16,6 +16,7 @@ public class MoviePic {
     private int id;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "movie_id")
     private Movie movie;
 
     private String imgFilename;
