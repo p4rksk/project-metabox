@@ -5,7 +5,31 @@
 
 
 <div class="container">
-    {{> layout/userbar}}
+    <div class="profile-card">
+        <div class="header">
+            <img src="{{model.userDTO.imgFilename}}">
+            <div class="info">
+                <h3>{{model.userDTO.name}}님</h3>
+                <p><strong>{{model.userDTO.nickname}}</strong></p>
+                <p>환영합니다! <span class="text-danger">최고의 영화</span> 와 함께 <span class="text-danger">특별한 시간</span>을 보내세요.</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 points">
+                <h4>POINT <i class="fas fa-question-circle" data-toggle="tooltip"
+                             title="1,000P 이상부터 10P 단위로 사용 가능합니다."></i></h4>
+                <p>사용가능 포인트 <strong class="point-price">{{model.userDTO.point}} 점</strong></p>
+            </div>
+        </div>
+
+        <div class="grid theater-select">
+            {{#model.theaterScrapDTOS}}
+                <div style="font-size: 15px" data-theater-name-id="{{theaterId}}" data-theater="{{name}}">{{name}}</div>
+            {{/model.theaterScrapDTOS}}
+            <div class="setting" style="text-align: center; font-weight: bold" onclick="openModal()">빠른 극장 선택</div>
+        </div>
+
+    </div>
 
     <!-- 밑의 부분 -->
     <div class="row mt-5 justify-content-between">
@@ -187,10 +211,30 @@
     // 모달창 script
     function openModal() {
         $("#myModal").css("display", "block");
+        // 이미 선택된 극장을 모달의 selected-theater에 추가
+        $(".theater-select div[data-theater-name-id]").each(function () {
+            const theaterName = $(this).data("theater");
+            const theaterNameId = $(this).data("theater-name-id");
+            const selectedTheater = $(`
+                <div data-theater="${theaterName}" data-theater-name-id="${theaterNameId}">
+                    ${theaterName}
+                    <button class="delete-button">&times;</button>
+                </div>
+            `);
+            selectedTheater.find('.delete-button').on('click', function () {
+                const parentDiv = $(this).parent();
+                const theaterName = parentDiv.data('theater');
+                $(`.theater-list-name div[data-theater="${theaterName}"]`).css('background-color', '');
+                myTheaterScrap = myTheaterScrap.filter(item => item.theaterNameId !== parentDiv.data('theater-name-id'));
+                parentDiv.remove();
+            });
+            $('.selected-theater').append(selectedTheater);
+        });
     }
 
     function closeModal() {
         $("#myModal").css("display", "none");
+        $('.selected-theater').empty(); // 모달 닫을 때 선택된 극장 목록 초기화
     }
 
     // area 거는 것
@@ -228,7 +272,7 @@
         $('.selected-theater div').each(function () {
 
             // 악 이거 지금 그냥 text만 찍으니까 &times; 이값이랑 같이 가져와서 그런다 ㅠㅠ contents~filter 같이 써야한다
-            // 지금은 밑에 data 넣어놔서 data 값으로 꺼내와도 되는데 번거로우니 바꾸지 않겠다!!
+            // 지금은 밑에 data 넣어놔서 data 값으로 꺼내와도 되는데 일단은 바꾸지 않겠다!!
             const textNode = $(this).contents().filter(function () {
                 return this.nodeType === 3; // 텍스트 노드만 선택
             }).text().trim();
