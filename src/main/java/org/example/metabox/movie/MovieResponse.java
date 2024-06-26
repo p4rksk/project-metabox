@@ -103,13 +103,13 @@ public class MovieResponse {
         public static class TrailerDTO {
             private int id;
             private String fileName;
-            private String m3u8name;
+            private String masterM3u8name;
 
             public static TrailerDTO fromEntity(Trailer trailer) {
                 TrailerDTO dto = new TrailerDTO();
                 dto.id = trailer.getId();
                 dto.fileName = trailer.getStreamingFilename();
-                dto.m3u8name= trailer.getM3u8Filename();
+                dto.masterM3u8name= trailer.getMasterM3U8Filename();
                 return dto;
             }
         }

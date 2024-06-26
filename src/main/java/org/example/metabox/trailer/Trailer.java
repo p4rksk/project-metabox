@@ -19,13 +19,13 @@ public class Trailer {
     private Movie movie;
 
     private String streamingFilename; // 스트리밍 파일 이름
-    private String m3u8Filename; //m3u8 파일 이름 또는 경로
+    private String masterM3U8Filename; // masterM3u8 파일 이름
 
     @Builder
-    public Trailer(int id, Movie movie, String streamingFilename, String m3u8Filename) {
+    public Trailer(int id, Movie movie, String streamingFilename, String masterM3U8Filename) {
         this.id = id;
         this.movie = movie;
         this.streamingFilename = streamingFilename;
-        this.m3u8Filename = m3u8Filename;
+        this.masterM3U8Filename = masterM3U8Filename;
     }
 }
