@@ -60,10 +60,12 @@ public class TheaterResponse {
             private class TheaterNameDTO {
                 private int theaterId;
                 private String theaterName;
+                private String areaCode;
 
                 public TheaterNameDTO(Theater theater) {
                     this.theaterId = theater.getId();
                     this.theaterName = theater.getName();
+                    this.areaCode = theater.getAreaCode();
                 }
             }
         }
