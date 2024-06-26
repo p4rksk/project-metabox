@@ -15,40 +15,30 @@ import java.io.IOException;
 
 
 @Slf4j
-@CrossOrigin
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/upload")
 public class TrailerController {
 
+    private final TrailerRepository trailerRepository;
     private final TrailerService trailerService;
 
-    @GetMapping("/{hlsName}.m3u8")
-    public ResponseEntity<Resource> getHls(@PathVariable String hlsName) throws IOException {
-        Resource resource = trailerService.getVideoRes(hlsName + ".m3u8");
+    @GetMapping("/{trailerId}/master.m3u8")
+    public ResponseEntity<Resource> getMasterM3U8(@PathVariable int trailerId) throws IOException {
+        // 트레일러 정보를 데이터베이스에서 조회
+        Trailer trailer = trailerRepository.findById(trailerId)
+                .orElseThrow(() -> new RuntimeException("트레일러를 찾을 수 없습니다."));
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=good.m3u8");
-        headers.setContentType(MediaType.parseMediaType("application/vnd.apple.mpegurl"));
-        return new ResponseEntity<>(resource, headers, HttpStatus.OK);
+        // 마스터 M3U8 파일 이름을 가져옴
+        String masterM3u8Filename = trailer.getMasterM3U8Filename();
+
+        // 파일 이름을 사용하여 리소스를 가져옴
+        Resource resource = trailerService.getVideoRes(masterM3u8Filename);
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_TYPE, "application/vnd.apple.mpegurl")
+                .body(resource);
     }
 
-    @GetMapping("/{tsName}.ts")
-    public ResponseEntity<Resource> getHlsTs(@PathVariable String tsName) throws IOException {
-
-        tsName = tsName + ".ts";
-        Resource resource = trailerService.getVideoRes(tsName);
-
-        HttpHeaders headers = new HttpHeaders();
-        // CONTENT_DISPOSITION : 다운로드 동작을 명시적으로 제어하고, 파일 이름을 지정할 수 있습니다.
-        headers.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + tsName);
-        headers.setContentType(MediaType.parseMediaType(MediaType.APPLICATION_OCTET_STREAM_VALUE));
-        return new ResponseEntity<>(resource, headers, HttpStatus.OK);
-    }
-
-    @GetMapping("/upload")
-    public ResponseEntity<?> convert() throws IOException {
-        trailerService.convertHls();
-        return ResponseEntity.ok().build();
-    }
 
 }

@@ -313,10 +313,10 @@
             <span>트레일러 3건</span>
         </div>
         <div class="row">
-
+            {{#model.trailers}}
             <div class="col-md-4 trailer-item">
                 <video height="600" id="video" controls></video>
-                <button class="play-button">&#9658;</button>
+                <button class="play-button" data-trailer-id = "{{id}}">&#9658;</button>
                 <div class="trailer-info">
                     <span class="badge">HD</span>
                     <span>메인 예고편</span>
@@ -325,6 +325,7 @@
                     <span>2024.03.14</span>
                 </div>
             </div>
+            {{/model.trailers}}
         </div>
     </div>
     <div class="carousel-container">
@@ -401,11 +402,38 @@
 <footer class="text-center mt-4">
     <p class="footer-text">© CGV. All Rights Reserved.</p>
 </footer>
-<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 <script>
+    $(document).ready(function() {
+        $('.play-button').on('click', function() {
+            var trailerId = $(this).data('trailer-id');
+            $.ajax({
+                url: '/upload/' + trailerId + '/master.m3u8',
+                method: 'GET',
+                success: function(response) {
+                    var video = document.getElementById('video');
+                    if (Hls.isSupported()) {
+                        var hls = new Hls();
+                        hls.loadSource('/upload/' + trailerId + '/master.m3u8');
+                        hls.attachMedia(video);
+                        hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                            video.play();
+                        });
+                    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                        video.src = '/videos/' + trailerId + '/master.m3u8';
+                        video.addEventListener('loadedmetadata', function() {
+                            video.play();
+                        });
+                    }
+                },
+                error: function(error) {
+                    console.error('Error loading master m3u8:', error);
+                }
+            });
+        });
+    });
+
+
     var ctxGender = document.getElementById('genderChart').getContext('2d');
     var genderChart = new Chart(ctxGender, {
         type: 'doughnut',
