@@ -1,77 +1,35 @@
-<div class="profile-card">
-    <div class="header">
-        <img src="{{model.userDTO.imgFilename}}">
-        <div class="info">
-            <h3>{{model.userDTO.name}}님</h3>
-            <p><strong>{{model.userDTO.nickname}}</strong></p>
-            <p>환영합니다! <span class="text-danger">최고의 영화</span> 와 함께 <span class="text-danger">특별한 시간</span>을 보내세요.</p>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6 points">
-            <h4>POINT <i class="fas fa-question-circle" data-toggle="tooltip"
-                         title="1,000P 이상부터 10P 단위로 사용 가능합니다."></i></h4>
-            <p>사용가능 포인트 <strong class="point-price">{{model.userDTO.point}} 점</strong></p>
-        </div>
-    </div>
-    <div class="grid theater-select">
-        {{#model.theaterScrapDTOS}}
-            <div style="font-size: 15px" data-theater-name-id="{{theaterId}}" data-theater="{{name}}">{{name}}</div>
-        {{/model.theaterScrapDTOS}}
-        <div class="setting" style="text-align: center; font-weight: bold" onclick="openModal()">빠른 극장 선택</div>
-    </div>
-</div>
-<!-- 모달창 html 디자인 -->
-<div id="myModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <div class="tab">
-            <div style="background-color: #4E0929; color: white">자주가는 META BOX</div>
-        </div>
-        <div class="tab-content active" id="tab1">
-            <div class="theater-list theater-area-list">
-                {{#model.theaterDTOS}}
-                    <div class="tab-button" data-theater-id="{{id}}" data-area="{{areaName}}">{{areaName}}</div>
-                {{/model.theaterDTOS}}
-            </div>
-        </div>
-        {{#model.theaterDTOS}}
-            <div class="tab-content area-name-list" id="area-name-list-{{id}}">
-                {{#theaterNameDTOS}}
-                    <div class="theater-list theater-list-name">
-                        <div data-theater-name-id="{{theaterId}}" data-theater="{{theaterName}}">{{theaterName}}</div>
-                    </div>
-                {{/theaterNameDTOS}}
-            </div>
-        {{/model.theaterDTOS}}
-        <div class="selected-theater">
-            <!-- 선택한 극장이 여기 표시됩니다 -->
-        </div>
-        <div class="button-container">
-            <button id="checkListButton" type="button" onclick="checkList()">확인</button>
-        </div>
-    </div>
-</div>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-<script src="https://kit.fontawesome.com/a076d05399.js"></script>
 <script>
-    // 항상 div 5개 유지하게
-    const maxSlots = 5;
-    const $grid = $('.grid');
-    const currentSlots = $grid.children().length - 1; // 설정 버튼 제외
-    const emptySlots = maxSlots - currentSlots;
-    for (let i = 0; i < emptySlots; i++) {
-        $('<div></div>').insertBefore('.setting');
+
+    // 극장 목록 업데이트 함수
+    function updateTheaterSelection(theaterScrapData) {
+        // theaterScrapData가 배열인지 확인합니다.
+        if (!Array.isArray(theaterScrapData)) {
+            console.error('Theater Scrap Data is not an array:', theaterScrapData);
+            return;
+        }
+
+        // theaterScrapData에 있는 데이터를 사용하여 DOM을 업데이트합니다.
+        const $grid = $('.grid');
+        $grid.find('div[data-theater-name-id]').remove(); // 기존 극장 목록 제거
+        theaterScrapData.forEach(theater => {
+            const theaterElement = `<div style="font-size: 15px" data-theater-name-id="${theater.theaterNameId}" data-theater="${theater.name}">${theater.name}</div>`;
+            $(theaterElement).insertBefore('.setting');
+        });
+
+        // 항상 div 5개 유지하게
+        const maxSlots = 5;
+        const currentSlots = $grid.children().length - 1; // 설정 버튼 제외
+        const emptySlots = maxSlots - currentSlots;
+
+        for (let i = 0; i < emptySlots; i++) {
+            $('<div></div>').insertBefore('.setting');
+        }
     }
-    // 스크랩 납치
-    let myTheaterScrap = [];
+
     function checkList() {
         let userId = {{model.userDTO.id}};
-        console.log("userId " + userId);
         $('.selected-theater div').each(function () {
             let theaterNameId = $(this).data("theater-name-id");
-            console.log("극장pk " + theaterNameId);
             if (!myTheaterScrap.some(item => item.theaterNameId === theaterNameId)) {
                 let selectList = {
                     theaterNameId: theaterNameId,
@@ -80,6 +38,7 @@
                 myTheaterScrap.push(selectList);
             }
         });
+
         $.ajax({
             url: '/mypage/home/scrap',
             data: JSON.stringify(myTheaterScrap),
@@ -88,20 +47,24 @@
         }).done((res) => {
             alert("자주가는 META BOX 설정이 완료되었습니다.");
             closeModal();
-            location.reload();
+            updateTheaterSelection(res); // 서버에서 받은 새로운 데이터를 사용하여 업데이트
         }).fail((res) => {
             alert("error!");
         });
     }
-    // 툴팁
+
+    //툴팁
     $('[data-toggle="tooltip"]').tooltip();
-    // 모달창 열기
+
+    // 모달창 script
     function openModal() {
         $("#myModal").css("display", "block");
+
         // 이미 선택된 극장을 모달의 selected-theater에 추가
         $(".theater-select div[data-theater-name-id]").each(function () {
             const theaterName = $(this).data("theater");
             const theaterNameId = $(this).data("theater-name-id");
+            $(`.theater-list-name div[data-theater="${theaterName}"]`).css('background-color', '#c6c6c6');
             const selectedTheater = $(`
                 <div data-theater="${theaterName}" data-theater-name-id="${theaterNameId}">
                     ${theaterName}
@@ -118,54 +81,82 @@
             $('.selected-theater').append(selectedTheater);
         });
     }
-    // 모달창 닫기
+
     function closeModal() {
         $("#myModal").css("display", "none");
         $('.selected-theater').empty(); // 모달 닫을 때 선택된 극장 목록 초기화
     }
-    // area 선택 시 극장 목록 표시
+
+    // area 거는 것
     $('.theater-area-list').on('click', '.tab-button', function () {
         let id = $(this).data('theater-id');
         $('.area-name-list').removeClass('active');
         $('#area-name-list-' + id).addClass('active');
     });
-    // 최대 5개의 극장 선택 제한
+
+    // 최대 5개. 중복체크도 필요함
     const maxSelectedTheaters = 5;
-    // 극장 선택
-    $('.theater-list-name').on('click', 'div', function () {
-        $(this).css('background-color', '#C6C6C6');
+
+    // MEATABOX 강남 거는 것
+    $('.theater-list-name div').on('click', function () {
+        $(this).css({
+            'background-color': '#c6c6c6',
+        });
+
         const theaterName = $(this).data('theater');
-        const theaterNameId = $(this).data('theater-name-id');
+
         let isSelected = false;
         $('.selected-theater div').each(function () {
             const textNode = $(this).contents().filter(function () {
                 return this.nodeType === 3;
             }).text().trim();
+
             if (textNode === theaterName) {
                 isSelected = true;
                 return false;
             }
         });
+
         if (isSelected) {
             return;
         }
+
         if ($('.selected-theater div').length >= maxSelectedTheaters) {
             alert('최대 5개의 극장만 선택할 수 있습니다.');
             return;
         }
+
+        let theaterNameIds = $(this).data("theater-name-id");
+
         const selectedTheater = $(`
-            <div data-theater="${theaterName}" data-theater-name-id="${theaterNameId}">
+            <div data-theater="${theaterName}" data-theater-name-id="${theaterNameIds}">
                 ${theaterName}
                 <button class="delete-button">&times;</button>
             </div>
         `);
+
         selectedTheater.find('.delete-button').on('click', function () {
             const parentDiv = $(this).parent();
             const theaterName = parentDiv.data('theater');
-            $(`.theater-list-name div[data-theater="${theaterName}"]`).css('background-color', '');
+            $(`.theater-list-name div[data-theater="${theaterName}"]`).css({
+                'background-color': '',
+            });
             myTheaterScrap = myTheaterScrap.filter(item => item.theaterNameId !== parentDiv.data('theater-name-id'));
-            parentDiv.remove();
+            $(this).parent().remove();
         });
+
         $('.selected-theater').append(selectedTheater);
     });
+
+    // 천단위 표시 재사용 해야할 함수
+    function numberWithCommas(num) {
+        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+    // 처음에 들어갔을때 천단위 구분자 나오게
+    $(".point-price").each(function () {
+        let pointPrice = $(this).text();
+        $(this).text(numberWithCommas(pointPrice));
+    });
+
 </script>
