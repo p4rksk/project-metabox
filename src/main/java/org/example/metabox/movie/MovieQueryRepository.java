@@ -86,7 +86,7 @@ public class MovieQueryRepository {
     }
 
 
-    //
+    // 테스트 o
     //아직 관람 안한 영화 // 나머지 받기
     public List<UserResponse.DetailBookDTO.TicketingDTO> findUnwatchTicketV2(Integer sessionUserId, List<UserResponse.DetailBookDTO.TotalPriceDTO> totalPriceDTOs, List<UserResponse.DetailBookDTO.SeatDTO> seatDTOS) {
         String q = """

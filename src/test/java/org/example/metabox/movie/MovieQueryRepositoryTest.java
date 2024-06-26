@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -45,18 +46,20 @@ public class MovieQueryRepositoryTest {
     public void findUnwatchTicketV2_test(){
         // given
         Integer sessionUserId = 1;
-        List<UserResponse.DetailBookDTO.TotalPriceDTO> totalPriceDTOs;
-        List<UserResponse.DetailBookDTO.SeatDTO> seatDTOS;
+        List<UserResponse.DetailBookDTO.TotalPriceDTO> totalPriceDTOs = new ArrayList<>();
+        List<UserResponse.DetailBookDTO.SeatDTO> seatDTOS = new ArrayList<>();
+        totalPriceDTOs.add(new UserResponse.DetailBookDTO.TotalPriceDTO(1, 180000));
+        seatDTOS.add(new UserResponse.DetailBookDTO.SeatDTO(1,"1234"));
 
         // when
-        List<UserResponse.DetailBookDTO.TicketingDTO> seatDTOS = movieQueryRepository.findUnwatchTicketV2(sessionUserId);
+        List<UserResponse.DetailBookDTO.TicketingDTO> ticketingDTOS = movieQueryRepository.findUnwatchTicketV2(sessionUserId, totalPriceDTOs, seatDTOS);
 
         // then
-        System.out.println("seatDTOS = " + seatDTOS);
-        assertThat(seatDTOS.get(0).getBookId()).isEqualTo(1);
-        assertThat(seatDTOS.get(2).getBookId()).isEqualTo(2);
-        assertThat(seatDTOS.get(1).getSeatCode()).isEqualTo("E11");
-        assertThat(seatDTOS.get(2).getSeatCode()).isEqualTo("E4");
+        System.out.println("ticketingDTOS = " + ticketingDTOS);
+        assertThat(ticketingDTOS.get(0).getId()).isEqualTo(1);
+        assertThat(ticketingDTOS.get(0).getTitle()).isEqualTo("인사이드 아웃 2");
+        assertThat(ticketingDTOS.get(0).getEngTitle()).isEqualTo("Inside Out 2");
+        assertThat(ticketingDTOS.get(0).getAgeInfo()).isEqualTo("전");
 
     }
 
@@ -72,7 +75,6 @@ public class MovieQueryRepositoryTest {
         System.out.println("totalPriceDTOS = " + totalPriceDTOS);
         assertThat(totalPriceDTOS.get(0).getBookId()).isEqualTo(1);
         assertThat(totalPriceDTOS.get(1).getTotalPrice()).isEqualTo(180000);
-
     }
     
     @Test
