@@ -85,6 +85,7 @@ public class MovieResponse {
         private List<ReviewDTO> reviews;
         private Integer reviewCount;
         private Integer stillsCount;
+        private Integer trailersCount;
 
         @Data
         public static class MoviePicDTO {
@@ -104,11 +105,13 @@ public class MovieResponse {
         public static class TrailerDTO {
             private int id;
             private String fileName;
+            private String masterM3u8name;
 
             public static TrailerDTO fromEntity(Trailer trailer) {
                 TrailerDTO dto = new TrailerDTO();
                 dto.id = trailer.getId();
                 dto.fileName = trailer.getStreamingFilename();
+                dto.masterM3u8name= trailer.getMasterM3U8Filename();
                 return dto;
             }
         }
