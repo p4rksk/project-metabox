@@ -5770,6 +5770,8 @@ values ('kakao_3587969747', 'http://k.kakaocdn.net/dn/ML8Oz/btsF1tO0SFt/lDxdKk8E
         '박찬혁', '1997', 'kakao', now(), 'asdfdsa', 21000),
        ('kakao_3586886160', 'http://k.kakaocdn.net/dn/bbhhIh/btsH8BwWtD7/VkichtT9KFwCLkmuucDNTk/img_640x640.jpg',
         '송채현', '1995', 'kakao', now(), 'asdfdsa', 21000),
+       ('kakao_3596460276', 'http://k.kakaocdn.net/dn/s5uAz/btsHXDJbWgx/eEg0CRsso6lVxkYCZFdSrK/img_640x640.jpg',
+        '이서현', '2000', 'kakao', now(), 'asdfdsa', 21000),
        ('바끄선규', 'default.png', '박선규', '2000', 'kakao', now(), 'asdfdsa', 0),
        ('서르동훈', 'default.png', '설동훈', '1996', 'kakao', now(), 'fdsafdsa', 0),
        ('영화박사', 'default.png', '손세정', '1976', 'naver', now(), 'fdsafdsa', 0),
