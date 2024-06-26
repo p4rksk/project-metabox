@@ -2,6 +2,7 @@ package org.example.metabox.movie_scrap;
 
 import lombok.Data;
 
+import java.sql.Date;
 import java.util.List;
 
 public class MovieScrapResponse {
@@ -24,6 +25,8 @@ public class MovieScrapResponse {
         private Integer userId;
         private String title;
         private String imgFilename;
+        private Date startDate;
+        private Date endDate;
 
         public ScrapMovieListDTO(MovieScrap movieScrap) {
             this.id = movieScrap.getId();
@@ -31,6 +34,8 @@ public class MovieScrapResponse {
             this.userId = movieScrap.getUser().getId();
             this.title = movieScrap.getMovie().getTitle();
             this.imgFilename = movieScrap.getMovie().getImgFilename();
+            this.startDate = movieScrap.getMovie().getStartDate();
+            this.endDate = movieScrap.getMovie().getEndDate();
         }
     }
 }

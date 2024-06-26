@@ -22,7 +22,7 @@ public class MovieScrapController {
     public String scrapMovie(@PathVariable Integer id) {
         SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
         movieScrapService.movieScrap(id,sessionUser.getId());
-        return "redirect:/movies/list";
+        return "redirect:/movies/detail/"+id;
     }
 
     @GetMapping("/scrap/movie/list")
