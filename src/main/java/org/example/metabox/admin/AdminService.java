@@ -59,6 +59,7 @@ public class AdminService {
 
         // RootAdminResponseDTO를 생성하여 반환
         return AdminResponse.RootAdminResponseDTO.builder()
+                // TODO: 더미데이터가 이상한 거 같음
                 .totalSales(FormatUtil.moneyFormat(totalSales))
                 .theaterSales(theaterSalesDTOList)
                 .build();
