@@ -15,9 +15,9 @@
         </div>
     </div>
 
-    <div class="grid">
+    <div class="grid theater-select">
         {{#model.theaterScrapDTOS}}
-            <div style="font-size: 15px">{{name}}</div>
+            <div style="font-size: 15px" data-theater-name-id="{{theaterId}}" data-theater="{{name}}">{{name}}</div>
         {{/model.theaterScrapDTOS}}
         <div class="setting" style="text-align: center; font-weight: bold" onclick="openModal()">빠른 극장 선택</div>
     </div>
@@ -25,6 +25,15 @@
 </div>
 
 <script>
+
+    // $(".theater-select div").on("click", function() {
+    //     let theaterName = $(this).data("theater");
+    //     let theaterId = $(this).data("theater-name-id");
+    //     console.log("네네 " + theaterName);
+    //     console.log("극장 ID: " + theaterId);
+    // });
+
+
     <!--    천단위 표시 재사용 해야할 함수 -->
     function numberWithCommas(num) {
         return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");

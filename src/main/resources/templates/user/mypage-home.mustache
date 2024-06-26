@@ -101,6 +101,7 @@
 
         <div class="selected-theater">
             <!-- 선택한 극장이 여기 표시됩니다 -->
+
         </div>
 
         <div class="button-container">
@@ -200,24 +201,20 @@
         $('.area-name-list').removeClass('active');
         // 클릭한 버튼과 일치하는 영역 표시
         $('#area-name-list-' + id).addClass('active');
-
     });
 
     // 모달창 닫기
-    $(window).on('click', function (event) {
-        if (event.target == $("#myModal")[0]) {
-            closeModal();
-        }
-    });
+    // $(window).on('click', function (event) {
+    //     if (event.target == $("#myModal")[0]) {
+    //         closeModal();
+    //     }
+    // });
 
     // 최대 5개. 중복체크도 필요함
     const maxSelectedTheaters = 5;
 
     // MEATABOX 강남 거는 것
     $('.theater-list-name div').on('click', function () {
-
-        // alert("알림");
-
         $(this).css({
             'background-color': '#c6c6c6', // 배경색도 추가
         });
@@ -291,6 +288,7 @@
         $('.selected-theater').append(selectedTheater);
 
     });
+
 
 
 </script>

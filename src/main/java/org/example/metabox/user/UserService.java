@@ -134,7 +134,7 @@ public class UserService {
         List<TheaterScrap> scraps = theaterScrapRepository.findByUserId(sessionUser.getId());
 //        System.out.println("스크랩 " + scraps);   // 스크랩 [TheaterScrap(id=4), TheaterScrap(id=5), TheaterScrap(id=6)]
         List<UserResponse.DetailBookDTO.TheaterScrapDTO> theaterScrapDTOS = scraps.stream().map(theaterScrap ->
-                new UserResponse.DetailBookDTO.TheaterScrapDTO(theaterScrap.getTheater().getName())).toList();
+                new UserResponse.DetailBookDTO.TheaterScrapDTO(theaterScrap.getTheater().getId(), theaterScrap.getTheater().getName())).toList();
 
         // DetailBookDTO 로 변형
         UserResponse.DetailBookDTO detailBookDTO = UserResponse.DetailBookDTO.builder()
@@ -189,9 +189,9 @@ public class UserService {
         }
 
         List<TheaterScrap> scraps = theaterScrapRepository.findByUserId(sessionUser.getId());
-//        System.out.println("스크랩 " + scraps);   // 스크랩 [TheaterScrap(id=4), TheaterScrap(id=5), TheaterScrap(id=6)]
+        System.out.println("스크랩 " + scraps);   // 스크랩 [TheaterScrap(id=4), TheaterScrap(id=5), TheaterScrap(id=6)]
         List<UserResponse.MyPageHomeDTO.TheaterScrapDTO> theaterScrapDTOS = scraps.stream().map(theaterScrap ->
-                new UserResponse.MyPageHomeDTO.TheaterScrapDTO(theaterScrap.getTheater().getName())).toList();
+                new UserResponse.MyPageHomeDTO.TheaterScrapDTO(theaterScrap.getTheater().getId(), theaterScrap.getTheater().getName())).toList();
 
         UserResponse.MyPageHomeDTO homeDTO = new UserResponse.MyPageHomeDTO(userDTO, ticketingDTOS, theaterDTOS, theaterScrapDTOS, ticketCount);
 //        UserResponse.MyPageHomeDTO homeDTO = UserResponse.MyPageHomeDTO.builder()

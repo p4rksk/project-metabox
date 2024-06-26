@@ -38,9 +38,11 @@ public class UserResponse {
 
         @Data
         public static class TheaterScrapDTO {
+            private Integer theaterId;     // TheaterScrapId (theaterId)
             private String name;    //theaterName
 
-            public TheaterScrapDTO(String name) {
+            public TheaterScrapDTO(Integer theaterId, String name) {
+                this.theaterId = theaterId;
                 this.name = name;
             }
         }
@@ -325,9 +327,11 @@ public class UserResponse {
 
         @Data
         public static class TheaterScrapDTO {
+            private Integer theaterId;     // TheaterScrapId (theaterId)
             private String name;    //theaterName
 
-            public TheaterScrapDTO(String name) {
+            public TheaterScrapDTO(Integer theaterId, String name) {
+                this.theaterId = theaterId;
                 this.name = name;
             }
         }
