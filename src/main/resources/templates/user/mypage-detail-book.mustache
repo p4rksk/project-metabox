@@ -38,8 +38,10 @@
                                 <small>({{engTitle}})</small></strong></h5>
                             <p class="card-text">관람일시 {{date}} ({{startTime}} ~ {{endTime}})</p>
                             <p class="card-text">관람극장 {{theaterName}} ({{name}})</p>
-                            <p class="card-text">관람좌석 {{#seatCodes}}{{.}}{{/seatCodes}}</p>
-                            <p class="card-text">가격 {{totalPrice}}</p>
+                            <p class="card-text">관람좌석 {{#seatCodes}}
+                                {{.}}번
+                            {{/seatCodes}}</p>
+                            <p class="card-text total-price">결제금액 {{totalPrice}}</p>
                         </div>
                     {{/model.ticketingDTO}}
                 </div>
@@ -133,6 +135,7 @@
 
         <div class="selected-theater">
             <!-- 선택한 극장이 여기 표시됩니다 -->
+
         </div>
 
         <div class="button-container">
@@ -141,6 +144,7 @@
 
     </div>
 </div>
+
 
 <script>
 
@@ -338,6 +342,20 @@
         });
     });
 
+    <!--    천단위 표시 재사용 해야할 함수 -->
+    function numberWithCommas(num) {
+        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+    //처음에 들어갔을때 천단위 구분자 나오게
+    $(".total-price").each(function () {
+        let totalPrice = $(this).text();    // p태그라 text
+        $(this).text(numberWithCommas(totalPrice));
+
+    });
+
 </script>
+
+
 
 {{> layout/footer}}
