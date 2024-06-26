@@ -35,11 +35,11 @@
                         <div class="col-md-9" style="padding-top: 5%">
                             <h5 class="card-title" style="margin-top: -5%;">
                                 <strong><small class="{{ageColor}}">{{ageInfo}}</small>{{title}}
-                                <small>{{engTitle}}</small></strong></h5>
+                                <small>({{engTitle}})</small></strong></h5>
                             <p class="card-text">관람일시 {{date}} ({{startTime}} ~ {{endTime}})</p>
                             <p class="card-text">관람극장 {{theaterName}} ({{name}})</p>
-                            <p class="card-text">관람좌석 {{#model.seatDTOS}}{{seatCode}}{{/model.seatDTOS}}</p>
-                            <p class="card-text">가격 {{#model.totalPriceDTO}}{{totalPrice}}{{/model.totalPriceDTO}}</p>
+                            <p class="card-text">관람좌석 {{#seatCodes}}{{.}}{{/seatCodes}}</p>
+                            <p class="card-text">가격 {{totalPrice}}</p>
                         </div>
                     {{/model.ticketingDTO}}
                 </div>

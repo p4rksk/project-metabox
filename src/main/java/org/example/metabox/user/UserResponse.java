@@ -218,11 +218,7 @@ public class UserResponse {
                 }
 
             }
-
-
-
     }
-
 
 
     //마이페이지 DetailBook
@@ -233,42 +229,16 @@ public class UserResponse {
         private List<TheaterDTO> theaterDTOS = new ArrayList<>();
         private List<TheaterScrapDTO> theaterScrapDTOS = new ArrayList<>();
         private List<TicketingDTO> ticketingDTO = new ArrayList<>();
-        private List<SeatDTO> seatDTOS = new ArrayList<>();
-        private List<TotalPriceDTO> totalPriceDTO;
+//        private List<SeatDTO> seatDTOS = new ArrayList<>();
+//        private List<TotalPriceDTO> totalPriceDTO;
 
         @Builder
-        public DetailBookDTO(UserDTO userDTO, List<MovieChartDTO> movieCharts, List<TheaterDTO> theaterDTOS, List<TheaterScrapDTO> theaterScrapDTOS, List<TicketingDTO> ticketingDTO, List<SeatDTO> seatDTOS, List<TotalPriceDTO> totalPriceDTO) {
+        public DetailBookDTO(UserDTO userDTO, List<MovieChartDTO> movieCharts, List<TheaterDTO> theaterDTOS, List<TheaterScrapDTO> theaterScrapDTOS, List<TicketingDTO> ticketingDTO) {
             this.userDTO = userDTO;
             this.movieCharts = movieCharts;
             this.theaterDTOS = theaterDTOS;
             this.theaterScrapDTOS = theaterScrapDTOS;
             this.ticketingDTO = ticketingDTO;
-            this.seatDTOS = seatDTOS;
-            this.totalPriceDTO = totalPriceDTO;
-        }
-
-        @Data
-        public static class TotalPriceDTO {
-            private Integer ticketId;
-            private Integer totalPrice;
-
-            @Builder
-            public TotalPriceDTO(Integer ticketId, Integer totalPrice) {
-                this.ticketId = ticketId;
-                this.totalPrice = totalPrice;
-            }
-        }
-
-        @Data
-        public static class SeatDTO {
-            private Integer ticketId;
-            private String seatCode;   //좌석
-
-            @Builder
-            public SeatDTO(Integer ticketId, String seatCode) {
-                this.ticketId = ticketId;
-                this.seatCode = seatCode;
-            }
         }
 
         // 마이페이지 아직 관람 안한 예매내역
@@ -286,9 +256,12 @@ public class UserResponse {
             private Integer userId;
             private String ageInfo;     // 전체, 12세, 15세, 19세
             private String ageColor;
+            // 애 한 번 돌때 여러번 돌고, 일치하는 것만 나오게
+            private Integer totalPrice;
+            private List<String> seatCodes = new ArrayList<>();
 
             @Builder
-            public TicketingDTO(Integer id, String title, String imgFilename, String engTitle, Date date, String startTime, String endTime, String name, String theaterName, Integer userId, String ageInfo) {
+            public TicketingDTO(Integer id, String title, String imgFilename, String engTitle, Date date, String startTime, String endTime, String name, String theaterName, Integer userId, String ageInfo, List<TotalPriceDTO> totalPriceDTOS, List<SeatDTO> seatDTOS) {
                 this.id = id;
                 this.title = title;
                 this.imgFilename = imgFilename;
@@ -301,6 +274,13 @@ public class UserResponse {
                 this.userId = userId;
                 this.ageInfo = ageInfo;
                 this.ageColor = classColor();
+
+                this.totalPrice = totalPriceDTOS.stream().filter(totalPrice -> totalPrice.getBookId().equals(this.id))
+                        .map(totalPriceDTO -> totalPriceDTO.getTotalPrice())
+                        .findFirst().orElse(0);
+                this.seatCodes = seatDTOS.stream().filter(seat -> seat.getBookId().equals(this.id))
+                        .map(seatDTO -> seatDTO.getSeatCode())
+                        .toList();
             }
 
             public String classColor() {
@@ -316,6 +296,30 @@ public class UserResponse {
                     return "";
                 }
 
+            }
+        }
+
+        @Data
+        public static class TotalPriceDTO {
+            private Integer bookId;
+            private Integer totalPrice;
+
+            @Builder
+            public TotalPriceDTO(Integer bookId, Integer totalPrice) {
+                this.bookId = bookId;
+                this.totalPrice = totalPrice;
+            }
+        }
+
+        @Data
+        public static class SeatDTO {
+            private Integer bookId;
+            private String seatCode;   //좌석
+
+            @Builder
+            public SeatDTO(Integer bookId, String seatCode) {
+                this.bookId = bookId;
+                this.seatCode = seatCode;
             }
         }
 

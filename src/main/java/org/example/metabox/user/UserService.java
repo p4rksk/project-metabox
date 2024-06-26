@@ -99,8 +99,8 @@ public class UserService {
         UserResponse.DetailBookDTO.UserDTO userDTO = new UserResponse.DetailBookDTO.UserDTO(userOP);
 //        //내 예매내역 중 좌석, 티켓
         List<UserResponse.DetailBookDTO.SeatDTO> seatDTOs = movieQueryRepository.findUnwatchTicketV1(sessionUser.getId());
-        List<UserResponse.DetailBookDTO.TicketingDTO> ticketingDTOs = movieQueryRepository.findUnwatchTicketV2(sessionUser.getId());
         List<UserResponse.DetailBookDTO.TotalPriceDTO> totalPriceDTOs = movieQueryRepository.findUnwatchTicketV3(sessionUser.getId());
+        List<UserResponse.DetailBookDTO.TicketingDTO> ticketingDTOs = movieQueryRepository.findUnwatchTicketV2(sessionUser.getId(), totalPriceDTOs, seatDTOs);
 
         System.out.println("1111" + seatDTOs);
 //        System.out.println("2222" + ticketingDTOs);
@@ -114,8 +114,7 @@ public class UserService {
 
         // areaName 중복제거    //theaterDistinct = [서울, 경기, 인천, 강원, 대전/충청, 대구, 부산/울산, 경상, 광주/전라/제주]
         List<String> theaterDistinct = theaterList.stream().map(theater -> theater.getAreaName())
-                .distinct()
-                .collect(Collectors.toList());
+                .distinct().collect(Collectors.toList());
 
         // METABOX 강남 METABOX 여수 .. 이런 것이 지역별로 맞게 나와야함 . filter 사용
         List<UserResponse.DetailBookDTO.TheaterDTO> theaterDTOS = new ArrayList<>();
@@ -143,9 +142,7 @@ public class UserService {
                 .movieCharts(movieChartDTOS)
                 .theaterDTOS(theaterDTOS)
                 .theaterScrapDTOS(theaterScrapDTOS)
-                .seatDTOS(seatDTOs)
                 .ticketingDTO(ticketingDTOs)
-                .totalPriceDTO(totalPriceDTOs)
                 .build();
 
         return detailBookDTO;

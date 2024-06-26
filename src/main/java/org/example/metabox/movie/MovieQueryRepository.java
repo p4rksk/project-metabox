@@ -61,11 +61,11 @@ public class MovieQueryRepository {
         List<UserResponse.DetailBookDTO.TotalPriceDTO> totalPriceDTOS = new ArrayList<>();
 
         for (Object[] row : rows) {
-            Integer ticketId = (Integer) row[0];
+            Integer bookId = (Integer) row[0];
             Integer totalPrice = (Integer) row[1];
 
             UserResponse.DetailBookDTO.TotalPriceDTO totalPriceDTO = UserResponse.DetailBookDTO.TotalPriceDTO.builder()
-                    .ticketId(ticketId)
+                    .bookId(bookId)
                     .totalPrice(totalPrice)
                     .build();
 
@@ -93,11 +93,11 @@ public class MovieQueryRepository {
         List<UserResponse.DetailBookDTO.SeatDTO> seatDTOS = new ArrayList<>();
 
         for (Object[] row : rows) {
-            Integer ticketId = (Integer) row[0];
+            Integer bookId = (Integer) row[0];
             String code = (String) row[1];
 
             UserResponse.DetailBookDTO.SeatDTO seatDTO = UserResponse.DetailBookDTO.SeatDTO.builder()
-                    .ticketId(ticketId)
+                    .bookId(bookId)
                     .seatCode(code)
                     .build();
 
@@ -109,7 +109,7 @@ public class MovieQueryRepository {
 
 
     //아직 관람 안한 영화 // 나머지 받기
-    public List<UserResponse.DetailBookDTO.TicketingDTO> findUnwatchTicketV2(Integer sessionUserId) {
+    public List<UserResponse.DetailBookDTO.TicketingDTO> findUnwatchTicketV2(Integer sessionUserId, List<UserResponse.DetailBookDTO.TotalPriceDTO> totalPriceDTOs, List<UserResponse.DetailBookDTO.SeatDTO> seatDTOS) {
         String q = """
                     SELECT m.title, m.img_filename, m.eng_title, 
                     SUBSTRING(m.info, 1, 2), si.date as "관람일시", si.start_time as "시작시간",
@@ -161,6 +161,8 @@ public class MovieQueryRepository {
                     .name(name)
                     .theaterName(theaterName)
                     .userId(userId)
+                    .totalPriceDTOS(totalPriceDTOs)
+                    .seatDTOS(seatDTOS)
                     .build();
 
             ticketingDTOList.add(ticketingDTO);
