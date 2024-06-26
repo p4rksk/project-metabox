@@ -211,10 +211,12 @@
     // 모달창 script
     function openModal() {
         $("#myModal").css("display", "block");
+
         // 이미 선택된 극장을 모달의 selected-theater에 추가
         $(".theater-select div[data-theater-name-id]").each(function () {
             const theaterName = $(this).data("theater");
             const theaterNameId = $(this).data("theater-name-id");
+            $(`.theater-list-name div[data-theater="${theaterName}"]`).css('background-color', '#c6c6c6');
             const selectedTheater = $(`
                 <div data-theater="${theaterName}" data-theater-name-id="${theaterNameId}">
                     ${theaterName}
@@ -333,6 +335,17 @@
 
     });
 
+    <!--    천단위 표시 재사용 해야할 함수 -->
+    function numberWithCommas(num) {
+        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+    //처음에 들어갔을때 천단위 구분자 나오게
+    $(".point-price").each(function () {
+        let pointPrice = $(this).text();    // p태그라 text
+        $(this).text(numberWithCommas(pointPrice));
+
+    });
 
 
 </script>
