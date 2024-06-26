@@ -28,9 +28,9 @@
                 </div>
                 <div class="col-md-4">
                     <a href="/mypage/detail-saw" style="text-decoration: none; color: inherit;">
-                        ⭐
-                        <h6>내가 쓴 평점</h6>
-                        <p>관람 후 내 느낌을<br>점수로 남기고 싶다면?</p>
+                        💌
+                        <h6>1:1 문의 내역</h6>
+                        <p>문의한 내용을<br>확인하고 싶다면?</p>
                     </a>
                 </div>
             </div>
@@ -38,21 +38,23 @@
             <br>
 
             <div class="mt-4">
-                <h5>MY 예매내역 0건 <span class="add-button">+</span></h5>
+                <h5>MY 예매내역 {{model.ticketCount}}건
+                    <a href="/mypage/detail-saw" class="add-button" style="text-decoration: none; color: inherit;">+</a>
+                </h5>
+                <p style="margin-top: -18px">지난 <span class="text-danger">1개월</span>까지의 예매내역을 확인하실 수 있습니다.</p>
 
-                <div class="mt-4 boxed">
+                <div class="mt-3 boxed">
                     {{#model.ticketingDTO}}
                         <div class="row">
                             <div class="col-md-3">
                                 <img src="/image/movie/{{imgFilename}}" class="img-fluid"
                                      style="width: 100px; height: 150px">
-                                <p class="card-text">예매번호 이거 맞춰야합니다~</p>
                             </div>
                             <div class="col-md-9" style="padding-top: 5%">
                                 <h5 class="card-title"><strong>{{title}}</strong></h5>
                                 <p class="card-text">관람극장 {{theaterName}} ({{name}})</p>
-                                <p class="card-text">관람일시 {{date}}</p>
-                                <p class="card-text">상영시간 {{startTime}} ({{startTime}} ~ {{endTime}})</p>
+                                <p class="card-text">관람일시 {{date}} ({{startTime}} ~ {{endTime}})</p>
+                                <p class="card-text">예매번호 이거 맞춰야합니다~</p>
                             </div>
                         </div>
                     {{/model.ticketingDTO}}
