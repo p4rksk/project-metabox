@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -13,20 +14,19 @@ public class MovieController {
 
     private final MovieService movieService;
 
+    // 무비 차트(기본값 - 예매율순)
     @GetMapping("/movies/list")
     public String list(HttpServletRequest request) {
-        // 상영 중 또는 개봉 예정인 영화 정보를 가져와 movies 리스트에 저장합니다.
         List<MovieResponse.UserMovieChartDTO> movies = movieService.getMovieChart();
-
-        // HttpServletRequest에 movies를 추가합니다.
         request.setAttribute("models", movies);
-
-        // "movie/list" 뷰를 반환하여 영화 리스트 페이지를 표시합니다.
         return "movie/list";
     }
 
-    @GetMapping("/movies/detail")
-    public String detail() {
+    // 영화 상세 페이지
+    @GetMapping("/movies/detail/{movieId}")
+    public String detail(@PathVariable("movieId") int movieId, HttpServletRequest request) {
+        MovieResponse.MovieDetailDTO movieDetail = movieService.getMovieDetail(movieId);
+        request.setAttribute("model", movieDetail);
         return "movie/detail";
     }
 }

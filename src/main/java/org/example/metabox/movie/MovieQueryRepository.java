@@ -1,11 +1,14 @@
 package org.example.metabox.movie;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.Query;
 import lombok.RequiredArgsConstructor;
+import org.example.metabox.trailer.Trailer;
 import org.example.metabox.user.UserResponse;
 import org.springframework.stereotype.Repository;
 
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
@@ -230,12 +233,86 @@ public class MovieQueryRepository {
             FROM movie_tb m
             LEFT JOIN screening_info_tb si ON m.id = si.movie_id
             LEFT JOIN seat_book_tb sb ON si.id = sb.screening_info_id
-            WHERE si.date >= '2024-06-21'
+            WHERE m.end_date >= CURRENT_DATE
             GROUP BY m.id, m.title, m.img_filename, m.info, m.start_date
             ORDER BY bookingRate DESC;
             """;
         Query query = em.createNativeQuery(sql);
         List<Object[]> results = query.getResultList();
         return results;
+    }
+
+    public List<Object[]> getAdminMovieChart() {
+        // PK, 순위, 연령, 포스터, 제목, 예매율, 개봉일, 상영 상태
+        // TODO: WHERE si2.date >= '2024-06-21' -> CURRENT_DATE
+        String sql = """
+            SELECT
+                m.id,
+                m.title,
+                m.img_filename,
+                m.info,
+                m.start_date,
+                COUNT(sb.book_id) * 1.0 / (
+                                            SELECT COUNT(sb2.book_id)
+                                            FROM seat_book_tb sb2
+                                            JOIN screening_info_tb si2
+                                            ON sb2.screening_info_id = si2.id
+                                            WHERE si2.date >= '2024-06-21'
+                                            ) AS bookingRate
+            FROM movie_tb m
+            LEFT JOIN screening_info_tb si ON m.id = si.movie_id
+            LEFT JOIN seat_book_tb sb ON si.id = sb.screening_info_id
+            WHERE m.end_date >= CURRENT_DATE
+            GROUP BY m.id, m.title, m.img_filename, m.info, m.start_date
+            ORDER BY bookingRate DESC;
+            """;
+        Query query = em.createNativeQuery(sql);
+        List<Object[]> results = query.getResultList();
+        return results;
+    }
+
+    // TODO: 쿼리로만 할 수 있음.. 서비스로 구현은 나중에
+    // 예매율을 계산하는 메서드
+    public double getBookingRate(Integer movieId) {
+        String sql = """
+            
+                SELECT
+                COUNT(sb.book_id) * 1.0 / (
+                                            SELECT COUNT(sb2.book_id)
+                                            FROM seat_book_tb sb2
+                                            JOIN screening_info_tb si2
+                                            ON sb2.screening_info_id = si2.id
+                                            WHERE si2.date >= '2024-06-21'
+                                            ) AS bookingRate
+            FROM movie_tb m
+            LEFT JOIN screening_info_tb si ON m.id = si.movie_id
+            LEFT JOIN seat_book_tb sb ON si.id = sb.screening_info_id
+            WHERE si.date >= '2024-06-21' AND si.movie_id = ?
+            GROUP BY si.movie_id;
+            """;
+        // 네이티브 쿼리 생성
+        Query query = em.createNativeQuery(sql);
+        query.setParameter(1, movieId);
+
+        try {
+            // 쿼리 실행 및 결과 가져오기
+            Object result = query.getSingleResult();
+            if (result == null) return 0.0;
+
+            // 결과를 double로 변환
+            double bookingRate = ((Number) result).doubleValue();
+
+            // 퍼센트로 변환
+            bookingRate = bookingRate * 100;
+
+            // 소수점 둘째 자리까지 포맷팅
+            DecimalFormat format = new DecimalFormat("#.##");
+            bookingRate = Double.parseDouble(format.format(bookingRate));
+
+            return bookingRate;
+        } catch (NoResultException e) {
+            // 예매 내역이 없는 경우
+            return 0.0;
+        }
     }
 }

@@ -16,16 +16,19 @@ public class Trailer {
     private int id;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "movie_id")
     private Movie movie;
 
-    private String streamingFilePath; // 스트리밍 파일 경로
-    private String m3u8FilePath; //m3u8 파일 경로
+    private String streamingFilename; // 스트리밍 파일 이름
+
+    @Column(name = "master_m3u8_filename")
+    private String masterM3U8Filename; // masterM3u8 파일 이름
 
     @Builder
-    public Trailer(int id, Movie movie, String streamingFilePath, String m3u8FilePath) {
+    public Trailer(int id, Movie movie, String streamingFilename, String masterM3U8Filename) {
         this.id = id;
         this.movie = movie;
-        this.streamingFilePath = streamingFilePath;
-        this.m3u8FilePath = m3u8FilePath;
+        this.streamingFilename = streamingFilename;
+        this.masterM3U8Filename = masterM3U8Filename;
     }
 }

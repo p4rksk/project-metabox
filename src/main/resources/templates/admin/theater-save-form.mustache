@@ -1,1 +1,149 @@
 {{> layout/header-admin}}
+
+<style>
+    #photoPreviewContainer {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+    }
+
+    #photoPreviewContainer .photo-item {
+        position: relative;
+        margin-right: 10px;
+        width: 150px; /* 고정 너비 설정 */
+        height: 150px; /* 고정 높이 설정 */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-sizing: border-box;
+    }
+
+    #photoPreviewContainer img {
+        width: 100%; /* 고정 너비 설정 */
+        height: 100%; /* 고정 높이 설정 */
+        object-fit: cover; /* 이미지 비율 유지하며 잘라내기 */
+    }
+
+    #photoPreviewContainer .remove-btn {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        background-color: red;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+</style>
+<div class="container mt-5">
+    <h2>영화관 등록</h2>
+    <hr>
+    <form action="/theater-save" style="user-select: none;" method="post" enctype="multipart/form-data"
+          id="theaterForm">
+        <div class="form-group mt-4" style="user-select: none; display: flex; justify-content: center;"
+             onclick="document.getElementById('moviePhotos').click();">
+            <div class="d-flex justify-content-center align-items-center"
+                 style="width: 1000px; height: 600px; border: 2px solid #E6E6E6; color: #E6E6E6; position: relative;"
+                 id="profilePreview">
+                <b id="placeholderText"
+                   style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">사진을
+                    등록해 주세요.</b>
+                <img id="photoPreview" src="#" alt="Photo Preview"
+                     style="user-select: none; display: none; width: 1000px; height: 600px;">
+            </div>
+            <div class="file-input-container mt-4" style="display: none;">
+                <input type="file" class="form-control-file" id="moviePhotos" name="imgFilename" accept="image/*"
+                       onchange="previewImage();">
+            </div>
+        </div>
+
+        <div class="d-flex" style="justify-content: space-between; column-gap: 20px;">
+            <div style="width: 100%;">
+                <div class="form-group">
+                    <label for="theaterTitle">극장 이름</label>
+                    <input type="text" class="form-control" id="theaterTitle" name="title" placeholder="극장 이름을 입력하세요">
+                </div>
+                <div class="form-group">
+                    <label for="address">극장 주소</label>
+                    <input type="text" class="form-control" id="address" name="info" placeholder="기본 정보를 입력하세요">
+                </div>
+                <div class="form-group">
+                    <label for="number">전화 번호</label>
+                    <input type="text" class="form-control" id="director" maxlength="8" oninput="oninputPhone(this)"
+                           name="number"
+                           placeholder="1588-1234">
+                </div>
+
+            </div>
+            <div style="width: 100%;">
+                <div class="form-group">
+                    <label for="theaterId">극장 아이디</label>
+                    <input type="text" class="form-control" id="Date" name="theaterId" placeholder="설정할 극장 ID를 입력해주세요">
+                </div>
+                <div class="form-group">
+                    <label for="password">극장 비밀번호</label>
+                    <input type="password" class="form-control" id="password" name="engTitle"
+                           placeholder="사용할 극장 비밀번호를 입력해주세요">
+                </div>
+                <div class="form-group">
+                    <label for="password">극장 비밀번호 확인</label>
+                    <input type="password" class="form-control" id="password" name="engTitle"
+                           placeholder="극장 비밀번호를 한번 더 입력해주세요">
+                </div>
+            </div>
+        </div>
+
+        <button style="background-color: #4E0929; border: none; width: 100px;" type="submit"
+                class="mb-3 btn btn-primary">등록
+        </button>
+
+    </form>
+</div>
+
+<script>
+    // 전화번호 폼 변경
+    function oninputPhone(target) {
+        target.value = target.value
+                .replace(/[^0-9]/g, '') // 숫자가 아닌 문자 제거
+                .replace(/(\d{4})(\d{4})/, '$1-$2'); // 4자리씩 끊어서 하이픈 추가
+    }
+
+    function previewImage() {
+        var file = document.getElementById("moviePhotos").files[0];
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            var imgElement = document.getElementById("photoPreview");
+            var placeholderText = document.getElementById("placeholderText");
+            imgElement.src = e.target.result;
+            imgElement.style.display = "block";
+            placeholderText.style.display = "none"; // 문구 숨기기
+        };
+
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    }
+
+    document.getElementById("theaterForm").onsubmit = function (e) {
+        var formData = new FormData(this);
+        stillFiles.forEach(function (file, index) {
+            formData.append("stills[]", file); // 모든 파일을 폼 데이터에 추가
+        });
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", this.action, true);
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                window.location.href = "/movie-list";
+            } else {
+                alert("Error: " + xhr.statusText);
+            }
+        };
+        xhr.send(formData);
+        e.preventDefault(); // 기본 폼 제출 동작 방지
+    };
+</script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+{{> layout/footer}}

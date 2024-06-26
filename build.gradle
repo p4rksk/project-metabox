@@ -26,6 +26,9 @@ repositories {
 dependencies {
 //    https://github.com/bytedeco/javacv/#manual-installation
     implementation 'org.bytedeco:javacv-platform:1.5.10'
+    implementation 'net.bramp.ffmpeg:ffmpeg:0.8.0'
+
+
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-mustache'
     implementation 'org.springframework.boot:spring-boot-starter-web'

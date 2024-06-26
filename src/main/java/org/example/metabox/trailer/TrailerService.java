@@ -1,23 +1,50 @@
 package org.example.metabox.trailer;
 
-import lombok.extern.slf4j.Slf4j;
-import org.bytedeco.ffmpeg.global.avcodec;
-import org.bytedeco.javacv.FFmpegFrameGrabber;
-import org.bytedeco.javacv.FFmpegFrameRecorder;
-import org.bytedeco.javacv.FFmpegLogCallback;
-import org.bytedeco.javacv.Frame;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
+import net.bramp.ffmpeg.FFmpeg;
+import net.bramp.ffmpeg.FFmpegExecutor;
+import net.bramp.ffmpeg.FFprobe;
+import net.bramp.ffmpeg.builder.FFmpegBuilder;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Service;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
-@Slf4j
+
 @Service
 public class TrailerService {
+
+    public Resource getVideoRes(String tsFile) throws IOException {
+        File file = new File(getConvertVideoPath(tsFile));
+        return new FileSystemResource(file.getCanonicalPath());
+    }
+
+    private String getRawVideoPath(String videoFileName) {
+        return "/upload" + videoFileName;
+    }
+
+    private String getConvertVideoPath(String outputFileName) {
+        return "/upload" + outputFileName;
+    }
+
+    public void convertHls() throws IOException {
+        String videoFilePath = new File(getRawVideoPath("good.mp4")).getCanonicalPath();
+        String convertPath =  new File(getConvertVideoPath("/good.m3u8")).getCanonicalPath();
+
+        FFmpegBuilder builder = new FFmpegBuilder()
+                .setInput(videoFilePath)
+                .addOutput(convertPath)
+                .addExtraArgs("-profile:v", "baseline")
+                .addExtraArgs("-level", "3.0")
+                .addExtraArgs("-start_number", "0")
+                .addExtraArgs("-hls_time", "10")
+                .addExtraArgs("-hls_list_size", "0")
+                .addExtraArgs("-f", "hls")
+                .done();
+
+        FFmpegExecutor executor = new FFmpegExecutor(new FFmpeg(), new FFprobe());
+        executor.createJob(builder).run();
+    }
+
 }

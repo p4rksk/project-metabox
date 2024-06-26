@@ -10,4 +10,10 @@ public class TheaterRequest {
     public class ScheduleDTO {
         private Integer theaterId;
     }
+
+    @Data
+    public class LoginDTO {
+        private String loginId;
+        private String password;
+    }
 }

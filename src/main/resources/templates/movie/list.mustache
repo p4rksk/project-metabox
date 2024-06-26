@@ -122,15 +122,14 @@
         <div class="col-auto movie-card">
             <div class="rank" style="background-color:#4E0929;">No.{{rank}}</div>
             <div class="card">
-
-                <a href="/movies/detail">
+                <a href="/movies/detail/{{id}}">
                     <img src="/image/movie/{{imgFilename}}" class="card-img-top">
                 </a>
                 <span class="badge badge-success">{{infoAgeLimit}}</span>
 
                 <div class="card-body">
                     <h5 class="card-title">{{title}}</h5>
-                    <p class="card-text">{{bookingRate}}%</p>
+                    <p class="card-text">{{bookingRate}} %</p>
                     <p class="release-date">{{startDate}} {{releaseStatus}}</p>
                     <span><a href="/book-form" class="btn btn-danger">예매하기</a></span></div>
             </div>

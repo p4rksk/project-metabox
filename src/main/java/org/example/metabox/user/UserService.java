@@ -1,12 +1,17 @@
 package org.example.metabox.user;
 
 import lombok.RequiredArgsConstructor;
+import org.example.metabox._core.errors.exception.Exception400;
 import org.example.metabox._core.errors.exception.Exception401;
 import org.example.metabox._core.errors.exception.Exception403;
+import org.example.metabox._core.errors.exception.Exception404;
+import org.example.metabox.movie.Movie;
 import org.example.metabox.movie.MovieQueryRepository;
 import org.example.metabox.movie.MovieRepository;
 import org.example.metabox.theater.Theater;
 import org.example.metabox.theater.TheaterRepository;
+import org.example.metabox.theater_scrap.TheaterScrap;
+import org.example.metabox.theater_scrap.TheaterScrapRepository;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -32,7 +37,34 @@ public class UserService {
     private final MovieQueryRepository movieQueryRepository;
     private final GuestRepository guestRepository;
     private final TheaterRepository theaterRepository;
+    private final TheaterScrapRepository theaterScrapRepository;
 
+
+    // 마이페이지의 theater Scrap save, update
+    @Transactional
+    public void myScrapSave(List<UserRequest.TheaterScrapDTO> reqDTOs) {
+        List<Integer> theaterIds = reqDTOs.stream().mapToInt(value -> value.getTheaterNameId()).boxed().toList();
+//        System.out.println("아이디 뽑기 " + theaterIds);
+
+        // 세션에서 받아오는게 더 나은가
+        User user = userRepository.findById(reqDTOs.get(0).getUserId()).orElseThrow(() -> new Exception404("유저 못찾음"));
+        // 존재하는지 한 번 더 확인
+        Boolean userExist = theaterScrapRepository.findByExistUserId(user.getId());
+//        System.out.println("존재하나 " + userExist);
+
+        if (userExist) {
+            // 기존 스크랩 삭제 (유저에 있는 것 모두 삭제 되어야함! )
+            theaterScrapRepository.deleteAllByUser(user.getId());
+        }
+
+        for (int i = 0; i < reqDTOs.size(); i++) {
+            Theater theater = theaterRepository.findById(theaterIds.get(i)).orElseThrow(() -> new Exception404("영화관 못찾음"));
+            theaterScrapRepository.save(TheaterScrap.builder()
+                    .user(user)
+                    .theater(theater)
+                    .build());
+        }
+    }
 
     // 메인 페이지 무비차트, 상영예정작
     public UserResponse.MainChartDTO findMainMovie() {
@@ -64,11 +96,47 @@ public class UserService {
         List<UserResponse.DetailBookDTO.MovieChartDTO> movieChartDTOS = movieQueryRepository.getMovieChart();
 //        System.out.println("쿼리 확인용 " + movieChartDTOS);
         UserResponse.DetailBookDTO.UserDTO userDTO = new UserResponse.DetailBookDTO.UserDTO(userOP);
+//        //내 예매내역
+//        List<UserResponse.MyPageHomeDTO.TicketingDTO> ticketingDTOS = movieQueryRepository.findMyTicketing(sessionUser.getId());
+
+        // 상영관 가져오기
+        List<Theater> theaterList = theaterRepository.findAll();
+
+        // pk 순으로 먼저 정렬해서 중복제거 하기
+        theaterList.sort(Comparator.comparing(theater -> theater.getId()));
+
+        // areaName 중복제거    //theaterDistinct = [서울, 경기, 인천, 강원, 대전/충청, 대구, 부산/울산, 경상, 광주/전라/제주]
+        List<String> theaterDistinct = theaterList.stream().map(theater -> theater.getAreaName())
+                .distinct()
+                .collect(Collectors.toList());
+
+        // METABOX 강남 METABOX 여수 .. 이런 것이 지역별로 맞게 나와야함 . filter 사용
+        List<UserResponse.DetailBookDTO.TheaterDTO> theaterDTOS = new ArrayList<>();
+        for (String areaName : theaterDistinct) {
+            Integer theaterId = theaterList.stream().filter(theater -> theater.getAreaName().equals(areaName))
+                    .map(theater -> theater.getId()).findFirst().orElse(null);
+
+            List<UserResponse.DetailBookDTO.TheaterDTO.TheaterNameDTO> theaterNameDTOS = theaterList.stream()
+                    .filter(theater -> theater.getAreaName().equals(areaName))
+                    .map(theater -> new UserResponse.DetailBookDTO.TheaterDTO.TheaterNameDTO(theater))
+                    .collect(Collectors.toList());
+
+            theaterDTOS.add(new UserResponse.DetailBookDTO.TheaterDTO(theaterId, areaName, theaterNameDTOS));
+        }
+
+        // 스크랩
+        List<TheaterScrap> scraps = theaterScrapRepository.findByUserId(sessionUser.getId());
+//        System.out.println("스크랩 " + scraps);   // 스크랩 [TheaterScrap(id=4), TheaterScrap(id=5), TheaterScrap(id=6)]
+        List<UserResponse.DetailBookDTO.TheaterScrapDTO> theaterScrapDTOS = scraps.stream().map(theaterScrap ->
+                new UserResponse.DetailBookDTO.TheaterScrapDTO(theaterScrap.getTheater().getName())).toList();
 
         // DetailBookDTO 로 변형
         UserResponse.DetailBookDTO detailBookDTO = UserResponse.DetailBookDTO.builder()
                 .userDTO(userDTO)
-                .movieCharts(movieChartDTOS).build();
+                .movieCharts(movieChartDTOS)
+                .theaterDTOS(theaterDTOS)
+                .theaterScrapDTOS(theaterScrapDTOS)
+                .build();
 
         return detailBookDTO;
     }
@@ -81,7 +149,7 @@ public class UserService {
         UserResponse.MyPageHomeDTO.UserDTO userDTO = new UserResponse.MyPageHomeDTO.UserDTO(userOP);
         List<UserResponse.MyPageHomeDTO.TicketingDTO> ticketingDTOS = movieQueryRepository.findMyTicketing(sessionUser.getId());
 
-        System.out.println("ticketingDTOS = " + ticketingDTOS);
+//        System.out.println("ticketingDTOS = " + ticketingDTOS);
 
         // 상영관 가져오기
         List<Theater> theaterList = theaterRepository.findAll();
@@ -91,10 +159,10 @@ public class UserService {
 
         // areaName 중복제거    //theaterDistinct = [서울, 경기, 인천, 강원, 대전/충청, 대구, 부산/울산, 경상, 광주/전라/제주]
         List<String> theaterDistinct = theaterList.stream().map(theater -> theater.getAreaName())
-                        .distinct()
-                        .collect(Collectors.toList());
+                .distinct()
+                .collect(Collectors.toList());
 
-        System.out.println("theaterDistinct = " + theaterDistinct);
+//        System.out.println("theaterDistinct = " + theaterDistinct);
 
         // METABOX 강남 METABOX 여수 .. 이런 것이 지역별로 맞게 나와야함 . filter 사용
         List<UserResponse.MyPageHomeDTO.TheaterDTO> theaterDTOS = new ArrayList<>();
@@ -110,14 +178,12 @@ public class UserService {
             theaterDTOS.add(new UserResponse.MyPageHomeDTO.TheaterDTO(theaterId, areaName, theaterNameDTOS));
         }
 
-        // id값 확인
-//        for (int i = 0; i < theaterDTOS.size(); i++) {
-//            System.out.println("id " + theaterDTOS.get(i).getId());
-//        }
-//
-//        System.out.println("theaterNameDTOS = " + theaterDTOS);
+        List<TheaterScrap> scraps = theaterScrapRepository.findByUserId(sessionUser.getId());
+//        System.out.println("스크랩 " + scraps);   // 스크랩 [TheaterScrap(id=4), TheaterScrap(id=5), TheaterScrap(id=6)]
+        List<UserResponse.MyPageHomeDTO.TheaterScrapDTO> theaterScrapDTOS = scraps.stream().map(theaterScrap ->
+                new UserResponse.MyPageHomeDTO.TheaterScrapDTO(theaterScrap.getTheater().getName())).toList();
 
-        UserResponse.MyPageHomeDTO homeDTO = new UserResponse.MyPageHomeDTO(userDTO, ticketingDTOS, theaterDTOS);
+        UserResponse.MyPageHomeDTO homeDTO = new UserResponse.MyPageHomeDTO(userDTO, ticketingDTOS, theaterDTOS, theaterScrapDTOS);
 //        UserResponse.MyPageHomeDTO homeDTO = UserResponse.MyPageHomeDTO.builder()
 //                .userDTO(userDTO)
 //                .ticketingDTO(ticketingDTOS)
@@ -126,7 +192,6 @@ public class UserService {
         return homeDTO;
 
     }
-
 
 
     //비회원 회원가입

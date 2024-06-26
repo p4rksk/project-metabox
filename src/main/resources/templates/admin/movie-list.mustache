@@ -118,7 +118,7 @@
     <div class="row justify-content-center">
         {{#models}}
             <div class="col-auto movie-card">
-                <div class="rank">No.{{id}}</div>
+                <div class="rank">No.{{rank}}</div>
                 <div class="card">
                     <a href="/movie-detail/{{id}}">
                         <img src="/image/movie/{{imgFilename}}" class="card-img-top" alt="Movie {{id}}">
@@ -126,8 +126,8 @@
                     <span class="badge badge-success">{{infoAgeLimit}}</span>
                     <div class="card-body">
                         <h5 class="card-title">{{title}}</h5>
-                        <p class="card-text">예매율: %</p>
-                        <p class="release-date">{{date}} 개봉</p>
+                        <p class="card-text">{{bookingRate}} %</p>
+                        <p class="release-date">{{startDate}} {{releaseStatus}}</p>
                         <span><a href="/movie-edit-form/{{id}}" class="btn btn-outline-secondary">수정하기</a></span>
                         <button class="btn btn-danger">삭제하기</button>
                     </div>
