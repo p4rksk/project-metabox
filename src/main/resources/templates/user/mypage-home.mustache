@@ -155,11 +155,6 @@
     function checkList() {
         // alert("작동함1");
 
-        let userId = {{model.userDTO.id}};
-        console.log("userId " + userId);
-
-        // alert("작동함2");
-
         // theaterName 의 id, theater 값 잘 받아오는지 확인용
         $('.selected-theater div').each(function () {
 
@@ -171,8 +166,7 @@
             // 중복 확인
             if (!myTheaterScrap.some(item => item.theaterNameId === theaterNameId)) {
                 let selectList = {
-                    theaterNameId: theaterNameId,
-                    userId: userId
+                    theaterNameId: theaterNameId
                 };
 
                 myTheaterScrap.push(selectList);

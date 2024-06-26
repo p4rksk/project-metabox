@@ -43,12 +43,12 @@ public class UserService {
 
     // 마이페이지의 theater Scrap save, update
     @Transactional
-    public void myScrapSave(List<UserRequest.TheaterScrapDTO> reqDTOs) {
+    public void myScrapSave(Integer sessionUserId, List<UserRequest.TheaterScrapDTO> reqDTOs) {
         List<Integer> theaterIds = reqDTOs.stream().mapToInt(value -> value.getTheaterNameId()).boxed().toList();
 //        System.out.println("아이디 뽑기 " + theaterIds);
 
         // 세션에서 받아오는게 더 나은가
-        User user = userRepository.findById(reqDTOs.get(0).getUserId()).orElseThrow(() -> new Exception404("유저 못찾음"));
+        User user = userRepository.findById(sessionUserId).orElseThrow(() -> new Exception404("유저 못찾음"));
         // 존재하는지 한 번 더 확인
         Boolean userExist = theaterScrapRepository.findByExistUserId(user.getId());
 //        System.out.println("존재하나 " + userExist);

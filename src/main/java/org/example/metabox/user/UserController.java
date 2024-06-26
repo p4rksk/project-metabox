@@ -72,8 +72,9 @@ public class UserController {
 
     @PostMapping("/mypage/home/scrap")
     public @ResponseBody String mypageHomeScrap(HttpServletRequest request, @RequestBody List<UserRequest.TheaterScrapDTO> reqDTOs) {
+        SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
         System.out.println("값 들어오나요 = " + reqDTOs);
-        userService.myScrapSave(reqDTOs);
+        userService.myScrapSave(sessionUser.getId(), reqDTOs);
 
         return "user/mypage-home";
     }
