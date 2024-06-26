@@ -10,6 +10,8 @@ import org.example.metabox.user.User;
 import org.example.metabox.user.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class MovieScrapService {
@@ -18,7 +20,7 @@ public class MovieScrapService {
     private final MovieScrapRepository movieScrapRepository;
 
     @Transactional
-    public MovieScrapResponse.ScrapDTO movieDetailScrap(Integer movieId, Integer sessionUser) {
+    public MovieScrapResponse.ScrapDTO movieScrap(Integer movieId, Integer sessionUser) {
         User user = userRepository.findById(sessionUser)
                 .orElseThrow(() -> new Exception404("사용자를 찾을 수 없습니다."));
         Movie movie = movieRepository.findById(movieId)
@@ -27,5 +29,10 @@ public class MovieScrapService {
         MovieScrap movieScrap = movieScrapRepository.save(scrapMovieDTO.toEntity());
 
         return new MovieScrapResponse.ScrapDTO(movieScrap);
+    }
+
+    public List<MovieScrapResponse.ScrapMovieListDTO> movieScrapList(Integer userId) {
+        List<MovieScrap> movieScrapList = movieScrapRepository.findByUserAndMovie(userId);
+        return movieScrapList.stream().map(MovieScrapResponse.ScrapMovieListDTO::new).toList();
     }
 }
