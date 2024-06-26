@@ -12,7 +12,7 @@ public class AdminResponse {
     public static class TheaterSalesDTO {
         private int theaterId;
         private String theaterName;
-        private Long theaterSales;
+        private String theaterSales;
         private String theaterAddress;
         private String theaterTel;
     }
@@ -20,7 +20,7 @@ public class AdminResponse {
     @Data
     @Builder
     public static class RootAdminResponseDTO {
-        private Long totalSales;
+        private String totalSales;
         private List<TheaterSalesDTO> theaterSales;
     }
 }

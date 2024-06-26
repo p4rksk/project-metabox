@@ -3,6 +3,7 @@ package org.example.metabox.admin;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.metabox._core.errors.exception.Exception401;
+import org.example.metabox._core.util.FormatUtil;
 import org.example.metabox.book.BookRepository;
 import org.example.metabox.theater.Theater;
 import org.example.metabox.theater.TheaterRepository;
@@ -49,7 +50,7 @@ public class AdminService {
                     return AdminResponse.TheaterSalesDTO.builder()
                             .theaterId(theaterId)
                             .theaterName(theaterName)
-                            .theaterSales(theaterSales)
+                            .theaterSales(FormatUtil.moneyFormat(theaterSales))
                             .theaterAddress(theater.getAddress())
                             .theaterTel(theater.getNumber())
                             .build();
@@ -58,7 +59,7 @@ public class AdminService {
 
         // RootAdminResponseDTO를 생성하여 반환
         return AdminResponse.RootAdminResponseDTO.builder()
-                .totalSales(totalSales)
+                .totalSales(FormatUtil.moneyFormat(totalSales))
                 .theaterSales(theaterSalesDTOList)
                 .build();
     }
