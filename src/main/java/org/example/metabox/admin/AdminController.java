@@ -122,6 +122,16 @@ public class AdminController {
         }
     }
 
+    // localhost:8080/admin-sales
+    // 관리자 매출 페이지
+    @GetMapping("/admin-sales")
+    public String getSales(HttpServletRequest request){
+        AdminResponse.RootAdminResponseDTO resDTO = adminService.getRootAdmin();
+        request.setAttribute("models", resDTO);
+        return "admin/admin-sales";
+    }
+
+
     @GetMapping("/theater-save-form")
     public String theaterSaveForm() {
         return "admin/theater-save-form";
