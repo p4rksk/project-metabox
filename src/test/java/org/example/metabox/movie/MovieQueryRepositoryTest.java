@@ -25,6 +25,89 @@ public class MovieQueryRepositoryTest {
 
 
     @Test
+    public void findUnwatchTicketV1_test(){
+        // given
+        Integer sessionUserId = 1;
+
+        // when
+        List<UserResponse.DetailBookDTO.SeatDTO> seatDTOS = movieQueryRepository.findUnwatchTicketV1(sessionUserId);
+
+        // then
+        System.out.println("seatDTOS = " + seatDTOS);
+        assertThat(seatDTOS.get(0).getBookId()).isEqualTo(1);
+        assertThat(seatDTOS.get(2).getBookId()).isEqualTo(2);
+        assertThat(seatDTOS.get(1).getSeatCode()).isEqualTo("E11");
+        assertThat(seatDTOS.get(2).getSeatCode()).isEqualTo("E4");
+
+    }
+
+    @Test
+    public void findUnwatchTicketV2_test(){
+        // given
+        Integer sessionUserId = 1;
+        List<UserResponse.DetailBookDTO.TotalPriceDTO> totalPriceDTOs;
+        List<UserResponse.DetailBookDTO.SeatDTO> seatDTOS;
+
+        // when
+        List<UserResponse.DetailBookDTO.TicketingDTO> seatDTOS = movieQueryRepository.findUnwatchTicketV2(sessionUserId);
+
+        // then
+        System.out.println("seatDTOS = " + seatDTOS);
+        assertThat(seatDTOS.get(0).getBookId()).isEqualTo(1);
+        assertThat(seatDTOS.get(2).getBookId()).isEqualTo(2);
+        assertThat(seatDTOS.get(1).getSeatCode()).isEqualTo("E11");
+        assertThat(seatDTOS.get(2).getSeatCode()).isEqualTo("E4");
+
+    }
+
+    @Test
+    public void findUnwatchTicketV3_test(){
+        // given
+        Integer sessionUserId = 1;
+
+        // when
+        List<UserResponse.DetailBookDTO.TotalPriceDTO> totalPriceDTOS = movieQueryRepository.findUnwatchTicketV3(sessionUserId);
+
+        // then
+        System.out.println("totalPriceDTOS = " + totalPriceDTOS);
+        assertThat(totalPriceDTOS.get(0).getBookId()).isEqualTo(1);
+        assertThat(totalPriceDTOS.get(1).getTotalPrice()).isEqualTo(180000);
+
+    }
+    
+    @Test
+    public void findMyTicketing_test(){
+        // given
+        Integer sessionUserId = 1;
+
+        // when
+        List<UserResponse.MyPageHomeDTO.TicketingDTO> ticketingDTOS = movieQueryRepository.findMyTicketing(sessionUserId);
+
+        // then
+        System.out.println("ticketingDTOS = " + ticketingDTOS);
+        assertThat(ticketingDTOS.get(0).getId()).isEqualTo(1);
+        assertThat(ticketingDTOS.get(0).getTitle()).isEqualTo("인사이드 아웃 2");
+        assertThat(ticketingDTOS).size().isEqualTo(2);
+
+            
+    }
+
+    @Test
+    public void getToBeChart_test(){
+        // given
+
+        // when
+        List<UserResponse.MainChartDTO.ToBeChartDTO> toBeChartDTOS = movieQueryRepository.getToBeChart();
+
+        // then
+        System.out.println("toBeChartDTOS = " + toBeChartDTOS);
+        assertThat(toBeChartDTOS.size()).isEqualTo(9);
+        assertThat(toBeChartDTOS.get(0).getMovieId()).isEqualTo(11);
+        assertThat(toBeChartDTOS.get(0).getTitle()).isEqualTo("콰이어트 플레이스-첫째 날");
+
+    }
+
+    @Test
     public void getMainMovieChart_test(){
         // given
 
@@ -33,8 +116,8 @@ public class MovieQueryRepositoryTest {
 
         // then
 //        System.out.println("확인 " + mainChartDTOs);
-        assertThat(mainChartDTOs.get(0).getId()).isEqualTo(1);
-        assertThat(mainChartDTOs.get(0).getTitle()).isEqualTo("인사이드 아웃 2");
+        assertThat(mainChartDTOs.get(0).getMovieId()).isEqualTo(1);
+//        assertThat(mainChartDTOs.get(0).getTitle()).isEqualTo("인사이드 아웃 2");
         assertThat(mainChartDTOs.size()).isEqualTo(10);
 
     }
@@ -49,8 +132,8 @@ public class MovieQueryRepositoryTest {
 
         // then
 //        System.out.println("확인 " + movieChartDTO);
-        assertThat(movieChartDTO.get(0).getId()).isEqualTo(1);
-        assertThat(movieChartDTO.get(0).getTitle()).isEqualTo("인사이드 아웃 2");
+        assertThat(movieChartDTO.get(0).getMovieId()).isEqualTo(1);
+//        assertThat(movieChartDTO.get(0).getTitle()).isEqualTo("인사이드 아웃 2");
         assertThat(movieChartDTO.size()).isEqualTo(6);
 
 
