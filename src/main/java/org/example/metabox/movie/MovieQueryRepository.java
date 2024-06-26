@@ -234,8 +234,9 @@ public class MovieQueryRepository {
     public List<UserResponse.MainChartDTO.ToBeChartDTO> getToBeChart() {
 
         String q = """
-                select id, img_filename, title, SUBSTRING(info, 1, 2) as info, start_date, DATEDIFF('DAY', CURRENT_DATE(), start_date) as d_day
-                from movie_tb where start_date > CURRENT_DATE()
+                select id, img_filename, title, SUBSTRING(info, 1, 2) as info, start_date, 
+                DATEDIFF('DAY', CURRENT_DATE(), start_date) as d_day
+                from movie_tb where start_date > CURRENT_DATE() order by start_date
                 """;
 
         Query query = em.createNativeQuery(q);
