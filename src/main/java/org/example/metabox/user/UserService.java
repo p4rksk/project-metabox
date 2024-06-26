@@ -26,6 +26,7 @@ import java.util.Optional;
 import java.text.DecimalFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Transactional(readOnly = true)
@@ -69,7 +70,7 @@ public class UserService {
     // 메인 페이지 무비차트, 상영예정작
     public UserResponse.MainChartDTO findMainMovie() {
         List<UserResponse.MainChartDTO.MainMovieChartDTO> movieChartDTOS = movieQueryRepository.getMainMovieChart();
-//        System.out.println("쿼리 확인용 = " + movieChartDTOS);
+        System.out.println("쿼리 확인용 = " + movieChartDTOS);
 
         // 순위 계산
         for (int i = 0; i < movieChartDTOS.size(); i++) {
@@ -96,8 +97,14 @@ public class UserService {
         List<UserResponse.DetailBookDTO.MovieChartDTO> movieChartDTOS = movieQueryRepository.getMovieChart();
 //        System.out.println("쿼리 확인용 " + movieChartDTOS);
         UserResponse.DetailBookDTO.UserDTO userDTO = new UserResponse.DetailBookDTO.UserDTO(userOP);
-//        //내 예매내역
-//        List<UserResponse.MyPageHomeDTO.TicketingDTO> ticketingDTOS = movieQueryRepository.findMyTicketing(sessionUser.getId());
+//        //내 예매내역 중 좌석, 티켓
+        List<UserResponse.DetailBookDTO.SeatDTO> seatDTOs = movieQueryRepository.findUnwatchTicketV1(sessionUser.getId());
+        List<UserResponse.DetailBookDTO.TotalPriceDTO> totalPriceDTOs = movieQueryRepository.findUnwatchTicketV3(sessionUser.getId());
+        List<UserResponse.DetailBookDTO.TicketingDTO> ticketingDTOs = movieQueryRepository.findUnwatchTicketV2(sessionUser.getId(), totalPriceDTOs, seatDTOs);
+
+        System.out.println("1111" + seatDTOs);
+//        System.out.println("2222" + ticketingDTOs);
+        System.out.println("3333" + totalPriceDTOs );
 
         // 상영관 가져오기
         List<Theater> theaterList = theaterRepository.findAll();
@@ -107,8 +114,7 @@ public class UserService {
 
         // areaName 중복제거    //theaterDistinct = [서울, 경기, 인천, 강원, 대전/충청, 대구, 부산/울산, 경상, 광주/전라/제주]
         List<String> theaterDistinct = theaterList.stream().map(theater -> theater.getAreaName())
-                .distinct()
-                .collect(Collectors.toList());
+                .distinct().collect(Collectors.toList());
 
         // METABOX 강남 METABOX 여수 .. 이런 것이 지역별로 맞게 나와야함 . filter 사용
         List<UserResponse.DetailBookDTO.TheaterDTO> theaterDTOS = new ArrayList<>();
@@ -136,10 +142,12 @@ public class UserService {
                 .movieCharts(movieChartDTOS)
                 .theaterDTOS(theaterDTOS)
                 .theaterScrapDTOS(theaterScrapDTOS)
+                .ticketingDTO(ticketingDTOs)
                 .build();
 
         return detailBookDTO;
     }
+
 
     //mypage/home 유저조회 및 예매내역, 취소내역 조회, 극장 스크랩
     public UserResponse.MyPageHomeDTO findMyPageHome(SessionUser sessionUser) {
@@ -148,8 +156,10 @@ public class UserService {
 
         UserResponse.MyPageHomeDTO.UserDTO userDTO = new UserResponse.MyPageHomeDTO.UserDTO(userOP);
         List<UserResponse.MyPageHomeDTO.TicketingDTO> ticketingDTOS = movieQueryRepository.findMyTicketing(sessionUser.getId());
-
 //        System.out.println("ticketingDTOS = " + ticketingDTOS);
+
+        //개수파악 (0건 <- 여기 뿌릴라고)
+        int ticketCount = ticketingDTOS.size();
 
         // 상영관 가져오기
         List<Theater> theaterList = theaterRepository.findAll();
@@ -183,7 +193,7 @@ public class UserService {
         List<UserResponse.MyPageHomeDTO.TheaterScrapDTO> theaterScrapDTOS = scraps.stream().map(theaterScrap ->
                 new UserResponse.MyPageHomeDTO.TheaterScrapDTO(theaterScrap.getTheater().getName())).toList();
 
-        UserResponse.MyPageHomeDTO homeDTO = new UserResponse.MyPageHomeDTO(userDTO, ticketingDTOS, theaterDTOS, theaterScrapDTOS);
+        UserResponse.MyPageHomeDTO homeDTO = new UserResponse.MyPageHomeDTO(userDTO, ticketingDTOS, theaterDTOS, theaterScrapDTOS, ticketCount);
 //        UserResponse.MyPageHomeDTO homeDTO = UserResponse.MyPageHomeDTO.builder()
 //                .userDTO(userDTO)
 //                .ticketingDTO(ticketingDTOS)

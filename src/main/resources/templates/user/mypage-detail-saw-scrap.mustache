@@ -49,7 +49,7 @@
         <!--영화 리스트-->
         <div class="col-md-9">
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h4>내가 본 영화 11건</h4>
+                <h4>찜한 영화 11건</h4>
                 <div class="d-flex">
                     <select class="form-control mr-2" id="yearSelect">
                         <option value="">년도 선택</option>
@@ -59,36 +59,21 @@
                     <button class="btn btn-outline-danger form-control" onclick="searchMovies()">검색</button>
                 </div>
             </div>
-            <div class="movie-card">
-                <img src="https://via.placeholder.com/100x150" class="movie-poster" alt="Exhuma">
-                <div class="movie-info">
-                    <h5>파묘 (Exhuma)</h5>
-                    <p>2024.03.23 (토) 19:45 ~ 22:09</p>
-                    <p>CGV서면삼정타워 5관 13층 (리클라이너) / 2명</p>
-                    <p>이 영화를 평가해주세요</p>
+            {{#movieScrapList}}
+                <div class="movie-card">
+                    <img src="/image/movie/{{imgFilename}}" class="movie-poster" alt="Exhuma">
+                    <div class="movie-info">
+                        <h5>{{title}}</h5>
+                        <p>개봉일: {{startDate}}</p>
+                        <p>개봉마감일: {{endDate}}</p>
+                        <a href="#">예매하기</a>
+                    </div>
+                    <button class="btn btn-danger">X</button>
                 </div>
-                <button class="btn btn-danger">X</button>
-            </div>
-            <div class="movie-card">
-                <img src="https://via.placeholder.com/100x150" class="movie-poster" alt="Brave Citizen">
-                <div class="movie-info">
-                    <h5>용감한 시민 (Brave Citizen)</h5>
-                    <p>2023.11.10 (금) 12:50 ~ 14:52</p>
-                    <p>CGV여의도 2관 4층 (모션베드, Laser) / 2명</p>
-                    <p>이 영화를 평가해주세요</p>
-                </div>
-                <button class="btn btn-danger">X</button>
-            </div>
-            <div class="movie-card">
-                <img src="https://via.placeholder.com/100x150" class="movie-poster" alt="The Boy and the Heron">
-                <div class="movie-info">
-                    <h5>그대들은 어떻게 살 것인가 (자막) (The Boy and the Heron)</h5>
-                    <p>2023.11.09 (목) 14:40 ~ 16:54</p>
-                    <p>CGV서면삼정타워 5관 13층 (리클라이너) / 2명</p>
-                    <p>이 영화를 평가해주세요</p>
-                </div>
-                <button class="btn btn-danger">X</button>
-            </div>
+            {{/movieScrapList}}
+            {{^movieScrapList}}
+                <p>고객님의 찜한 내역이 존재하지 않습니다.</p>
+            {{/movieScrapList}}
         </div>
     </div>
 </div>
