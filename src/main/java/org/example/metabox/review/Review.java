@@ -33,7 +33,7 @@ public class Review {
     private LocalDateTime createdAt;    // 댓글 작성 시간
 
     @Builder
-    public Review(int id, User user, Movie movie, String comment, int rating) {
+    public Review(int id, User user, Movie movie, String comment, double rating) {
         this.id = id;
         this.user = user;
         this.movie = movie;
