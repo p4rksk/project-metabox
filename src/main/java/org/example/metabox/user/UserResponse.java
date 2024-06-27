@@ -8,6 +8,7 @@ import org.example.metabox._core.util.ScopeDeserializer;
 import org.example.metabox.movie.MovieResponse;
 import org.example.metabox.theater.Theater;
 import org.example.metabox.theater_scrap.TheaterScrap;
+import org.example.metabox.trailer.Trailer;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -130,6 +131,7 @@ public class UserResponse {
 
         @Builder
         public MainChartDTO(TrailerDTO trailerDTO,List<MainMovieChartDTO> movieCharts, List<ToBeChartDTO> toBeCharts) {
+            this.trailerDTO = trailerDTO;
             this.movieCharts = movieCharts;
             this.toBeCharts = toBeCharts;
         }
