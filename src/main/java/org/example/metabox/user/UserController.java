@@ -61,6 +61,12 @@ public class UserController {
         return "book/book-form";
     }
 
+    @GetMapping("/guest/book-check-form")
+    public String nonMemberCheckForm() {
+
+        return "user/non-member-check-form";
+    }
+
     @GetMapping("/mypage/home")
     public String mypageHome(HttpServletRequest request) {
         // user 타입 아니고 SessionUser 타입이니 조심! (sessionUser가 SessionUser 타입임)
