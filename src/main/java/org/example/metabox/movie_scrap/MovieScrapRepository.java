@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface MovieScrapRepository extends JpaRepository<MovieScrap, Integer> {
 
@@ -22,7 +23,7 @@ public interface MovieScrapRepository extends JpaRepository<MovieScrap, Integer>
             from MovieScrap ms
             join fetch ms.movie m
             join fetch ms.user u
-            where m.id = :movie_id
+            where u.id = :user_id and m.id = :movie_id
             """)
-    MovieScrap findByScrapAndUser(@Param("movie_id") Integer movieId);
+    Optional<MovieScrap> findByScrapAndUser(@Param("user_id") Integer userId, @Param("movie_id") Integer movieId);
 }

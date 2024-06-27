@@ -510,12 +510,25 @@
 <!--    });-->
 <!--</script>-->
 <script>
-    function scrapButton(){
-        if(confirm("찜하시겠습니까?")){
-            document.getElementById('myButton').classList.add('clicked');
-            alert("기대되는 영화에 추가되었습니다.");
+    let isMovieScrapped = false;
+
+    function scrapButton() {
+        if (!isMovieScrapped) {
+            if (confirm("찜하시겠습니까?")) {
+                document.getElementById('myButton').classList.add('clicked');
+                alert("기대되는 영화에 추가되었습니다.");
+                isMovieScrapped = true;
+            } else {
+                alert("취소되었습니다.");
+            }
         } else {
-            alert("취소되었습니다.");
+            if (confirm("찜하기를 취소하시겠습니까?")) {
+                document.getElementById('myButton').classList.remove('clicked');
+                alert("취소되었습니다.");
+                isMovieScrapped = false;
+            } else {
+                alert("찜하기를 유지합니다.");
+            }
         }
     }
 </script>

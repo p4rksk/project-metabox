@@ -11,6 +11,7 @@ import org.example.metabox.user.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -25,9 +26,17 @@ public class MovieScrapService {
                 .orElseThrow(() -> new Exception404("사용자를 찾을 수 없습니다."));
         Movie movie = movieRepository.findById(movieId)
                 .orElseThrow(() -> new Exception401("존재하지 않는 영화입니다!."));
-        MovieScrapRequest.ScrapMovieDTO movieScrapDTO = new MovieScrapRequest.ScrapMovieDTO(user,movie);
-        MovieScrap movieScrap = movieScrapRepository.save(movieScrapDTO.toEntity());
-        return new MovieScrapResponse.ScrapDTO(movieScrap);
+
+        Optional<MovieScrap> existingMovieScrap = movieScrapRepository.findByScrapAndUser(user.getId(), movie.getId());
+
+        if (existingMovieScrap.isPresent()) {
+            movieScrapRepository.delete(existingMovieScrap.get());
+            return null;
+        } else {
+            MovieScrapRequest.ScrapMovieDTO movieScrapDTO = new MovieScrapRequest.ScrapMovieDTO(user, movie);
+            MovieScrap movieScrap = movieScrapRepository.save(movieScrapDTO.toEntity());
+            return new MovieScrapResponse.ScrapDTO(movieScrap);
+        }
     }
 
     @Transactional
