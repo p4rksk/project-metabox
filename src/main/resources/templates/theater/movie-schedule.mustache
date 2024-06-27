@@ -23,7 +23,7 @@
 
     <!--         탭 콘텐츠 -->
     {{#model.theaterAreaDTOList}}
-    <div style="padding: 10px;" id="{{areaCode}}" class="tabcontent">
+    <div style="padding: 10px; cursor: pointer" id="{{areaCode}}" class="tabcontent">
         {{#theaterNameDTOList}}
             <div onclick="location.href='?theaterId={{theaterId}}'" style="display: inline-block;">{{theaterName}}
             <span>ㅣ</span>
