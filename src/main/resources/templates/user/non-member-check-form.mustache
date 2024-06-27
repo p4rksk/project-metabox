@@ -1,0 +1,117 @@
+{{> layout/header}}
+
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+<head>
+    <link rel="stylesheet" href="/css/guestCheckForm.css">
+</head>
+
+<body>
+<div class="container">
+    <div class="megabox-logo">
+        <img src="/image/layout/logo.png" alt="광고 이미지">
+        <p class="megabox-slogan">MEET PLAY SHARE</p>
+    </div>
+    <div class="form-container">
+        <h2 style="color: #4E0929;">비회원 예매 확인</h2>
+        <form id="reservation-form">
+            <div class="form-group">
+                <label for="name">이름</label>
+                <input type="text" class="form-control" id="name" placeholder="이름" required>
+            </div>
+            <div class="form-group">
+                <label for="birthdate">생년월일</label>
+                <input type="date" class="form-control" id="birthdate" placeholder="생년월일 앞 6자리" required>
+            </div>
+            <div class="form-group">
+                <label for="password">비밀번호</label>
+                <input type="password" class="form-control" id="password" placeholder="숫자 4자리" required>
+            </div>
+            <br>
+            <button type="submit" class="btn-custom">비회원 예매확인</button>
+        </form>
+        <p class="form-text">
+            * 비회원 정보 오 입력 시 예매 내역 확인/취소 및 티켓 발권이 <br> 어려울 수 있으니 다시 한번 확인해 주시기 바랍니다.
+        </p>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="reservationModal" tabindex="-1" aria-labelledby="reservationModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="reservationModalLabel">예매 정보 확인</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="value">
+                    <p class="label mt-3">[ 예매자 ]</p>
+                    <p id="modal-name"></p>
+                </div>
+                <div class="value">
+                    <p class="label">[ 영화 ]</p>
+                    <p id="modal-movie"></p>
+                </div>
+                <div class="value">
+                    <p class="label">[ 극장 ]</p>
+                    <p id="modal-theater"></p>
+                </div>
+                <div class="value">
+                    <p class="label">[ 일시 ]</p>
+                    <p id="modal-datetime"></p>
+                </div>
+                <div class="value">
+                    <p class="label">[ 상영관 ]</p>
+                    <p id="modal-hall"></p>
+                </div>
+                <div class="value">
+                    <p class="label">[ 좌석명 ]</p>
+                    <p id="modal-seatname"></p>
+                </div>
+                <div class="value">
+                    <p class="label">[ 좌석번호 ]</p>
+                    <p id="modal-seat"></p>
+                </div>
+                <div class="value">
+                    <p class="label">[ 인원 ]</p>
+                    <p id="modal-persons"></p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<script>
+    $('#reservation-form').on('submit', function (e) {
+        e.preventDefault();
+        var name = $('#name').val();
+        var theater = 'Megabox COEX';  // 임의로 설정된 값
+        var datetime = '2023-07-15 19:00';  // 임의로 설정된 값
+        var hall = '1관';  // 임의로 설정된 값
+        var movie = '인사이드 아웃 2';  // 임의로 설정된 값
+        var seatname = '일반석';  // 임의로 설정된 값
+        var seat = 'A10, A11';  // 임의로 설정된 값
+        var persons = '2명';  // 임의로 설정된 값
+
+        $('#modal-name').text(name);
+        $('#modal-theater').text(theater);
+        $('#modal-datetime').text(datetime);
+        $('#modal-hall').text(hall);
+        $('#modal-movie').text(movie);
+        $('#modal-seatname').text(seatname);
+        $('#modal-seat').text(seat);
+        $('#modal-persons').text(persons);
+
+        $('#reservationModal').modal('show');
+    });
+</script>
+
+{{> layout/footer}}
