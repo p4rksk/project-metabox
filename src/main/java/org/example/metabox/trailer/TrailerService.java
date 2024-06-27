@@ -11,7 +11,7 @@ import java.nio.file.Paths;
 @Service
 public class TrailerService {
 
-    private final Path videoLocation = Paths.get("D:/workspace/java_lec/project-metabox/upload");
+    private final Path videoLocation = Paths.get("./upload");
 
     public Resource getVideoRes(String filename) {
         try {
