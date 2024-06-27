@@ -1,7 +1,6 @@
 package org.example.metabox.movie;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.nio.file.Files;
@@ -17,7 +16,9 @@ import java.util.stream.Collectors;
 
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FilenameUtils;
 import org.bytedeco.ffmpeg.global.avcodec;
+import org.bytedeco.javacv.CameraDevice;
 import org.bytedeco.javacv.FFmpegFrameGrabber;
 import org.bytedeco.javacv.FFmpegFrameRecorder;
 import org.bytedeco.javacv.Frame;
@@ -34,6 +35,7 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -43,11 +45,10 @@ public class MovieService {
     private final FileUtil fileUtil;
     private final MoviePicRepository moviePicRepository;
     private final TrailerRepository trailerRepository;
-    private final TrailerService trailerService;
-    private final Path videoLocation = Paths.get(System.getProperty("user.dir"), "video");
+    private final Path videoLocation = Paths.get(System.getProperty("user.dir"), "upload");
     private final MovieQueryRepository movieQueryRepository;
     private final ReviewRepository reviewRepository;
-    private final SeatBookRepository seatBookRepository;
+
 
     // 관리자 무비차트
     public List<MovieResponse.AdminMovieChartDTO> getAdminMovieChart(){
@@ -92,7 +93,7 @@ public class MovieService {
 
         // 개봉일이 오늘 이전이거나 오늘과 같으면 "현재상영중"을 반환합니다.
         if (movieReleaseDate.isBefore(today) || movieReleaseDate.isEqual(today)) {
-            return "개봉";
+            return "현재상영중";
         } else {
             // 개봉일이 오늘 이후인 경우, 오늘부터 개봉일까지의 일수를 계산합니다.
             long dDay = ChronoUnit.DAYS.between(today, movieReleaseDate);
@@ -102,7 +103,7 @@ public class MovieService {
     }
 
     // 영화 등록 메서드
-    public Movie addMovie(MovieRequest.movieSavaFormDTO reqDTO) {
+    public Movie addMovie(MovieRequest.MovieSavaFormDTO reqDTO) {
         // MultipartFile 객체로부터 포스터 파일 가져오기
         MultipartFile poster = reqDTO.getImgFilename();
         String posterFileName = null;
@@ -162,87 +163,109 @@ public class MovieService {
         if (trailers != null && trailers.length > 0) {
             for (MultipartFile trailer : trailers) {
                 try {
-                    String trailerFileName = uploadAndEncodeVideo(trailer);
+                    String masterMp4FileName = uploadAndEncodeVideo(trailer);
+                    String mp4FileName = trailer.getOriginalFilename();
+
+
+
                     Trailer movieTrailer = new Trailer();
-                    movieTrailer.setStreamingFilename(trailerFileName);
+                    movieTrailer.setStreamingFilename(mp4FileName);
+                    movieTrailer.setMasterM3U8Filename(masterMp4FileName);
                     movieTrailer.setMovie(movie); // 외래 키 설정
-                    // Trailer 리스트에 추가
                     movieTrailerList.add(movieTrailer);
                 } catch (IOException e) {
                     throw new RuntimeException("트레일러 파일 오류", e);
                 }
             }
-            // Trailer 리스트를 저장
             trailerRepository.saveAll(movieTrailerList);
         }
-        // Movie 엔티티에 Trailer 리스트 설정
         movie.setTrailerList(movieTrailerList);
 
-        // Movie 객체를 반환
         return movie;
     }
 
+    // 스트리밍 동영상 업로드
     public String uploadAndEncodeVideo(MultipartFile file) throws IOException {
         try {
+            // 비디오 디렉토리 생성
             Files.createDirectories(videoLocation);
         } catch (IOException e) {
             log.warn("Failed to create video directory: " + e.getMessage());
             throw new RuntimeException("Could not create video directory", e);
         }
 
-
+        // 원본 파일 이름 및 경로 설정
         String originalFilename = file.getOriginalFilename();
         if (originalFilename == null || originalFilename.isBlank()) {
             throw new IllegalArgumentException("파일 이름이 비어 있습니다.");
         }
 
-        String baseName = originalFilename.substring(0, originalFilename.lastIndexOf('.'));
+        String baseName = FilenameUtils.getBaseName(originalFilename);
         String inputFilePath = videoLocation.resolve(originalFilename).toString();
-        String outputFilePath = videoLocation.resolve(baseName + ".m3u8").toString();
-
         File inputFile = new File(inputFilePath);
-        file.transferTo(inputFile);
 
-        log.info("Starting FFmpegFrameGrabber for input file: " + inputFilePath);
-        try (FFmpegFrameGrabber grabber = new FFmpegFrameGrabber(inputFilePath)) {
-            grabber.start();
+        // 업로드된 파일을 직접 읽어 저장
+        try (InputStream inputStream = file.getInputStream(); FileOutputStream outputStream = new FileOutputStream(inputFile)) {
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+        }
 
-            log.info("Number of Streams: " + grabber.getLengthInFrames());
-            int totalFrames = grabber.getLengthInFrames();
-            double frameRate = grabber.getFrameRate();
-            double durationInSeconds = totalFrames / frameRate;
-            log.info("Total Frames: " + totalFrames);
-            log.info("Frame Rate: " + frameRate);
-            log.info("Duration (seconds): " + durationInSeconds);
+        // 다양한 비트레이트 설정
+        List<Integer> bitrates = List.of(400000, 800000, 1200000); // 비트레이트 설정
+        List<String> outputFiles = new ArrayList<>();
+        String masterPlaylistName = baseName + "_master.m3u8";
+        String masterPlaylistPath = videoLocation.resolve(masterPlaylistName).toString();
 
-            try (FFmpegFrameRecorder recorder = new FFmpegFrameRecorder(outputFilePath, grabber.getImageWidth(), grabber.getImageHeight(), grabber.getAudioChannels())) {
-                recorder.setFormat("hls");
-                recorder.setOption("hls_time", "10");
-                recorder.setOption("hls_list_size", "0");
-                recorder.setOption("hls_flags", "split_by_time");
-                recorder.setOption("hls_wrap", "0");
-                recorder.setOption("loglevel", "debug");
+        // 각 비트레이트별 M3U8 파일 생성
+        int imageWidth = 0;
+        int imageHeight = 0;
 
-                recorder.setVideoCodec(avcodec.AV_CODEC_ID_H264);
-                recorder.setAudioCodec(avcodec.AV_CODEC_ID_AAC);
-                recorder.setFrameRate(grabber.getFrameRate());
-                recorder.setSampleRate(grabber.getSampleRate());
-                recorder.setAudioChannels(grabber.getAudioChannels());
+        for (int bitrate : bitrates) {
+            String outputFileName = baseName + "." + bitrate + "m3u8";
+            String outputFilePath = videoLocation.resolve(outputFileName).toString();
+            outputFiles.add(outputFilePath);
 
-                recorder.start();
+            // FFmpegFrameGrabber와 FFmpegFrameRecorder 설정
+            try (FFmpegFrameGrabber grabber = new FFmpegFrameGrabber(inputFilePath)) {
+                grabber.start();
 
-                Frame frame;
-                int frameNumber = 0;
-                while ((frame = grabber.grabFrame()) != null) {
-                    frameNumber++;
-                    if (frame.image != null) {
-                        recorder.record(frame);
-                    } else if (frame.samples != null && frame.samples.length > 0) {
-                        recorder.recordSamples(frame.sampleRate, frame.audioChannels, frame.samples);
-                    }
+                if (imageWidth == 0 || imageHeight == 0) {
+                    imageWidth = grabber.getImageWidth();
+                    imageHeight = grabber.getImageHeight();
                 }
 
-                recorder.stop();
+                try (FFmpegFrameRecorder recorder = new FFmpegFrameRecorder(outputFilePath, grabber.getImageWidth(), grabber.getImageHeight(), grabber.getAudioChannels())) {
+                    recorder.setFormat("hls");
+                    recorder.setOption("hls_time", "10");
+                    recorder.setOption("hls_list_size", "0");
+                    recorder.setOption("hls_flags", "split_by_time");
+                    recorder.setOption("hls_wrap", "0");
+                    recorder.setOption("loglevel", "debug");
+
+                    recorder.setVideoCodec(avcodec.AV_CODEC_ID_H264);
+                    recorder.setAudioCodec(avcodec.AV_CODEC_ID_AAC);
+                    recorder.setFrameRate(grabber.getFrameRate());
+                    recorder.setSampleRate(grabber.getSampleRate());
+                    recorder.setAudioChannels(grabber.getAudioChannels());
+                    recorder.setVideoBitrate(bitrate);
+
+                    recorder.start();
+
+                    Frame frame;
+                    while ((frame = grabber.grabFrame()) != null) {
+                        if (frame.image != null) {
+                            recorder.record(frame);
+                        } else if (frame.samples != null && frame.samples.length > 0) {
+                            recorder.recordSamples(frame.sampleRate, frame.audioChannels, frame.samples);
+                        }
+                    }
+
+                    recorder.stop();
+                }
+
                 grabber.stop();
             } catch (Exception e) {
                 log.warn("비디오 인코딩 중 오류가 발생했습니다: " + e.getMessage());
@@ -250,7 +273,17 @@ public class MovieService {
             }
         }
 
-        return baseName + ".m3u8";
+        // 마스터 M3U8 플레이리스트 생성
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(masterPlaylistPath))) {
+            writer.write("#EXTM3U\n");
+            for (int bitrate : bitrates) {
+                String resolution = imageWidth + "x" + imageHeight; // 해상도 설정
+                writer.write("#EXT-X-STREAM-INF:BANDWIDTH=" + bitrate + ",RESOLUTION=" + resolution + "\n");
+                writer.write(baseName +"."+ bitrate + "m3u8\n");
+            }
+        }
+
+        return masterPlaylistName; // 마스터 M3U8 파일 이름 반환
     }
 
     public List<MovieResponse.UserMovieChartDTO> getMovieChart(){
@@ -323,6 +356,7 @@ public class MovieService {
                 .genre(movie.getGenre())
                 .info(movie.getInfo())
                 .startDate(movie.getStartDate())
+                .endDate(movie.getEndDate())
                 .description(movie.getDescription())
                 .stills(stills.stream().map(MovieResponse.MovieDetailDTO.MoviePicDTO::fromEntity).collect(Collectors.toList()))
                 .trailers(trailers.stream().map(MovieResponse.MovieDetailDTO.TrailerDTO::fromEntity).collect(Collectors.toList()))
@@ -330,6 +364,34 @@ public class MovieService {
                 .reviewCount(reviewCount)
                 .stillsCount(stillsCount)
                 .build();
+    }
+
+    // 영화 수정(기본 정보만)
+    @Transactional
+    public int editMovieInfo(MovieRequest.MovieInfoEditDTO reqDTO) {
+        int result;
+        try {
+            // 포스터와 같이 업데이트할 때
+            MultipartFile poster = reqDTO.getImgFilename();
+            if (poster != null && !poster.isEmpty()) {
+                String posterFileName = fileUtil.saveMoviePoster(poster);
+                reqDTO.setPosterName(posterFileName);
+                result = movieQueryRepository.updateMovieById(reqDTO);
+            } else {
+                // 포스터 없이 업데이트 할 때
+                result = movieQueryRepository.updateMovieByIdWithoutPoster(reqDTO);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("이미지 오류", e);
+        }
+        if (result != 1) throw new RuntimeException("업데이트 실패");
+        return reqDTO.getId();
+    }
+
+    // 영화 삭제
+    @Transactional
+    public void deleteMovie(Integer movieId) {
+        movieRepository.deleteById(movieId);
     }
 
 }

@@ -229,8 +229,7 @@ V.I.A(Very Important Animal)를 만족시키기 위한
 두 사람은 괴생명체를 피해 지하철역부터 시가지,
 할렘까지 숨죽인 여정을 이어 나가는데…'),
 -- 12
-('태풍 클럽', 'Typhoon Club', '소마이 신지', '미카미 유이치 ,  쿠도 유키', '', '
-15세이상관람가, 115분, 일본', DATEADD('DAY', +3, CURRENT_TIMESTAMP), DATEADD('DAY', +34, CURRENT_TIMESTAMP), 'movie12.png',
+('태풍 클럽', 'Typhoon Club', '소마이 신지', '미카미 유이치 ,  쿠도 유키', '', '15세이상관람가, 115분, 일본', DATEADD('DAY', +3, CURRENT_TIMESTAMP), DATEADD('DAY', +34, CURRENT_TIMESTAMP), 'movie12.png',
  '태풍이 불어 닥친 날,
 
  미카미 쿄이치를 비롯한 6명의 중학생이 학교에 갇히고,
@@ -5770,6 +5769,8 @@ values ('kakao_3587969747', 'http://k.kakaocdn.net/dn/ML8Oz/btsF1tO0SFt/lDxdKk8E
         '박찬혁', '1997', 'kakao', now(), 'asdfdsa', 21000),
        ('kakao_3586886160', 'http://k.kakaocdn.net/dn/bbhhIh/btsH8BwWtD7/VkichtT9KFwCLkmuucDNTk/img_640x640.jpg',
         '송채현', '1995', 'kakao', now(), 'asdfdsa', 21000),
+       ('kakao_3596460276', 'http://k.kakaocdn.net/dn/s5uAz/btsHXDJbWgx/eEg0CRsso6lVxkYCZFdSrK/img_640x640.jpg',
+        '이서현', '2000', 'kakao', now(), 'asdfdsa', 21000),
        ('바끄선규', 'default.png', '박선규', '2000', 'kakao', now(), 'asdfdsa', 0),
        ('서르동훈', 'default.png', '설동훈', '1996', 'kakao', now(), 'fdsafdsa', 0),
        ('영화박사', 'default.png', '손세정', '1976', 'naver', now(), 'fdsafdsa', 0),

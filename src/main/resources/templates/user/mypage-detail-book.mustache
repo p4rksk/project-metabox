@@ -1,131 +1,367 @@
 {{> layout/header}}
 <head>
     <link rel="stylesheet" href="/css/mypageDetailBook.css">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 </head>
 
-
 <div class="container">
-    <div class="profile-card">
-        <div class="header">
-            <img src="{{model.userDTO.imgFilename}}">
-            <div class="info">
-                <h3>{{model.userDTO.name}}님</h3>
-                <p><strong>{{model.userDTO.nickname}}</strong></p>
-                <p>고객님은 <span class="text-danger">일반</span> 입니다.</p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6 points">
-                <h4>POINT <i class="fas fa-question-circle" data-toggle="tooltip"
-                             title="1,000P 이상부터 10P 단위로 사용 가능합니다."></i></h4>
-                <p>사용가능 포인트 <strong>{{model.userDTO.point}} 점</strong></p>
-            </div>
-            <div class="col-md-6 vip-points">
-                <h4>VIP 점수 <i class="fas fa-question-circle" data-toggle="tooltip"
-                              title="1만점 누적 달성하시면 다음달 VIP로 승급됩니다."></i></h4>
-                <p>VIP 누적 점수 <strong>{{model.userDTO.point}}/10,000점</strong></p>
-            </div>
-        </div>
-        <div class="grid">
-            <div>1</div>
-            <div>2</div>
-            <div>3</div>
-            <div>4</div>
-            <div>5</div>
-            <div class="setting" style="text-align: center; font-weight: bold">빠른 극장 선택</div>
-        </div>
-    </div>
+    {{> layout/userbar}}
 
     <div class="row mt-5 justify-content-between">
         {{> layout/sidebar}}
         <div class="col-md-9">
-            <div class="my-3">
-                <h5 style="font-weight: bolder;">나의 예매내역</h5>
-            </div>
             <div class="my-3 d-flex align-items-center justify-content-between">
-                <p class="mb-0" style="font-size: 15px; margin-top: -2%">지난 <span class="text-danger">1개월</span>까지의
-                    예매내역을 확인하실 수 있습니다.</p>
-                <a href="/mypage/detail-saw"><button class="custom-button" style="margin-top: -5%; font-weight: bolder;">내가 본 영화</button></a>
+                <h5 style="font-weight: bolder;">나의 예매내역</h5>
+                <a href="/mypage/detail-saw">
+                    <button class="custom-button btn btn-primary">내가 본 영화</button>
+                </a>
             </div>
 
             <hr style="height: 2px; background-color: black;">
 
-            <div class="text-center">
-                <div class="my-3">
-                    <p style="font-size: 25px;">현장에서 발권하실 경우 꼭 <span class="text-danger">예매번호</span>를 확인하세요.</p>
-                    <p style="font-size: 15px;">티켓판매대에서 예매번호를 입력하면 티켓을 발급받을 수 있습니다.</p>
-                </div>
-                <div class="my-3">
-                    <p style="font-size: 15px;">고객님의 최근 예매내역이 존재하지 않습니다.</p>
-                </div>
-            </div>
-
-            <br>
-            <hr style="height: 1px; background-color: rgb(209, 209, 209);"><br>
-            <div style="background-color: #F1F1F1; text-align: center;"><h5 class="my-3">TODAY BEST 무비차트</h5></div>
-            <div class="swiper-container">
-                <div class="swiper-wrapper">
-                    {{#model.movieCharts}}
-                    <div class="swiper-slide">
-                        <img src="/image/movie/{{imgFilename}}">
-                        <p class="mt-3" style="font-weight: bolder;">{{title}}</p>
-                        <div class="rating">
-                            <span>예매율 {{ticketSales}} %</span>
+            <div class="mt-3 boxed">
+                <div class="row">
+                    {{#model.ticketingDTO}}
+                        <div class="col-md-3 boxed" style="background-color: white">
+                            <img src="/image/movie/{{imgFilename}}" class="img-fluid"
+                                 style="width: 100px; height: 150px">
+                            <p class="card-text">예매번호 이거 맞춰야합니다~</p>
                         </div>
-                        <p>{{startDate}} 개봉</p>
-                    </div>
-                    {{/model.movieCharts}}
-                    <!-- Add more slides if needed -->
+
+                        <div class="col-md-9 boxed" style="padding-top: 5%; background-color: white">
+                            <h5 class="card-title" style="margin-top: -5%;">
+                                <strong><small class="{{ageColor}}">{{ageInfo}}</small>{{title}}
+                                    <small>({{engTitle}})</small></strong></h5>
+                            <p class="card-text">관람일시 {{date}} ({{startTime}} ~ {{endTime}})</p>
+                            <p class="card-text">관람극장 {{theaterName}} ({{name}})</p>
+                            <p class="card-text">관람좌석 {{#seatCodes}}
+                                {{.}}번
+                            {{/seatCodes}}</p>
+                            <p class="card-text total-price">결제금액 {{totalPrice}}</p>
+                        </div>
+                    {{/model.ticketingDTO}}
+
+                    {{^model.ticketingDTO}}
+                        <div class="text-center">
+                            <div class="my-3">
+                                <p style="font-size: 25px;">현장에서 발권하실 경우 꼭 <span class="text-danger">예매번호</span>를 확인하세요.
+                                </p>
+                                <p style="font-size: 15px;">티켓판매대에서 예매번호를 입력하면 티켓을 발급받을 수 있습니다.</p>
+                            </div>
+                            <div class="my-3 text-danger">
+                                <p style="font-size: 15px;">고객님의 관람 예정 작품이 존재하지 않습니다.</p>
+                            </div>
+                        </div>
+                    {{/model.ticketingDTO}}
                 </div>
-                <!-- Add Navigation -->
-                <div class="swiper-button-next"></div>
-                <div class="swiper-button-prev"></div>
             </div>
 
-            <hr style="height: 0.5px; background-color: black;">
-            <div class="cancel-section my-3">
-                <div class="header-section">
-                    <h5 style="font-weight: bolder; margin-bottom: 2%;">MY 취소내역</h5>
-                    <p class="info-text">상영일 기준 지난 7일 동안의 취소내역입니다.</p>
+                <br>
+                <hr style="height: 1px; background-color: rgb(209, 209, 209);">
+                <br>
+                <div style="background-color: #F1F1F1; text-align: center;"><h5 class="my-3">TODAY BEST 무비차트</h5></div>
+                <div class="swiper-container">
+                    <div class="swiper-wrapper">
+                        {{#model.movieCharts}}
+                            <div class="swiper-slide">
+                                <a href="/movies/detail/{{movieId}}" style="text-decoration: none; color: black;">
+                                    <img src="/image/movie/{{imgFilename}}">
+                                    <p class="mt-3" style="font-weight: bolder; font-size: 20px;">{{title}}</p>
+                                    <div class="rating">
+                                        <span>예매율 {{ticketSales}} %</span>
+                                    </div>
+                                    <p>{{startDate}} 개봉</p>
+                                </a>
+                            </div>
+                        {{/model.movieCharts}}
+                    </div>
+
+                    <div class="swiper-button-next" style="color: #4E0929; margin-top: 20%"></div>
+                    <div class="swiper-button-prev" style="color: #4E0929; margin-top: 20%"></div>
+
                 </div>
-                <table class="table table-bordered">
-                    <thead>
-                    <tr>
-                        <th>영화</th>
-                        <th>영화관</th>
-                        <th>예매일</th>
-                        <th>취소일</th>
-                        <th>결제취소 금액</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td colspan="5" class="text-center">고객님의 최근 취소내역이 존재하지 않습니다.</td>
-                    </tr>
-                    </tbody>
-                </table>
+
+                <hr style="height: 0.5px; background-color: black;">
+                <div class="cancel-section my-3">
+                    <div class="header-section">
+                        <h5 style="font-weight: bolder; margin-bottom: 2%;">MY 취소내역</h5>
+                        <p class="info-text">상영일 기준 지난 7일 동안의 취소내역입니다.</p>
+                    </div>
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>영화</th>
+                            <th>영화관</th>
+                            <th>예매일</th>
+                            <th>취소일</th>
+                            <th>결제취소 금액</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td colspan="5" class="text-center">고객님의 최근 취소내역이 존재하지 않습니다.</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <br><br>
+
             </div>
-            <br><br>
+        </div>
+    </div>
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div class="tab">
+                <div style="background-color: #4E0929; color: white">자주가는 META BOX</div>
+            </div>
+            <div class="tab-content active" id="tab1">
+                <div class="theater-list theater-area-list">
+                    {{#model.theaterDTOS}}
+                        <div class="tab-button" data-theater-id="{{id}}" data-area="{{areaName}}">{{areaName}}</div>
+                    {{/model.theaterDTOS}}
+                </div>
+            </div>
+            {{#model.theaterDTOS}}
+                <div class="tab-content area-name-list" id="area-name-list-{{id}}">
+                    {{#theaterNameDTOS}}
+                        <div class="theater-list theater-list-name">
+                            <div data-theater-name-id="{{theaterId}}"
+                                 data-theater="{{theaterName}}">{{theaterName}}</div>
+                        </div>
+                    {{/theaterNameDTOS}}
+                </div>
+            {{/model.theaterDTOS}}
+
+            <div class="selected-theater">
+                <!-- 선택한 극장이 여기 표시됩니다 -->
+
+            </div>
+
+            <div class="button-container">
+                <button id="checkListButton" type="button" onclick="checkList()">확인</button>
+            </div>
 
         </div>
     </div>
-</div>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="https://kit.fontawesome.com/a076d05399.js"></script>
-<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-<script>
-    var swiper = new Swiper('.swiper-container', {
-        slidesPerView: 3,
-        spaceBetween: 0,
-        slidesPerGroup: 3,
-        loop: true,
-        loopFillGroupWithBlank: true,
-        navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-        },
-    });
-</script>
+
+
+    <script>
+
+        // 항상 div 5개 유지하게
+        const maxSlots = 5;
+        const $grid = $('.grid');
+        const currentSlots = $grid.children().length - 1; // 설정 버튼 제외
+        const emptySlots = maxSlots - currentSlots;
+
+        for (let i = 0; i < emptySlots; i++) {
+            $('<div></div>').insertBefore('.setting');
+        }
+
+
+        // 스크랩 납치
+        let myTheaterScrap = [];
+
+        function checkList() {
+            // alert("작동함1");
+
+            let userId = {{model.userDTO.id}};
+            console.log("userId " + userId);
+
+            // alert("작동함2");
+
+            // theaterName 의 id, theater 값 잘 받아오는지 확인용
+            $('.selected-theater div').each(function () {
+
+                // alert("작동함3");
+                // theater pk 키
+                let theaterNameId = $(this).data("theater-name-id");
+                console.log("극장pk " + theaterNameId);
+
+                // 중복 확인
+                if (!myTheaterScrap.some(item => item.theaterNameId === theaterNameId)) {
+                    let selectList = {
+                        theaterNameId: theaterNameId,
+                        userId: userId
+                    };
+
+                    myTheaterScrap.push(selectList);
+
+                    // alert("작동함4");
+                }
+
+            });
+
+            // alert("작동함5");
+            console.log("이거 나오나요? " + myTheaterScrap);
+            console.log("이쪽은 나오나요 ?? " + JSON.stringify(myTheaterScrap));
+
+            // alert("작동함6");
+
+            $.ajax({
+                url: '/mypage/home/scrap',
+                data: JSON.stringify(myTheaterScrap),
+                contentType: 'application/json; charset=utf-8',
+                type: 'POST'
+
+            }).done((res) => {
+                alert("자주가는 META BOX 설정이 완료되었습니다.");
+                closeModal();
+                location.reload();
+
+            }).fail((res) => {
+                alert("error!")
+            });
+
+        }
+
+        //툴팁
+        $('[data-toggle="tooltip"]').tooltip();
+
+        // 모달창 script
+        function openModal() {
+            $("#myModal").css("display", "block");
+        }
+
+        function closeModal() {
+            $("#myModal").css("display", "none");
+        }
+
+        // area 거는 것
+        $('.theater-area-list').on('click', '.tab-button', function () {
+            // alert("찍힘 ")
+            let id = $(this).data('theater-id');
+            // console.log("id " + id)
+            $('.area-name-list').removeClass('active');
+            // 클릭한 버튼과 일치하는 영역 표시
+            $('#area-name-list-' + id).addClass('active');
+
+        });
+
+        // 모달창 닫기
+        $(window).on('click', function (event) {
+            if (event.target == $("#myModal")[0]) {
+                closeModal();
+            }
+        });
+
+        // 최대 5개. 중복체크도 필요함
+        const maxSelectedTheaters = 5;
+
+        // MEATABOX 강남 거는 것
+        $('.theater-list-name div').on('click', function () {
+
+            // alert("알림");
+
+            $(this).css({
+                'background-color': '#c6c6c6', // 배경색도 추가
+            });
+
+            // 중복체크 용 값
+            const theaterName = $(this).data('theater');
+            console.log("네임 " + theaterName)
+
+            // 중복제거
+            let isSelected = false;
+            $('.selected-theater div').each(function () {
+
+                // 악 이거 지금 그냥 text만 찍으니까 &times; 이값이랑 같이 가져와서 그런다 ㅠㅠ contents~filter 같이 써야한다
+                // 지금은 밑에 data 넣어놔서 data 값으로 꺼내와도 되는데 번거로우니 바꾸지 않겠다!!
+                const textNode = $(this).contents().filter(function () {
+                    return this.nodeType === 3; // 텍스트 노드만 선택
+                }).text().trim();
+
+                // console.log("왜안될까요 " + $(this).text());
+                if (textNode === theaterName) {
+                    isSelected = true;
+                    return false;
+                }
+            });
+
+            // 이 코드도 있어야지 중복 해결 됨!!
+            if (isSelected) {
+                // alert("중복");
+                return;
+            }
+
+
+            if ($('.selected-theater div').length >= maxSelectedTheaters) {
+                alert('최대 5개의 극장만 선택할 수 있습니다.');
+                return;
+            }
+
+            // 스크랩용
+            let theaterNameIds = $(this).data("theater-name-id");
+            console.log("아이디아이디 = " + theaterNameIds);
+
+            // 극장 추가
+            // console.log("네임아 " + theaterName);
+            const selectedTheater = $(`
+            <div data-theater="${theaterName}" data-theater-name-id="${theaterNameIds}">
+                ${theaterName}
+                <button class="delete-button">&times;</button>
+            </div>
+        `);
+
+            selectedTheater.find('.delete-button').on('click', function () {
+                // delete-button 의 parent인 div data-theater에서 theaterName 을 찾음
+                const parentDiv = $(this).parent();
+                // console.log("이거 뭘까 = " + parentDiv);
+                // 그 theaterName에서 date 값을 가져옴
+                const theaterName = parentDiv.data('theater');
+                // console.log("이건? = " + theaterName);
+
+                // 해당 극장의 배경색 초기화
+                // 그럼 data-theater에서 theaterName 인 div 를 찾아 css 를 빼주면 됨!
+                $(`.theater-list-name div[data-theater="${theaterName}"]`).css({
+                    'background-color': '', // 배경색 초기화
+                });
+
+                // myTheaterScrap에서 해당 극장 제거
+                myTheaterScrap = myTheaterScrap.filter(item => item.theaterNameId !== parentDiv.data('theater-name-id'));
+
+                $(this).parent().remove();
+            });
+
+            $('.selected-theater').append(selectedTheater);
+
+        });
+
+        // 애는 ready 써줘야함
+        $(document).ready(function () {
+            var swiper = new Swiper('.swiper-container', {
+                slidesPerView: 3,
+                spaceBetween: 0,
+                slidesPerGroup: 3,
+                loop: true,
+                loopFillGroupWithBlank: true,
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+            });
+        });
+
+
+        <!--    천단위 표시 재사용 해야할 함수 -->
+        function numberWithCommas(num) {
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
+        //처음에 들어갔을때 천단위 구분자 나오게
+        $(".total-price").each(function () {
+            let totalPrice = $(this).text();    // p태그라 text
+            $(this).text(numberWithCommas(totalPrice));
+
+        });
+
+    </script>
+
+
+
 {{> layout/footer}}

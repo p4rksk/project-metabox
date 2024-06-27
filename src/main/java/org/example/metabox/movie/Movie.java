@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.metabox.movie_pic.MoviePic;
+import org.example.metabox.movie_scrap.MovieScrap;
+import org.example.metabox.review.Review;
 import org.example.metabox.screening_info.ScreeningInfo;
 import lombok.ToString;import org.example.metabox.trailer.Trailer;
 
@@ -48,6 +50,12 @@ public class Movie {
 
     @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Trailer> trailerList;
+
+    @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<Review> reviewList;
+
+    @OneToMany(mappedBy = "movie", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<MovieScrap> movieScrapList;
 
     // 영화 소개
     // VARCHAR 보다 긴 TEXT 사용

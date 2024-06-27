@@ -281,7 +281,11 @@
         border-radius: 50%;
         margin-right: 10px;
     }
+    .clicked {
+        background-color: #4b1b3a; /* Change this to the desired background color */
+    }
 </style>
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <div class="container">
@@ -289,9 +293,12 @@
     <div class="movie-detail">
         <div class="movie-poster-container">
             <img src="/image/movie/{{model.imgFilename}}" alt="Movie Poster" class="movie-poster">
-            <button class="btn btn-outline-secondary btn-icon">
-                <img src="/image/movie/icon-192.png" style="width: 25px; height: 25px;">찜
-            </button>
+            <form action="/scrap/{{model.id}}/movie" method="post">
+                <button id="myButton" class="btn btn-outline-secondary btn-icon" onclick="scrapButton()">
+                    <img src="/image/movie/icon-192.png" style="width: 25px; height: 25px;">찜
+                </button>
+            </form>
+
         </div>
         <div class="movie-info">
             <h2>{{model.title}} <span class="badge badge-primary">{{model.releaseStatus}}</span></h2>
@@ -493,5 +500,36 @@
             }
         }
     });
+</script>
+<!--<script>-->
+<!--    document.addEventListener('DOMContentLoaded', function() {-->
+<!--        const button = document.getElementById('myButton');-->
+<!--        button.addEventListener('click', function() {-->
+<!--            button.classList.toggle('clicked');-->
+<!--        });-->
+<!--    });-->
+<!--</script>-->
+<script>
+    let isMovieScrapped = false;
+
+    function scrapButton() {
+        if (isMovieScrapped) {
+            if (confirm("찜하시겠습니까?")) {
+                document.getElementById('myButton').classList.add('clicked');
+                alert("기대되는 영화에 추가되었습니다.");
+                isMovieScrapped = true;
+            } else {
+                alert("취소되었습니다.");
+            }
+        } else {
+            if (confirm("찜하기를 취소하시겠습니까?")) {
+                document.getElementById('myButton').classList.remove('clicked');
+                alert("취소되었습니다.");
+                isMovieScrapped = false;
+            } else {
+                alert("찜하기를 유지합니다.");
+            }
+        }
+    }
 </script>
 {{> layout/footer}}

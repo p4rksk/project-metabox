@@ -1,8 +1,9 @@
 /* MOVIE 부분 */
+/* MOVIE 부분 */
 .movie-main img {
     width: 100%;
     border-radius: 5px;
-    height: 500px;
+    height: auto; /* 비율 유지를 위해 auto로 설정 */
 }
 
 .swiper-container {
@@ -14,7 +15,7 @@
 
 .swiper-slide {
     width: 20%;
-    height: 100%;
+    height: auto; /* 비율 유지를 위해 auto로 설정 */
 }
 
 .movie-item {
@@ -25,15 +26,17 @@
 .img-container {
     position: relative;
     width: 100%;
-    height: 100%;
+    padding-top: 150%; /* 높이를 비율로 설정하여 고정 */
     overflow: hidden;
 }
 
 .img-container img {
-    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: cover; /* 비율을 유지하면서 잘라내기 */
     border-radius: 5px;
     transition: 0.3s ease;
 }
@@ -106,7 +109,6 @@
     text-decoration: none;
 }
 
-
 .btn-booking:hover {
     opacity: 80%;
     color: rgb(228, 228, 228);
@@ -122,6 +124,7 @@
     color: black;
     text-decoration: none;
 }
+
 
 .notice-box {
     border: 1px solid #ddd;
@@ -339,4 +342,56 @@
     padding: 10px 15px;
     color: black;
     margin-left: 0;
+}
+
+/*초록*/
+.age-info-green {
+    display: inline-block;
+    width: 24px; /* 원하는 크기로 조정하세요 */
+    height: 24px; /* 원하는 크기로 조정하세요 */
+    border-radius: 50%;
+    background-color: green; /* 초록색 배경 */
+    color: white; /* 텍스트 색상 */
+    text-align: center;
+    line-height: 24px; /* 높이와 동일하게 설정하여 텍스트를 가운데로 맞춤 */
+    margin-right: 5px; /* 텍스트와 약간의 간격을 둠 */
+}
+
+/*노랑*/
+.age-info-yellow {
+    display: inline-block;
+    width: 24px; /* 원하는 크기로 조정하세요 */
+    height: 24px; /* 원하는 크기로 조정하세요 */
+    border-radius: 50%;
+    background-color: #ffd600; /* 초록색 배경 */
+    color: white; /* 텍스트 색상 */
+    text-align: center;
+    line-height: 24px; /* 높이와 동일하게 설정하여 텍스트를 가운데로 맞춤 */
+    margin-right: 5px; /* 텍스트와 약간의 간격을 둠 */
+}
+
+/*파랑*/
+.age-info-blue {
+    display: inline-block;
+    width: 24px; /* 원하는 크기로 조정하세요 */
+    height: 24px; /* 원하는 크기로 조정하세요 */
+    border-radius: 50%;
+    background-color: #223cd5; /* 초록색 배경 */
+    color: white; /* 텍스트 색상 */
+    text-align: center;
+    line-height: 24px; /* 높이와 동일하게 설정하여 텍스트를 가운데로 맞춤 */
+    margin-right: 5px; /* 텍스트와 약간의 간격을 둠 */
+}
+
+/*빨강*/
+.age-info-red {
+    display: inline-block;
+    width: 24px; /* 원하는 크기로 조정하세요 */
+    height: 24px; /* 원하는 크기로 조정하세요 */
+    border-radius: 50%;
+    background-color: #da0000; /* 초록색 배경 */
+    color: white; /* 텍스트 색상 */
+    text-align: center;
+    line-height: 24px; /* 높이와 동일하게 설정하여 텍스트를 가운데로 맞춤 */
+    margin-right: 5px; /* 텍스트와 약간의 간격을 둠 */
 }

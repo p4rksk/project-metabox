@@ -78,18 +78,21 @@ public class MovieResponse {
         private String genre;
         private String info;
         private Date startDate;
+        private Date endDate;
         private String description;
         private List<MoviePicDTO> stills;
         private List<TrailerDTO> trailers;
         private List<ReviewDTO> reviews;
         private Integer reviewCount;
         private Integer stillsCount;
+        private Integer trailersCount;
 
         @Data
         public static class MoviePicDTO {
             private int id;
             private String fileName;
 
+            // TODO: 생성자 코드 변경하기
             public static MoviePicDTO fromEntity(MoviePic moviePic) {
                 MoviePicDTO dto = new MoviePicDTO();
                 dto.id = moviePic.getId();
@@ -102,11 +105,13 @@ public class MovieResponse {
         public static class TrailerDTO {
             private int id;
             private String fileName;
+            private String masterM3u8name;
 
             public static TrailerDTO fromEntity(Trailer trailer) {
                 TrailerDTO dto = new TrailerDTO();
                 dto.id = trailer.getId();
-                dto.fileName = trailer.getImgFilename();
+                dto.fileName = trailer.getStreamingFilename();
+                dto.masterM3u8name= trailer.getMasterM3U8Filename();
                 return dto;
             }
         }
@@ -176,7 +181,7 @@ public class MovieResponse {
             public static TrailerDTO fromEntity(Trailer trailer) {
                 TrailerDTO dto = new TrailerDTO();
                 dto.id = trailer.getId();
-                dto.fileName = trailer.getImgFilename();
+                dto.fileName = trailer.getStreamingFilename();
                 return dto;
             }
         }
