@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Builder;
 import lombok.Data;
 import org.example.metabox._core.util.ScopeDeserializer;
+import org.example.metabox.movie.MovieResponse;
 import org.example.metabox.theater.Theater;
 import org.example.metabox.theater_scrap.TheaterScrap;
 
@@ -120,15 +121,32 @@ public class UserResponse {
     // 메인 페이지 무비차트, 상영예정작
     @Data
     public static class MainChartDTO {
+        // 트레일러
+        private TrailerDTO trailerDTO;
         // 무비차트
         private List<MainMovieChartDTO> movieCharts = new ArrayList<>();
         // 상영예정작
         private List<ToBeChartDTO> toBeCharts = new ArrayList<>();
 
         @Builder
-        public MainChartDTO(List<MainMovieChartDTO> movieCharts, List<ToBeChartDTO> toBeCharts) {
+        public MainChartDTO(TrailerDTO trailerDTO,List<MainMovieChartDTO> movieCharts, List<ToBeChartDTO> toBeCharts) {
             this.movieCharts = movieCharts;
             this.toBeCharts = toBeCharts;
+        }
+
+        // 메인 트레일러 파트
+            @Data
+            public static class TrailerDTO {
+            private int id;
+            private String fileName;
+            private String masterM3u8name;
+
+            @Builder
+            public TrailerDTO(int id, String fileName, String masterM3u8name) {
+                this.id = id;
+                this.fileName = fileName;
+                this.masterM3u8name = masterM3u8name;
+            }
         }
 
         // 메인의 무비차트

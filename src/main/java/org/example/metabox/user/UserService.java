@@ -71,10 +71,12 @@ public class UserService {
         List<UserResponse.MainChartDTO.MainMovieChartDTO> movieChartDTOS = movieQueryRepository.getMainMovieChart();
 //        System.out.println("쿼리 확인용 = " + movieChartDTOS);
 
+
         // 순위 계산
         for (int i = 0; i < movieChartDTOS.size(); i++) {
             movieChartDTOS.get(i).setRank(i + 1);
         }
+
 
         // 상영예정작
         List<UserResponse.MainChartDTO.ToBeChartDTO> toBeChartDTOS = movieQueryRepository.getToBeChart();
