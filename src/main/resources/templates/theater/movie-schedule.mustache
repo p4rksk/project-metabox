@@ -7,7 +7,7 @@
 <div class="mx-auto d-block" style="width: 1000px; user-select: none;">
 <div class="container1" style="user-select: none; height: 383px">
     <div class="header" style="user-select: none;">자주가는 META BOX</div>
-    <div class="input-group grid theater-select">
+    <div class="input-group grid theater-select" id="theater-select-box">
         {{#model.scrapDTOList}}
             <div style="padding:10px; width: 173px; height: 46px; background: #555555; user-select: none;"
                  data-theater-name-id="{{theaterId}}" data-theater="{{theaterName}}">{{theaterName}}</div>
@@ -357,7 +357,39 @@
         }).done((res) => {
             alert("자주가는 META BOX 설정이 완료되었습니다.");
             closeModal();
-            location.reload();
+            console.log("res ", res);
+            $("#theater-select-box").empty();       //비워줘야함
+
+            res.body.forEach(theater => {
+               let box = `
+                   <div style="padding:10px; width: 173px; height: 46px; background: #555555; user-select: none;"
+                     data-theater-name-id="${theater.theaterId}"
+                    data-theater="${theater.theaterName}">${theater.theaterName}</div>
+               `;
+
+                $("#theater-select-box").append(box);
+            });
+
+            // 버튼 디자인도 넣어줘야함!
+            let settingButton = `
+            <div class="add-btn setting" style="user-select: none;" onclick="openModal()">+</div>
+        `;
+            $("#theater-select-box").append(settingButton);
+
+            const maxSlots = 5;
+            const $grid = $('.grid');
+            const currentSlots = $grid.children().length - 1; // 설정 버튼 제외
+            const emptySlots = maxSlots - currentSlots;
+
+            for (let i = 0; i < emptySlots; i++) {
+                $('<div></div>').css({
+                    padding: '10px',
+                    width: '173px',
+                    height: '46px',
+                    background: '#555555',
+                    userSelect: 'none'
+                }).insertBefore('.setting');
+            }
 
         }).fail((res) => {
             alert("error!")
