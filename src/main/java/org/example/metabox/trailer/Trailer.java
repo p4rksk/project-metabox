@@ -16,9 +16,12 @@ public class Trailer {
     private int id;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "movie_id")
     private Movie movie;
 
     private String streamingFilename; // 스트리밍 파일 이름
+
+    @Column(name = "master_m3u8_filename")
     private String masterM3U8Filename; // masterM3u8 파일 이름
 
     @Builder

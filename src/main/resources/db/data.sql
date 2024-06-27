@@ -6239,3 +6239,7 @@ insert into review_tb(user_id, movie_id, comment, rating)
 values (1, 2,
         '스토리는 뻔했지만 대부분 주요인물 위주로만 극이 흘러가는게 참 다행이었고 질질 끌지 않고 영화가 짧아서 깔끔했다. 배우들 연기는 역시 다 좋았는데 초반에 여진구만 이런 역할을 많이 안해봐서인지 다소 어색했었지만 클라이맥스로 갈수록 자연스러워져서 볼만 했다',
         '4');
+
+--트레일러 등록
+insert into trailer_tb(movie_id, streaming_filename, master_m3u8_filename)
+values (1, '인사이드 아웃 2 메인 예고편.mp4' ,'인사이드 아웃 2 메인 예고편_master.m3u8')
