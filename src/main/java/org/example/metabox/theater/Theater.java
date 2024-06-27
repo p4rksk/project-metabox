@@ -24,13 +24,13 @@ public class Theater {
     @OneToMany(mappedBy = "theater", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<TheaterScrap> theaterScrapList;
 
-    private String name;
+    private String name; // 	METABOX 강남
     private String imgFilename;
     private String address;
 
     // 서울, 경기, 인천, 강원, 대전/충청..... 01,02,03,04,05,06
     private String areaCode;
-    private String areaName;
+    private String areaName; // 서울
 
     // 051-153-159
     private String number;

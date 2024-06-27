@@ -11,7 +11,8 @@
             <div class="info">
                 <h3>{{model.userDTO.name}}님</h3>
                 <p><strong>{{model.userDTO.nickname}}</strong></p>
-                <p>환영합니다! <span class="text-danger">최고의 영화</span> 와 함께 <span class="text-danger">특별한 시간</span>을 보내세요.</p>
+                <p>환영합니다! <span class="text-danger">최고의 영화</span> 와 함께 <span class="text-danger">특별한 시간</span>을 보내세요.
+                </p>
             </div>
         </div>
         <div class="row">
@@ -22,9 +23,10 @@
             </div>
         </div>
 
-        <div class="grid theater-select">
+        <div class="grid theater-select" id="theater-select-box">
             {{#model.theaterScrapDTOS}}
-                <div style="font-size: 15px" data-theater-name-id="{{theaterId}}" data-theater="{{name}}">{{name}}</div>
+                <div style="font-size: 15px" data-theater-name-id="{{theaterId}}"
+                     data-theater="{{theaterName}}">{{theaterName}}</div>
             {{/model.theaterScrapDTOS}}
             <div class="setting" style="text-align: center; font-weight: bold" onclick="openModal()">빠른 극장 선택</div>
         </div>
@@ -191,7 +193,35 @@
         }).done((res) => {
             alert("자주가는 META BOX 설정이 완료되었습니다.");
             closeModal();
-            location.reload();
+            console.log("res", res); // body = 컬렉션 받기 [(id:1, name:건대), (id:2, name:홍대)]
+            $("#theater-select-box").empty();       //비워줘야함
+
+            res.body.forEach(theater => {
+                let box = `
+               <div style="font-size: 15px"
+                    data-theater-name-id="${theater.theaterId}" data-theater="${theater.theaterName}">
+                    ${theater.theaterName}
+                </div>
+                `;
+
+                $("#theater-select-box").append(box);
+            });
+
+            // 버튼 디자인도 넣어줘야함!
+            let settingButton = `
+            <div class="setting" style="text-align: center; font-weight: bold" onclick="openModal()">빠른 극장 선택</div>
+        `;
+            $("#theater-select-box").append(settingButton);
+
+            const maxSlots = 5;
+            const $grid = $('.grid');
+            const currentSlots = $grid.children().length - 1; // 설정 버튼 제외
+            const emptySlots = maxSlots - currentSlots;
+
+            for (let i = 0; i < emptySlots; i++) {
+                $('<div></div>').insertBefore('.setting');
+            }
+
 
         }).fail((res) => {
             alert("error!")

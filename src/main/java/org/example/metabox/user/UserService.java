@@ -421,4 +421,14 @@ public class UserService {
 
     }
 
+
+    public List<UserResponse.TheaterNameDTO> findTheater(List<UserRequest.TheaterScrapDTO> reqDTOs) {
+        List<Integer> theaterIds = reqDTOs.stream().mapToInt(value -> value.getTheaterNameId()).boxed().toList();
+//        System.out.println("아이디 뽑기 " + theaterIds);
+
+        List<UserResponse.TheaterNameDTO> theaters = userRepository.findByTheaterId(theaterIds);
+        System.out.println("조회 " + theaters);
+
+        return theaters;
+    }
 }
