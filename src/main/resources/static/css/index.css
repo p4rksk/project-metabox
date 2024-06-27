@@ -295,6 +295,9 @@
     padding-top: 2%;
     font-size: 18px;
     font-weight: bold;
+    white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+    overflow: hidden; /* 넘치는 텍스트 숨김 */
+    text-overflow: ellipsis; /* 말줄임표(...) 추가 */
 }
 
 /* Custom styles for tab headers */
