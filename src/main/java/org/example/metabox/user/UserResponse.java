@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.example.metabox._core.util.ScopeDeserializer;
 import org.example.metabox.movie.MovieResponse;
 import org.example.metabox.theater.Theater;
@@ -138,6 +139,7 @@ public class UserResponse {
 
         // 메인 트레일러 파트
             @Data
+            @NoArgsConstructor
             public static class TrailerDTO {
             private int id;
             private String fileName;

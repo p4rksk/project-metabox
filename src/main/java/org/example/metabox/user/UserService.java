@@ -81,7 +81,11 @@ public class UserService {
                 .orElseThrow(() -> new Exception404("예매율 1위의 트레일러가 없습니다."));
 
          //1.3 DTO의 매핑 시키기
-
+        UserResponse.MainChartDTO.TrailerDTO.builder()
+                .id(oneTrailer.getId())
+                .fileName(oneTrailer.getStreamingFilename())
+                .masterM3u8name(oneTrailer.getMasterM3U8Filename())
+                .build();
 
         List<UserResponse.MainChartDTO.MainMovieChartDTO> movieChartDTOS = movieQueryRepository.getMainMovieChart();
 //        System.out.println("쿼리 확인용 = " + movieChartDTOS);
