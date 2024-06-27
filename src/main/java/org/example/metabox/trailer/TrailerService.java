@@ -1,50 +1,33 @@
 package org.example.metabox.trailer;
 
-
-import net.bramp.ffmpeg.FFmpeg;
-import net.bramp.ffmpeg.FFmpegExecutor;
-import net.bramp.ffmpeg.FFprobe;
-import net.bramp.ffmpeg.builder.FFmpegBuilder;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
-import java.io.File;
-import java.io.IOException;
 
+import java.net.MalformedURLException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @Service
 public class TrailerService {
 
-    public Resource getVideoRes(String tsFile) throws IOException {
-        File file = new File(getConvertVideoPath(tsFile));
-        return new FileSystemResource(file.getCanonicalPath());
+    private final Path videoLocation = Paths.get("./upload");
+
+    public Resource getVideoRes(String filename) {
+        try {
+            System.out.println(9);
+            Path filePath = videoLocation.resolve(filename).normalize();
+            System.out.println(10);
+            Resource resource = new UrlResource(filePath.toUri());
+            System.out.println(11);
+
+            if (resource.exists() || resource.isReadable()) {
+                return resource;
+            } else {
+                throw new RuntimeException("파일을 찾을 수 없습니다: " + filename);
+            }
+        } catch (MalformedURLException ex) {
+            throw new RuntimeException("파일을 불러오는 데 실패했습니다: " + filename, ex);
+        }
     }
-
-    private String getRawVideoPath(String videoFileName) {
-        return "/upload" + videoFileName;
-    }
-
-    private String getConvertVideoPath(String outputFileName) {
-        return "/upload" + outputFileName;
-    }
-
-    public void convertHls() throws IOException {
-        String videoFilePath = new File(getRawVideoPath("good.mp4")).getCanonicalPath();
-        String convertPath =  new File(getConvertVideoPath("/good.m3u8")).getCanonicalPath();
-
-        FFmpegBuilder builder = new FFmpegBuilder()
-                .setInput(videoFilePath)
-                .addOutput(convertPath)
-                .addExtraArgs("-profile:v", "baseline")
-                .addExtraArgs("-level", "3.0")
-                .addExtraArgs("-start_number", "0")
-                .addExtraArgs("-hls_time", "10")
-                .addExtraArgs("-hls_list_size", "0")
-                .addExtraArgs("-f", "hls")
-                .done();
-
-        FFmpegExecutor executor = new FFmpegExecutor(new FFmpeg(), new FFprobe());
-        executor.createJob(builder).run();
-    }
-
 }

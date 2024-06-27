@@ -315,7 +315,7 @@
         <div class="row">
             {{#model.trailers}}
             <div class="col-md-4 trailer-item">
-                <video height="600" id="video" controls></video>
+                <video height="600" id="video-{{id}}" controls></video>
                 <button class="play-button" data-trailer-id = "{{id}}">&#9658;</button>
                 <div class="trailer-info">
                     <span class="badge">HD</span>
@@ -407,31 +407,36 @@
     $(document).ready(function() {
         $('.play-button').on('click', function() {
             var trailerId = $(this).data('trailer-id');
+            var videoElementId = 'video-' + trailerId;
+            var video = document.getElementById(videoElementId);
+
+            var videoSrc = '/upload/' + encodeURIComponent(trailerId) + '/_master.m3u8';
+
             $.ajax({
-                url: '/upload/' + trailerId + '/master.m3u8',
+                url: videoSrc,
                 method: 'GET',
-                success: function(response) {
-                    var video = document.getElementById('video');
+                success: function(data) {
                     if (Hls.isSupported()) {
                         var hls = new Hls();
-                        hls.loadSource('/upload/' + trailerId + '/master.m3u8');
+                        hls.loadSource(encodeURI(videoSrc));
                         hls.attachMedia(video);
                         hls.on(Hls.Events.MANIFEST_PARSED, function() {
                             video.play();
                         });
                     } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-                        video.src = '/videos/' + trailerId + '/master.m3u8';
+                        video.src = encodeURI(videoSrc);
                         video.addEventListener('loadedmetadata', function() {
                             video.play();
                         });
                     }
                 },
-                error: function(error) {
-                    console.error('Error loading master m3u8:', error);
+                error: function(xhr, status, error) {
+                    console.error('Error loading video source:', error);
                 }
             });
         });
     });
+
 
 
     var ctxGender = document.getElementById('genderChart').getContext('2d');
