@@ -158,200 +158,184 @@
             border-bottom: none;
         }
     }
+
+
+</style>
+<style>
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+
+    }
+
+    .section {
+        border: 1px solid #ddd;
+        padding: 10px;
+    }
+
+    h2 {
+        margin-top: 0;
+        padding-bottom: 2px;
+        border-bottom: #4b1b3a 1px solid;
+    }
+
+    button {
+        display: block;
+        width: 100%;
+        margin-bottom: 10px;
+        padding: 10px;
+        background-color: #f0f0f0;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    button.selected {
+        background-color: #4E0929;
+        color: white;
+    }
 </style>
 
-<div class="container-book" style="margin: 0 auto;">
-    <!-- 리스트를 담는 박스 -->
-    <div class="list-box" style="margin: 50px auto;">
-        <!-- 리스트 컨테이너 -->
-        <div class="list-container">
-            <!-- 첫 번째 리스트 -->
-            <div>
-                <div class="list-title">지역</div>
-                <ul id="main-list" class="list-group">
-                    {{#model.theaterAreaDTOList}}
-                        <li class="list-group-item"
-                            data-options="{{#theaterNameDTOList}}{{theaterName}}{{^isLast}}, {{/isLast}}{{/theaterNameDTOList}}">
-                            {{areaName}}
-                        </li>
-                    {{/model.theaterAreaDTOList}}
-                </ul>
-            </div>
-            <!-- 두 번째 리스트 -->
-            <div>
-                <div class="list-title">상영관</div>
-                <ul id="sub-list" class="list-group">
-                    <!-- 옵션이 동적으로 추가됩니다 -->
-                </ul>
-            </div>
-            <!-- 세 번째 리스트 -->
-            <div>
-                <div class="list-title">영화</div>
-                <ul id="movie-list" class="list-group">
-                    <!-- 영화가 동적으로 추가됩니다 -->
-                </ul>
-            </div>
-            <!-- 네 번째 리스트 -->
-            <div>
-                <div class="list-title" style="width: 390px;">영화 시간표</div>
-                <div id="date-list" class="d-flex">
-                    <!-- 날짜가 동적으로 추가됩니다 -->
-                </div>
-                <ul id="schedule-list" class="list-group">
-                    <!-- 시간표가 동적으로 추가됩니다 -->
-                </ul>
-            </div>
+<div class="container my-5">
+    <div class="grid">
+        <div class="section" id="regionSection">
+            <h2>지역</h2>
+            <!-- 지역 버튼들이 여기에 동적으로 추가됩니다 -->
+        </div>
+        <div class="section" id="theaterSection">
+            <h2>극장</h2>
+            <!-- 극장 버튼들이 여기에 동적으로 추가됩니다 -->
+        </div>
+        <div class="section" id="movieSection">
+            <h2>영화</h2>
+            <!-- 영화 버튼들이 여기에 동적으로 추가됩니다 -->
+        </div>
+        <div class="section" id="timeSection">
+            <h2>상영 시간</h2>
+            <!-- 상영 시간들이 여기에 동적으로 추가됩니다 -->
         </div>
     </div>
 </div>
 
-
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="https://kit.fontawesome.com/a076d05399.js"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const mainList = document.getElementById('main-list');
-        const subList = document.getElementById('sub-list');
-        const movieList = document.getElementById('movie-list');
-        const dateList = document.getElementById('date-list');
-        const scheduleList = document.getElementById('schedule-list');
-        const selectSeatButton = document.getElementById('select-seat-button');
+    const movieData = {
+        '서울': {
+            'METABOX 강남': {
+                '인사이드아웃2': ['16:00'],
+            },
+            'METABOX 강남': {
+                '인사이드아웃2': ['16:00'],
+            },
+        },
+        '경기': {
+            '강변': {
+                '하이재킹': ['10:00'],
+            },
+        },
+        '인천': {
+            '김대일구': {
+                '북극곰북극곰의모난원': ['12:00'],
+            },
+        },
+        '강원': {
+            '구로': {
+                '챔피언키즈:프리킥의달인': ['14:00'],
+            },
+        },
+        '대전/충청': {
+            '대학로': {
+                '드라이브': ['16:00'],
+            },
+        },
+        '대구': {
+            '동대문': {
+                '갯머슴': ['18:00'],
+            },
+        },
+        '부산/울산': {
+            '동춘': {
+                '타로': ['20:00'],
+            },
+        },
+        '경상': {
+            '명동': {
+                '존노브인터체스트': ['22:00'],
+            },
+        },
+        '광주/전라/제주': {
+            '명동': {
+                '존노브인터체스트': ['22:00'],
+            },
+        },
+    };
 
-        let selectedMain = '';
-        let selectedSub = '';
-        let selectedMovie = '';
-        let selectedDate = '';
-        let selectedSchedule = '';
+    let selectedRegion, selectedTheater, selectedMovie;
 
-        mainList.addEventListener('click', function (event) {
-            if (event.target.tagName === 'LI') {
-                const options = event.target.getAttribute('data-options').split(', ');
-                subList.innerHTML = ''; // 이전 옵션들을 지웁니다
-                movieList.innerHTML = ''; // 이전 영화를 지웁니다
-                dateList.innerHTML = ''; // 이전 날짜를 지웁니다
-                scheduleList.innerHTML = ''; // 이전 시간표를 지웁니다
-                selectedMain = event.target.textContent;
+    function createButton(text, onClick) {
+        const button = document.createElement('button');
+        button.textContent = text;
+        button.onclick = onClick;
+        return button;
+    }
 
-                // 선택된 항목을 강조 표시합니다
-                document.querySelectorAll('#main-list .list-group-item').forEach(item => item.classList.remove('active', 'selected'));
-                event.target.classList.add('active', 'selected');
+    function updateSection(sectionId, items, onItemClick) {
+        const section = document.getElementById(sectionId);
+        section.innerHTML = `<h2>${section.querySelector('h2').textContent}</h2>`;
+        items.forEach(item => {
+            const button = createButton(item, () => onItemClick(item));
+            section.appendChild(button);
+        });
+    }
 
-                options.forEach(option => {
-                    const listItem = document.createElement('li');
-                    listItem.className = 'list-group-item';
-                    listItem.textContent = option;
-                    listItem.setAttribute('data-movies', '인사이드아웃2, 하이재킹, 북극백화점의안내원, 핸섬가이즈,프리실라, 드라이브, 캣퍼슨, 타로, 존오브인터레스트');
-                    subList.appendChild(listItem);
-                });
+    function selectRegion(region) {
+        selectedRegion = region;
+        selectedTheater = null;
+        selectedMovie = null;
+        updateSection('regionSection', Object.keys(movieData), selectRegion);
+        updateSection('theaterSection', Object.keys(movieData[region]), selectTheater);
+        updateSection('movieSection', [], () => {
+        });
+        updateSection('timeSection', [], () => {
+        });
+        selectButton('regionSection', region);
+    }
 
-                updateSelectedInfo();
+    function selectTheater(theater) {
+        selectedTheater = theater;
+        selectedMovie = null;
+        updateSection('theaterSection', Object.keys(movieData[selectedRegion]), selectTheater);
+        updateSection('movieSection', Object.keys(movieData[selectedRegion][theater]), selectMovie);
+        updateSection('timeSection', [], () => {
+        });
+        selectButton('theaterSection', theater);
+    }
+
+    function selectMovie(movie) {
+        selectedMovie = movie;
+        updateSection('movieSection', Object.keys(movieData[selectedRegion][selectedTheater]), selectMovie);
+        updateSection('timeSection', movieData[selectedRegion][selectedTheater][movie], () => {
+        });
+        selectButton('movieSection', movie);
+    }
+
+    function selectButton(sectionId, text) {
+        const buttons = document.querySelectorAll(`#${sectionId} button`);
+        buttons.forEach(button => {
+            if (button.textContent === text) {
+                button.classList.add('selected');
+            } else {
+                button.classList.remove('selected');
             }
         });
+    }
 
-        subList.addEventListener('click', function (event) {
-            if (event.target.tagName === 'LI') {
-                const movies = event.target.getAttribute('data-movies').split(', ');
-                movieList.innerHTML = ''; // 이전 영화를 지웁니다
-                dateList.innerHTML = ''; // 이전 날짜를 지웁니다
-                scheduleList.innerHTML = ''; // 이전 시간표를 지웁니다
-                selectedSub = event.target.textContent;
-
-                // 선택된 항목을 강조 표시합니다
-                document.querySelectorAll('#sub-list .list-group-item').forEach(item => item.classList.remove('active', 'selected'));
-                event.target.classList.add('active', 'selected');
-
-                movies.forEach(movie => {
-                    const listItem = document.createElement('li');
-                    listItem.className = 'list-group-item';
-                    listItem.textContent = movie;
-                    listItem.setAttribute('data-dates', '17 월, 18 화, 19 수, 20 목, 21 금, 22 토, 23 일');
-                    movieList.appendChild(listItem);
-                });
-
-                updateSelectedInfo();
-            }
-        });
-
-        movieList.addEventListener('click', function (event) {
-            if (event.target.tagName === 'LI') {
-                const dates = event.target.getAttribute('data-dates').split(', ');
-                dateList.innerHTML = ''; // 이전 날짜를 지웁니다
-                scheduleList.innerHTML = ''; // 이전 시간표를 지웁니다
-                selectedMovie = event.target.textContent;
-
-                // 선택된 항목을 강조 표시합니다
-                document.querySelectorAll('#movie-list .list-group-item').forEach(item => item.classList.remove('active', 'selected'));
-                event.target.classList.add('active', 'selected');
-
-                dates.forEach(date => {
-                    const dateButton = document.createElement('button');
-                    dateButton.className = 'btn btn-light date-button';
-                    dateButton.textContent = date;
-                    dateButton.addEventListener('click', function () {
-                        selectedDate = date;
-                        document.querySelectorAll('.date-button').forEach(item => item.classList.remove('active'));
-                        dateButton.classList.add('active');
-                        updateScheduleList();
-                        updateSelectedInfo();
-                    });
-                    dateList.appendChild(dateButton);
-                });
-
-                updateSelectedInfo();
-            }
-        });
-
-        function updateScheduleList() {
-            if (selectedDate) {
-                const times = ['10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00'];
-                scheduleList.innerHTML = '';
-                times.forEach(time => {
-                    const listItem = document.createElement('li');
-                    listItem.className = 'list-group-item';
-                    listItem.textContent = time;
-                    listItem.addEventListener('click', function () {
-                        selectedSchedule = time;
-                        document.querySelectorAll('#schedule-list .list-group-item').forEach(item => item.classList.remove('active', 'selected'));
-                        listItem.classList.add('active', 'selected');
-                        updateSelectedInfo();
-                    });
-                    scheduleList.appendChild(listItem);
-                });
-            }
-        }
-
-        function updateSelectedInfo() {
-            // Update selected information dynamically
-        }
-
-        selectSeatButton.addEventListener('click', function () {
-            const data = {
-                selectedMain: selectedMain,
-                selectedSub: selectedSub,
-                selectedMovie: selectedMovie,
-                selectedDate: selectedDate,
-                selectedSchedule: selectedSchedule
-            };
-
-            fetch('next_page.html', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            })
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log('Success:', data);
-                        // 페이지 이동 등 원하는 동작 수행
-                    })
-                    .catch((error) => {
-                        console.error('Error:', error);
-                    });
-        });
-    });
+    // 초기 지역 목록 표시
+    updateSection('regionSection', Object.keys(movieData), selectRegion);
 </script>
-
 {{> layout/footer}}

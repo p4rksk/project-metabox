@@ -97,7 +97,7 @@
                                 <div class="tab-pane fade show active" id="cjone" role="tabpanel"
                                      aria-labelledby="cjone-tab">
                                     <br>
-                                    <p>보유 포인트: <span class="text-danger">56 P</span></p>
+                                    <p>보유 포인트: <span class="text-danger">{{model.point}} P</span></p>
                                     <div class="form-group">
                                         <label for="usePoints">사용할 포인트</label>
                                         <input type="number" class="form-control" id="usePoints" value="0"> P
@@ -107,7 +107,7 @@
                                         </div>
                                     </div>
                                     <div class="alert alert-secondary" role="alert">
-                                        포인트는 1,000P 이상부터 10P 단위로 사용 가능합니다.
+                                        포인트는 1,000P 이상부터 사용 가능합니다.
                                     </div>
                                 </div>
                             </div>
@@ -123,14 +123,7 @@
                                 <div class="tab-pane fade show active" id="cjone" role="tabpanel">
                                     <div class="form-group">
                                         <div class="form-group">
-                                            <label for="creditCardType">신용카드 종류를 선택하세요:</label>
-                                            <select class="form-control" id="creditCardType" name="creditCardType">
-                                                <option value="bc">BC카드</option>
-                                                <option value="hana">하나카드</option>
-                                                <option value="samsung">삼성카드</option>
-                                                <option value="woori">우리카드</option>
-                                                <option value="kb">KB국민카드</option>
-                                            </select>
+                                            <label for="creditCardType">현재는 신용카드 결제만 가능합니다.</label>
                                         </div>
                                     </div>
                                 </div>
@@ -146,28 +139,33 @@
                 <div class="tit-area type2">
                     <span class="movie-grade small age-all" id="admisClassNm">전체관람가</span>
 
-                    <p class="tit" id="movieNm">인사이드 아웃 2</p>
-                    <p class="cate" id="playKindNm">2D(자막)</p>
-                    <p class="theater" id="brchNm">강남/1관</p>
-                    <p class="date"><span id="playDe">2024.06.21</span><em id="dowNm">(금)</em> <span
-                            class="time" id="playTime"><i class="iconset ico-clock-white"></i>15:45~17:31</span>
+                    <p class="tit" id="movieNm">{{model.movieTitle}}</p>
+                    <p class="cate" id="playKindNm">{{model.info}}</p>
+                    <p class="theater" id="brchNm">{{model.theaterTitle}}/{{model.screeningName}}</p>
+                    <p class="date"><span id="playDe">{{model.date}}</span><em id="dowNm"></em> <span
+                            class="time" id="playTime"><i class="iconset ico-clock-white"></i>{{model.startTime}}
+                        ~{{model.endTime}}</span>
                     </p>
                 </div>
                 <div class="price-process">
                     <div class="box">
-                        <div class="data"><span class="tit">성인 <em>1</em></span><span
-                                class="price">15,000</span></div>
+                        {{#model.selectedSeatDTOList}}
+                            <div class="data"><span class="tit">{{seatCode}}({{seatType}})<em></em></span><span
+                                    class="price">{{seatPrice}}</span></div>
+                        {{/model.selectedSeatDTOList}}
                         <div class="all">
                             <span class="tit">금액 <!-- 금액 --></span>
-                            <span class="price"><em>15,000</em> <span>원 <!-- 원 --></span></span>
+                            <span class="price"><em id="totalPrice">{{model.price}}</em> <span>원
+                                <!-- 원 --></span></span>
                         </div>
+
                     </div>
 
                     <div class="box discout-box">
 
                         <div class="all">
                             <span class="tit">할인적용 <!-- 할인적용 --></span>
-                            <span class="price"><em>0</em> 원 <!-- 원 --></span>
+                            <span class="price"><em id="discountAmount">0</em> 원 <!-- 원 --></span>
                         </div>
                     </div>
                 </div>
@@ -177,8 +175,8 @@
                         <p class="tit">최종결제금액 <!-- 최종결제금액 --></p>
 
                         <div class="money">
-                            <em>15,000</em>
-                            <span>원 <!-- 원 --></span>
+                            <em id="finalPrice">15,000</em>
+                            <span>원</span>
                         </div>
                     </div>
                     <div class="payment-thing">
@@ -199,54 +197,46 @@
 </div>
 
 <script>
-    let IMP = window.IMP;
-    IMP.init("imp04615367"); // IMP 객체 초기화
 
-    function KG_pay() {
-        if (IMP) { // IMP 객체가 정상적으로 초기화되었는지 확인
-            IMP.request_pay({
-                pg: "html5_inicis.INIpayTest", // 실제 계약 후에는 실제 PG사로 변경
-                pay_method: 'card',
-                merchant_uid: "order_no_0001", // 상점에서 관리하는 주문 번호를 전달
-                name: '주문명:결제테스트',
-                amount: 1000,
-                buyer_email: 'iamport@siot.do',
-                buyer_name: '구매자이름',
-                buyer_tel: '010-1234-5678',
-                buyer_addr: '서울특별시 강남구 삼성동',
-                buyer_postcode: '123-456',
-            }, function (response) {
-                // 결제 후 호출되는 callback 함수
-                if (response.success) { // 결제 성공
-                    jQuery.ajax({
-                        url: "/inicis/callback", // cross-domain error가 발생하지 않도록 주의
-                        type: 'POST',
-                        dataType: 'json',
-                        data: {
-                            imp_uid: response.imp_uid
-                            // 기타 필요한 데이터가 있으면 추가 전달
-                        }
-                    }).done(function (data) {
-                        // 서버에서 REST API로 결제 정보 확인 및 서비스 루틴이 정상인 경우
-                        let msg = '결제가 완료되었습니다.';
-                        msg += '\n고유ID : ' + response.imp_uid;
-                        msg += '\n상점 거래ID : ' + response.merchant_uid;
-                        msg += '\n결제 금액 : ' + response.amount;
+    document.addEventListener("DOMContentLoaded", function () {
+        var allUseCheckbox = document.getElementById("allUse");
+        var usePointsInput = document.getElementById("usePoints");
+        var availablePoints = "{{model.point}}".replace(/,/g, '');
+        availablePoints = parseInt(availablePoints, 10);
+        var totalPrice = parseInt(document.getElementById("totalPrice").textContent.replace(/,/g, ''), 10);
+        var finalPriceElement = document.getElementById("finalPrice");
 
-                        alert(msg);
-                    });
-                    console.log(response);
-                } else {
-                    let msg = '결제에 실패하였습니다.';
-                    msg += '에러내용 : ' + response.error_msg;
-
-                    alert(msg);
-                }
-            });
-        } else {
-            alert('IMP 객체가 초기화되지 않았습니다. 초기화 코드를 확인해주세요.');
+        function updateFinalPrice() {
+            var usePoints = parseInt(usePointsInput.value, 10) || 0;
+            if (usePoints > availablePoints) {
+                usePoints = availablePoints;
+                usePointsInput.value = availablePoints;
+            }
+            if (usePoints < 1000) {
+                usePoints = 0;
+                usePointsInput.value = 0;
+            }
+            var finalPrice = totalPrice - usePoints;
+            if (finalPrice < 0) finalPrice = 0;
+            finalPriceElement.textContent = finalPrice.toLocaleString();
         }
-    }
+
+        allUseCheckbox.addEventListener("change", function () {
+            if (this.checked) {
+                usePointsInput.value = availablePoints;
+            } else {
+                usePointsInput.value = 0;
+            }
+            updateFinalPrice();
+        });
+
+        usePointsInput.addEventListener("input", function () {
+            allUseCheckbox.checked = usePointsInput.value == availablePoints;
+            updateFinalPrice();
+        });
+
+        updateFinalPrice();
+    });
+
 </script>
-<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 {{> layout/footer}}

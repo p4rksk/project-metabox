@@ -261,7 +261,7 @@
                         </div>
                         <div class="times mb-1">
                             {{#screeningTimeList}}
-                                <div class="timeitems" onclick="location.href='#{{screeningInfoId}}'">
+                                <div class="timeitems" onclick="location.href='/seat-form/{{screeningInfoId}}'">
                                     <div>{{startTime}}</div>
                                     <div style="color: #2275B8">{{currentSeatCount}}석
                                     </div>
@@ -320,7 +320,7 @@
             const screeningListHtml = screeningInfo.screeningList.map(screening => {
                 const screeningTimeListHtml = screening.screeningTimeList.map(screeningTime => {
                     return `
-                    <div class="timeitems" onclick="location.href='#${screeningTime.screeningInfoId}'">
+                    <div class="timeitems" onclick="location.href='/seat-form/${screeningTime.screeningInfoId}'">
                         <div>${screeningTime.startTime}</div>
                         <div style="color: #2275B8">${screeningTime.currentSeatCount}석</div>
                     </div>

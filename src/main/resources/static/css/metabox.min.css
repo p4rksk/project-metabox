@@ -1334,9 +1334,10 @@ iframe.FB_UI_Dialog {
 }
 
 .seat-select-section .seat-section {
-    height: 600px;
+    height: 530px;
     border-top: 1px solid #000;
-    background-color: #fff
+    background-color: #fff;
+    margin-bottom : 50px;
 }
 
 .seat-select-section .seat-section .tit-util {
