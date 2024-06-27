@@ -43,7 +43,7 @@ public class UserService {
 
     // 마이페이지의 theater Scrap save, update
     @Transactional
-    public void myScrapSave(Integer sessionUserId, List<UserRequest.TheaterScrapDTO> reqDTOs) {
+    public List<UserResponse.TheaterNameDTO> myScrapSave(Integer sessionUserId, List<UserRequest.TheaterScrapDTO> reqDTOs) {
         List<Integer> theaterIds = reqDTOs.stream().mapToInt(value -> value.getTheaterNameId()).boxed().toList();
 //        System.out.println("아이디 뽑기 " + theaterIds);
 
@@ -65,6 +65,8 @@ public class UserService {
                     .theater(theater)
                     .build());
         }
+
+        return userRepository.findByTheaterId(theaterIds);
     }
 
     // 메인 페이지 무비차트, 상영예정작
@@ -421,14 +423,4 @@ public class UserService {
 
     }
 
-
-    public List<UserResponse.TheaterNameDTO> findTheater(List<UserRequest.TheaterScrapDTO> reqDTOs) {
-        List<Integer> theaterIds = reqDTOs.stream().mapToInt(value -> value.getTheaterNameId()).boxed().toList();
-//        System.out.println("아이디 뽑기 " + theaterIds);
-
-        List<UserResponse.TheaterNameDTO> theaters = userRepository.findByTheaterId(theaterIds);
-        System.out.println("조회 " + theaters);
-
-        return theaters;
-    }
 }

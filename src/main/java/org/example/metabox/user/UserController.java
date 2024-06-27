@@ -71,14 +71,13 @@ public class UserController {
         return "user/mypage-home";
     }
 
+    // 컨트롤러는 하나의 서비스만 호출하기
     @PostMapping("/mypage/home/scrap")
     public ResponseEntity<?> mypageHomeScrap(HttpServletRequest request, @RequestBody List<UserRequest.TheaterScrapDTO> reqDTOs) {
         SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
         System.out.println("값 들어오나요 = " + reqDTOs);
-        userService.myScrapSave(sessionUser.getId(), reqDTOs);
+        List<UserResponse.TheaterNameDTO> theaterNameDTOS =  userService.myScrapSave(sessionUser.getId(), reqDTOs);
 
-        // List<TheaterNameDTO> 을 DB에서 조회해서 body에 넣어
-        List<UserResponse.TheaterNameDTO> theaterNameDTOS = userService.findTheater(reqDTOs);
         System.out.println("theaterNameDTOS = " + theaterNameDTOS);
 
         return ResponseEntity.ok(new ApiUtil(theaterNameDTOS)); // apiUtil
