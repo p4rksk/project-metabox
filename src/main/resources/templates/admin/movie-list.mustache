@@ -90,6 +90,12 @@
         white-space: nowrap;
         width: auto;
         position: absolute;
+        padding: 7px 7px; /* 뱃지 크기 조정 */
+        font-size: 1.2rem; /* 뱃지 텍스트 크기 조정 */
+        border-radius: 0.75rem; /* 뱃지 둥글기 조정 */
+        color: white; /* 텍스트 색상 */
+        text-align: center;
+        line-height: 1.5rem; /* 텍스트를 가운데로 맞춤 */
     }
 </style>
 <div class="container">
@@ -123,7 +129,7 @@
                     <a href="/movie-detail/{{id}}">
                         <img src="/image/movie/{{imgFilename}}" class="card-img-top" alt="Movie {{id}}">
                     </a>
-                    <span class="badge badge-success">{{infoAgeLimit}}</span>
+                    <span class="{{ageInfoColor}}">{{ageInfo}}</span>
                     <div class="card-body">
                         <h5 class="card-title">{{title}}</h5>
                         <p class="card-text">{{bookingRate}} %</p>

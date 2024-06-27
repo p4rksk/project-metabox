@@ -21,22 +21,39 @@ public class MovieResponse {
         private int id;               // 영화의 고유 식별자
         private String title;         // 영화 제목
         private String imgFilename;   // 영화 이미지 파일명
-        private String infoAgeLimit;  // 영화 정보의 첫 번째 부분
+        private String ageInfo;  // 영화 정보의 첫 번째 부분
         private Date startDate;       // 상영 시작일
         private String releaseStatus; // 상영 상태(상영중, D-?)
         private Double bookingRate;   // 예매율
         private int rank;             // 순위
+        private String ageInfoColor;  // 연령 정보에 따른 색상 뱃지 값
 
         // Movie 객체를 받아서 UserMovieChartDTO 객체의 필드를 초기화합니다.
-        public AdminMovieChartDTO(Movie movie, int rank, Double bookingRate, String releaseStatus) {
-            this.id = movie.getId();
-            this.imgFilename = movie.getImgFilename();
-            this.title = movie.getTitle();
-            this.infoAgeLimit = movie.getInfo().split(",")[0]; // Movie 객체에서 info 값을 쉼표로 분리하여 첫 번째 부분의 값을 할당
-            this.startDate = movie.getStartDate();
-            this.releaseStatus = releaseStatus; // 상영 상태(상영중, D-?)
-            this.bookingRate = bookingRate; // 예매율
-            this.rank = rank; // 순위
+        public AdminMovieChartDTO(int id, String title, String imgFilename, String ageInfo, Date startDate, String releaseStatus, Double bookingRate, int rank) {
+            this.id = id;
+            this.title = title;
+            this.imgFilename = imgFilename;
+            this.ageInfo = ageInfo;
+            this.startDate = startDate;
+            this.releaseStatus = releaseStatus;
+            this.bookingRate = bookingRate;
+            this.rank = rank;
+            this.ageInfoColor = classColor(ageInfo); // 연령 정보에 따른 색상 뱃지 값 설정
+        }
+
+        // 연령 정보에 따른 색상 뱃지 값을 리턴하는 메서드
+        public String classColor(String ageInfo) {
+            if ("12".equals(ageInfo)) {
+                return "badge badge-warning";
+            } else if ("15".equals(ageInfo)) {
+                return "badge badge-primary";
+            } else if ("전".equals(ageInfo)) {
+                return "badge badge-success";
+            } else if ("19".equals(ageInfo)) {
+                return "badge badge-danger";
+            } else {
+                return "";
+            }
         }
     }
 

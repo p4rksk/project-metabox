@@ -69,11 +69,22 @@ public class MovieService {
             // 상영 상태 계산 (예: 상영 중, D-날짜)
             String releaseStatus = checkMovieReleaseStatus(startDate);
 
+            // 연령 정보 추출
+            String ageInfo;
+            String[] infoParts = info.split(",");  // 쉼표를 기준으로 분리
+            String firstPart = infoParts[0].trim();  // 첫 번째 부분 가져오기
+
+            if ("전체관람가".equals(firstPart)) {
+                ageInfo = firstPart.substring(0, 1);  // "전체관람가"를 "전"으로 변환
+            } else {
+                ageInfo = firstPart.substring(0, Math.min(2, firstPart.length()));  // 첫 두 글자 사용
+            }
+
             MovieResponse.AdminMovieChartDTO dto = new MovieResponse.AdminMovieChartDTO(
                     movieId,
                     title,
                     imgFilename,
-                    info.split(",")[0], // 연령 정보
+                    ageInfo,
                     startDate,
                     releaseStatus,
                     bookingRate,
