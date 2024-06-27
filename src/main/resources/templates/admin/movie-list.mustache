@@ -97,6 +97,17 @@
         text-align: center;
         line-height: 1.5rem; /* 텍스트를 가운데로 맞춤 */
     }
+
+    .release-status {
+        background-color: white;
+        color: black;
+        padding: 2px 6px; /* 패딩 조정 */
+        border-radius: 4px; /* 둥근 모서리 */
+        display: inline-block; /* 인라인 블록 요소 */
+        font-size: 0.8rem; /* 텍스트 크기 조정 */
+        font-family: inherit; /* 상위 요소의 폰트 상속 */
+        border: 2px solid #6c757d;
+    }
 </style>
 <div class="container">
     <header class="d-flex justify-content-between align-items-center my-4">
@@ -133,7 +144,7 @@
                     <div class="card-body">
                         <h5 class="card-title">{{title}}</h5>
                         <p class="card-text">{{bookingRate}} %</p>
-                        <p class="release-date">{{startDate}} {{releaseStatus}}</p>
+                        <p class="release-date">{{startDate}} <span class="release-status">{{releaseStatus}}</span></p>
                         <span><a href="/movie-edit-form/{{id}}" class="btn btn-outline-secondary">수정하기</a></span>
                         <button class="btn btn-danger deleteButton" data-movie-id="{{id}}">삭제하기</button>
                     </div>
