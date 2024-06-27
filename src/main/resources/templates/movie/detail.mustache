@@ -513,7 +513,7 @@
     let isMovieScrapped = false;
 
     function scrapButton() {
-        if (!isMovieScrapped) {
+        if (isMovieScrapped) {
             if (confirm("찜하시겠습니까?")) {
                 document.getElementById('myButton').classList.add('clicked');
                 alert("기대되는 영화에 추가되었습니다.");
