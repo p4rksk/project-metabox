@@ -29,15 +29,15 @@ public class TheaterService {
         // 1. 내가 Scrap한 목록 불러오기
         List<TheaterScrap> theaterScrapList = new ArrayList<>();
         if (sessionUser == null) {
-            while (theaterScrapList.size() < 5) {
-                theaterScrapList.add(TheaterScrap.builder().id(0).theater(Theater.builder().name("").build()).build());
-            }
+//            while (theaterScrapList.size() < 5) {
+//                theaterScrapList.add(TheaterScrap.builder().id(0).theater(Theater.builder().name("").build()).build());
+//            }
         } else {
             theaterScrapList = theaterScrapRepository.findByUserId(sessionUser.getId());
             // 무조건 theaterScrapList의 사이즈가 5가 되도록 설정
-            while (theaterScrapList.size() < 5) {
-                theaterScrapList.add(TheaterScrap.builder().id(0).theater(Theater.builder().name("").build()).build());
-            }
+//            while (theaterScrapList.size() < 5) {
+//                theaterScrapList.add(TheaterScrap.builder().id(0).theater(Theater.builder().name("").build()).build());
+//            }
         }
         // 2. 지역 목록에 따른 극장 목록 가져오기
         List<Theater> theaterList = theaterRepository.findAll();
@@ -59,15 +59,15 @@ public class TheaterService {
         // 1. 내가 Scrap한 목록 불러오기
         List<TheaterScrap> theaterScrapList = new ArrayList<>();
         if (sessionUser == null) {
-            while (theaterScrapList.size() < 5) {
-                theaterScrapList.add(TheaterScrap.builder().id(0).theater(Theater.builder().name("").build()).build());
-            }
+//            while (theaterScrapList.size() < 5) {
+//                theaterScrapList.add(TheaterScrap.builder().id(0).theater(Theater.builder().name("").build()).build());
+//            }
         } else {
             theaterScrapList = theaterScrapRepository.findByUserId(sessionUser.getId());
             // 무조건 theaterScrapList의 사이즈가 5가 되도록 설정
-            while (theaterScrapList.size() < 5) {
-                theaterScrapList.add(TheaterScrap.builder().id(0).theater(Theater.builder().name("").build()).build());
-            }
+//            while (theaterScrapList.size() < 5) {
+//                theaterScrapList.add(TheaterScrap.builder().id(0).theater(Theater.builder().name("").build()).build());
+//            }
         }
         // 2. 지역 목록에 따른 극장 목록 가져오기
         List<Theater> theaterList = theaterRepository.findAll();

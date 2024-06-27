@@ -1,10 +1,12 @@
 package org.example.metabox.user;
 
+import org.example.metabox.theater.Theater;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
@@ -30,6 +32,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query("delete from User u where u.nickname = :nickname")
     void deleteByNickname(String nickname);
 
-
-
+    @Query("select new org.example.metabox.user.UserResponse$TheaterNameDTO(t.id, t.name) from Theater t where t.id in :theaterIds")
+    List<UserResponse.TheaterNameDTO> findByTheaterId(@Param("theaterIds") List<Integer> theaterIds);
 }

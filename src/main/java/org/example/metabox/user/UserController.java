@@ -3,6 +3,7 @@ package org.example.metabox.user;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.example.metabox._core.util.ApiUtil;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.ResponseEntity;
@@ -70,12 +71,16 @@ public class UserController {
         return "user/mypage-home";
     }
 
+    // 컨트롤러는 하나의 서비스만 호출하기
     @PostMapping("/mypage/home/scrap")
-    public @ResponseBody String mypageHomeScrap(HttpServletRequest request, @RequestBody List<UserRequest.TheaterScrapDTO> reqDTOs) {
+    public ResponseEntity<?> mypageHomeScrap(HttpServletRequest request, @RequestBody List<UserRequest.TheaterScrapDTO> reqDTOs) {
+        SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
         System.out.println("값 들어오나요 = " + reqDTOs);
-        userService.myScrapSave(reqDTOs);
+        List<UserResponse.TheaterNameDTO> theaterNameDTOS =  userService.myScrapSave(sessionUser.getId(), reqDTOs);
 
-        return "user/mypage-home";
+        System.out.println("theaterNameDTOS = " + theaterNameDTOS);
+
+        return ResponseEntity.ok(new ApiUtil(theaterNameDTOS)); // apiUtil
     }
 
 

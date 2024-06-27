@@ -21,6 +21,17 @@ import java.util.stream.Collectors;
 public class UserResponse {
 
     @Data
+    public static class TheaterNameDTO {
+        private Integer theaterId;
+        private String theaterName;     // metaBox 강남
+
+        public TheaterNameDTO(Integer theaterId, String theaterName) {
+            this.theaterId = theaterId;
+            this.theaterName = theaterName;
+        }
+    }
+
+    @Data
     public static class MyPageHomeDTO {
         private UserDTO userDTO;
         private List<TicketingDTO> ticketingDTO = new ArrayList<>();
@@ -38,10 +49,12 @@ public class UserResponse {
 
         @Data
         public static class TheaterScrapDTO {
-            private String name;    //theaterName
+            private Integer theaterId;     // TheaterScrapId (theaterId)
+            private String theaterName;    //theaterName
 
-            public TheaterScrapDTO(String name) {
-                this.name = name;
+            public TheaterScrapDTO(Integer theaterId, String name) {
+                this.theaterId = theaterId;
+                this.theaterName = name;
             }
         }
 
@@ -325,9 +338,11 @@ public class UserResponse {
 
         @Data
         public static class TheaterScrapDTO {
+            private Integer theaterId;     // TheaterScrapId (theaterId)
             private String name;    //theaterName
 
-            public TheaterScrapDTO(String name) {
+            public TheaterScrapDTO(Integer theaterId, String name) {
+                this.theaterId = theaterId;
                 this.name = name;
             }
         }

@@ -21,30 +21,7 @@ public class MovieQueryRepository {
 
     // 현재 예매 뿌릴 쿼리 2개
 
-//    select b.total_price, s.code, si.date from book_tb b INNER JOIN seat_book_tb sb ON sb.book_id = b.id
-//    INNER JOIN seat_tb s ON sb.seat_id = s.id
-//    INNER JOIN screening_info_tb si ON sb.screening_info_id = si.id
-//    WHERE b.user_id = 1 AND si.date >= CURRENT_DATE
-//
-//    SELECT m.title, m.img_filename, m.eng_title, m.info, si.date as "관람일시", si.start_time as "시작시간",
-//    si.end_time as "종료시간", b.id, s.name, t.name, b.user_id as "유저"
-//    FROM book_tb b
-//    INNER JOIN seat_book_tb sb ON sb.book_id = b.id
-//    INNER JOIN screening_info_tb si ON sb.screening_info_id = si.id
-//    INNER JOIN screening_tb s ON s.id = si.screening_id
-//    INNER JOIN theater_tb t ON s.theater_id = t.id
-//    INNER JOIN movie_tb m ON si.movie_id = m.id
-//    WHERE b.user_id = 1 AND si.date >= CURRENT_DATE GROUP BY si.id
-
-
-    // 서버에서 가져오는거 실패해서.. 그냥 한번 더 가져오겠다 최악 ~
-//    select b.id, b.total_price from book_tb b
-//    INNER JOIN seat_book_tb sb ON sb.book_id = b.id
-//    INNER JOIN seat_tb s ON sb.seat_id = s.id
-//    INNER JOIN screening_info_tb si ON sb.screening_info_id = si.id
-//    WHERE b.user_id = 1 AND si.date >= CURRENT_DATE GROUP BY b.id;
-
-
+    //테스트 O
     public List<UserResponse.DetailBookDTO.TotalPriceDTO> findUnwatchTicketV3(Integer sessionUserId) {
         String q = """
                 select b.id, b.total_price from book_tb b
@@ -76,6 +53,7 @@ public class MovieQueryRepository {
     }
 
 
+    //테스트 O
     //아직 관람 안한 영화 // 좌석, totalPrice 받기
     public List<UserResponse.DetailBookDTO.SeatDTO> findUnwatchTicketV1(Integer sessionUserId) {
         String q = """
@@ -108,6 +86,7 @@ public class MovieQueryRepository {
     }
 
 
+    // 테스트 o
     //아직 관람 안한 영화 // 나머지 받기
     public List<UserResponse.DetailBookDTO.TicketingDTO> findUnwatchTicketV2(Integer sessionUserId, List<UserResponse.DetailBookDTO.TotalPriceDTO> totalPriceDTOs, List<UserResponse.DetailBookDTO.SeatDTO> seatDTOS) {
         String q = """
@@ -174,6 +153,7 @@ public class MovieQueryRepository {
 
     }
 
+    // 테스트 o
     // 마이페이지의 내 예매내역
     public List<UserResponse.MyPageHomeDTO.TicketingDTO> findMyTicketing(Integer sessionUserId) {
         String q = """
@@ -230,12 +210,14 @@ public class MovieQueryRepository {
 
 
 
+    // 테스트 O
     // 상영예정 영화 목록
     public List<UserResponse.MainChartDTO.ToBeChartDTO> getToBeChart() {
 
         String q = """
-                select id, img_filename, title, SUBSTRING(info, 1, 2) as info, start_date, DATEDIFF('DAY', CURRENT_DATE(), start_date) as d_day
-                from movie_tb where start_date > CURRENT_DATE()
+                select id, img_filename, title, SUBSTRING(info, 1, 2) as info, start_date, 
+                DATEDIFF('DAY', CURRENT_DATE(), start_date) as d_day
+                from movie_tb where start_date > CURRENT_DATE() order by start_date
                 """;
 
         Query query = em.createNativeQuery(q);
@@ -278,7 +260,7 @@ public class MovieQueryRepository {
 
 
 
-    // Main의 영화 받는 용
+    // Main의 영화 받는 용 (테스트 코드 O)
     public List<UserResponse.MainChartDTO.MainMovieChartDTO> getMainMovieChart() {
 
         String q = """
@@ -331,18 +313,8 @@ public class MovieQueryRepository {
     }
 
 
-    // 영화 받는 용
+    // 영화 받는 용 (테스트 코드 O)
     public List<UserResponse.DetailBookDTO.MovieChartDTO> getMovieChart() {
-//        String q = """
-//                select id, img_filename, title, start_date, (select count(id) from seat_book_tb) as allCount,
-//                (select count(*) from seat_book_tb sb
-//                inner join screening_info_tb si on sb.screening_info_id = si.id
-//                where si.movie_id = m.id) as movieCount,
-//                (select count(*) from seat_book_tb sb
-//                inner join screening_info_tb si on sb.screening_info_id = si.id
-//                where si.movie_id = m.id) * 1.0 / (select count(id) from seat_book_tb sb) as ticketSales
-//                from movie_tb m
-//                """;
 
         String q = """
                 select id, img_filename, title, start_date, movieCount * 1.0 / allCount as ticketSales

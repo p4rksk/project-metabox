@@ -1,39 +1,24 @@
-<div class="profile-card">
-    <div class="header">
-        <img src="{{model.userDTO.imgFilename}}">
-        <div class="info">
-            <h3>{{model.userDTO.name}}님</h3>
-            <p><strong>{{model.userDTO.nickname}}</strong></p>
-            <p>환영합니다! <span class="text-danger">최고의 영화</span> 와 함께 <span class="text-danger">특별한 시간</span>을 보내세요.</p>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6 points">
-            <h4>POINT <i class="fas fa-question-circle" data-toggle="tooltip"
-                         title="1,000P 이상부터 10P 단위로 사용 가능합니다."></i></h4>
-            <p>사용가능 포인트 <strong class="point-price">{{model.userDTO.point}} 점</strong></p>
-        </div>
-    </div>
 
-    <div class="grid">
-        {{#model.theaterScrapDTOS}}
-            <div style="font-size: 15px">{{name}}</div>
-        {{/model.theaterScrapDTOS}}
-        <div class="setting" style="text-align: center; font-weight: bold" onclick="openModal()">빠른 극장 선택</div>
-    </div>
 
-</div>
+<!--<script>-->
 
-<script>
-    <!--    천단위 표시 재사용 해야할 함수 -->
-    function numberWithCommas(num) {
-        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    }
+<!--    // $(".theater-select div").on("click", function() {-->
+<!--    //     let theaterName = $(this).data("theater");-->
+<!--    //     let theaterId = $(this).data("theater-name-id");-->
+<!--    //     console.log("네네 " + theaterName);-->
+<!--    //     console.log("극장 ID: " + theaterId);-->
+<!--    // });-->
 
-    //처음에 들어갔을때 천단위 구분자 나오게
-    $(".point-price").each(function () {
-        let pointPrice = $(this).text();    // p태그라 text
-        $(this).text(numberWithCommas(pointPrice));
 
-    });
-</script>
+<!--    &lt;!&ndash;    천단위 표시 재사용 해야할 함수 &ndash;&gt;-->
+<!--    function numberWithCommas(num) {-->
+<!--        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");-->
+<!--    }-->
+
+<!--    //처음에 들어갔을때 천단위 구분자 나오게-->
+<!--    $(".point-price").each(function () {-->
+<!--        let pointPrice = $(this).text();    // p태그라 text-->
+<!--        $(this).text(numberWithCommas(pointPrice));-->
+
+<!--    });-->
+<!--</script>-->
