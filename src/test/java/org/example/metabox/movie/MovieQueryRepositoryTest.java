@@ -33,7 +33,7 @@ public class MovieQueryRepositoryTest {
 
         // then
 //        System.out.println("확인 " + mainChartDTOs);
-        assertThat(mainChartDTOs.get(0).getId()).isEqualTo(1);
+        assertThat(mainChartDTOs.get(0).getMovieId()).isEqualTo(1);
         assertThat(mainChartDTOs.get(0).getTitle()).isEqualTo("인사이드 아웃 2");
         assertThat(mainChartDTOs.size()).isEqualTo(10);
 
@@ -49,7 +49,7 @@ public class MovieQueryRepositoryTest {
 
         // then
 //        System.out.println("확인 " + movieChartDTO);
-        assertThat(movieChartDTO.get(0).getId()).isEqualTo(1);
+        assertThat(movieChartDTO.get(0).getMovieId()).isEqualTo(1);
         assertThat(movieChartDTO.get(0).getTitle()).isEqualTo("인사이드 아웃 2");
         assertThat(movieChartDTO.size()).isEqualTo(6);
 
@@ -96,4 +96,23 @@ public class MovieQueryRepositoryTest {
         System.out.println("##########"+ result);
 
     }
+
+    @Test
+    public void findMovieListOrderByBookingRate_Test(){
+        // given
+
+        // when
+//        List<Object[]> results = movieQueryRepository.findMovieListOrderByBookingRate();
+
+        // then
+//        for (Object[] result : results) {
+//            System.out.println("############### Movie ID: " + result[0]);
+//            System.out.println("################### Info: " + result[1]);
+//            System.out.println("######### Image Filename: " + result[2]);
+//            System.out.println("################## Title: " + result[3]);
+//            System.out.println("############# Start Date: " + result[4]);
+//            System.out.println("########### Booking Rate: " + result[5]);
+//        }
+    }
+
 }

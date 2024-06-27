@@ -9,4 +9,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface MovieRepository extends JpaRepository<Movie, Integer> {
+
+    @Query("select m from Movie m where m.endDate >= current date")
+    List<Movie> findCurrentAndUpcomingMovies();
 }

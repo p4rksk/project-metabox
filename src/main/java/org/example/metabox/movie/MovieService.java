@@ -286,7 +286,7 @@ public class MovieService {
         return masterPlaylistName; // 마스터 M3U8 파일 이름 반환
     }
 
-    public List<MovieResponse.UserMovieChartDTO> getMovieChart(){
+    public List<MovieResponse.UserMovieChartDTO> getMovieChart() {
         // 상영 중 또는 개봉 예정인 영화를 예매율 순으로 조회
         List<Object[]> results = movieQueryRepository.getUserMovieChart();
         List<MovieResponse.UserMovieChartDTO> userMovieChartDTOList = new ArrayList<>();
@@ -304,16 +304,29 @@ public class MovieService {
             // 상영 상태 계산 (예: 상영 중, D-날짜)
             String releaseStatus = checkMovieReleaseStatus(startDate);
 
+            // 연령 정보 추출
+            String ageInfo;
+            String[] infoParts = info.split(",");  // 쉼표를 기준으로 분리
+            String firstPart = infoParts[0].trim();  // 첫 번째 부분 가져오기
+
+            if ("전체관람가".equals(firstPart)) {
+                ageInfo = firstPart.substring(0, 1);  // "전체관람가"를 "전"으로 변환
+            } else {
+                ageInfo = firstPart.substring(0, Math.min(2, firstPart.length()));  // 첫 두 글자 사용
+            }
+
+            // DTO 생성
             MovieResponse.UserMovieChartDTO dto = new MovieResponse.UserMovieChartDTO(
                     movieId,
                     title,
                     imgFilename,
-                    info.split(",")[0], // 연령 정보
+                    ageInfo,
                     startDate,
                     releaseStatus,
                     bookingRate,
                     rank + 1 // rank는 0부터 시작하므로 1을 더해줍니다.
             );
+
             userMovieChartDTOList.add(dto);
         }
         return userMovieChartDTOList;
