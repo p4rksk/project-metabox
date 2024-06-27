@@ -33,10 +33,10 @@
     }
 
     .seat {
-        width: 20px;
-        height: 20px;
+        width: 30px;
+        height: 30px;
         text-align: center;
-        line-height: 20px;
+        line-height: 30px;
         border-radius: 3px;
         font-size: 0.8em;
         margin: 0;
@@ -56,11 +56,11 @@
         background-color: #ffcb88;
     }
 
-    .seat.disabled {
+    .seat.handicapped {
         background-color: #a3aae6;
     }
 
-    .seat.possible {
+    .seat.general {
         background-color: #8ccf9c;
     }
 
@@ -90,7 +90,8 @@
         <div class="content-wrapper">
             <div class="container mt-5">
                 <div class="custom-buttons">
-                    <button type="button" class="btn btn-secondary fa-solid fa-clock" style="background-color: #4E0929;">
+                    <button type="button" class="btn btn-secondary fa-solid fa-clock"
+                            style="background-color: #4E0929;">
                         상영시간표
                     </button>
                     <button type="button" class="btn btn-secondary fa-solid fa-rotate-right"
@@ -100,307 +101,149 @@
 
                 <div class="seat-section" style="background-color: #F9F9F9; width: 750px">
                     <div class="seat-selection-header">
-                        <h4>인원 / 좌석</h4>
-                        <button type="button" class="btn btn-secondary fa-solid fa-rotate-right"
-                                style="background-color: #4E0929;"></button>
+                        <h4>좌석</h4>
+                        <!--                        <button type="button" class="btn btn-secondary fa-solid fa-rotate-right"-->
+                        <!--                                style="background-color: #4E0929;"></button>-->
                     </div>
 
-                    <div class="seat-area">
-                        <div class="seat-count" style="min-height: 52px">
-                            <div class="cell"><p class="txt">성인</p>
-                                <div class="count">
-                                    <button type="button" class="down" title="성인 좌석 선택 감소">-</button>
-                                    <div class="number">
-                                        <button type="button" class="now" title="성인 현재 좌석 선택 수">1</button>
-                                        <ul class="num-choice">
-                                            <li>
-                                                <button type="button" class="btn">0</button>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <button type="button" class="up" title="성인 좌석 선택 증가">+</button>
-                                </div>
-                            </div>
-                            <div class="cell"><p class="txt">청소년</p>
-                                <div class="count">
-                                    <button type="button" class="down" title="청소년 좌석 선택 감소">-</button>
-                                    <div class="number">
-                                        <button type="button" class="now" title="청소년 현재 좌석 선택 수">0</button>
-                                        <ul class="num-choice">
-                                            <li>
-                                                <button type="button" class="btn on">0</button>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <button type="button" class="up" title="청소년 좌석 선택 증가">+</button>
-                                </div>
-                            </div>
+                    <!--                    <div class="seat-area">-->
+                    <!--                        <div class="seat-count" style="min-height: 52px">-->
+                    <!--                            <div class="cell"><p class="txt">성인</p>-->
+                    <!--                                <div class="count">-->
+                    <!--                                    <button type="button" class="down" title="성인 좌석 선택 감소">-</button>-->
+                    <!--                                    <div class="number">-->
+                    <!--                                        <button type="button" class="now" title="성인 현재 좌석 선택 수">1</button>-->
+                    <!--                                        <ul class="num-choice">-->
+                    <!--                                            <li>-->
+                    <!--                                                <button type="button" class="btn">0</button>-->
+                    <!--                                            </li>-->
+                    <!--                                        </ul>-->
+                    <!--                                    </div>-->
+                    <!--                                    <button type="button" class="up" title="성인 좌석 선택 증가">+</button>-->
+                    <!--                                </div>-->
+                    <!--                            </div>-->
+                    <!--                            <div class="cell"><p class="txt">청소년</p>-->
+                    <!--                                <div class="count">-->
+                    <!--                                    <button type="button" class="down" title="청소년 좌석 선택 감소">-</button>-->
+                    <!--                                    <div class="number">-->
+                    <!--                                        <button type="button" class="now" title="청소년 현재 좌석 선택 수">0</button>-->
+                    <!--                                        <ul class="num-choice">-->
+                    <!--                                            <li>-->
+                    <!--                                                <button type="button" class="btn on">0</button>-->
+                    <!--                                            </li>-->
+                    <!--                                        </ul>-->
+                    <!--                                    </div>-->
+                    <!--                                    <button type="button" class="up" title="청소년 좌석 선택 증가">+</button>-->
+                    <!--                                </div>-->
+                    <!--                            </div>-->
 
-                            <div class="cell"><p class="txt">우대</p>
-                                <div class="count">
-                                    <button type="button" class="down" title="우대 좌석 선택 감소">-</button>
-                                    <div class="number">
-                                        <button type="button" class="now" title="우대 현재 좌석 선택 수" >0</button>
-                                        <ul class="num-choice">
-                                            <li>
-                                                <button type="button" class="btn on">0</button>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <button type="button" class="up" title="우대 좌석 선택 증가">+</button>
-                                </div>
-                            </div>
+                    <!--                            <div class="cell"><p class="txt">우대</p>-->
+                    <!--                                <div class="count">-->
+                    <!--                                    <button type="button" class="down" title="우대 좌석 선택 감소">-</button>-->
+                    <!--                                    <div class="number">-->
+                    <!--                                        <button type="button" class="now" title="우대 현재 좌석 선택 수">0</button>-->
+                    <!--                                        <ul class="num-choice">-->
+                    <!--                                            <li>-->
+                    <!--                                                <button type="button" class="btn on">0</button>-->
+                    <!--                                            </li>-->
+                    <!--                                        </ul>-->
+                    <!--                                    </div>-->
+                    <!--                                    <button type="button" class="up" title="우대 좌석 선택 증가">+</button>-->
+                    <!--                                </div>-->
+                    <!--                            </div>-->
 
-                        </div>
-                        <p class="text-danger" style="font-size: 0.9em;">* 최대 8명 선택 가능</p>
-                    </div>
-
+                    <!--                        </div>-->
+                    <!--                        <p class="text-danger" style="font-size: 0.9em;">* 최대 8명 선택 가능</p>-->
+                    <!--                    </div>-->
 
                     <!-- 스크린 시작 -->
                     <div class="screen">SCREEN</div>
                     <div class="seat-map">
-                        <!-- A 행 -->
                         <div class="seat-map-label mr-2">A</div>
-                        <div class="seat light" onclick="toggleSeat(this)">1</div>
-                        <div class="seat light" onclick="toggleSeat(this)">2</div>
-                        <div class="seat light" onclick="toggleSeat(this)">3</div>
-                        <div class="seat hidden"></div>
-                        <div class="seat light" onclick="toggleSeat(this)">4</div>
-                        <div class="seat light" onclick="toggleSeat(this)">5</div>
-                        <div class="seat disabled">6</div>
-                        <div class="seat disabled">7</div>
-                        <div class="seat disabled">8</div>
-                        <div class="seat disabled">9</div>
-                        <div class="seat disabled">10</div>
-                        <div class="seat disabled">11</div>
-                        <div class="seat disabled">12</div>
-                        <div class="seat disabled">13</div>
-                        <div class="seat disabled">14</div>
-                        <div class="seat light" onclick="toggleSeat(this)">15</div>
-                        <!-- B 행 -->
-                        <div class="seat-map-label mr-2">B</div>
-                        <div class="seat light" onclick="toggleSeat(this)">1</div>
-                        <div class="seat light" onclick="toggleSeat(this)">2</div>
-                        <div class="seat light" onclick="toggleSeat(this)">3</div>
-                        <div class="seat hidden"></div>
-                        <div class="seat light" onclick="toggleSeat(this)">4</div>
-                        <div class="seat light" onclick="toggleSeat(this)">5</div>
-                        <div class="seat light" onclick="toggleSeat(this)">6</div>
-                        <div class="seat light" onclick="toggleSeat(this)">7</div>
-                        <div class="seat light" onclick="toggleSeat(this)">8</div>
-                        <div class="seat light" onclick="toggleSeat(this)">9</div>
-                        <div class="seat light" onclick="toggleSeat(this)">10</div>
-                        <div class="seat light" onclick="toggleSeat(this)">11</div>
-                        <div class="seat light" onclick="toggleSeat(this)">12</div>
-                        <div class="seat light" onclick="toggleSeat(this)">13</div>
-                        <div class="seat light" onclick="toggleSeat(this)">14</div>
-                        <div class="seat light" onclick="toggleSeat(this)">15</div>
-                        <!-- C 행 -->
-                        <div class="seat-map-label mr-2">C</div>
-                        <div class="seat possible" onclick="toggleSeat(this)">1</div>
-                        <div class="seat possible" onclick="toggleSeat(this)">2</div>
-                        <div class="seat reserved">3</div>
-                        <div class="seat hidden"></div>
-                        <div class="seat reserved">4</div>
-                        <div class="seat reserved">5</div>
-                        <div class="seat reserved">6</div>
-                        <div class="seat possible" onclick="toggleSeat(this)">7</div>
-                        <div class="seat possible" onclick="toggleSeat(this)">8</div>
-                        <div class="seat possible" onclick="toggleSeat(this)">9</div>
-                        <div class="seat possible" onclick="toggleSeat(this)">10</div>
-                        <div class="seat possible" onclick="toggleSeat(this)">11</div>
-                        <div class="seat reserved">12</div>
-                        <div class="seat reserved">13</div>
-                        <div class="seat reserved">14</div>
-                        <div class="seat reserved">15</div>
-                        <!-- D 행 -->
-                        <div class="seat-map-label mr-2">D</div>
-                        <div class="seat reserved">1</div>
-                        <div class="seat reserved">2</div>
-                        <div class="seat reserved">3</div>
-                        <div class="seat hidden"></div>
-                        <div class="seat reserved">4</div>
-                        <div class="seat possible" onclick="toggleSeat(this)">5</div>
-                        <div class="seat reserved">6</div>
-                        <div class="seat reserved">7</div>
-                        <div class="seat reserved">8</div>
-                        <div class="seat reserved">9</div>
-                        <div class="seat reserved">10</div>
-                        <div class="seat reserved">11</div>
-                        <div class="seat reserved">12</div>
-                        <div class="seat reserved">13</div>
-                        <div class="seat reserved">14</div>
-                        <div class="seat reserved">15</div>
-
-                        <!-- 빈 줄 추가 -->
-                        <div class="seat-map-label"></div>
-                        <div class="seat hidden"></div>
-                        <div class="seat hidden"></div>
-                        <div class="seat hidden"></div>
-                        <div class="seat hidden"></div>
-                        <div class="seat hidden"></div>
-                        <div class="seat hidden"></div>
-                        <div class="seat hidden"></div>
-                        <div class="seat hidden"></div>
-                        <div class="seat hidden"></div>
-                        <div class="seat hidden"></div>
-                        <div class="seat hidden"></div>
-                        <div class="seat hidden"></div>
-                        <div class="seat hidden"></div>
-                        <div class="seat hidden"></div>
-                        <div class="seat hidden"></div>
-                        <div class="seat hidden"></div>
-
-                        <!-- E 행 -->
-                        <div class="seat-map-label mr-2">E</div>
-                        <div class="seat hidden"></div>
-                        <div class="seat hidden"></div>
-                        <div class="seat hidden"></div>
-                        <div class="seat hidden"></div>
-                        <div class="seat reserved">4</div>
-                        <div class="seat reserved">5</div>
-                        <div class="seat reserved">6</div>
-                        <div class="seat reserved">7</div>
-                        <div class="seat reserved">8</div>
-                        <div class="seat reserved">9</div>
-                        <div class="seat reserved">10</div>
-                        <div class="seat reserved">11</div>
-                        <div class="seat possible" onclick="toggleSeat(this)">12</div>
-                        <div class="seat possible" onclick="toggleSeat(this)">13</div>
-                        <div class="seat possible" onclick="toggleSeat(this)">14</div>
-                        <div class="seat possible" onclick="toggleSeat(this)">15</div>
-                        <!-- F 행 -->
-                        <div class="seat-map-label mr-2">F</div>
-                        <div class="seat hidden"></div>
-                        <div class="seat hidden"></div>
-                        <div class="seat hidden"></div>
-                        <div class="seat hidden"></div>
-                        <div class="seat possible" onclick="toggleSeat(this)">4</div>
-                        <div class="seat possible" onclick="toggleSeat(this)">5</div>
-                        <div class="seat possible" onclick="toggleSeat(this)">6</div>
-                        <div class="seat possible" onclick="toggleSeat(this)">7</div>
-                        <div class="seat possible" onclick="toggleSeat(this)">8</div>
-                        <div class="seat possible" onclick="toggleSeat(this)">9</div>
-                        <div class="seat reserved">10</div>
-                        <div class="seat reserved">11</div>
-                        <div class="seat reserved">12</div>
-                        <div class="seat possible" onclick="toggleSeat(this)">13</div>
-                        <div class="seat reserved">14</div>
-                        <div class="seat reserved">15</div>
-                        <!-- G 행 -->
-                        <div class="seat-map-label mr-2">G</div>
-                        <div class="seat hidden"></div>
-                        <div class="seat hidden"></div>
-                        <div class="seat hidden"></div>
-                        <div class="seat hidden"></div>
-                        <div class="seat reserved">4</div>
-                        <div class="seat possible" onclick="toggleSeat(this)">5</div>
-                        <div class="seat possible" onclick="toggleSeat(this)">6</div>
-                        <div class="seat possible" onclick="toggleSeat(this)">7</div>
-                        <div class="seat possible" onclick="toggleSeat(this)">8</div>
-                        <div class="seat possible" onclick="toggleSeat(this)">9</div>
-                        <div class="seat possible" onclick="toggleSeat(this)">10</div>
-                        <div class="seat reserved">11</div>
-                        <div class="seat possible" onclick="toggleSeat(this)">12</div>
-                        <div class="seat possible" onclick="toggleSeat(this)">13</div>
-                        <div class="seat possible" onclick="toggleSeat(this)">14</div>
-                        <div class="seat reserved">15</div>
-                        <!-- H 행 -->
-                        <div class="seat-map-label mr-2">H</div>
-                        <div class="seat possible" onclick="toggleSeat(this)">1</div>
-                        <div class="seat possible" onclick="toggleSeat(this)">2</div>
-                        <div class="seat reserved">3</div>
-                        <div class="seat hidden"></div>
-                        <div class="seat reserved">4</div>
-                        <div class="seat reserved">5</div>
-                        <div class="seat reserved">6</div>
-                        <div class="seat reserved">7</div>
-                        <div class="seat possible" onclick="toggleSeat(this)">8</div>
-                        <div class="seat possible" onclick="toggleSeat(this)">9</div>
-                        <div class="seat possible" onclick="toggleSeat(this)">10</div>
-                        <div class="seat reserved">11</div>
-                        <div class="seat reserved">12</div>
-                        <div class="seat reserved">13</div>
-                        <div class="seat hidden"></div>
-                        <div class="seat hidden"></div>
+                        {{#model.seatDTOList}}
+                            <div id="{{seatId}}" class="seat {{seatType}}" data-original="{{seatType}}"
+                                 onclick="toggleSeat(this)">
+                                {{seatCode}}
+                            </div>
+                        {{/model.seatDTOList}}
+                        <hr>
                     </div>
-
-                    <hr>
-
-
                 </div>
             </div>
-        </div>
 
-
-        <div class="seat-result">
-            <div class="wrap">
-                <div class="tit-area">
-                    <span class="movie-grade small age-all">전체관람가</span>
-                    <p class="tit">인사이드 아웃 2</p>
-                    <p class="cate">2D(자막)</p>
-                </div>
-                <div class="info-area">
-                    <p class="theater">강남</p>
-                    <p class="special">4관</p>
-                    <p class="date"><span>2024.06.20</span><em>(목)</em></p>
-                    <div class="other-time">
-                        <div>13:15~15:01</div>
+            <div class="seat-result">
+                <div class="wrap">
+                    <div class="tit-area">
+                        <span class="movie-grade small age-all"></span>
+                        <p class="tit">{{model.movieTitle}}</p>
+                        <p class="cate">{{model.info}}</p>
                     </div>
-                    <p class="poster">
-                        <img src="/image/movie/movie1.png"
-                             alt="인사이드 아웃 2">
-                    </p>
-                </div>
-                <div class="choice-seat-area">
-                    <div class="legend">
-                        <ul class="list">
-                            <li>
-                                <div class="seat-condition choice" title="선택한 좌석"></div>
-                                <em>선택</em></li>
-                            <li>
-                                <div class="seat-condition possible" title="예매 가능"></div>
-                                <em>선택 가능</em></li>
-                            <li>
-                                <div class="seat-condition impossible" title="선택 불가"></div>
-                                <em>예약 완료</em></li>
-                            <li>
-                                <div class="seat-condition light" title="Light석"></div>
-                                <em>Light석</em></li>
-                            <li>
-                                <div class="seat-condition disabled" title="장애인석"></div>
-                                <em> 장애인석</em></li>
-                        </ul>
+                    <div class="info-area">
+                        <p class="theater">{{model.theaterTitle}}</p>
+                        <p class="special">{{model.screeningName}}</p>
+                        <p class="date"><span>{{model.date}}</span>
+                            <!--                        <em>(목)</em>-->
+                        </p>
+                        <div class="other-time">
+                            <div>{{model.startTime}}~{{model.endTime}}</div>
+                        </div>
+                        <p class="poster">
+                            <img src="/image/movie/{{model.movieImgFilename}}"
+                                 alt="{{model.movieImgFilename}}">
+                        </p>
                     </div>
-
-                    <div class="seat-num">
-                        <p class="tit">선택좌석</p>
-                        <div class="my-seat">
-                            <div class="seat choice" title="선택한 좌석">D6</div>
-                            <div class="seat all" title="구매가능 좌석">-</div>
-                            <div class="seat all" title="구매가능 좌석">-</div>
-                            <div class="seat all" title="구매가능 좌석">-</div>
-                            <div class="seat all" title="구매가능 좌석">-</div>
-                            <div class="seat all" title="구매가능 좌석">-</div>
-                            <div class="seat all" title="구매가능 좌석">-</div>
-                            <div class="seat all" title="구매가능 좌석">-</div>
+                    <div class="choice-seat-area">
+                        <div class="legend">
+                            <ul class="list">
+                                <li>
+                                    <div class="seat-condition choice" title="선택한 좌석"></div>
+                                    <em>선택</em></li>
+                                <li>
+                                    <div class="seat-condition possible" title="예매 가능"></div>
+                                    <em>선택 가능</em></li>
+                                <li>
+                                    <div class="seat-condition impossible" title="선택 불가"></div>
+                                    <em>예약 완료</em></li>
+                                <li>
+                                    <div class="seat-condition light" title="Light석"></div>
+                                    <em>Light석</em></li>
+                                <li>
+                                    <div class="seat-condition disabled" title="장애인석"></div>
+                                    <em> 장애인석</em></li>
+                            </ul>
                         </div>
 
-                    </div>
-                </div>
-                <div class="pay-area">
-                    <p class="count"><span>성인 <em>1</em></span></p>
-                    <div class="pay">
-                        <p class="tit">최종결제금액</p>
-                        <div class="money">
-                            <em>14,000</em> <span>원</span>
+                        <div class="seat-num">
+                            <!--                            <p class="tit">선택좌석</p>-->
+                            <!--                            <div class="my-seat">-->
+                            <!--                                <div class="seat choice" title="선택한 좌석">D6</div>-->
+                            <!--                                <div class="seat all" title="구매가능 좌석">-</div>-->
+                            <!--                                <div class="seat all" title="구매가능 좌석">-</div>-->
+                            <!--                                <div class="seat all" title="구매가능 좌석">-</div>-->
+                            <!--                                <div class="seat all" title="구매가능 좌석">-</div>-->
+                            <!--                                <div class="seat all" title="구매가능 좌석">-</div>-->
+                            <!--                                <div class="seat all" title="구매가능 좌석">-</div>-->
+                            <!--                                <div class="seat all" title="구매가능 좌석">-</div>-->
+                            <!--                            </div>-->
+
                         </div>
                     </div>
-                </div>
+                    <div class="pay-area">
+                        <p class="count"><span>선택 좌석 수 <em id="seatCount">0</em></span></p>
+                        <div class="pay">
+                            <p class="tit">최종결제금액</p>
+                            <div class="money">
+                                <em id="totalPrice">0</em> <span>원</span>
+                            </div>
+                        </div>
+                    </div>
 
-                <div class="btn-group">
-                    <a href="javaScript:void(0)" class="button" id="pagePrevious" title="이전">이전</a>
-                    <a href="/payment-form" class="button active" id="pageNext" title="다음">다음</a>
+                    <div class="btn-group">
+                        <a href="javaScript:void(0)" class="button" id="pagePrevious" title="이전">이전</a>
+                        <button type="button" onclick="goToNextPage()" class="button active" id="pageNext" title="다음">
+                            다음
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -408,19 +251,278 @@
 </div>
 
 
-
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
+    $(document).ready(function () {
+        // jQuery를 사용한 초기화 코드
+        console.log("jQuery로 DOM 준비 완료.");
+        {{#model.bookedSeatDTOList}}
+            var {{bookedSeatCode}} =
+            document.getElementById('{{bookedSeatId}}');
+            {{bookedSeatCode}}.
+            classList.remove('{{bookedSeatType}}');
+            {{bookedSeatCode}}.
+            classList.add('reserved');
+        {{/model.bookedSeatDTOList}}
+
+
+        updateSeatCountDisplay();
+        updatePriceDisplay();
+
+
+        // 모든 seat 클래스를 가진 div 요소들을 선택합니다
+        const seatDivs = document.querySelectorAll('.seat');
+
+        // 새로운 div 요소를 생성합니다
+        const newDiv = document.createElement('div');
+        newDiv.className = 'seat hidden';  // class를 seat hidden으로 설정합니다
+        // 새로운 div를 x번째 div 뒤에 삽입합니다
+        seatDivs[2].insertAdjacentElement('afterend', newDiv);
+
+        // B행 추가
+        const bDiv = document.createElement('div');
+        bDiv.innerHTML = 'B';
+        bDiv.className = 'seat-map-label mr-2'
+        seatDivs[14].insertAdjacentElement('afterend', bDiv);
+
+        // 공백
+        const newDiv2 = document.createElement('div');
+        newDiv2.className = 'seat hidden';
+        seatDivs[17].insertAdjacentElement('afterend', newDiv2);
+
+        // C행 추가
+        const cDiv = document.createElement('div');
+        cDiv.innerHTML = 'C';
+        cDiv.className = 'seat-map-label mr-2'
+        seatDivs[29].insertAdjacentElement('afterend', cDiv);
+
+        // 공백
+        const newDiv3 = document.createElement('div');
+        newDiv3.className = 'seat hidden';
+        seatDivs[32].insertAdjacentElement('afterend', newDiv3);
+
+        // D행 추가
+        const dDiv = document.createElement('div');
+        dDiv.innerHTML = 'D';
+        dDiv.className = 'seat-map-label mr-2'
+        seatDivs[44].insertAdjacentElement('afterend', dDiv);
+
+        // 공백
+        const newDiv4 = document.createElement('div');
+        newDiv4.className = 'seat hidden';
+        seatDivs[47].insertAdjacentElement('afterend', newDiv4);
+
+
+        // 공백
+        const newDiv5 = document.createElement('div');
+        newDiv5.className = 'seat hidden';
+        seatDivs[59].insertAdjacentElement('afterend', newDiv5);
+        // 공백
+        const newDiv6 = document.createElement('div');
+        newDiv6.className = 'seat hidden';
+        seatDivs[59].insertAdjacentElement('afterend', newDiv6);
+        // 공백
+        const newDiv7 = document.createElement('div');
+        newDiv7.className = 'seat hidden';
+        seatDivs[59].insertAdjacentElement('afterend', newDiv7);
+        // 공백
+        const newDiv8 = document.createElement('div');
+        newDiv8.className = 'seat hidden';
+        seatDivs[59].insertAdjacentElement('afterend', newDiv8);
+
+        // E행 추가
+        const eDiv = document.createElement('div');
+        eDiv.innerHTML = 'E';
+        eDiv.className = 'seat-map-label mr-2'
+        seatDivs[59].insertAdjacentElement('afterend', eDiv);
+
+        const newDiv18 = document.createElement('div');
+        newDiv18.className = 'seat hidden';
+        seatDivs[59].insertAdjacentElement('afterend', newDiv18);
+
+        const newDiv19 = document.createElement('div');
+        newDiv19.className = 'seat hidden';
+        seatDivs[59].insertAdjacentElement('afterend', newDiv19);
+
+        const newDiv20 = document.createElement('div');
+        newDiv20.className = 'seat hidden';
+        seatDivs[59].insertAdjacentElement('afterend', newDiv20);
+
+        const newDiv21 = document.createElement('div');
+        newDiv21.className = 'seat hidden';
+        seatDivs[59].insertAdjacentElement('afterend', newDiv21);
+
+        const newDiv22 = document.createElement('div');
+        newDiv22.className = 'seat hidden';
+        seatDivs[59].insertAdjacentElement('afterend', newDiv22);
+
+        const newDiv23 = document.createElement('div');
+        newDiv23.className = 'seat hidden';
+        seatDivs[59].insertAdjacentElement('afterend', newDiv23);
+
+        const newDiv24 = document.createElement('div');
+        newDiv24.className = 'seat hidden';
+        seatDivs[59].insertAdjacentElement('afterend', newDiv24);
+
+        const newDiv25 = document.createElement('div');
+        newDiv25.className = 'seat hidden';
+        seatDivs[59].insertAdjacentElement('afterend', newDiv25);
+
+        const newDiv26 = document.createElement('div');
+        newDiv26.className = 'seat hidden';
+        seatDivs[59].insertAdjacentElement('afterend', newDiv26);
+
+        const newDiv27 = document.createElement('div');
+        newDiv27.className = 'seat hidden';
+        seatDivs[59].insertAdjacentElement('afterend', newDiv27);
+
+        const newDiv28 = document.createElement('div');
+        newDiv28.className = 'seat hidden';
+        seatDivs[59].insertAdjacentElement('afterend', newDiv28);
+
+        const newDiv29 = document.createElement('div');
+        newDiv29.className = 'seat hidden';
+        seatDivs[59].insertAdjacentElement('afterend', newDiv29);
+
+        const newDiv30 = document.createElement('div');
+        newDiv30.className = 'seat hidden';
+        seatDivs[59].insertAdjacentElement('afterend', newDiv30);
+
+        const newDiv31 = document.createElement('div');
+        newDiv31.className = 'seat hidden';
+        seatDivs[59].insertAdjacentElement('afterend', newDiv31);
+
+        const newDiv32 = document.createElement('div');
+        newDiv32.className = 'seat hidden';
+        seatDivs[59].insertAdjacentElement('afterend', newDiv32);
+
+        const newDiv33 = document.createElement('div');
+        newDiv33.className = 'seat hidden';
+        seatDivs[59].insertAdjacentElement('afterend', newDiv33);
+
+        const newDiv34 = document.createElement('div');
+        newDiv34.className = 'seat hidden';
+        seatDivs[59].insertAdjacentElement('afterend', newDiv34);
+
+        // 공백
+        const newDiv9 = document.createElement('div');
+        newDiv9.className = 'seat hidden';
+        seatDivs[71].insertAdjacentElement('afterend', newDiv9);
+        // 공백
+        const newDiv10 = document.createElement('div');
+        newDiv10.className = 'seat hidden';
+        seatDivs[71].insertAdjacentElement('afterend', newDiv10);
+        // 공백
+        const newDiv11 = document.createElement('div');
+        newDiv11.className = 'seat hidden';
+        seatDivs[71].insertAdjacentElement('afterend', newDiv11);
+        // 공백
+        const newDiv12 = document.createElement('div');
+        newDiv12.className = 'seat hidden';
+        seatDivs[71].insertAdjacentElement('afterend', newDiv12);
+
+        // F행 추가
+        const fDiv = document.createElement('div');
+        fDiv.innerHTML = 'F';
+        fDiv.className = 'seat-map-label mr-2'
+        seatDivs[71].insertAdjacentElement('afterend', fDiv);
+
+        // 공백
+        const newDiv13 = document.createElement('div');
+        newDiv13.className = 'seat hidden';
+        seatDivs[83].insertAdjacentElement('afterend', newDiv13);
+        // 공백
+        const newDiv14 = document.createElement('div');
+        newDiv14.className = 'seat hidden';
+        seatDivs[83].insertAdjacentElement('afterend', newDiv14);
+        // 공백
+        const newDiv15 = document.createElement('div');
+        newDiv15.className = 'seat hidden';
+        seatDivs[83].insertAdjacentElement('afterend', newDiv15);
+        // 공백
+        const newDiv16 = document.createElement('div');
+        newDiv16.className = 'seat hidden';
+        seatDivs[83].insertAdjacentElement('afterend', newDiv16);
+
+        // G행 추가
+        const gDiv = document.createElement('div');
+        gDiv.innerHTML = 'G';
+        gDiv.className = 'seat-map-label mr-2'
+        seatDivs[83].insertAdjacentElement('afterend', gDiv);
+
+        // H행 추가
+        const hDiv = document.createElement('div');
+        hDiv.innerHTML = 'H';
+        hDiv.className = 'seat-map-label mr-2'
+        seatDivs[95].insertAdjacentElement('afterend', hDiv);
+
+        // 공백
+        const newDiv17 = document.createElement('div');
+        newDiv17.className = 'seat hidden';
+        seatDivs[98].insertAdjacentElement('afterend', newDiv17);
+    });
+
+    var selectedSeatCount = 0;
+
     function toggleSeat(element) {
         if (element.classList.contains('selected')) {
             element.classList.remove('selected');
-            element.classList.add('possible');
-        } else if (element.classList.contains('possible')) {
-            element.classList.remove('possible');
+            element.classList.add(element.dataset.original);
+            selectedSeatCount--;
+        } else if (element.classList.contains('general')) {
+            element.classList.remove('general');
             element.classList.add('selected');
+            selectedSeatCount++;
+        } else if (element.classList.contains('reserved')) {
+            alert("이미 예약된 좌석 입니다.");
+        } else if (element.classList.contains('handicapped')) {
+            element.classList.remove('handicapped');
+            element.classList.add('selected');
+            selectedSeatCount++;
+        } else if (element.classList.contains('light')) {
+            element.classList.remove('light');
+            element.classList.add('selected');
+            selectedSeatCount++;
         }
+        updateSeatCountDisplay();
+        updatePriceDisplay();
+    }
+
+    var totalPrice;
+
+    function updatePriceDisplay() {
+        totalPrice = 0;
+        var selectedElements = document.getElementsByClassName('selected');
+        Array.from(selectedElements).forEach(function (element) {
+            var originalType = element.dataset.original;
+            if (originalType == 'handicapped') {
+                totalPrice += 10000;
+            } else if (originalType == 'light') {
+                totalPrice += 14000;
+            } else if (originalType == 'general') {
+                totalPrice += 15000;
+            }
+        });
+        document.getElementById('totalPrice').textContent = totalPrice.toLocaleString('ko-KR');
+    }
+
+    function updateSeatCountDisplay() {
+        document.getElementById('seatCount').textContent = selectedSeatCount; // 선정된 좌석 수를 업데이트
+    }
+
+    function goToNextPage() {
+        var selectedElements = document.getElementsByClassName('selected');
+        var ids = [];
+        for (var i = 0; i < selectedElements.length; i++) {
+            ids = [...ids, selectedElements[i].id];
+        }
+        // ID들을 콤마로 구분된 문자열로 결합
+        var idsString = ids.join(',');
+
+        let nextPageUrl = `/payment-form?id={{model.screeningInfoId}}&ids=${encodeURIComponent(idsString)}`;
+        window.location.href = nextPageUrl;
     }
 </script>
 {{> layout/footer}}

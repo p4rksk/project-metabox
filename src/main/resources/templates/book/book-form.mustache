@@ -1,532 +1,341 @@
 {{> layout/header}}
-<link rel="stylesheet" href="/css/metabox.min.css" media="all">
+
+<style>
+    body {
+        background-color: #ffffff;
+    }
+
+    .container-book {
+        margin-top: 50px;
+        max-width: 1200px;
+    }
+
+    .list-box, .info-box, .notice-box {
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+    }
+
+    .list-container {
+        display: flex;
+        justify-content: center;
+        flex-wrap: nowrap;
+        margin-bottom: 20px;
+    }
+
+    .list-group {
+        margin: 0;
+        border-right: 1px solid #ddd;
+        flex: 1;
+        min-width: 250px;
+        text-align: center;
+        background-color: #f0f0f0; /* 리스트 배경을 회색으로 변경 */
+        color: black;
+    }
+
+    .list-group-item {
+        cursor: pointer;
+        color: black;
+        padding: 10px 0; /* 높이를 글자에 맞게 조정 */
+    }
+
+    .list-group-item.active {
+        background-color: #c8c8e0;
+        color: black;
+    }
+
+    .list-title {
+        font-size: 18px;
+        font-weight: bold;
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+        background-color: #4E0929; /* 리스트 제목 배경을 버건디 색상으로 변경 */
+        color: white;
+        text-align: center;
+    }
+
+    .schedule-table {
+        margin-top: 10px;
+    }
+
+    .schedule-table td {
+        padding: 5px;
+    }
+
+    .list-group-item.selected {
+        border: 1px solid red;
+        color: red;
+    }
+
+    .info-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        flex-wrap: wrap;
+    }
+
+    .info-box {
+        border: 1px solid #000;
+        padding: 10px;
+        margin: 0 10px;
+        text-align: left;
+        flex: 1;
+        min-height: 150px;
+        position: relative;
+    }
+
+    .date-button {
+        flex: 1;
+        margin: 0;
+        border: 1px solid #ddd;
+        border-radius: 0;
+        text-align: center;
+    }
+
+    .info-bar {
+        background-color: #1c1c1c;
+        color: white;
+        padding: 5px 0; /* 패딩을 줄여서 세로 크기 조정 */
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        z-index: 1000; /* 높여서 info-bar가 푸터 위에 오도록 설정 */
+    }
+
+    .info-bar .container-book {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .info-bar .movie-info {
+        display: flex;
+        align-items: center;
+    }
+
+    .info-bar .movie-info img {
+        width: 50px;
+        height: 75px;
+        margin-right: 15px;
+    }
+
+    .info-bar .movie-info .details {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .info-bar .movie-info .details span {
+        margin-bottom: 5px;
+    }
+
+    .info-bar .btn-nav {
+        background-color: #333;
+        color: white;
+        border: none;
+        padding: 5px 10px; /* 패딩을 줄여서 버튼 크기 조정 */
+        border-radius: 5px;
+    }
+
+    .info-bar .btn-nav:hover {
+        background-color: #555;
+    }
+
+    @media (max-width: 992px) {
+        .list-container {
+            flex-direction: column;
+        }
+
+        .list-group {
+            border-right: none;
+            border-bottom: 1px solid #ddd;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .list-group {
+            min-width: 100%;
+            border-bottom: none;
+        }
+    }
 
 
-<div class="body-iframe">
-    <!-- inner-wrap -->
-    <div class="inner-wrap" style="padding-top:40px; padding-bottom:100px;">
+</style>
+<style>
 
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
 
-        <!-- quick-reserve -->
-        <div class="quick-reserve">
-            <div class="tit-util">
-                <h2 class="tit">빠른예매</h2>
-            </div>
-            <!-- meta-quick-reserve-inculde : 다른 페이지에서 iframe 으로 설정될 영역 -->
-            <div class="meta-quick-reserve-include">
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
 
-                <!-- time-schedule -->
-                <div class="time-schedule quick">
+    }
 
-                    <div class="wrap">
+    .section {
+        border: 1px solid #ddd;
+        padding: 10px;
+    }
 
-                        <!-- 이전날짜 -->
-                        <button type="button" title="이전 날짜 보기" class="btn-pre">
-                            <i class="iconset ico-cld-pre"></i> <em>이전</em>
-                        </button>
-                        <!--// 이전날짜 -->
+    h2 {
+        margin-top: 0;
+        padding-bottom: 2px;
+        border-bottom: #4b1b3a 1px solid;
+    }
 
-                        <div class="date-list">
-                            <!-- 년도, 월 표시 -->
-                            <div class="year-area">
-                                <div class="year" style="left: 30px; z-index: 1; opacity: 1;">2024.06</div>
-                                <div class="year" style="left: 870px; z-index: 1; opacity: 1;">2024.07</div>
-                            </div>
+    button {
+        display: block;
+        width: 100%;
+        margin-bottom: 10px;
+        padding: 10px;
+        background-color: #f0f0f0;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
 
+    button.selected {
+        background-color: #4E0929;
+        color: white;
+    }
+</style>
 
-                            <div class="date-area" id="formDeList">
-                                <div class="wrap"
-                                     style="position: relative; width: 2100px; border: none; left: -70px;">
-
-                                    <button
-                                            class="on" type="button">
-                                        <span class="date-data" style="pointer-events:none;">2024.06.19</span><span
-                                            class="ir">2024년
-                                                6월</span><em style="pointer-events:none;">19<span
-                                            style="pointer-events:none;" class="ir">일</span></em><span
-                                            class="day-kr"
-                                            style="pointer-events:none;display:inline-block">오늘</span><span
-                                            class="day-en"
-                                            style="pointer-events:none;display:none">Wed</span></button>
-                                    <button
-                                            class="on" type="button"><span class="date-data"
-                                                                           style="pointer-events:none;">2024.06.19</span><span
-                                            class="ir">2024년
-                                                6월</span><em style="pointer-events:none;">19<span
-                                            style="pointer-events:none;" class="ir">일</span></em><span
-                                            class="day-kr"
-                                            style="pointer-events:none;display:inline-block">오늘</span><span
-                                            class="day-en"
-                                            style="pointer-events:none;display:none">Wed</span></button>
-                                    <button
-                                            class="" type="button"><span class="date-data" style="pointer-events:none;">2024.06.19</span><span
-                                            class="ir">2024년
-                                                6월</span><em style="pointer-events:none;">20<span
-                                            style="pointer-events:none;" class="ir">일</span></em><span
-                                            class="day-kr"
-                                            style="pointer-events:none;display:inline-block">내일</span><span
-                                            class="day-en"
-                                            style="pointer-events:none;display:none">Thu</span></button>
-                                    <button
-                                            class="" type="button"><span class="date-data" style="pointer-events:none;">2024.06.19</span><span
-                                            class="ir">2024년
-                                                6월</span><em style="pointer-events:none;">21<span
-                                            style="pointer-events:none;" class="ir">일</span></em><span
-                                            class="day-kr"
-                                            style="pointer-events:none;display:inline-block">금</span><span
-                                            class="day-en"
-                                            style="pointer-events:none;display:none">Fri</span></button>
-                                    <button
-                                            class="sat" type="button"><span class="date-data"
-                                                                            style="pointer-events:none;">2024.06.19</span><span
-                                            class="ir">2024년 6월</span><em style="pointer-events:none;">22<span
-                                            style="pointer-events:none;" class="ir">일</span></em><span
-                                            class="day-kr"
-                                            style="pointer-events:none;display:inline-block">토</span><span
-                                            class="day-en"
-                                            style="pointer-events:none;display:none">Sat</span></button>
-                                    <button
-                                            class="holi" type="button"><span class="date-data"
-                                                                             style="pointer-events:none;">2024.06.19</span><span
-                                            class="ir">2024년 6월</span><em style="pointer-events:none;">23<span
-                                            style="pointer-events:none;" class="ir">일</span></em><span
-                                            class="day-kr"
-                                            style="pointer-events:none;display:inline-block">일</span><span
-                                            class="day-en"
-                                            style="pointer-events:none;display:none">Sun</span></button>
-                                    <button
-                                            class="" type="button"><span class="date-data" style="pointer-events:none;">2024.06.19</span><span
-                                            class="ir">2024년
-                                                6월</span><em style="pointer-events:none;">24<span
-                                            style="pointer-events:none;" class="ir">일</span></em><span
-                                            class="day-kr"
-                                            style="pointer-events:none;display:inline-block">월</span><span
-                                            class="day-en"
-                                            style="pointer-events:none;display:none">Mon</span></button>
-                                    <button
-                                            class="" type="button"><span class="date-data" style="pointer-events:none;">2024.06.19</span><span
-                                            class="ir">2024년
-                                                6월</span><em style="pointer-events:none;">25<span
-                                            style="pointer-events:none;" class="ir">일</span></em><span
-                                            class="day-kr"
-                                            style="pointer-events:none;display:inline-block">화</span><span
-                                            class="day-en"
-                                            style="pointer-events:none;display:none">Tue</span></button>
-                                    <button
-                                            class="" type="button"><span class="date-data" style="pointer-events:none;">2024.06.19</span><span
-                                            class="ir">2024년
-                                                6월</span><em style="pointer-events:none;">26<span
-                                            style="pointer-events:none;" class="ir">일</span></em><span
-                                            class="day-kr"
-                                            style="pointer-events:none;display:inline-block">수</span><span
-                                            class="day-en"
-                                            style="pointer-events:none;display:none">Wed</span></button>
-                                    <button
-                                            class="" type="button"><span class="date-data" style="pointer-events:none;">2024.06.19</span><span
-                                            class="ir">2024년
-                                                6월</span><em style="pointer-events:none;">27<span
-                                            style="pointer-events:none;" class="ir">일</span></em><span
-                                            class="day-kr"
-                                            style="pointer-events:none;display:inline-block">목</span><span
-                                            class="day-en"
-                                            style="pointer-events:none;display:none">Thu</span></button>
-                                    <button
-                                            class="" type="button"><span class="date-data" style="pointer-events:none;">2024.06.19</span><span
-                                            class="ir">2024년
-                                                6월</span><em style="pointer-events:none;">28<span
-                                            style="pointer-events:none;" class="ir">일</span></em><span
-                                            class="day-kr"
-                                            style="pointer-events:none;display:inline-block">금</span><span
-                                            class="day-en"
-                                            style="pointer-events:none;display:none">Fri</span></button>
-                                    <button
-                                            class="sat" type="button"><span class="date-data"
-                                                                            style="pointer-events:none;">2024.06.19</span><span
-                                            class="ir">2024년 6월</span><em style="pointer-events:none;">29<span
-                                            style="pointer-events:none;" class="ir">일</span></em><span
-                                            class="day-kr"
-                                            style="pointer-events:none;display:inline-block">토</span><span
-                                            class="day-en"
-                                            style="pointer-events:none;display:none">Sat</span></button>
-                                    <button
-                                            class="holi" type="button"><span class="date-data"
-                                                                             style="pointer-events:none;">2024.06.19</span><span
-                                            class="ir">2024년 6월</span><em style="pointer-events:none;">30<span
-                                            style="pointer-events:none;" class="ir">일</span></em><span
-                                            class="day-kr"
-                                            style="pointer-events:none;display:inline-block">일</span><span
-                                            class="day-en"
-                                            style="pointer-events:none;display:none">Sun</span></button>
-                                    <button
-                                            class="" type="button"><span class="date-data" style="pointer-events:none;">2024.06.19</span><span
-                                            class="ir">2024년
-                                                7월</span><em style="pointer-events:none;">1<span
-                                            style="pointer-events:none;" class="ir">일</span></em><span
-                                            class="day-kr"
-                                            style="pointer-events:none;display:inline-block">월</span><span
-                                            class="day-en"
-                                            style="pointer-events:none;display:none">Mon</span></button>
-                                    <button
-                                            class="" type="button"><span class="date-data" style="pointer-events:none;">2024.06.19</span><span
-                                            class="ir">2024년
-                                                7월</span><em style="pointer-events:none;">2<span
-                                            style="pointer-events:none;" class="ir">일</span></em><span
-                                            class="day-kr"
-                                            style="pointer-events:none;display:inline-block">화</span><span
-                                            class="day-en"
-                                            style="pointer-events:none;display:none">Tue</span></button>
-                                    <button
-                                            class="" type="button" tabindex="-1"><span class="date-data"
-                                                                                       style="pointer-events:none;">2024.06.19</span><span
-                                            class="ir">2024년 7월</span><em style="pointer-events:none;">3<span
-                                            style="pointer-events:none;" class="ir">일</span></em><span
-                                            class="day-kr"
-                                            style="pointer-events:none;display:inline-block">수</span><span
-                                            class="day-en"
-                                            style="pointer-events:none;display:none">Wed</span></button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- 다음날짜 -->
-                        <button type="button" title="다음 날짜 보기" class="btn-next">
-                            <i class="iconset ico-cld-next"></i> <em>다음</em>
-                        </button>
-                        <!--// 다음날짜 -->
-                    </div>
-
-                </div>
-                <!--// time-schedule -->
-
-                <!-- quick-reserve-area -->
-                <div class="quick-reserve-area">
-
-                    <!-- movie-choice : 영화 선택  -->
-                    <div class="movie-choice">
-                        <p class="tit">영화</p>
-
-                        <!-- list-area -->
-                        <div class="list-area">
-
-                            <!-- all : 전체 -->
-                            <div class="all-list">
-                                <button type="button" class="btn-tab on" id="movieAll">전체</button>
-                                <div class="list">
-                                    <ul>
-                                        <li>
-                                            <button type="button" class="btn" data-movie-name="인사이드 아웃 2"
-                                                    data-movie-id="23089000"><span
-                                                    class="movie-grade small age-all">전체관람가</span><span
-                                                    class="txt">인사이드 아웃 2</span></button>
-                                        </li>
-                                        <li>
-                                            <button type="button" class="btn" data-movie-name="탈주"
-                                                    data-movie-id="24028500"><span
-                                                    class="movie-grade small age-12">12세이상관람가</span><span
-                                                    class="txt">탈주</span></button>
-                                        </li>
-                                        <li>
-                                            <button type="button" class="btn" data-movie-name="하이재킹"
-                                                    data-movie-id="24028800"><span
-                                                    class="movie-grade small age-12">12세이상관람가</span><span
-                                                    class="txt">하이재킹</span></button>
-                                        </li>
-                                        <li>
-                                            <button type="button" class="btn" data-movie-name="핸섬가이즈"
-                                                    data-movie-id="24029300"><span
-                                                    class="movie-grade small age-15">15세이상관람가</span><span
-                                                    class="txt">핸섬가이즈</span></button>
-                                        </li>
-                                        <li>
-                                            <button type="button" class="btn" data-movie-name="1초 앞, 1초 뒤"
-                                                    data-movie-id="24028000"><span
-                                                    class="movie-grade small age-all">전체관람가</span><span
-                                                    class="txt">1초 앞, 1초 뒤</span></button>
-                                        </li>
-                                        <li>
-                                            <button type="button" class="btn" data-movie-name="캣퍼슨"
-                                                    data-movie-id="24033400"><span
-                                                    class="movie-grade small age-15">15세이상관람가</span><span
-                                                    class="txt">캣퍼슨</span></button>
-                                        </li>
-
-
-                                    </ul>
-
-                                </div>
-                            </div>
-                            <!--// all : 전체 -->
-
-
-                        </div>
-                        <!--// list-area -->
-
-                    </div>
-                    <!--// movie-choice : 영화 선택  -->
-
-                    <!-- theater-choice : 극장 선택  -->
-                    <div class="theater-choice">
-                        <div class="tit-area">
-                            <p class="tit">극장</p>
-                        </div>
-
-                        <!-- list-area -->
-                        <div class="list-area" id="brchTab">
-
-                            <!-- all-list : 전체 -->
-                            <div class="all-list">
-                                <button type="button" class="btn-tab on">전체</button>
-                                <div class="list">
-                                    <div class="scroll" id="brchList">
-                                        <ul>
-                                            <li>
-                                                <button type="button" class="btn" id="10"><span
-                                                        class="txt">서울(20)</span></button>
-                                                <div class="depth">
-
-                                                    <ul>
-                                                        <li>
-                                                            <button id="btn" type="button"
-                                                                    data-theater-no="1372" data-theater-name="강남"
-                                                                    data-area-code="10" data-area-name="서울"
-                                                                    data-popup-at="N"
-                                                                    data-popup-no="0">강남
-                                                            </button>
-                                                        </li>
-                                                        <li>
-                                                            <button id="btn" type="button"
-                                                                    data-theater-no="1341" data-theater-name="강동"
-                                                                    data-area-code="10" data-area-name="서울"
-                                                                    data-popup-at="N"
-                                                                    data-popup-no="0">강동
-                                                            </button>
-                                                        </li>
-                                                        <li>
-                                                            <button id="btn" type="button"
-                                                                    data-theater-no="1431" data-theater-name="군자"
-                                                                    data-area-code="10" data-area-name="서울"
-                                                                    data-popup-at="Y"
-                                                                    data-popup-no="1669">군자
-                                                            </button>
-                                                        </li>
-                                                        <li>
-                                                            <button id="btn" type="button"
-                                                                    data-theater-no="0041"
-                                                                    data-theater-name="더 부티크 목동현대백화점"
-                                                                    data-form-at="Y" data-area-code="10"
-                                                                    data-area-name="서울"
-                                                                    data-popup-at="Y" data-popup-no="2221">더
-                                                                부티크
-                                                                목동현대백화점
-                                                            </button>
-                                                        </li>
-                                                        <li>
-                                                            <button id="btn" type="button"
-                                                                    data-theater-no="0073" data-theater-name="동대문"
-                                                                    data-area-code="10" data-area-name="서울"
-                                                                    data-popup-at="N"
-                                                                    data-popup-no="0">동대문
-                                                            </button>
-                                                        </li>
-                                                        <li>
-                                                            <button id="btn" type="button"
-                                                                    data-theater-no="1572" data-theater-name="마곡"
-                                                                    data-area-code="10" data-area-name="서울"
-                                                                    data-popup-at="Y"
-                                                                    data-popup-no="936">마곡
-                                                            </button>
-                                                        </li>
-
-                                                    </ul>
-
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <button type="button" class="btn" id="30"><span
-                                                        class="txt">경기(33)</span></button>
-                                                <div class="depth">
-
-                                                    <ul>
-                                                        <li>
-                                                            <button id="btn" type="button"
-                                                                    data-theater-no="4121" data-theater-name="고양스타필드"
-                                                                    data-form-at="Y" data-area-code="30"
-                                                                    data-area-name="경기"
-                                                                    data-popup-at="Y"
-                                                                    data-popup-no="976">고양스타필드
-                                                            </button>
-                                                        </li>
-                                                        <li>
-                                                            <button id="btn" type="button"
-                                                                    data-theater-no="0029" data-theater-name="광명AK플라자"
-                                                                    data-form-at="Y" data-area-code="30"
-                                                                    data-area-name="경기"
-                                                                    data-popup-at="Y"
-                                                                    data-popup-no="2012">광명AK플라자
-                                                            </button>
-                                                        </li>
-                                                        <li>
-                                                            <button id="btn" type="button"
-                                                                    data-theater-no="0053" data-theater-name="광명소하"
-                                                                    data-form-at="Y" data-area-code="30"
-                                                                    data-area-name="경기"
-                                                                    data-popup-at="Y"
-                                                                    data-popup-no="2324">광명소하
-                                                            </button>
-                                                        </li>
-                                                        <li>
-                                                            <button id="btn" type="button"
-                                                                    data-theater-no="0035" data-theater-name="금정AK플라자"
-                                                                    data-form-at="Y" data-area-code="30"
-                                                                    data-area-name="경기"
-                                                                    data-popup-at="Y"
-                                                                    data-popup-no="2096">금정AK플라자
-                                                            </button>
-                                                        </li>
-                                                        <li>
-                                                            <button id="btn" type="button"
-                                                                    data-theater-no="4152" data-theater-name="김포한강신도시"
-                                                                    data-form-at="Y" data-area-code="30"
-                                                                    data-area-name="경기"
-                                                                    data-popup-at="N"
-                                                                    data-popup-no="0">김포한강신도시
-                                                            </button>
-                                                        </li>
-                                                        <li>
-                                                            <button id="btn" type="button"
-                                                                    data-theater-no="0039" data-theater-name="남양주"
-                                                                    data-area-code="30" data-area-name="경기"
-                                                                    data-popup-at="N"
-                                                                    data-popup-no="0">남양주
-                                                            </button>
-                                                        </li>
-
-                                                    </ul>
-                                                </div>
-
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--// all-list : 전체 -->
-                        </div>
-                        <!--// list-area -->
-
-
-                    </div>
-
-                    <!--// theater-choice : 영화관 선택  -->
-
-                    <!-- time-choice : 상영시간표 선택 -->
-                    <div class="time-choice">
-                        <div class="tit-area">
-                            <p class="tit">시간</p>
-
-                        </div>
-
-                        <!-- movie-schedule-area : 시간표 출력 영역-->
-                        <div class="movie-schedule-area">
-
-                            <!-- 영화, 영화관 선택 안했을때 -->
-                            <!---->
-                            <div class="no-result" id="playScheduleNonList" style="display: none;">
-                                <i class="iconset ico-movie-time"></i>
-
-                                <p class="txt">
-                                    영화와 극장을 선택하시면<br>
-                                    상영시간표를 비교하여 볼 수 있습니다.
-                                </p>
-                            </div>
-
-
-                            <!-- 영화, 영화관 선택 했을때 -->
-                            <div class="result">
-
-                                <ul>
-                                    <li>
-                                        <button type="button" class="btn" id="2406201372008"
-                                                play-start-time="0955" play-de="20240620" play-seq="1"
-                                                rpst-data-movie-id="23089001" data-theater-no="1372"
-                                                theab-no="01"
-                                                play-schdl-no="2406201372008" netfnl-adopt-at="N"
-                                                rest-seat-cnt="223" ctts-ty-div-cd="MVCT01" theab-popup-at="Y"
-                                                theab-popup-no="1054">
-                                            <div class="legend">
-                                            </div>
-                                            <span class="time"><strong title="상영 시작">09:55</strong><em
-                                                    title="상영 종료">~11:41</em></span><span class="title"><strong
-                                                title="인사이드 아웃 2">인사이드 아웃 2</strong><em>2D(자막)</em></span>
-                                            <div class="info"><span class="theater"
-                                                                    title="극장">강남<br>1관</span><span
-                                                    class="seat"><strong class="now"
-                                                                         title="잔여 좌석">223</strong><span>/</span><em
-                                                    class="all" title="전체 좌석">232</em></span></div>
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button type="button" class="btn" id="2406201372014"
-                                                play-start-time="1030" play-de="20240620" play-seq="1"
-                                                rpst-data-movie-id="23089001" data-theater-no="1372"
-                                                theab-no="03"
-                                                play-schdl-no="2406201372014" netfnl-adopt-at="N"
-                                                rest-seat-cnt="231" ctts-ty-div-cd="MVCT01" theab-popup-at="Y"
-                                                theab-popup-no="1056">
-                                            <div class="legend"></div>
-                                            <span class="time"><strong title="상영 시작">10:30</strong><em
-                                                    title="상영 종료">~12:16</em></span><span class="title"><strong
-                                                title="인사이드 아웃 2">인사이드 아웃 2</strong><em>2D(자막)</em></span>
-                                            <div class="info"><span class="theater"
-                                                                    title="극장">강남<br>3관</span><span
-                                                    class="seat"><strong class="now"
-                                                                         title="잔여 좌석">231</strong><span>/</span><em
-                                                    class="all" title="전체 좌석">232</em></span></div>
-                                        </button>
-                                    </li>
-
-                                </ul>
-
-
-                            </div>
-                        </div>
-                        <!--// movie-schedule-area : 시간표 출력 영역-->
-
-                    </div>
-                    <!--// time-choice : 상영시간표 선택 -->
-                </div>
-                <!--// quick-reserve-area -->
-            </div>
-            <!--// meta-quick-reserve-inculde : 다른 페이지에서 iframe 으로 설정될 영역 -->
-
+<div class="container my-5">
+    <div class="grid">
+        <div class="section" id="regionSection">
+            <h2>지역</h2>
+            <!-- 지역 버튼들이 여기에 동적으로 추가됩니다 -->
         </div>
-        <!--// quick-reserve -->
+        <div class="section" id="theaterSection">
+            <h2>극장</h2>
+            <!-- 극장 버튼들이 여기에 동적으로 추가됩니다 -->
+        </div>
+        <div class="section" id="movieSection">
+            <h2>영화</h2>
+            <!-- 영화 버튼들이 여기에 동적으로 추가됩니다 -->
+        </div>
+        <div class="section" id="timeSection">
+            <h2>상영 시간</h2>
+            <!-- 상영 시간들이 여기에 동적으로 추가됩니다 -->
+        </div>
     </div>
-    <!--// inner-wrap -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // 지역 버튼에 클릭 이벤트 리스너 추가
-            document.querySelectorAll('.btn-tab').forEach(button => {
-                button.addEventListener('click', function () {
-                    // 모든 상세 목록을 숨깁니다.
-                    document.querySelectorAll('.depth').forEach(depth => {
-                        depth.classList.remove('active');
-                    });
-
-                    // 선택된 지역의 상세 목록만 표시합니다.
-                    const areaCode = this.id; // 버튼의 id는 지역 코드입니다.
-                    const detailList = document.querySelector(`.area-cd${areaCode}`);
-                    if (detailList) {
-                        detailList.classList.add('active');
-                    }
-                });
-            });
-        });
-    </script>
-
-    <script src="/js/ui.common.js"></script>
-
-    <!-- 2019.07.30 hjchoi 예매관련 팝업 js분리 -->
-    <script src="/js/metabox-book.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </div>
+
+<script>
+    const movieData = {
+        '서울': {
+            'METABOX 강남': {
+                '인사이드아웃2': ['16:00'],
+            },
+            'METABOX 강남': {
+                '인사이드아웃2': ['16:00'],
+            },
+        },
+        '경기': {
+            '강변': {
+                '하이재킹': ['10:00'],
+            },
+        },
+        '인천': {
+            '김대일구': {
+                '북극곰북극곰의모난원': ['12:00'],
+            },
+        },
+        '강원': {
+            '구로': {
+                '챔피언키즈:프리킥의달인': ['14:00'],
+            },
+        },
+        '대전/충청': {
+            '대학로': {
+                '드라이브': ['16:00'],
+            },
+        },
+        '대구': {
+            '동대문': {
+                '갯머슴': ['18:00'],
+            },
+        },
+        '부산/울산': {
+            '동춘': {
+                '타로': ['20:00'],
+            },
+        },
+        '경상': {
+            '명동': {
+                '존노브인터체스트': ['22:00'],
+            },
+        },
+        '광주/전라/제주': {
+            '명동': {
+                '존노브인터체스트': ['22:00'],
+            },
+        },
+    };
+
+    let selectedRegion, selectedTheater, selectedMovie;
+
+    function createButton(text, onClick) {
+        const button = document.createElement('button');
+        button.textContent = text;
+        button.onclick = onClick;
+        return button;
+    }
+
+    function updateSection(sectionId, items, onItemClick) {
+        const section = document.getElementById(sectionId);
+        section.innerHTML = `<h2>${section.querySelector('h2').textContent}</h2>`;
+        items.forEach(item => {
+            const button = createButton(item, () => onItemClick(item));
+            section.appendChild(button);
+        });
+    }
+
+    function selectRegion(region) {
+        selectedRegion = region;
+        selectedTheater = null;
+        selectedMovie = null;
+        updateSection('regionSection', Object.keys(movieData), selectRegion);
+        updateSection('theaterSection', Object.keys(movieData[region]), selectTheater);
+        updateSection('movieSection', [], () => {
+        });
+        updateSection('timeSection', [], () => {
+        });
+        selectButton('regionSection', region);
+    }
+
+    function selectTheater(theater) {
+        selectedTheater = theater;
+        selectedMovie = null;
+        updateSection('theaterSection', Object.keys(movieData[selectedRegion]), selectTheater);
+        updateSection('movieSection', Object.keys(movieData[selectedRegion][theater]), selectMovie);
+        updateSection('timeSection', [], () => {
+        });
+        selectButton('theaterSection', theater);
+    }
+
+    function selectMovie(movie) {
+        selectedMovie = movie;
+        updateSection('movieSection', Object.keys(movieData[selectedRegion][selectedTheater]), selectMovie);
+        updateSection('timeSection', movieData[selectedRegion][selectedTheater][movie], () => {
+        });
+        selectButton('movieSection', movie);
+    }
+
+    function selectButton(sectionId, text) {
+        const buttons = document.querySelectorAll(`#${sectionId} button`);
+        buttons.forEach(button => {
+            if (button.textContent === text) {
+                button.classList.add('selected');
+            } else {
+                button.classList.remove('selected');
+            }
+        });
+    }
+
+    // 초기 지역 목록 표시
+    updateSection('regionSection', Object.keys(movieData), selectRegion);
+</script>
 {{> layout/footer}}

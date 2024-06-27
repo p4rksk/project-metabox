@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.example.metabox.user.SessionUser;
 import org.example.metabox.user.User;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,7 +26,13 @@ public class MovieScrapController {
         return "redirect:/movies/detail/"+id;
     }
 
-    @GetMapping("/scrap/movie/list")
+    @PostMapping("/scrap/{id}")
+    public String delete(@PathVariable Integer id) {
+        movieScrapService.deleteMovieScrap(id);
+        return "redirect:/scrap/movie-list";
+    }
+
+    @GetMapping("/scrap/movie-list")
     public String scrapDetailMovie(HttpServletRequest request) {
         SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
         List<MovieScrapResponse.ScrapMovieListDTO> movieScrapList = movieScrapService.movieScrapList(sessionUser.getId());

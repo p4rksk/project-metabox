@@ -39,7 +39,35 @@ public class Seat {
         this.type = type;
         this.seatBookList = seatBookList;
     }
-        private enum SeatType {
+
+    private enum SeatType {
         HANDICAPPED, GENERAL, LIGHT, SPECIAL
+    }
+
+    public String getSeatTypeKo() {
+        String seatType = String.valueOf(this.type);
+        if (seatType == "HANDICAPPED") {
+            return "장애인석";
+        } else if (seatType == "LIGHT") {
+            return "라이트석";
+        } else if (seatType == "GENERAL") {
+            return "일반석";
+        } else {
+            return "모션베드";
+        }
+    }
+
+    public int getSeatPrice() {
+        String seatType = String.valueOf(this.getType());
+        int price = this.getScreening().getSeatPrice();
+        if (seatType == "HANDICAPPED") {
+            price = price - 5000;
+            return price;
+        } else if (seatType == "LIGHT") {
+            price = price - 1000;
+            return price;
+        } else { // general, special
+            return price;
+        }
     }
 }

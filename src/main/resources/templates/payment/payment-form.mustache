@@ -1,7 +1,6 @@
 {{> layout/header}}
 <link rel="stylesheet" href="/css/metabox.min.css" media="all">
-<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
-<script src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+
 <style>
     /* 본문 */
     .step-header {
@@ -98,7 +97,7 @@
                                 <div class="tab-pane fade show active" id="cjone" role="tabpanel"
                                      aria-labelledby="cjone-tab">
                                     <br>
-                                    <p>보유 포인트: <span class="text-danger">56 P</span></p>
+                                    <p>보유 포인트: <span class="text-danger">{{model.point}} P</span></p>
                                     <div class="form-group">
                                         <label for="usePoints">사용할 포인트</label>
                                         <input type="number" class="form-control" id="usePoints" value="0"> P
@@ -108,7 +107,7 @@
                                         </div>
                                     </div>
                                     <div class="alert alert-secondary" role="alert">
-                                        포인트는 1,000P 이상부터 10P 단위로 사용 가능합니다.
+                                        포인트는 1,000P 이상부터 사용 가능합니다.
                                     </div>
                                 </div>
                             </div>
@@ -124,14 +123,7 @@
                                 <div class="tab-pane fade show active" id="cjone" role="tabpanel">
                                     <div class="form-group">
                                         <div class="form-group">
-                                            <label for="creditCardType">신용카드 종류를 선택하세요:</label>
-                                            <select class="form-control" id="creditCardType" name="creditCardType">
-                                                <option value="bc">BC카드</option>
-                                                <option value="hana">하나카드</option>
-                                                <option value="samsung">삼성카드</option>
-                                                <option value="woori">우리카드</option>
-                                                <option value="kb">KB국민카드</option>
-                                            </select>
+                                            <label for="creditCardType">현재는 신용카드 결제만 가능합니다.</label>
                                         </div>
                                     </div>
                                 </div>
@@ -147,20 +139,24 @@
                 <div class="tit-area type2">
                     <span class="movie-grade small age-all" id="admisClassNm">전체관람가</span>
 
-                    <p class="tit" id="movieNm">인사이드 아웃 2</p>
-                    <p class="cate" id="playKindNm">2D(자막)</p>
-                    <p class="theater" id="brchNm">강남/1관</p>
-                    <p class="date"><span id="playDe">2024.06.21</span><em id="dowNm">(금)</em> <span
-                            class="time" id="playTime"><i class="iconset ico-clock-white"></i>15:45~17:31</span>
+                    <p class="tit" id="movieNm">{{model.movieTitle}}</p>
+                    <p class="cate" id="playKindNm">{{model.info}}</p>
+                    <p class="theater" id="brchNm">{{model.theaterTitle}}/{{model.screeningName}}</p>
+                    <p class="date"><span id="playDe">{{model.date}}</span><em id="dowNm"></em> <span
+                            class="time" id="playTime"><i class="iconset ico-clock-white"></i>{{model.startTime}}
+                        ~{{model.endTime}}</span>
                     </p>
                 </div>
                 <div class="price-process">
                     <div class="box">
-                        <div class="data"><span class="tit">성인 <em>1</em></span><span
-                                class="price">15,000</span></div>
+                        {{#model.selectedSeatDTOList}}
+                            <div class="data"><span class="tit">{{seatCode}}({{seatType}})<em></em></span><span
+                                    class="price">{{seatPrice}}</span></div>
+                        {{/model.selectedSeatDTOList}}
                         <div class="all">
                             <span class="tit">금액 <!-- 금액 --></span>
-                            <span class="price"><em>15,000</em> <span>원 <!-- 원 --></span></span>
+                            <span class="price"><em id="totalPrice">{{model.price}}</em> <span>원
+                                <!-- 원 --></span></span>
                         </div>
                     </div>
 
@@ -168,7 +164,7 @@
 
                         <div class="all">
                             <span class="tit">할인적용 <!-- 할인적용 --></span>
-                            <span class="price"><em>0</em> 원 <!-- 원 --></span>
+                            <span class="price"><em id="discountAmount">0</em> 원 <!-- 원 --></span>
                         </div>
                     </div>
                 </div>
@@ -178,8 +174,8 @@
                         <p class="tit">최종결제금액 <!-- 최종결제금액 --></p>
 
                         <div class="money">
-                            <em>15,000</em>
-                            <span>원 <!-- 원 --></span>
+                            <em id="finalPrice">15,000</em>
+                            <span>원</span>
                         </div>
                     </div>
                     <div class="payment-thing">
@@ -199,6 +195,47 @@
     </div>
 </div>
 
-<script src="/js/payment.js"></script>
+<script>
 
+    document.addEventListener("DOMContentLoaded", function () {
+        var allUseCheckbox = document.getElementById("allUse");
+        var usePointsInput = document.getElementById("usePoints");
+        var availablePoints = "{{model.point}}".replace(/,/g, '');
+        availablePoints = parseInt(availablePoints, 10);
+        var totalPrice = parseInt(document.getElementById("totalPrice").textContent.replace(/,/g, ''), 10);
+        var finalPriceElement = document.getElementById("finalPrice");
+
+        function updateFinalPrice() {
+            var usePoints = parseInt(usePointsInput.value, 10) || 0;
+            if (usePoints > availablePoints) {
+                usePoints = availablePoints;
+                usePointsInput.value = availablePoints;
+            }
+            if (usePoints < 1000) {
+                usePoints = 0;
+                usePointsInput.value = 0;
+            }
+            var finalPrice = totalPrice - usePoints;
+            if (finalPrice < 0) finalPrice = 0;
+            finalPriceElement.textContent = finalPrice.toLocaleString();
+        }
+
+        allUseCheckbox.addEventListener("change", function () {
+            if (this.checked) {
+                usePointsInput.value = availablePoints;
+            } else {
+                usePointsInput.value = 0;
+            }
+            updateFinalPrice();
+        });
+
+        usePointsInput.addEventListener("input", function () {
+            allUseCheckbox.checked = usePointsInput.value == availablePoints;
+            updateFinalPrice();
+        });
+
+        updateFinalPrice();
+    });
+
+</script>
 {{> layout/footer}}

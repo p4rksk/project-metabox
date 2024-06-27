@@ -22,38 +22,4 @@ import java.util.List;
 @Slf4j
 
 public class PaymentController {
-//
-//    private IamportClient iamportClient;
-//    private final RefundService refundService;
-//    private PaymentService paymentService;
-    private HttpSession session;
-
-//    @Value("${imp.api.key}")
-//    private String apiKey;
-//
-//    @Value("${imp.api.secretkey}")
-//    private String secretKey;
-//
-//    @PostConstruct
-//    public void init() {
-//        this.iamportClient = new IamportClient(apiKey, secretKey);
-//    }
-//
-//
-    @PostMapping("/api/v1/payment")
-    public ResponseEntity<String> paymentComplete() throws IOException {
-        SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
-        try {
-            return ResponseEntity.ok().build();
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
-    }
-
-
-
-    @GetMapping("/payment-form")
-    public String paymentForm() {
-        return "payment/payment-form";
-    }
 }
