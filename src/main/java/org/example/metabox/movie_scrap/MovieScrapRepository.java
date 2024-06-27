@@ -16,4 +16,13 @@ public interface MovieScrapRepository extends JpaRepository<MovieScrap, Integer>
             where u.id = :user_id
             """)
     List<MovieScrap> findByUserAndMovie(@Param("user_id") Integer userId);
+
+    @Query("""
+            select ms
+            from MovieScrap ms
+            join fetch ms.movie m
+            join fetch ms.user u
+            where m.id = :movie_id
+            """)
+    MovieScrap findByScrapAndUser(@Param("movie_id") Integer movieId);
 }

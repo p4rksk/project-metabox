@@ -20,15 +20,22 @@ public class MovieScrapService {
     private final MovieScrapRepository movieScrapRepository;
 
     @Transactional
-    public MovieScrapResponse.ScrapDTO movieScrap(Integer movieId, Integer sessionUser) {
-        User user = userRepository.findById(sessionUser)
+    public MovieScrapResponse.ScrapDTO movieScrap(Integer movieId, Integer userId) {
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new Exception404("사용자를 찾을 수 없습니다."));
         Movie movie = movieRepository.findById(movieId)
                 .orElseThrow(() -> new Exception401("존재하지 않는 영화입니다!."));
-        MovieScrapRequest.ScrapMovieDTO scrapMovieDTO = new MovieScrapRequest.ScrapMovieDTO(user, movie);
-        MovieScrap movieScrap = movieScrapRepository.save(scrapMovieDTO.toEntity());
-
+        MovieScrapRequest.ScrapMovieDTO movieScrapDTO = new MovieScrapRequest.ScrapMovieDTO(user,movie);
+        MovieScrap movieScrap = movieScrapRepository.save(movieScrapDTO.toEntity());
         return new MovieScrapResponse.ScrapDTO(movieScrap);
+    }
+
+    @Transactional
+    public void deleteMovieScrap( Integer movieId) {
+        Movie movie = movieRepository.findById(movieId)
+                .orElseThrow(() -> new Exception401("존재하지 않는 영화입니다!."));
+        MovieScrap movieScrap = movieScrapRepository.findById(movie.getId()).orElseThrow(() -> new Exception401("존재하지 않는 영화입니다!.") );
+        movieScrapRepository.delete(movieScrap);
     }
 
     public List<MovieScrapResponse.ScrapMovieListDTO> movieScrapList(Integer userId) {

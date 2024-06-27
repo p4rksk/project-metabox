@@ -40,7 +40,7 @@
                 <h5>박선규님</h5>
             </div>
             <div class="list-group mt-3">
-                <a href="/scrap/movie/list" class="list-group-item list-group-item-action text-center">0 <br>기대되는 영화</a>
+                <a href="/scrap/movie-list" class="list-group-item list-group-item-action text-center">0 <br>기대되는 영화</a>
                 <a href="#" class="list-group-item list-group-item-action active text-center">11<br> 내가 본 영화</a>
                 <a href="#" class="list-group-item list-group-item-action disabled text-center">0<br> 내가 쓴 한줄평</a>
             </div>
@@ -68,7 +68,9 @@
                         <p>개봉마감일: {{endDate}}</p>
                         <a href="#">예매하기</a>
                     </div>
-                    <button class="btn btn-danger">X</button>
+                    <form action="/scrap/{{id}}" method="post">
+                        <button class="btn btn-danger">X</button>
+                    </form>
                 </div>
             {{/movieScrapList}}
             {{^movieScrapList}}
