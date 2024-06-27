@@ -378,6 +378,9 @@
                 icon: "warning",
                 button: "확인"
             });
+            $(`.theater-list-name div[data-theater="${theaterName}"]`).css({
+                'background-color': '', // 배경색 초기화
+            });
             return;
         }
 

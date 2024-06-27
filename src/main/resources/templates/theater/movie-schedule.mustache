@@ -4,6 +4,8 @@
     <link rel="stylesheet" href="/css/movieSchedule.css">
 </head>
 
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
 <div class="mx-auto d-block" style="width: 1000px; user-select: none;">
 <div class="container1" style="user-select: none; height: 383px">
     <div class="header" style="user-select: none;">자주가는 META BOX</div>
@@ -355,7 +357,12 @@
             type: 'POST'
 
         }).done((res) => {
-            alert("자주가는 META BOX 설정이 완료되었습니다.");
+            swal({
+                text: "자주가는 META BOX 설정이 완료되었습니다.",
+                icon: "success",
+                button: "확인"
+            });
+
             closeModal();
             console.log("res ", res);
             $("#theater-select-box").empty();       //비워줘야함
@@ -480,7 +487,14 @@
 
 
         if ($('.selected-theater div').length >= maxSelectedTheaters) {
-            alert('최대 5개의 극장만 선택할 수 있습니다.');
+            swal({
+                text: "최대 5개의 극장만 선택할 수 있습니다.",
+                icon: "warning",
+                button: "확인"
+            });
+            $(`.theater-list-name div[data-theater="${theaterName}"]`).css({
+                'background-color': '', // 배경색 초기화
+            });
             return;
         }
 
