@@ -1,0 +1,91 @@
+<style>
+    .sidebar {
+        background-color: #F2F4F5;
+        padding: 15px;
+        border-radius: 10px;
+        border: 1px solid #ddd;
+        margin-top: 30%;
+    }
+
+    .sidebar .nav-link {
+        color: #333;
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .sidebar .nav-link:hover {
+        background-color: #d2dae0;
+        color: #4E0929;
+        font-weight: bold;
+    }
+
+    .sidebar-header {
+        color: rgb(0, 0, 0);
+        font-weight: bold;
+        text-align: center;
+        padding: 10px 0;
+        border-bottom: 2px solid white;
+    }
+
+    .sidebar .nav-link.active,
+    .sidebar .nav-link.clicked {
+        background-color: #4E0929;
+        color: white;
+    }
+
+    .sidebar .contact-info {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .sidebar .contact-info p {
+        color: #4E0929;
+        font-size: 14px;
+    }
+
+    .sidebar .contact-info .time {
+        font-size: 12px;
+        margin-top: 5px;
+    }
+
+    .sidebar .contact-info i {
+        color: white;
+        margin-right: 5px;
+    }
+
+</style>
+
+<div class="col-md-3">
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h4>고객센터</h4>
+        </div>
+        <nav class="nav flex-column">
+            <a class="nav-link" href="/help-home">고객센터 홈</a>
+            <a class="nav-link" href="/help-faq">자주 묻는 질문</a>
+            <a class="nav-link" href="/help-personal">1:1 문의</a>
+            <a class="nav-link" href="/help-rent">단체관람 및 대관문의</a>
+        </nav>
+        <div class="contact-info">
+            <p>META BOX 고객센터</p>
+            <p class="time"><i class="far fa-clock"></i> 10:00~19:00</p>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+        // 페이지 로드 시 활성화된 메뉴 항목 설정
+        var currentPath = window.location.pathname;
+        $('.sidebar .nav-link').each(function() {
+            if ($(this).attr('href') === currentPath) {
+                $(this).addClass('active');
+            }
+        });
+
+        // 링크 클릭 시 'active' 클래스 추가
+        $('.sidebar .nav-link').on('click', function() {
+            $('.sidebar .nav-link').removeClass('active');
+            $(this).addClass('active');
+        });
+</script>
