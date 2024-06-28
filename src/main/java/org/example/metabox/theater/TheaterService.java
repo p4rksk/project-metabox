@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.example.metabox._core.errors.exception.Exception401;
 import org.example.metabox._core.errors.exception.Exception404;
+import org.example.metabox._core.util.FormatUtil;
 import org.example.metabox.movie.MovieRepository;
 import org.example.metabox.screening_info.ScreeningInfo;
 import org.example.metabox.screening_info.ScreeningInfoRepository;
@@ -14,7 +15,9 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -91,5 +94,33 @@ public class TheaterService {
         System.out.println("비밀번호 : " + reqDTO.getPassword());
         Theater theater = theaterRepository.findByLoginIdAndPassword(reqDTO.getLoginId(), reqDTO.getPassword()).orElseThrow(() -> new Exception401("아이디 또는 비밀번호가 틀렸습니다."));
         return theater;
+    }
+
+    // 극장 관리자
+    public TheaterResponse.TheaterSalesDTO getThearerSalesInfo(int theaterId) {
+        // 극장 매출 조회
+        List<Object[]> theaterInfo = theaterRepository.getTheaterSales(theaterId); // 무조건 1건이라 Object[]로 받고 싶은데 받으면 터짐..
+        Object[] result = theaterInfo.get(0);
+
+        // 영화별 매출 조회
+        List<Object[]> movieSales = theaterRepository.findTheaterSalesByMovie(theaterId);
+        List<TheaterResponse.TheaterSalesDTO.MovieTotalSalesDTO> movieSalesList = movieSales.stream().map(row ->
+                TheaterResponse.TheaterSalesDTO.MovieTotalSalesDTO.builder()
+                        .id((int) row[0])
+                        .movieName((String) row[1])
+                        .startDate((Date) row[2])
+                        .endDate((Date) row[3])
+                        .totalMovieSales(FormatUtil.moneyFormat((Long) row[4]))
+                        .build()
+        ).collect(Collectors.toList());
+
+        return TheaterResponse.TheaterSalesDTO.builder()
+                .areaName((String) result[0])
+                .theaterName((String) result[1])
+                .address((String) result[2])
+                .theaterTel((String) result[3])
+                .totalTheaterSales(FormatUtil.moneyFormat((Long) result[4]))
+                .movieSalesList(movieSalesList)
+                .build();
     }
 }

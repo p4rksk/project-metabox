@@ -1,10 +1,12 @@
 package org.example.metabox.theater;
 
+import lombok.Builder;
 import lombok.Data;
 import org.example.metabox.screening.Screening;
 import org.example.metabox.screening_info.ScreeningInfo;
 import org.example.metabox.theater_scrap.TheaterScrap;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -246,6 +248,45 @@ public class TheaterResponse {
                         this.screeningInfoId = screeningInfo.getId();
                     }
                 }
+            }
+        }
+    }
+
+    // 영화관 매출 DTO
+    @Data
+    @Builder
+    public static class TheaterSalesDTO {
+        private String areaName;
+        private String theaterName;
+        private String address;
+        private String theaterTel;
+        private String totalTheaterSales;
+        private List<MovieTotalSalesDTO> movieSalesList;
+
+        public TheaterSalesDTO(String areaName, String theaterName, String address, String theaterTel, String totalTheaterSales, List<MovieTotalSalesDTO> movieSalesList) {
+            this.areaName = areaName;
+            this.theaterName = theaterName;
+            this.address = address;
+            this.theaterTel = theaterTel;
+            this.totalTheaterSales = totalTheaterSales;
+            this.movieSalesList = movieSalesList;
+        }
+
+        @Data
+        @Builder
+        public static class MovieTotalSalesDTO {
+            private int id;
+            private String movieName;
+            private Date startDate;
+            private Date endDate;
+            private String totalMovieSales;
+
+            public MovieTotalSalesDTO(int id, String movieName, Date startDate, Date endDate, String totalMovieSales) {
+                this.id = id;
+                this.movieName = movieName;
+                this.startDate = startDate;
+                this.endDate = endDate;
+                this.totalMovieSales = totalMovieSales;
             }
         }
     }

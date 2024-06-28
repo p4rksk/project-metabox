@@ -17,4 +17,65 @@ public interface TheaterRepository extends JpaRepository<Theater, Integer> {
 
     @Query("select t from Theater t where t.loginId = :loginId and t.password = :password")
     Optional<Theater> findByLoginIdAndPassword(@Param("loginId") String loginId, @Param("password") String password);
+
+    // 특점 지점 매출 조회 (DTO로 리턴하면 터짐 이유는 모름)
+    @Query("""
+                SELECT
+                    t.areaName, 
+                    t.name, 
+                    t.address, 
+                    t.number, 
+                    SUM(CASE 
+                        WHEN se.type = 'HANDICAPPED' THEN sc.seatPrice - 5000 
+                        WHEN se.type = 'LIGHT' THEN sc.seatPrice - 1000 
+                        ELSE sc.seatPrice 
+                    END) AS totalSales
+                FROM Theater t 
+                JOIN t.screeningList sc 
+                JOIN sc.screeningInfoList si 
+                JOIN si.seatBookList sb 
+                JOIN sb.seat se 
+                WHERE t.id = :theaterId 
+                GROUP BY t.id, t.areaName, t.name, t.address, t.number
+                ORDER BY totalSales DESC
+            """)
+    List<Object[]> getTheaterSales(@Param("theaterId") int theaterId);
+
+    // 지점별 매출 조회
+    @Query("""
+                SELECT t.id, t.name AS theaterName, 
+                       SUM(CASE 
+                           WHEN se.type = 'HANDICAPPED' THEN sc.seatPrice - 5000 
+                           WHEN se.type = 'LIGHT' THEN sc.seatPrice - 1000 
+                           ELSE sc.seatPrice 
+                       END) AS theaterSales 
+                FROM Theater t 
+                JOIN t.screeningList sc 
+                JOIN sc.screeningInfoList si 
+                JOIN si.seatBookList sb 
+                JOIN sb.seat se 
+                GROUP BY t.id, t.name 
+                ORDER BY theaterSales DESC
+            """)
+    List<Object[]> findSalesByTheater();
+
+    // 지점의 영화별 매출
+    @Query("""
+            SELECT m.id, m.title AS movieTitle, m.startDate, m.endDate, 
+                   SUM(CASE 
+                       WHEN se.type = 'HANDICAPPED' THEN sc.seatPrice - 5000 
+                       WHEN se.type = 'LIGHT' THEN sc.seatPrice - 1000 
+                       ELSE sc.seatPrice 
+                   END) AS movieSales 
+            FROM Theater t 
+            JOIN t.screeningList sc 
+            JOIN sc.screeningInfoList si 
+            JOIN si.seatBookList sb 
+            JOIN sb.seat se 
+            JOIN si.movie m 
+            WHERE t.id = :theaterId 
+            GROUP BY m.id, m.title, m.startDate, m.endDate
+            ORDER BY movieSales DESC
+            """)
+    List<Object[]> findTheaterSalesByMovie(@Param("theaterId") int theaterId);
 }
