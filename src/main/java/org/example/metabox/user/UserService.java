@@ -71,21 +71,7 @@ public class UserService {
 
     // 메인 페이지 무비차트, 상영예정작
     public UserResponse.MainChartDTO findMainMovie() {
-        //1위 영화의 트레일러 재생
 
-        //1.1 예매율 1위의 영화 가져오기
-        Integer topMovieId = trailerRepository.findTopBookingRateMovieId();
-
-        //1.2 영화의 트레일러 찾기
-         Trailer oneTrailer = trailerRepository.findById(topMovieId)
-                .orElseThrow(() -> new Exception404("예매율 1위의 트레일러가 없습니다."));
-
-         //1.3 DTO의 매핑 시키기
-        UserResponse.MainChartDTO.TrailerDTO.builder()
-                .id(oneTrailer.getId())
-                .fileName(oneTrailer.getStreamingFilename())
-                .masterM3u8name(oneTrailer.getMasterM3U8Filename())
-                .build();
 
         List<UserResponse.MainChartDTO.MainMovieChartDTO> movieChartDTOS = movieQueryRepository.getMainMovieChart();
 //        System.out.println("쿼리 확인용 = " + movieChartDTOS);
