@@ -21,17 +21,20 @@ public class BookResponse {
         private String startTime;
         private String endTime;
         private String info;
+        private int screeningInfoId;
         private String screeningName;
         private List<SelectedSeatDTO> selectedSeatDTOList;
         private String price;
         private String point;
 
         private class SelectedSeatDTO {
+            private int seatId;
             private String seatCode;
             private String seatType;
             private String seatPrice;
 
             public SelectedSeatDTO(Seat seat) {
+                this.seatId = seat.getId();
                 this.seatCode = seat.getCode();
                 this.seatType = seat.getSeatTypeKo();
                 this.seatPrice = getFormattedPrice(seat.getSeatPrice());
@@ -43,6 +46,7 @@ public class BookResponse {
             this.movieTitle = screeningInfo.getMovie().getTitle();
             this.theaterTitle = screeningInfo.getScreening().getTheater().getName();
             this.date = String.valueOf(screeningInfo.getDate());
+            this.screeningInfoId = screeningInfo.getId();
             this.startTime = screeningInfo.getStartTime();
             this.endTime = screeningInfo.getEndTime();
             this.info = screeningInfo.getMovie().getInfo();

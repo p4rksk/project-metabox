@@ -229,8 +229,8 @@ V.I.A(Very Important Animal)를 만족시키기 위한
 두 사람은 괴생명체를 피해 지하철역부터 시가지,
 할렘까지 숨죽인 여정을 이어 나가는데…'),
 -- 12
-('태풍 클럽', 'Typhoon Club', '소마이 신지', '미카미 유이치 ,  쿠도 유키', '', '
-15세이상관람가, 115분, 일본', DATEADD('DAY', +3, CURRENT_TIMESTAMP), DATEADD('DAY', +34, CURRENT_TIMESTAMP), 'movie12.png',
+('태풍 클럽', 'Typhoon Club', '소마이 신지', '미카미 유이치 ,  쿠도 유키', '', '15세이상관람가, 115분, 일본', DATEADD('DAY', +3, CURRENT_TIMESTAMP),
+ DATEADD('DAY', +34, CURRENT_TIMESTAMP), 'movie12.png',
  '태풍이 불어 닥친 날,
 
  미카미 쿄이치를 비롯한 6명의 중학생이 학교에 갇히고,
@@ -5809,8 +5809,8 @@ values ('010-8489-2732', '1997-07-23', 'pakchan0723'),
        ('010-9209-3687', '1996-04-29', 'donghun0429');
 -- -- 회원 예매
 -- 1번 유저가 극장1의 1관에서 상영하는 인사이드 아웃2 E10, E11 좌석을 예매 (포인트 10%로 3000포인트 적립 더미수정)
-insert into book_tb(user_id, guest_id, total_price, created_at, point, used_point, book_price)
-values (1, null, 30000, now(), 3000, 0, 30000);
+insert into book_tb(user_id, guest_id, total_price, created_at, point, used_point, book_price, book_num)
+values (1, null, 30000, now(), 3000, 0, 30000, '202406160001');
 insert into seat_book_tb(book_id, seat_id, screening_info_id)
 values
 -- 1관 E10, 극장1 인사이드아웃2 12:00~13:50
@@ -5818,8 +5818,8 @@ values
 -- 1관 E11, 극장1 인사이드아웃2 12:00~13:50
 (1, 68, 3);
 -- 1번 유저가 극장1의 2관에서 상영하는 인사이드 아웃2 E4~ E15 좌석을 예매 (포인트 10%로 18000원 적립 더미 수정)
-insert into book_tb(user_id, guest_id, total_price, created_at, point, used_point, book_price)
-values (1, null, 180000, now(), 18000, 0, 180000);
+insert into book_tb(user_id, guest_id, total_price, created_at, point, used_point, book_price, book_num)
+values (1, null, 180000, now(), 18000, 0, 180000, '202406160002');
 insert into seat_book_tb(book_id, seat_id, screening_info_id)
 values
 -- 극장1 2관 E4~E15(172~183) 19:00~20:50 하이재킹
@@ -5837,8 +5837,8 @@ values
 (2, 183, 12);
 -------------------------------- 이제부터 대충 짜야함 관계 다신경쓰면 못짬
 -- 2번 유저가 걍 무한으로 삼(예매 3번)
-insert into book_tb(user_id, guest_id, total_price, created_at, point, used_point, book_price)
-values (2, null, 0, now(), 0, 0, 0);
+insert into book_tb(user_id, guest_id, total_price, created_at, point, used_point, book_price, book_num)
+values (2, null, 0, now(), 0, 0, 0, '202406160003');
 insert into seat_book_tb(book_id, seat_id, screening_info_id)
 values (3, 31, 1),
        (3, 32, 1),
@@ -6219,12 +6219,12 @@ values (3, 43, 6),
        (3, 109, 6);
 
 -- 비회원 예매
-insert into book_tb(user_id, guest_id, total_price, created_at, point, used_point, book_price)
-values (null, 1, 15000, now(), 0, 0, 15000);
+insert into book_tb(user_id, guest_id, total_price, created_at, point, used_point, book_price, book_num)
+values (null, 1, 15000, now(), 0, 0, 15000, '202406160004');
 insert into seat_book_tb(book_id, seat_id, screening_info_id)
 values (4, 110, 6);
-insert into book_tb(user_id, guest_id, total_price, created_at, point, used_point, book_price)
-values (null, 2, 30000, now(), 0, 0, 30000);
+insert into book_tb(user_id, guest_id, total_price, created_at, point, used_point, book_price, book_num)
+values (null, 2, 30000, now(), 0, 0, 30000, '202406160005');
 insert into seat_book_tb(book_id, seat_id, screening_info_id)
 values (5, 41, 6),
        (5, 42, 6);
@@ -6241,4 +6241,4 @@ values (1, 2,
 
 --트레일러 등록
 insert into trailer_tb(movie_id, streaming_filename, master_m3u8_filename)
-values (1, '인사이드 아웃 2 메인 예고편.mp4' ,'인사이드 아웃 2 메인 예고편_master.m3u8')
+values (1, '인사이드 아웃 2 메인 예고편.mp4', '인사이드 아웃 2 메인 예고편_master.m3u8')

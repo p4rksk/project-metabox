@@ -3,17 +3,22 @@ package org.example.metabox.book;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.example.metabox._core.errors.exception.Exception404;
-import org.example.metabox.screening.ScreeningRepository;
 import org.example.metabox.screening_info.ScreeningInfo;
 import org.example.metabox.screening_info.ScreeningInfoRepository;
 import org.example.metabox.seat.Seat;
+import org.example.metabox.seat.SeatBook;
+import org.example.metabox.seat.SeatBookRepository;
 import org.example.metabox.seat.SeatRepository;
 import org.example.metabox.theater.Theater;
 import org.example.metabox.theater.TheaterRepository;
+import org.example.metabox.user.Guest;
+import org.example.metabox.user.GuestRepository;
 import org.example.metabox.user.User;
 import org.example.metabox.user.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,8 +29,10 @@ public class BookService {
     private final TheaterRepository theaterRepository;
     private final ScreeningInfoRepository screeningInfoRepository;
     private final SeatRepository seatRepository;
-    private final ScreeningRepository screeningRepository;
+    private final BookRepository bookRepository;
     private final UserRepository userRepository;
+    private final GuestRepository guestRepository;
+    private final SeatBookRepository seatBookRepository;
 
     public BookResponse.BookDTO theaterAreaList() {
         // 극장 지역 조회
@@ -61,5 +68,75 @@ public class BookService {
         User user = userRepository.findById(userId).orElseThrow(() -> new Exception404("유저 정보를 찾을 수 없습니다."));
         int point = user.getPoint();
         return new BookResponse.PaymentDTO(screeningInfo, seatList, point);
+    }
+
+    // 회원 예매내역 등록
+    @Transactional
+    public void completeBook(BookRequest.PaymentRequestDTO reqDTO, int userId) {
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        String formattedDate = now.format(formatter);
+
+        int count = bookRepository.findAllByDate(now);
+        String formattedBookId = String.format("%04d", count + 1);
+
+        // 예약 테이블 만들기
+        User user = userRepository.findById(userId).orElseThrow(() -> new Exception404("유저 정보를 찾을 수 없습니다."));
+        Book book = bookRepository.save(Book.builder()
+                .book_price(reqDTO.getBookPrice())
+                .totalPrice(reqDTO.getTotalPrice())
+                .point((int) (reqDTO.getBookPrice() * 0.1))
+                .used_point(reqDTO.getUsedPoint())
+                .user(user)
+                .guest(null)
+                .bookNum(formattedDate + formattedBookId)
+                .build());
+
+        // 예약된 좌석 등록
+        List<Integer> selectedSeatIds = reqDTO.getSelectedSeatIds();
+        ScreeningInfo screeningInfo = screeningInfoRepository.findById(reqDTO.getScreeningInfoId()).orElseThrow(() -> new Exception404("상영 정보를 찾을 수 없습니다."));
+        Book booked = bookRepository.findById(book.getId()).orElseThrow(() -> new Exception404("예매 정보를 찾을 수 없습니다."));
+        for (int i = 0; i < selectedSeatIds.size(); i++) {
+
+            Seat seat = seatRepository.findById(selectedSeatIds.get(i)).orElseThrow(() -> new Exception404("좌석 정보를 찾을 수 없습니다."));
+            seatBookRepository.save(SeatBook.builder()
+                    .book(booked)
+                    .screeningInfo(screeningInfo)
+                    .seat(seat)
+                    .build());
+        }
+    }
+
+    public void completeBookGuest(BookRequest.PaymentRequestDTO reqDTO, int userId) {
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        String formattedDate = now.format(formatter);
+
+        int count = bookRepository.findAllByDate(now);
+        String formattedBookId = String.format("%04d", count + 1);
+
+        Guest guest = guestRepository.findById(userId).orElseThrow(() -> new Exception404("비회원 정보를 찾을 수 없습니다."));
+        Book book = bookRepository.save(Book.builder()
+                .book_price(reqDTO.getBookPrice())
+                .totalPrice(reqDTO.getTotalPrice())
+                .point((int) (reqDTO.getBookPrice() * 0.1))
+                .used_point(reqDTO.getUsedPoint())
+                .user(null)
+                .guest(guest)
+                .bookNum(formattedDate + formattedBookId)
+                .build());
+
+        List<Integer> selectedSeatIds = reqDTO.getSelectedSeatIds();
+        ScreeningInfo screeningInfo = screeningInfoRepository.findById(reqDTO.getScreeningInfoId()).orElseThrow(() -> new Exception404("상영 정보를 찾을 수 없습니다."));
+        Book booked = bookRepository.findById(book.getId()).orElseThrow(() -> new Exception404("예매 정보를 찾을 수 없습니다."));
+        for (int i = 0; i < selectedSeatIds.size(); i++) {
+
+            Seat seat = seatRepository.findById(selectedSeatIds.get(i)).orElseThrow(() -> new Exception404("좌석 정보를 찾을 수 없습니다."));
+            seatBookRepository.save(SeatBook.builder()
+                    .book(booked)
+                    .screeningInfo(screeningInfo)
+                    .seat(seat)
+                    .build());
+        }
     }
 }

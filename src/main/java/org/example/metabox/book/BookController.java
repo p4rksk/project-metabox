@@ -4,11 +4,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.example.metabox._core.util.FormatUtil;
+import org.example.metabox.user.SessionGuest;
 import org.example.metabox.user.SessionUser;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -19,6 +19,22 @@ import java.util.List;
 public class BookController {
     private final HttpSession session;
     private final BookService bookService;
+
+    @PostMapping("/books/complete")
+    public ResponseEntity<?> completeBook(@RequestBody BookRequest.PaymentRequestDTO paymentRequestDTO) {
+        SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
+        SessionGuest sessionGuest = (SessionGuest) session.getAttribute("sessionGuest");
+        Integer userId;
+        if (sessionUser != null) {
+            userId = sessionUser.getId();
+            bookService.completeBook(paymentRequestDTO, userId);
+        } else {
+            userId = sessionGuest.getId();
+            bookService.completeBookGuest(paymentRequestDTO, userId);
+        }
+
+        return ResponseEntity.ok("/mypage/detail-book");
+    }
 
     //  TODO :  로그인 유저만 이용할 수 있도록 interceptor
     @GetMapping("/book-form")
