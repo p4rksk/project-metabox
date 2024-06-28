@@ -387,7 +387,36 @@ public class MovieQueryRepository {
         return results;
     }
 
+    // TODO: 중복코드 수정
     public List<Object[]> getAdminMovieChart() {
+        // PK, 순위, 연령, 포스터, 제목, 예매율, 개봉일, 상영 상태
+        // TODO: WHERE si2.date >= '2024-06-21' -> CURRENT_DATE
+        String sql = """
+            SELECT
+                m.id,
+                m.title,
+                m.img_filename,
+                m.info,
+                m.start_date,
+                COALESCE(COUNT(sb.book_id) * 1.0 / NULLIF((
+                                                            SELECT COUNT(sb2.book_id)
+                                                            FROM seat_book_tb sb2
+                                                            JOIN screening_info_tb si2 ON sb2.screening_info_id = si2.id
+                                                            WHERE si2.date >= '2024-06-21'
+                                                            ), 0), 0) AS bookingRate
+            FROM movie_tb m
+            LEFT JOIN screening_info_tb si ON m.id = si.movie_id
+            LEFT JOIN seat_book_tb sb ON si.id = sb.screening_info_id
+            WHERE m.end_date >= CURRENT_DATE AND m.start_date >= CURRENT_DATE
+            GROUP BY m.id, m.title, m.img_filename, m.info, m.start_date
+            ORDER BY bookingRate DESC;
+            """;
+        Query query = em.createNativeQuery(sql);
+        List<Object[]> results = query.getResultList();
+        return results;
+    }
+
+    public List<Object[]> getAdminUpcomingMovieChart() {
         // PK, 순위, 연령, 포스터, 제목, 예매율, 개봉일, 상영 상태
         // TODO: WHERE si2.date >= '2024-06-21' -> CURRENT_DATE
         String sql = """
@@ -511,4 +540,32 @@ public class MovieQueryRepository {
         return query.executeUpdate();
     }
 
+    public List<Object[]> getUpcomingMovieChart() {
+        // PK, 순위, 연령, 포스터, 제목, 예매율, 개봉일, 상영 상태
+        // TODO: DB에 값이 없어서 '2024-06-21'로 설정함 -> CURRENT_DATE로 바꿔야함
+        String sql = """
+            SELECT
+                m.id,
+                m.title,
+                m.img_filename,
+                m.info,
+                m.start_date,
+                COUNT(sb.book_id) * 1.0 / (
+                                            SELECT COUNT(sb2.book_id)
+                                            FROM seat_book_tb sb2
+                                            JOIN screening_info_tb si2
+                                            ON sb2.screening_info_id = si2.id
+                                            WHERE si2.date >= '2024-06-21'
+                                            ) AS bookingRate
+            FROM movie_tb m
+            LEFT JOIN screening_info_tb si ON m.id = si.movie_id
+            LEFT JOIN seat_book_tb sb ON si.id = sb.screening_info_id
+            WHERE m.end_date >= CURRENT_DATE AND m.start_date >= CURRENT_DATE
+            GROUP BY m.id, m.title, m.img_filename, m.info, m.start_date
+            ORDER BY bookingRate DESC;
+            """;
+        Query query = em.createNativeQuery(sql);
+        List<Object[]> results = query.getResultList();
+        return results;
+    }
 }

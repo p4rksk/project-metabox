@@ -49,6 +49,14 @@ public class AdminController {
         return "admin/movie-list";
     }
 
+    // 관리자 무비 상영 예정 차트(기본값 - 예매율순)
+    @GetMapping("/movie-upcoming")
+    public String movieUpcomingList(HttpServletRequest request) {
+        List<MovieResponse.AdminMovieChartDTO> movies = movieService.getAdminUpcomingMovieChart();
+        request.setAttribute("models", movies);
+        return "admin/movie-upcoming";
+    }
+
     // 영화 상세 페이지
     @GetMapping("/movie-detail/{movieId}")
     public String movieDetail(@PathVariable("movieId") Integer movieId, HttpServletRequest request) {
