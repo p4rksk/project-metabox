@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'org.example'
-version = '0.0.1-SNAPSHOT'
+version = '1.0'
 
 java {
     toolchain {
@@ -29,11 +29,11 @@ dependencies {
 //    https://github.com/bytedeco/javacv/#manual-installation
     implementation 'org.bytedeco:javacv-platform:1.5.10'
     implementation 'net.bramp.ffmpeg:ffmpeg:0.8.0'
-
+    implementation 'io.github.cdimascio:java-dotenv:5.2.2'
 
     implementation 'com.github.iamport:iamport-rest-client-java:0.1.6'
-//    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-//    implementation 'org.springframework.session:spring-session-data-redis'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'org.springframework.session:spring-session-data-redis'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-mustache'
     implementation 'org.springframework.boot:spring-boot-starter-web'

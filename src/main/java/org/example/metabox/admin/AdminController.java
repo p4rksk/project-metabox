@@ -8,6 +8,7 @@ import org.example.metabox.movie.MovieResponse;
 import org.example.metabox.movie.MovieService;
 import org.example.metabox.movie_pic.MoviePicRequest;
 import org.example.metabox.movie_pic.MoviePicService;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +24,7 @@ public class AdminController {
     private final MovieService movieService;
     private final HttpSession session;
     private final MoviePicService moviePicService;
+    private final RedisTemplate<String, Object> rt;
 
     @GetMapping("/admin-login-form")
     public String Login() {
@@ -34,7 +36,7 @@ public class AdminController {
         Admin admin = adminService.login(reqDTO);
 
         SessionAdmin sessionAdmin = new SessionAdmin(admin.getId(), admin.getLoginId());
-        session.setAttribute("sessionAdmin", sessionAdmin);
+        rt.opsForValue().set("sessionAdmin", sessionAdmin);
         return "redirect:movie-list";
     }
 
@@ -101,7 +103,7 @@ public class AdminController {
     // 스틸컷 삭제
     @ResponseBody
     @PostMapping("/stills-delete/{id}")
-    public String deleteStills(@PathVariable("id") int id){
+    public String deleteStills(@PathVariable("id") int id) {
         try {
             moviePicService.deleteStills(id);
             return "success";
@@ -113,7 +115,7 @@ public class AdminController {
     // 스틸컷 추가
     @ResponseBody
     @PostMapping("/stills-add/{movieId}")
-    public String addStills(@PathVariable("movieId") int movieId, MoviePicRequest.StillsAddDTO reqDTO){
+    public String addStills(@PathVariable("movieId") int movieId, MoviePicRequest.StillsAddDTO reqDTO) {
         try {
             moviePicService.addStills(movieId, reqDTO);
             return "success";
@@ -125,7 +127,7 @@ public class AdminController {
     // localhost:8080/admin-sales
     // 관리자 매출 페이지
     @GetMapping("/admin-sales")
-    public String getSales(HttpServletRequest request){
+    public String getSales(HttpServletRequest request) {
         AdminResponse.RootAdminResponseDTO resDTO = adminService.getRootAdmin();
         request.setAttribute("models", resDTO);
         return "admin/admin-sales";

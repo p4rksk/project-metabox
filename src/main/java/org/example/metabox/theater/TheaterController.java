@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.metabox._core.util.ApiUtil;
 import org.example.metabox._core.util.FormatUtil;
 import org.example.metabox.user.SessionUser;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,10 +20,11 @@ import java.time.LocalDate;
 public class TheaterController {
     private final TheaterService theaterService;
     private final HttpSession session;
+    private final RedisTemplate<String, Object> rt;
 
     @GetMapping("/theaters/info")
     public String theatersInfo(HttpServletRequest request, @RequestParam(value = "theaterId", defaultValue = "1") Integer theaterId) {
-        SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
+        SessionUser sessionUser = (SessionUser) rt.opsForValue().get("sessionUser");
         TheaterResponse.TheaterInfoDTO respDTO = theaterService.theaterInfo(sessionUser, theaterId);
         request.setAttribute("model", respDTO);
         return "theater/info";
@@ -37,7 +39,7 @@ public class TheaterController {
     public String theaterLogin(TheaterRequest.LoginDTO reqDTO) {
         Theater theater = theaterService.login(reqDTO);
         SessionTheater sessionTheater = new SessionTheater(theater);
-        session.setAttribute("sessionTheater", sessionTheater);
+        rt.opsForValue().set("sessionTheater", sessionTheater);
         return "/theater/main";
     }
 
@@ -46,7 +48,7 @@ public class TheaterController {
         if (date == null) {
             date = FormatUtil.currentDate();
         }
-        SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
+        SessionUser sessionUser = (SessionUser) rt.opsForValue().get("sessionUser");
         TheaterResponse.TheaterDTO respDTO = theaterService.movieSchedule(sessionUser, theaterId, date);
         request.setAttribute("model", respDTO);
         return "theater/movie-schedule";
