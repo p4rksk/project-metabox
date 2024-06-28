@@ -123,16 +123,13 @@ public class UserResponse {
     // 메인 페이지 무비차트, 상영예정작
     @Data
     public static class MainChartDTO {
-        // 트레일러
-        private TrailerDTO trailerDTO;
         // 무비차트
         private List<MainMovieChartDTO> movieCharts = new ArrayList<>();
         // 상영예정작
         private List<ToBeChartDTO> toBeCharts = new ArrayList<>();
 
         @Builder
-        public MainChartDTO(TrailerDTO trailerDTO,List<MainMovieChartDTO> movieCharts, List<ToBeChartDTO> toBeCharts) {
-            this.trailerDTO = trailerDTO;
+        public MainChartDTO(List<MainMovieChartDTO> movieCharts, List<ToBeChartDTO> toBeCharts) {
             this.movieCharts = movieCharts;
             this.toBeCharts = toBeCharts;
         }

@@ -315,4 +315,24 @@ public class MovieQueryRepository {
             return 0.0;
         }
     }
-}
+
+    public int firstRankMovie(){
+
+        String sql = """
+                SELECT m.id as movieId
+                        FROM movie_tb m
+                        LEFT JOIN screening_info_tb si ON m.id = si.movie_id
+                        LEFT JOIN seat_book_tb sb ON si.id = sb.screening_info_id
+                        WHERE si.date >= '2024-06-21'
+                        GROUP BY m.id
+                        ORDER BY COUNT(sb.book_id) DESC 
+                        LIMIT 1;
+               """;
+
+        Query query = em.createNativeQuery(sql);
+
+
+
+        return (int) query.getSingleResult();
+        }
+    }

@@ -3,6 +3,7 @@ package org.example.metabox.trailer;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.metabox._core.errors.exception.Exception404;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,8 @@ import java.io.IOException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @Slf4j
@@ -22,6 +25,21 @@ public class TrailerController {
 
     private final TrailerRepository trailerRepository;
     private final TrailerService trailerService;
+
+
+    // 자동재생 (예매율 1위 영상)
+    @GetMapping("/api/getTopTrailerUrl")
+    public ResponseEntity<Resource> getTopTrailerUrl() throws IOException {
+        System.out.println("API 호출됨");
+
+        // 예매율 1위의 영화 가져오기
+        Resource resource = trailerService.autoVideo();
+
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_TYPE, "application/vnd.apple.mpegurl")
+                .body(resource);
+    }
 
     //마스터 m3u8 반환
     @GetMapping("/{trailerId}/_master.m3u8")
