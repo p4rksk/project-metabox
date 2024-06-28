@@ -61,12 +61,11 @@ public class TheaterController {
     }
 
     @GetMapping("/theater/sales-management")
-    public String getSalesManagement(HttpServletRequest request) {
+    public String getSalesManagement(@RequestParam(value = "theaterId") int theaterId, HttpServletRequest request) {
         // 세션에서 로그인한 지점의 정보를 얻음
-        // SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
-        // TheaterResponse.TheaterInfoDTO respDTO = theaterService.theaterInfo(sessionUser, theaterId);
+        SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
+        TheaterResponse.TheaterInfoDTO respDTO = theaterService.theaterInfo(sessionUser, theaterId);
 
-        int theaterId = 1;
         TheaterResponse.TheaterSalesDTO theater = theaterService.getThearerSalesInfo(theaterId);
         request.setAttribute("model", theater);
         return "theater/sales-management";
