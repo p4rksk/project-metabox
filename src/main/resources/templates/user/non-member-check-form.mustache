@@ -84,6 +84,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 
 <script>
+<!--    모달창 -->
     $('#reservation-form').on('submit', function (e) {
         e.preventDefault();
         let name = $('#name').val();
@@ -114,6 +115,15 @@
     $('.close').on('click', function () {
         $('#reservationModal').modal('hide');
     });
+    // 모달창
+
+// 생년월일 1900 ~ 오늘 날짜까지 막아놓기
+    let today = new Date().toISOString().split('T')[0]; // 현재 날짜 (YYYY-MM-DD 형식)
+
+    $('#birthdate').attr('min', '1920-01-01');
+    $('#birthdate').attr('max', today);
+
+
 </script>
 
 {{> layout/footer}}
