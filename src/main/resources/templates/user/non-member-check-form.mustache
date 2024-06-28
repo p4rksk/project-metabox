@@ -18,7 +18,7 @@
             </div>
             <div class="form-group">
                 <label for="bookNumb">예매번호</label>
-                <input type="text" class="form-control" id="bookNumb" placeholder="예매번호" value="33532" required>
+                <input type="text" class="form-control" id="bookNumb" placeholder="예매번호 (12자리)" value="202406160004" required>
             </div>
             <div class="form-group">
                 <label for="password">비밀번호</label>
@@ -127,7 +127,8 @@
         let sendCheckForm = {
             name: name,
             phone: phone,
-            password: password
+            password: password,
+            bookNumb: bookNumb
         };
 
         console.log("전송 데이터: ", sendCheckForm);

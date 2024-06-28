@@ -93,12 +93,14 @@ public class UserResponse {
             private String name;
             private String phone;
             private String password;
+            private String bookNum;
 
-            public UserDTO(Integer guestId, String name, String phone, String password) {
+            public UserDTO(Integer guestId, String name, String phone, String password, String bookNum) {
                 this.guestId = guestId;
                 this.name = name;
                 this.phone = phone;
                 this.password = password;
+                this.bookNum = bookNum;
             }
         }
 

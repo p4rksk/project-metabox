@@ -93,10 +93,9 @@ public class UserService {
     // 게스트 예매 조회
     @Transactional
     public UserResponse.GuestCheckDTO findGuestBook(UserRequest.GuestBookCheckDTO reqDTO) {
-        UserResponse.GuestCheckDTO.UserDTO guest = guestRepository.findByGuest(reqDTO.getName(), reqDTO.getPassword(), reqDTO.getPhone())
+        UserResponse.GuestCheckDTO.UserDTO guest = guestRepository.findByGuest(reqDTO.getName(), reqDTO.getPassword(), reqDTO.getPhone(), reqDTO.getBookNumb())
                 .orElseThrow(() -> new Exception404("잘못된 정보를 입력하셨습니다."));
-        System.out.println("guest = " + guest);
-
+//        System.out.println("guest = " + guest);
 
         List<UserResponse.GuestCheckDTO.SeatDTO> seatDTOs = movieQueryRepository.findGuestTicketV1(guest.getGuestId());
         List<UserResponse.GuestCheckDTO.TotalPriceDTO> totalPriceDTOs = movieQueryRepository.findGuestTicketV3(guest.getGuestId());
