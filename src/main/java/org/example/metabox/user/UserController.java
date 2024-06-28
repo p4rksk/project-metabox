@@ -63,7 +63,7 @@ public class UserController {
 
     @GetMapping("/guest/book-check-form")
     public String nonMemberCheckForm() {
-
+        userService.findGuestBook();
         return "user/non-member-check-form";
     }
 

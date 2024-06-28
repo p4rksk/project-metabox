@@ -423,4 +423,7 @@ public class UserService {
 
     }
 
+    public void findGuestBook() {
+
+    }
 }

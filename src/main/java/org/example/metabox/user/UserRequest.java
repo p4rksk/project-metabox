@@ -20,6 +20,12 @@ public class UserRequest {
         }
     }
 
+    // 비회원 예매 조회
+//    @Data
+//    public static class GuestBookCheck() {
+//
+//    }
+
 
     //비회원 회원가입
     @Data
