@@ -12,7 +12,7 @@ public class ReviewRequest {
     public static class ReviewSaveDTO {
         private User user;
         private Movie movie;
-        private double rating;
+        private int rating;
         private String comment;
 
         public Review toEntity (User user, Movie movie) {
