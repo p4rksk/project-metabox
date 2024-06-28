@@ -18,4 +18,9 @@ public interface GuestRepository extends JpaRepository<Guest, Integer> {
     @Query("select g from Guest g where g.birth = :birth and g.password = :password")
     Guest findByBirthAndPassword(@Param("birth") String birth, @Param("password") String password);
 
+
+    // 비회원 예매조회
+    @Query("select new org.example.metabox.user.UserResponse$GuestCheckDTO$UserDTO(g.id, g.name, g.password, g.phone) " +
+            "from Guest g where g.name = :name and g.password = :password and g.phone = :phone")
+    Optional<UserResponse.GuestCheckDTO.UserDTO> findByGuest(String name, String password, String phone);
 }

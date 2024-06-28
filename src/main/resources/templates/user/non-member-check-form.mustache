@@ -9,19 +9,24 @@
         <h2 style="color: #4E0929;">비회원 예매 확인</h2>
         <form id="reservation-form">
             <div class="form-group">
-                <label for="name">이름</label>
-                <input type="text" class="form-control" id="name" placeholder="이름" required>
+                <label for="name">성명</label>
+                <input type="text" class="form-control" id="name" placeholder="성명" value="박찬혁" required>
             </div>
             <div class="form-group">
-                <label for="birthdate">생년월일</label>
-                <input type="date" class="form-control" id="birthdate" placeholder="생년월일 앞 6자리" required>
+                <label for="phone">휴대전화번호</label>
+                <input type="text" class="form-control" id="phone" placeholder="전화번호" value="010-8489-2732" required>
+            </div>
+            <div class="form-group">
+                <label for="bookNumb">예매번호</label>
+                <input type="text" class="form-control" id="bookNumb" placeholder="예매번호" value="33532" required>
             </div>
             <div class="form-group">
                 <label for="password">비밀번호</label>
-                <input type="password" class="form-control" id="password" placeholder="숫자 4자리" required>
+                <input type="password" class="form-control" id="password" placeholder="비밀번호 (4자리)" value="0723"
+                       required>
             </div>
             <br>
-            <button type="submit" class="btn-custom">비회원 예매확인</button>
+            <button type="submit" class="btn-custom" onclick="formSend()">비회원 예매확인</button>
         </form>
         <p class="form-text">
             * 비회원 정보 오 입력 시 예매 내역 확인/취소 및 티켓 발권이 <br> 어려울 수 있으니 다시 한번 확인해 주시기 바랍니다.
@@ -53,24 +58,16 @@
                     <p id="modal-theater"></p>
                 </div>
                 <div class="value">
-                    <p class="label">[ 일시 ]</p>
+                    <p class="label">[ 상영일시 ]</p>
                     <p id="modal-datetime"></p>
-                </div>
-                <div class="value">
-                    <p class="label">[ 상영관 ]</p>
-                    <p id="modal-hall"></p>
-                </div>
-                <div class="value">
-                    <p class="label">[ 좌석명 ]</p>
-                    <p id="modal-seatname"></p>
                 </div>
                 <div class="value">
                     <p class="label">[ 좌석번호 ]</p>
                     <p id="modal-seat"></p>
                 </div>
                 <div class="value">
-                    <p class="label">[ 인원 ]</p>
-                    <p id="modal-persons"></p>
+                    <p class="label">[ 결제금액 ]</p>
+                    <p id="modal-price"></p>
                 </div>
             </div>
             <div class="modal-footer">
@@ -84,29 +81,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 
 <script>
-    $('#reservation-form').on('submit', function (e) {
-        e.preventDefault();
-        let name = $('#name').val();
-        let theater = 'METABOX 광주';  // 임의로 설정된 값
-        let datetime = '2024-06-15 19:00';  // 임의로 설정된 값
-        let hall = '1관';  // 임의로 설정된 값
-        let movie = '인사이드 아웃 2';  // 임의로 설정된 값
-        let seatname = '일반석';  // 임의로 설정된 값
-        let seat = 'A10, A11';  // 임의로 설정된 값
-        let persons = '2명';  // 임의로 설정된 값
-
-        $('#modal-name').text(name);
-        $('#modal-theater').text(theater);
-        $('#modal-datetime').text(datetime);
-        $('#modal-hall').text(hall);
-        $('#modal-movie').text(movie);
-        $('#modal-seatname').text(seatname);
-        $('#modal-seat').text(seat);
-        $('#modal-persons').text(persons);
-
-        $('#reservationModal').modal('show');
-    });
-
+    // 모달창 닫기
     $('#modal-close-btn').on('click', function () {
         $('#reservationModal').modal('hide');
     });
@@ -114,6 +89,93 @@
     $('.close').on('click', function () {
         $('#reservationModal').modal('hide');
     });
+
+    // 휴대전화 010-3333-3333 형식
+    function formatPhoneNumber(value) {
+        value = value.replace(/\D/g, '');
+        if (value.length > 3 && value.length <= 7) {
+            value = value.replace(/(\d{3})(\d+)/, '$1-$2');
+        } else if (value.length > 7) {
+            value = value.replace(/(\d{3})(\d{4})(\d+)/, '$1-$2-$3');
+        }
+        return value;
+    }
+
+    $('#phone').on('input', function () {
+        let formattedValue = formatPhoneNumber($(this).val());
+        $(this).val(formattedValue);
+    });
+
+    // 비밀번호 4자리 제한
+    $('#password').on('input', function () {
+        let value = $(this).val();
+        value = value.replace(/\D/g, '');
+        if (value.length > 4) {
+            value = value.slice(0, 4);
+        }
+        $(this).val(value);
+    });
+
+    $('#reservation-form').on('submit', function (e) {
+        e.preventDefault(); // 폼의 기본 제출 방지
+
+        let name = $('#name').val();
+        let phone = $('#phone').val();
+        let password = $('#password').val();
+        let bookNumb = $('#bookNumb').val();
+
+        let sendCheckForm = {
+            name: name,
+            phone: phone,
+            password: password
+        };
+
+        console.log("전송 데이터: ", sendCheckForm);
+
+        $.ajax({
+            url: '/guest/book-check',
+            data: JSON.stringify(sendCheckForm),
+            contentType: 'application/json; charset=utf-8',
+            type: 'POST'
+
+        }).done((res) => {
+            console.log("서버 응답: ", res);
+            // alert("예매 확인이 성공적으로 완료되었습니다.");
+
+            // 모달창에 값 표시
+            $('#modal-name').text(res.body.userDTO.name);
+            $('#modal-movie').text(res.body.ticketingDTO[0].title + ' (' + res.body.ticketingDTO[0].engTitle + ')');
+            $('#modal-theater').text(res.body.ticketingDTO[0].theaterName + ' ' + res.body.ticketingDTO[0].name);
+            $('#modal-datetime').text(res.body.ticketingDTO[0].date + ' ' + '('
+                    + res.body.ticketingDTO[0].startTime + ' ~ ' + res.body.ticketingDTO[0].endTime + ')');
+            //forEach말고 join 메서드를 사용해서 좌석 코드를 문자열로 결합하여 표시
+            $('#modal-seat').text(res.body.ticketingDTO[0].seatCodes.join(', '));
+            $('#modal-price').text(res.body.ticketingDTO[0].totalPrice);
+
+            $('#reservationModal').modal('show');
+
+            <!--    천단위 표시 재사용 해야할 함수 -->
+            function numberWithCommas(num) {
+                return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            }
+
+            //처음에 들어갔을때 천단위 구분자 나오게
+            $("#modal-price").each(function () {
+                let totalPrice = $(this).text();
+                $(this).text(numberWithCommas(totalPrice));
+
+            });
+
+
+        }).fail((res) => {
+            console.error("에러 응답: ", res);
+            // alert("예매 확인 중 오류가 발생했습니다.");
+        });
+
+    });
+
+
+
 </script>
 
 {{> layout/footer}}

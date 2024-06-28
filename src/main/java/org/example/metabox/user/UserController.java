@@ -62,8 +62,17 @@ public class UserController {
 
     @GetMapping("/guest/book-check-form")
     public String nonMemberCheckForm() {
-
         return "user/non-member-check-form";
+    }
+
+    @PostMapping("/guest/book-check")
+    public ResponseEntity<?> nonMemberCheck(@RequestBody UserRequest.GuestBookCheckDTO reqDTO) {
+        System.out.println("비회원 reqDTO = " + reqDTO);
+        UserResponse.GuestCheckDTO guestCheckDTO = userService.findGuestBook(reqDTO);
+        System.out.println("guestCheckDTO = " + guestCheckDTO);
+
+        return ResponseEntity.ok(new ApiUtil<>(guestCheckDTO));
+//        return ResponseEntity.ok("Success");
     }
 
     @GetMapping("/mypage/home")
