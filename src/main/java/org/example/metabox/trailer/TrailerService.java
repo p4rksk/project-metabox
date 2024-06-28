@@ -2,6 +2,7 @@ package org.example.metabox.trailer;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.example.metabox.movie.MovieQueryRepository;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ public class TrailerService {
 
     private final Path videoLocation = Paths.get("./upload");
     private final TrailerRepository trailerRepository;
+    private final MovieQueryRepository movieQueryRepository;
 
     public Resource getVideoRes(String filename) {
         try {
@@ -41,13 +43,14 @@ public class TrailerService {
     //자동 재생
     @Transactional
     public Resource autoVideo() throws UnsupportedEncodingException {
-        Integer topMovieId = trailerRepository.findTopBookingRateMovieId();
+
+        Integer topMovieId = movieQueryRepository.firstRankMovie();
         System.out.println("영화 가져오기: " + topMovieId);
 
         // 영화의 트레일러 찾기
         Trailer oneTrailer = trailerRepository.findById(topMovieId)
                 .orElseThrow(() -> new RuntimeException("예매율 1위의 트레일러가 없습니다."));
-        System.out.println("트레일러 가져오기: " + oneTrailer);
+        System.out.println("트레일러 가져오기: " );
 
         //DTO의 매핑하기
         TrailerResponse.TrailerDTO trailer = new TrailerResponse.TrailerDTO(oneTrailer.getMasterM3U8Filename(), oneTrailer.getId());
