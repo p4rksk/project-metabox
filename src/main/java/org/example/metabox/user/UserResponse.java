@@ -17,91 +17,116 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-
 public class UserResponse {
 
-//    비회원 예매 조회
+    //    비회원 예매 조회
     @Data
     public static class GuestCheckDTO {
-    private Integer id;     // book pk
-    private String title;   //영화 제목
-    private String imgFilename;
-    private String engTitle;   //영화 제목
-    private Date date;     // 관람일시 타입 확인 필요
-    private String startTime;   // 시작 시간
-    private String endTime;     // 종료 시간
-    private String name;        // 몇 관인지
-    private String theaterName; // METABOX 어느 지점인지
-    private Integer guestId;    // 게스트 id
-    private String ageInfo;     // 전체, 12세, 15세, 19세
-    private String ageColor;
-    // 애 한 번 돌때 여러번 돌고, 일치하는 것만 나오게
-    private Integer totalPrice;
-    private List<String> seatCodes = new ArrayList<>();
+        private UserDTO userDTO;
+        private List<TicketingDTO> ticketingDTO = new ArrayList<>();
 
-    @Builder
-    public GuestCheckDTO(Integer id, String title, String imgFilename, String engTitle, Date date, String startTime, String endTime, String name, String theaterName, Integer guestId, String ageInfo, List<TotalPriceDTO> totalPriceDTOS, List<SeatDTO> seatDTOS) {
-        this.id = id;
-        this.title = title;
-        this.imgFilename = imgFilename;
-        this.engTitle = engTitle;
-        this.date = date;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.name = name;
-        this.theaterName = theaterName;
-        this.guestId = guestId;
-        this.ageInfo = ageInfo;
-        this.ageColor = classColor();
+        public GuestCheckDTO(UserDTO userDTO, List<TicketingDTO> ticketingDTO) {
+            this.userDTO = userDTO;
+            this.ticketingDTO = ticketingDTO;
+        }
 
-        this.totalPrice = totalPriceDTOS.stream().filter(totalPrice -> totalPrice.getBookId().equals(this.id))
-                .map(totalPriceDTO -> totalPriceDTO.getTotalPrice())
-                .findFirst().orElse(0);
-        this.seatCodes = seatDTOS.stream().filter(seat -> seat.getBookId().equals(this.id))
-                .map(seatDTO -> seatDTO.getSeatCode())
-                .toList();
-    }
+        @Data
+        public static class TicketingDTO {
+            private Integer id;     // book pk
+            private String title;   //영화 제목
+            private String imgFilename;
+            private String engTitle;   //영화 제목
+            private Date date;     // 관람일시 타입 확인 필요
+            private String startTime;   // 시작 시간
+            private String endTime;     // 종료 시간
+            private String name;        // 몇 관인지
+            private String theaterName; // METABOX 어느 지점인지
+            private Integer userId;
+            private String ageInfo;     // 전체, 12세, 15세, 19세
+            private String ageColor;
+            // 애 한 번 돌때 여러번 돌고, 일치하는 것만 나오게
+            private Integer totalPrice;
+            private List<String> seatCodes = new ArrayList<>();
 
-    public String classColor() {
-        if ("12".equals(ageInfo)) {
-            return "age-info-yellow";
-        } else if ("15".equals(ageInfo)) {
-            return "age-info-blue";
-        } else if ("전".equals(ageInfo)) {
-            return "age-info-green";
-        } else if ("19".equals(ageInfo)) {
-            return "age-info-red";
-        } else {
-            return "";
+            @Builder
+            public TicketingDTO(Integer id, String title, String imgFilename, String engTitle, Date date, String startTime, String endTime, String name, String theaterName, Integer userId, String ageInfo, List<TotalPriceDTO> totalPriceDTOS, List<SeatDTO> seatDTOS) {
+                this.id = id;
+                this.title = title;
+                this.imgFilename = imgFilename;
+                this.engTitle = engTitle;
+                this.date = date;
+                this.startTime = startTime;
+                this.endTime = endTime;
+                this.name = name;
+                this.theaterName = theaterName;
+                this.userId = userId;
+                this.ageInfo = ageInfo;
+                this.ageColor = classColor();
+
+                this.totalPrice = totalPriceDTOS.stream().filter(totalPrice -> totalPrice.getBookId().equals(this.id))
+                        .map(totalPriceDTO -> totalPriceDTO.getTotalPrice())
+                        .findFirst().orElse(0);
+                this.seatCodes = seatDTOS.stream().filter(seat -> seat.getBookId().equals(this.id))
+                        .map(seatDTO -> seatDTO.getSeatCode())
+                        .toList();
+            }
+
+            public String classColor() {
+                if ("12".equals(ageInfo)) {
+                    return "age-info-yellow";
+                } else if ("15".equals(ageInfo)) {
+                    return "age-info-blue";
+                } else if ("전".equals(ageInfo)) {
+                    return "age-info-green";
+                } else if ("19".equals(ageInfo)) {
+                    return "age-info-red";
+                } else {
+                    return "";
+                }
+
+            }
+        }
+
+        @Data
+        public static class UserDTO {
+            private Integer guestId;
+            private String name;
+            private String phone;
+            private String password;
+
+            public UserDTO(Integer guestId, String name, String phone, String password) {
+                this.guestId = guestId;
+                this.name = name;
+                this.phone = phone;
+                this.password = password;
+            }
+        }
+
+        @Data
+        public static class TotalPriceDTO {
+            private Integer bookId;
+            private Integer totalPrice;
+
+            @Builder
+            public TotalPriceDTO(Integer bookId, Integer totalPrice) {
+                this.bookId = bookId;
+                this.totalPrice = totalPrice;
+            }
+        }
+
+        @Data
+        public static class SeatDTO {
+            private Integer bookId;
+            private String seatCode;   //좌석
+
+            @Builder
+            public SeatDTO(Integer bookId, String seatCode) {
+                this.bookId = bookId;
+                this.seatCode = seatCode;
+            }
         }
 
     }
-}
-
-    @Data
-    public static class TotalPriceDTO {
-        private Integer bookId;
-        private Integer totalPrice;
-
-        @Builder
-        public TotalPriceDTO(Integer bookId, Integer totalPrice) {
-            this.bookId = bookId;
-            this.totalPrice = totalPrice;
-        }
-    }
-
-    @Data
-    public static class SeatDTO {
-        private Integer bookId;
-        private String seatCode;   //좌석
-
-        @Builder
-        public SeatDTO(Integer bookId, String seatCode) {
-            this.bookId = bookId;
-            this.seatCode = seatCode;
-        }
-    }
-
 
 
     // ajax 용
@@ -232,15 +257,15 @@ public class UserResponse {
         }
 
         // 메인의 무비차트
-            @Data
-            public static class MainMovieChartDTO {
-                private Integer movieId;
-                private String imgFilename;
-                private String title;
-                private Double ticketSales;     // 예매율 - 쿼리에서 계산해서 가져오기
-                private Integer rank;       //순위
-                private String ageInfo;     // 전체, 12세, 15세, 19세
-                private String ageColor;
+        @Data
+        public static class MainMovieChartDTO {
+            private Integer movieId;
+            private String imgFilename;
+            private String title;
+            private Double ticketSales;     // 예매율 - 쿼리에서 계산해서 가져오기
+            private Integer rank;       //순위
+            private String ageInfo;     // 전체, 12세, 15세, 19세
+            private String ageColor;
 
             @Builder
             public MainMovieChartDTO(Integer movieId, String imgFilename, String title, Double ticketSales, Integer rank, String ageInfo) {
@@ -254,68 +279,68 @@ public class UserResponse {
             }
 
             public String classColor() {
-                    if ("12".equals(ageInfo)) {
-                        return "age-info-yellow";
-                    } else if ("15".equals(ageInfo)) {
-                        return "age-info-blue";
-                    } else if ("전".equals(ageInfo)) {
-                        return "age-info-green";
-                    } else if ("19".equals(ageInfo)) {
-                        return "age-info-red";
-                    } else {
-                        return "";
-                    }
-
-                }
-
-        }
-
-            // 메인의 상영 예정작
-            @Data
-            public static class ToBeChartDTO {
-                private Integer movieId;
-                private String imgFilename;
-                private String title;
-                private Integer dDay;   //개봉일까지
-                private String startDate; //개봉일자
-                private String ageInfo;     // 전체, 12세, 15세, 19세
-                private String ageColor;
-
-
-                @Builder
-                public ToBeChartDTO(Integer movieId, String imgFilename, String title, Integer dDay, Date startDate, String ageInfo) {
-                    this.movieId = movieId;
-                    this.imgFilename = imgFilename;
-                    this.title = title;
-                    this.dDay = dDay;
-                    this.startDate = getStartDateFormat(startDate);
-                    this.ageInfo = ageInfo;
-                    this.ageColor = classColor();
-                }
-
-                public String classColor() {
-                    if ("12".equals(ageInfo)) {
-                        return "age-info-yellow";
-                    } else if ("15".equals(ageInfo)) {
-                        return "age-info-blue";
-                    } else if ("전".equals(ageInfo)) {
-                        return "age-info-green";
-                    } else if ("19".equals(ageInfo)) {
-                        return "age-info-red";
-                    } else {
-                        return "";
-                    }
-
-                }
-
-
-                // 날짜 가공
-                public String getStartDateFormat(Date startDate) {
-                    SimpleDateFormat formatter = new SimpleDateFormat("M월 d일");
-                    return formatter.format(startDate);
+                if ("12".equals(ageInfo)) {
+                    return "age-info-yellow";
+                } else if ("15".equals(ageInfo)) {
+                    return "age-info-blue";
+                } else if ("전".equals(ageInfo)) {
+                    return "age-info-green";
+                } else if ("19".equals(ageInfo)) {
+                    return "age-info-red";
+                } else {
+                    return "";
                 }
 
             }
+
+        }
+
+        // 메인의 상영 예정작
+        @Data
+        public static class ToBeChartDTO {
+            private Integer movieId;
+            private String imgFilename;
+            private String title;
+            private Integer dDay;   //개봉일까지
+            private String startDate; //개봉일자
+            private String ageInfo;     // 전체, 12세, 15세, 19세
+            private String ageColor;
+
+
+            @Builder
+            public ToBeChartDTO(Integer movieId, String imgFilename, String title, Integer dDay, Date startDate, String ageInfo) {
+                this.movieId = movieId;
+                this.imgFilename = imgFilename;
+                this.title = title;
+                this.dDay = dDay;
+                this.startDate = getStartDateFormat(startDate);
+                this.ageInfo = ageInfo;
+                this.ageColor = classColor();
+            }
+
+            public String classColor() {
+                if ("12".equals(ageInfo)) {
+                    return "age-info-yellow";
+                } else if ("15".equals(ageInfo)) {
+                    return "age-info-blue";
+                } else if ("전".equals(ageInfo)) {
+                    return "age-info-green";
+                } else if ("19".equals(ageInfo)) {
+                    return "age-info-red";
+                } else {
+                    return "";
+                }
+
+            }
+
+
+            // 날짜 가공
+            public String getStartDateFormat(Date startDate) {
+                SimpleDateFormat formatter = new SimpleDateFormat("M월 d일");
+                return formatter.format(startDate);
+            }
+
+        }
     }
 
 
@@ -498,7 +523,6 @@ public class UserResponse {
         }
 
     }
-
 
 
     @Data

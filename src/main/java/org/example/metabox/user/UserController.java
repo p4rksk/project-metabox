@@ -70,9 +70,11 @@ public class UserController {
     @PostMapping("/guest/book-check")
     public ResponseEntity<?> nonMemberCheck(@RequestBody UserRequest.GuestBookCheckDTO reqDTO) {
         System.out.println("비회원 reqDTO = " + reqDTO);
-        userService.findGuestBook();
+        UserResponse.GuestCheckDTO guestCheckDTO = userService.findGuestBook(reqDTO);
+        System.out.println("guestCheckDTO = " + guestCheckDTO);
 
-        return ResponseEntity.ok("Success");
+        return ResponseEntity.ok(new ApiUtil<>(guestCheckDTO));
+//        return ResponseEntity.ok("Success");
     }
 
     @GetMapping("/mypage/home")

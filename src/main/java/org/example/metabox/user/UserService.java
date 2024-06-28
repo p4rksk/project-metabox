@@ -90,12 +90,21 @@ public class UserService {
         return mainChartDTO;
     }
 
+    // 게스트 예매 조회
     @Transactional
-    public void findGuestBook() {
-//        List<UserResponse.DetailBookDTO.SeatDTO> seatDTOs = movieQueryRepository.findUnwatchTicketV1(sessionUser.getId());
-//        List<UserResponse.DetailBookDTO.TotalPriceDTO> totalPriceDTOs = movieQueryRepository.findUnwatchTicketV3(sessionUser.getId());
-//        List<UserResponse.DetailBookDTO.TicketingDTO> ticketingDTOs = movieQueryRepository.findUnwatchTicketV2(sessionUser.getId(), totalPriceDTOs, seatDTOs);
+    public UserResponse.GuestCheckDTO findGuestBook(UserRequest.GuestBookCheckDTO reqDTO) {
+        UserResponse.GuestCheckDTO.UserDTO guest = guestRepository.findByGuest(reqDTO.getName(), reqDTO.getPassword(), reqDTO.getPhone())
+                .orElseThrow(() -> new Exception404("잘못된 정보를 입력하셨습니다."));
+        System.out.println("guest = " + guest);
 
+
+        List<UserResponse.GuestCheckDTO.SeatDTO> seatDTOs = movieQueryRepository.findGuestTicketV1(guest.getGuestId());
+        List<UserResponse.GuestCheckDTO.TotalPriceDTO> totalPriceDTOs = movieQueryRepository.findGuestTicketV3(guest.getGuestId());
+        List<UserResponse.GuestCheckDTO.TicketingDTO> ticketingDTOs = movieQueryRepository.findGuestTicketV2(guest.getGuestId(), totalPriceDTOs, seatDTOs);
+
+        UserResponse.GuestCheckDTO guestCheckDTO = new UserResponse.GuestCheckDTO(guest, ticketingDTOs);
+
+        return guestCheckDTO;
 
     }
 

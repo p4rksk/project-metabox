@@ -14,11 +14,11 @@
             </div>
             <div class="form-group">
                 <label for="birthdate">휴대전화번호</label>
-                <input type="text" class="form-control" id="phone" placeholder="전화번호" value="010-2222-4443" required>
+                <input type="text" class="form-control" id="phone" placeholder="전화번호" value="010-8489-2732" required>
             </div>
             <div class="form-group">
                 <label for="password">비밀번호</label>
-                <input type="password" class="form-control" id="password" placeholder="비밀번호 (4자리)" value="1234"
+                <input type="password" class="form-control" id="password" placeholder="비밀번호 (4자리)" value="0723"
                        required>
             </div>
             <br>
@@ -62,16 +62,12 @@
                     <p id="modal-hall"></p>
                 </div>
                 <div class="value">
-                    <p class="label">[ 좌석명 ]</p>
+                    <p class="label">[ 좌석종류 ]</p>
                     <p id="modal-seatname"></p>
                 </div>
                 <div class="value">
                     <p class="label">[ 좌석번호 ]</p>
                     <p id="modal-seat"></p>
-                </div>
-                <div class="value">
-                    <p class="label">[ 인원 ]</p>
-                    <p id="modal-persons"></p>
                 </div>
             </div>
             <div class="modal-footer">
@@ -135,39 +131,57 @@
 
         console.log("전송 데이터: ", sendCheckForm);
 
-        // 모달창에 값 표시
-        let theater = 'METABOX 광주';  // 임의로 설정된 값
-        let datetime = '2024-06-15 19:00';  // 임의로 설정된 값
-        let hall = '1관';  // 임의로 설정된 값
-        let movie = '인사이드 아웃 2';  // 임의로 설정된 값
-        let seatname = '일반석';  // 임의로 설정된 값
-        let seat = 'A10, A11';  // 임의로 설정된 값
-        let persons = '2명';  // 임의로 설정된 값
-
-        $('#modal-name').text(name);
-        $('#modal-theater').text(theater);
-        $('#modal-datetime').text(datetime);
-        $('#modal-hall').text(hall);
-        $('#modal-movie').text(movie);
-        $('#modal-seatname').text(seatname);
-        $('#modal-seat').text(seat);
-        $('#modal-persons').text(persons);
-
-        $('#reservationModal').modal('show');
-
         $.ajax({
             url: '/guest/book-check',
             data: JSON.stringify(sendCheckForm),
             contentType: 'application/json; charset=utf-8',
             type: 'POST'
+
         }).done((res) => {
             console.log("서버 응답: ", res);
-            alert("예매 확인이 성공적으로 완료되었습니다.");
+            // alert("예매 확인이 성공적으로 완료되었습니다.");
+
+            // 모달창에 값 표시
+            $('#modal-name').text(res.body.userDTO.name);
+            $('#modal-movie').text(res.body.ticketingDTO[0].title + '(' + res.body.ticketingDTO[0].engTitle + ')');
+            $('#modal-theater').text(res.body.ticketingDTO[0].theaterName);
+            $('#modal-datetime').text(res.body.ticketingDTO[0].date + ' ' + res.body.ticketingDTO[0].startTime);
+            $('#modal-hall').text(res.body.ticketingDTO[0].name);
+            $('#modal-seatname').text(res.body.ticketingDTO[0].ageInfo);
+            $('#modal-seat').text(res.body.ticketingDTO[0].seatCodes.join(', '));
+
+            $('#reservationModal').modal('show');
+
+
         }).fail((res) => {
             console.error("에러 응답: ", res);
-            alert("예매 확인 중 오류가 발생했습니다.");
+            // alert("예매 확인 중 오류가 발생했습니다.");
         });
+
+
+        // 모달창에 값 표시
+
+        // let theater = 'METABOX 광주';  // 임의로 설정된 값
+        // let datetime = '2024-06-15 19:00';  // 임의로 설정된 값
+        // let hall = '1관';  // 임의로 설정된 값
+        // let movie = '인사이드 아웃 2';  // 임의로 설정된 값
+        // let seatname = '일반석';  // 임의로 설정된 값
+        // let seat = 'A10, A11';  // 임의로 설정된 값
+        // let persons = '2명';  // 임의로 설정된 값
+
+        // $('#modal-name').text(name);
+        // $('#modal-theater').text(theater);
+        // $('#modal-datetime').text(datetime);
+        // $('#modal-hall').text(hall);
+        // $('#modal-movie').text(movie);
+        // $('#modal-seatname').text(seatname);
+        // $('#modal-seat').text(seat);
+        // $('#modal-persons').text(persons);
+        //
+        // $('#reservationModal').modal('show');
+
     });
+
 </script>
 
 {{> layout/footer}}
