@@ -21,10 +21,12 @@ public class UserRequest {
     }
 
     // 비회원 예매 조회
-//    @Data
-//    public static class GuestBookCheck() {
-//
-//    }
+    @Data
+    public static class GuestBookCheckDTO {
+            private String name;
+            private String phone;
+            private String password;
+    }
 
 
     //비회원 회원가입
@@ -33,11 +35,13 @@ public class UserRequest {
         private String birth;
         private String password;
         private String phone;
+        private String name;
 
-        public JoinDTO(String birth, String password, String phone) {
+        public JoinDTO(String birth, String password, String phone, String name) {
             this.birth = birth;
             this.password = password;
             this.phone = phone;
+            this.name = name;
         }
     }
 }

@@ -90,6 +90,15 @@ public class UserService {
         return mainChartDTO;
     }
 
+    @Transactional
+    public void findGuestBook() {
+//        List<UserResponse.DetailBookDTO.SeatDTO> seatDTOs = movieQueryRepository.findUnwatchTicketV1(sessionUser.getId());
+//        List<UserResponse.DetailBookDTO.TotalPriceDTO> totalPriceDTOs = movieQueryRepository.findUnwatchTicketV3(sessionUser.getId());
+//        List<UserResponse.DetailBookDTO.TicketingDTO> ticketingDTOs = movieQueryRepository.findUnwatchTicketV2(sessionUser.getId(), totalPriceDTOs, seatDTOs);
+
+
+    }
+
 
     // 마이페이지 detail-book의 today best 무비차트
     public UserResponse.DetailBookDTO findMyBookDetail(SessionUser sessionUser) {
@@ -223,6 +232,7 @@ public class UserService {
             Guest newGuest = guestRepository.save(Guest.builder()
                     .birth(reqDTO.getBirth())
                     .password(reqDTO.getPassword())
+                    .name(reqDTO.getName())
                     .phone(reqDTO.getPhone())
                     .build());
 
@@ -423,7 +433,5 @@ public class UserService {
 
     }
 
-    public void findGuestBook() {
 
-    }
 }

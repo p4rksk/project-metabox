@@ -52,6 +52,7 @@ public class UserController {
 
     @PostMapping("/guest/join")
     public String login(UserRequest.JoinDTO reqDTO){
+
         Guest guest = userService.join(reqDTO);
 
         // 로그인 후 세션에 정보 저장
@@ -63,8 +64,15 @@ public class UserController {
 
     @GetMapping("/guest/book-check-form")
     public String nonMemberCheckForm() {
-        userService.findGuestBook();
         return "user/non-member-check-form";
+    }
+
+    @PostMapping("/guest/book-check")
+    public ResponseEntity<?> nonMemberCheck(@RequestBody UserRequest.GuestBookCheckDTO reqDTO) {
+        System.out.println("비회원 reqDTO = " + reqDTO);
+        userService.findGuestBook();
+
+        return ResponseEntity.ok("Success");
     }
 
     @GetMapping("/mypage/home")

@@ -9,19 +9,20 @@
         <h2 style="color: #4E0929;">비회원 예매 확인</h2>
         <form id="reservation-form">
             <div class="form-group">
-                <label for="name">이름</label>
-                <input type="text" class="form-control" id="name" placeholder="이름" required>
+                <label for="name">성명</label>
+                <input type="text" class="form-control" id="name" placeholder="성명" value="박찬혁" required>
             </div>
             <div class="form-group">
-                <label for="birthdate">생년월일</label>
-                <input type="date" class="form-control" id="birthdate" placeholder="생년월일 앞 6자리" required>
+                <label for="birthdate">휴대전화번호</label>
+                <input type="text" class="form-control" id="phone" placeholder="전화번호" value="010-2222-4443" required>
             </div>
             <div class="form-group">
                 <label for="password">비밀번호</label>
-                <input type="password" class="form-control" id="password" placeholder="숫자 4자리" required>
+                <input type="password" class="form-control" id="password" placeholder="비밀번호 (4자리)" value="1234"
+                       required>
             </div>
             <br>
-            <button type="submit" class="btn-custom">비회원 예매확인</button>
+            <button type="submit" class="btn-custom" onclick="formSend()">비회원 예매확인</button>
         </form>
         <p class="form-text">
             * 비회원 정보 오 입력 시 예매 내역 확인/취소 및 티켓 발권이 <br> 어려울 수 있으니 다시 한번 확인해 주시기 바랍니다.
@@ -84,10 +85,57 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 
 <script>
-<!--    모달창 -->
+    // 모달창 닫기
+    $('#modal-close-btn').on('click', function () {
+        $('#reservationModal').modal('hide');
+    });
+
+    $('.close').on('click', function () {
+        $('#reservationModal').modal('hide');
+    });
+
+    // 휴대전화 010-3333-3333 형식
+    function formatPhoneNumber(value) {
+        value = value.replace(/\D/g, '');
+        if (value.length > 3 && value.length <= 7) {
+            value = value.replace(/(\d{3})(\d+)/, '$1-$2');
+        } else if (value.length > 7) {
+            value = value.replace(/(\d{3})(\d{4})(\d+)/, '$1-$2-$3');
+        }
+        return value;
+    }
+
+    $('#phone').on('input', function () {
+        let formattedValue = formatPhoneNumber($(this).val());
+        $(this).val(formattedValue);
+    });
+
+    // 비밀번호 4자리 제한
+    $('#password').on('input', function () {
+        let value = $(this).val();
+        value = value.replace(/\D/g, '');
+        if (value.length > 4) {
+            value = value.slice(0, 4);
+        }
+        $(this).val(value);
+    });
+
     $('#reservation-form').on('submit', function (e) {
-        e.preventDefault();
+        e.preventDefault(); // 폼의 기본 제출 방지
+
         let name = $('#name').val();
+        let phone = $('#phone').val();
+        let password = $('#password').val();
+
+        let sendCheckForm = {
+            name: name,
+            phone: phone,
+            password: password
+        };
+
+        console.log("전송 데이터: ", sendCheckForm);
+
+        // 모달창에 값 표시
         let theater = 'METABOX 광주';  // 임의로 설정된 값
         let datetime = '2024-06-15 19:00';  // 임의로 설정된 값
         let hall = '1관';  // 임의로 설정된 값
@@ -106,24 +154,20 @@
         $('#modal-persons').text(persons);
 
         $('#reservationModal').modal('show');
+
+        $.ajax({
+            url: '/guest/book-check',
+            data: JSON.stringify(sendCheckForm),
+            contentType: 'application/json; charset=utf-8',
+            type: 'POST'
+        }).done((res) => {
+            console.log("서버 응답: ", res);
+            alert("예매 확인이 성공적으로 완료되었습니다.");
+        }).fail((res) => {
+            console.error("에러 응답: ", res);
+            alert("예매 확인 중 오류가 발생했습니다.");
+        });
     });
-
-    $('#modal-close-btn').on('click', function () {
-        $('#reservationModal').modal('hide');
-    });
-
-    $('.close').on('click', function () {
-        $('#reservationModal').modal('hide');
-    });
-    // 모달창
-
-// 생년월일 1900 ~ 오늘 날짜까지 막아놓기
-    let today = new Date().toISOString().split('T')[0]; // 현재 날짜 (YYYY-MM-DD 형식)
-
-    $('#birthdate').attr('min', '1920-01-01');
-    $('#birthdate').attr('max', today);
-
-
 </script>
 
 {{> layout/footer}}

@@ -20,6 +20,91 @@ import java.util.stream.Collectors;
 
 public class UserResponse {
 
+//    비회원 예매 조회
+    @Data
+    public static class GuestCheckDTO {
+    private Integer id;     // book pk
+    private String title;   //영화 제목
+    private String imgFilename;
+    private String engTitle;   //영화 제목
+    private Date date;     // 관람일시 타입 확인 필요
+    private String startTime;   // 시작 시간
+    private String endTime;     // 종료 시간
+    private String name;        // 몇 관인지
+    private String theaterName; // METABOX 어느 지점인지
+    private Integer guestId;    // 게스트 id
+    private String ageInfo;     // 전체, 12세, 15세, 19세
+    private String ageColor;
+    // 애 한 번 돌때 여러번 돌고, 일치하는 것만 나오게
+    private Integer totalPrice;
+    private List<String> seatCodes = new ArrayList<>();
+
+    @Builder
+    public GuestCheckDTO(Integer id, String title, String imgFilename, String engTitle, Date date, String startTime, String endTime, String name, String theaterName, Integer guestId, String ageInfo, List<TotalPriceDTO> totalPriceDTOS, List<SeatDTO> seatDTOS) {
+        this.id = id;
+        this.title = title;
+        this.imgFilename = imgFilename;
+        this.engTitle = engTitle;
+        this.date = date;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.name = name;
+        this.theaterName = theaterName;
+        this.guestId = guestId;
+        this.ageInfo = ageInfo;
+        this.ageColor = classColor();
+
+        this.totalPrice = totalPriceDTOS.stream().filter(totalPrice -> totalPrice.getBookId().equals(this.id))
+                .map(totalPriceDTO -> totalPriceDTO.getTotalPrice())
+                .findFirst().orElse(0);
+        this.seatCodes = seatDTOS.stream().filter(seat -> seat.getBookId().equals(this.id))
+                .map(seatDTO -> seatDTO.getSeatCode())
+                .toList();
+    }
+
+    public String classColor() {
+        if ("12".equals(ageInfo)) {
+            return "age-info-yellow";
+        } else if ("15".equals(ageInfo)) {
+            return "age-info-blue";
+        } else if ("전".equals(ageInfo)) {
+            return "age-info-green";
+        } else if ("19".equals(ageInfo)) {
+            return "age-info-red";
+        } else {
+            return "";
+        }
+
+    }
+}
+
+    @Data
+    public static class TotalPriceDTO {
+        private Integer bookId;
+        private Integer totalPrice;
+
+        @Builder
+        public TotalPriceDTO(Integer bookId, Integer totalPrice) {
+            this.bookId = bookId;
+            this.totalPrice = totalPrice;
+        }
+    }
+
+    @Data
+    public static class SeatDTO {
+        private Integer bookId;
+        private String seatCode;   //좌석
+
+        @Builder
+        public SeatDTO(Integer bookId, String seatCode) {
+            this.bookId = bookId;
+            this.seatCode = seatCode;
+        }
+    }
+
+
+
+    // ajax 용
     @Data
     public static class TheaterNameDTO {
         private Integer theaterId;
