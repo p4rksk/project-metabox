@@ -1,7 +1,6 @@
 {{> layout/header-admin}}
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<<style>
-
+<style>
     .header-title {
         font-size: 2rem;
         font-weight: bold;
@@ -43,7 +42,7 @@
 
     .movie-card {
         margin-bottom: 30px;
-        width: 250px; /* 이미지 너비에 맞춤 */
+        width: 250px;
     }
 
     .movie-card img {
@@ -55,25 +54,25 @@
 
     .movie-card .card-body {
         text-align: center;
-        padding: 10px; /* 카드 내부 패딩 조정 */
+        padding: 10px;
     }
 
     .movie-card .card-title {
-        font-size: 1rem; /* 제목 크기 조정 */
+        font-size: 1rem;
         font-weight: bold;
-        white-space: nowrap; /* 텍스트 줄바꿈 방지 */
-        overflow: hidden; /* 넘치는 텍스트 숨김 */
-        text-overflow: ellipsis; /* 말줄임표(...) 추가 */
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .movie-card .card-text {
-        font-size: 0.8rem; /* 텍스트 크기 조정 */
+        font-size: 0.8rem;
     }
 
     .movie-card .btn {
         margin-top: 10px;
-        font-size: 0.8rem; /* 버튼 텍스트 크기 조정 */
-        padding: 5px 10px; /* 버튼 패딩 조정 */
+        font-size: 0.8rem;
+        padding: 5px 10px;
     }
 
     .rank {
@@ -91,25 +90,32 @@
         white-space: nowrap;
         width: auto;
         position: absolute;
-        padding: 7px 7px; /* 뱃지 크기 조정 */
-        font-size: 1.2rem; /* 뱃지 텍스트 크기 조정 */
-        border-radius: 0.75rem; /* 뱃지 둥글기 조정 */
-        color: white; /* 텍스트 색상 */
+        padding: 7px 7px;
+        font-size: 1.2rem;
+        border-radius: 0.75rem;
+        color: white;
         text-align: center;
-        line-height: 1.5rem; /* 텍스트를 가운데로 맞춤 */
+        line-height: 1.5rem;
     }
 
     .release-status {
         background-color: white;
         color: black;
-        padding: 2px 6px; /* 패딩 조정 */
-        border-radius: 4px; /* 둥근 모서리 */
-        display: inline-block; /* 인라인 블록 요소 */
-        font-size: 0.8rem; /* 텍스트 크기 조정 */
-        font-family: inherit; /* 상위 요소의 폰트 상속 */
+        padding: 2px 6px;
+        border-radius: 4px;
+        display: inline-block;
+        font-size: 0.8rem;
+        font-family: inherit;
         border: 2px solid #6c757d;
     }
+
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
 </style>
+
 <div class="container">
     <header class="d-flex justify-content-between align-items-center my-4">
         <h1 class="header-title">
@@ -136,7 +142,7 @@
             <button class="btn btn-secondary btn-sm">GO</button>
         </div>
     </div>
-    <div class="row justify-content-center">
+    <div class="row justify-content-center" id="movie-list">
         {{#models}}
             <div class="col-auto movie-card">
                 <div class="rank">No.{{rank}}</div>
@@ -156,66 +162,111 @@
             </div>
         {{/models}}
     </div>
+    <div class="text-center">
+        <button id="load-more" class="btn btn-primary">더 보기</button>
+    </div>
 </div>
 {{> layout/footer}}
 <script>
     // 영화 삭제 요청을 서버로 보내는 함수
     function deleteMovieById(movieId) {
-        // fetch를 사용하여 지정된 영화 ID를 가진 영화를 삭제하는 POST 요청을 보냄
         return fetch(`/movie-delete/${movieId}`, {
-            method: 'POST', // HTTP 메서드로 POST 사용
+            method: 'POST',
             headers: {
-                'Content-Type': 'application/x-www-form-urlencoded', // 요청 헤더에 Content-Type 설정
+                'Content-Type': 'application/x-www-form-urlencoded',
             }
-        }).then(response => response.text()); // 서버 응답을 텍스트로 변환하여 반환
+        }).then(response => response.text());
     }
 
     // 모든 삭제 버튼에 이벤트 리스너를 추가
     $(document).ready(function() {
         $('.deleteButton').on('click', function() {
-            // 클릭된 버튼의 data-movie-id 속성에서 영화 ID를 가져옴
             const movieId = $(this).data('movie-id');
-            // 삭제 확인 다이얼로그를 표시
             showDeleteConfirm(movieId);
         });
     });
 
     // SweetAlert을 사용하여 확인 및 삭제 기능을 수행하는 함수
     function showDeleteConfirm(movieId) {
-        // SweetAlert2의 Swal.fire 메서드를 사용하여 경고창을 띄움
         Swal.fire({
-            title: "정말 삭제하시겠습니까?", // 경고창의 제목
-            text: "삭제를 원하면 '삭제' 버튼을 눌러주세요.", // 경고창의 텍스트
-            icon: "warning", // 경고 아이콘 사용
-            showCancelButton: true, // 취소 버튼을 표시
-            confirmButtonColor: '#d33', // 확인 버튼 색상
-            cancelButtonColor: '#3085d6', // 취소 버튼 색상
-            confirmButtonText: '삭제', // 확인 버튼 텍스트
-            cancelButtonText: '취소', // 취소 버튼 텍스트
-            reverseButtons: true, // 버튼 순서 반전
+            title: "정말 삭제하시겠습니까?",
+            text: "삭제를 원하면 '삭제' 버튼을 눌러주세요.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: '삭제',
+            cancelButtonText: '취소',
+            reverseButtons: true,
         }).then(result => {
-            // 사용자가 확인 버튼을 클릭했는지 확인
             if (result.isConfirmed) {
-                // 영화 삭제 요청을 보냄
                 deleteMovieById(movieId).then(data => {
-                    // 서버 응답을 확인
                     if (data === "success") {
-                        // 삭제 성공 메시지를 표시하고 페이지를 새로고침
                         Swal.fire("삭제되었습니다!", "영화가 성공적으로 삭제되었습니다.", "success").then(() => {
-                            location.reload(); // 페이지를 새로고침하여 변경사항 반영
+                            location.reload();
                         });
                     } else {
-                        // 삭제 실패 메시지를 표시
                         Swal.fire("오류", "영화 삭제에 실패하였습니다.", "error");
                     }
                 }).catch(error => {
-                    // 요청 실패 시 오류 메시지를 표시
                     Swal.fire("오류", "영화 삭제에 실패하였습니다.", "error");
                 });
             } else {
-                // 삭제가 취소되었음을 알리는 메시지를 표시
                 Swal.fire("취소되었습니다.", "삭제 요청이 취소되었습니다.", "info");
             }
         });
+    }
+
+    const isUpcoming = {{isUpcoming}}; // 서버에서 전달받은 boolean 값을 사용
+    let currentPage = {{currentPage}}; // let으로 변경하여 재할당 가능하게 함
+    const totalPages = {{totalPages}};
+
+    document.getElementById('load-more').addEventListener('click', function() {
+        loadMoreMovies(currentPage + 1);
+    });
+
+    function loadMoreMovies(page) {
+        const type = isUpcoming ? 'upcoming' : 'all'; // isUpcoming을 사용하여 type 결정
+        fetch(`/movie-list/data?type=${type}&page=${page}&size=4`) // JSON 데이터를 반환하는 새로운 엔드포인트 사용
+                .then(response => response.json())
+                .then(data => {
+                    const movieContainer = document.getElementById('movie-list');
+                    data.models.forEach(movie => {
+                        const movieElement = document.createElement('div');
+                        movieElement.className = 'col-auto movie-card';
+                        movieElement.innerHTML = `
+                        <div class="rank">No.${movie.rank}</div>
+                        <div class="card">
+                            <a href="/movie-detail/${movie.id}">
+                                <img src="/image/movie/${movie.imgFilename}" class="card-img-top" alt="Movie ${movie.id}">
+                            </a>
+                            <span class="${movie.ageInfoColor}">${movie.ageInfo}</span>
+                            <div class="card-body">
+                                <h5 class="card-title">${movie.title}</h5>
+                                <p class="card-text">${movie.bookingRate} %</p>
+                                <p class="release-date">${movie.startDate} <span class="release-status">${movie.releaseStatus}</span></p>
+                                <span><a href="/movie-edit-form/${movie.id}" class="btn btn-outline-secondary">수정하기</a></span>
+                                <button class="btn btn-danger deleteButton" data-movie-id="${movie.id}">삭제하기</button>
+                            </div>
+                        </div>
+                    `;
+                        movieContainer.appendChild(movieElement);
+                    });
+                    currentPage = page;  // 현재 페이지 업데이트
+                    if (currentPage + 1 >= totalPages) {
+                        document.getElementById('load-more').style.display = 'none'; // 더 이상 영화가 없으면 버튼 숨기기
+                    }
+                    // 새로운 영화 카드에 대해 삭제 버튼 이벤트 리스너 추가
+                    $('.deleteButton').off('click').on('click', function() {
+                        const movieId = $(this).data('movie-id');
+                        showDeleteConfirm(movieId);
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+    }
+
+    // 페이지 로드 시 처음으로 '더 보기' 버튼 숨김 여부 확인
+    if (currentPage + 1 >= totalPages) {
+        document.getElementById('load-more').style.display = 'none'; // 더 이상 영화가 없으면 버튼 숨기기
     }
 </script>

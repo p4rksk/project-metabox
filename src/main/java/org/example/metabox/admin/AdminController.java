@@ -8,11 +8,16 @@ import org.example.metabox.movie.MovieResponse;
 import org.example.metabox.movie.MovieService;
 import org.example.metabox.movie_pic.MoviePicRequest;
 import org.example.metabox.movie_pic.MoviePicService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Controller
@@ -40,22 +45,51 @@ public class AdminController {
     //    TODO : admin 만 접속할 수 있도록 주소에 interceptor 설정
     //    TODO : description 칼럼 데이터 입력 방법 수정
 
-    // 관리자 무비 차트(기본값 - 예매율순)
     @GetMapping("/movie-list")
-    public String movieList(@RequestParam(defaultValue = "all") String type, HttpServletRequest request) {
-        List<MovieResponse.AdminMovieChartDTO> movies;
-        // 상영예정작 버튼 클릭 시
+    public String movieList(@RequestParam(defaultValue = "all") String type,
+                            @RequestParam(defaultValue = "0") int page,
+                            @RequestParam(defaultValue = "4") int size,
+                            HttpServletRequest request) {
+        Page<MovieResponse.AdminMovieChartDTO> movies;
         boolean isUpcoming = "upcoming".equals(type);
+        Pageable pageable = PageRequest.of(page, size);
 
         if (isUpcoming) {
-            movies = movieService.getAdminUpcomingMovieChart();
+            movies = movieService.getAdminUpcomingMovieChart(pageable);
         } else {
-            movies = movieService.getAdminMovieChart();
+            movies = movieService.getAdminMovieChart(pageable);
         }
 
-        request.setAttribute("models", movies);
+        request.setAttribute("models", movies.getContent());
         request.setAttribute("isUpcoming", isUpcoming);
+        request.setAttribute("totalPages", movies.getTotalPages());
+        request.setAttribute("currentPage", page);
+
         return "admin/movie-list";
+    }
+
+    @GetMapping("/movie-list/data")
+    @ResponseBody
+    public Map<String, Object> listData(@RequestParam(defaultValue = "all") String type,
+                                        @RequestParam(defaultValue = "0") int page,
+                                        @RequestParam(defaultValue = "4") int size) {
+        Page<MovieResponse.AdminMovieChartDTO> movies;
+        boolean isUpcoming = "upcoming".equals(type);
+        Pageable pageable = PageRequest.of(page, size);
+
+        if (isUpcoming) {
+            movies = movieService.getAdminUpcomingMovieChart(pageable);
+        } else {
+            movies = movieService.getAdminMovieChart(pageable);
+        }
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("models", movies.getContent());
+        response.put("isUpcoming", isUpcoming);
+        response.put("totalPages", movies.getTotalPages());
+        response.put("currentPage", page);
+
+        return response;
     }
 
     // 영화 상세 페이지
