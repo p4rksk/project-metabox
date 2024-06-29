@@ -1,7 +1,6 @@
 {{> layout/header}}
 
 <style>
-
     .header-title {
         font-size: 2rem;
         font-weight: bold;
@@ -43,7 +42,7 @@
 
     .movie-card {
         margin-bottom: 30px;
-        width: 250px; /* 이미지 너비에 맞춤 */
+        width: 250px;
     }
 
     .movie-card img {
@@ -55,29 +54,28 @@
 
     .movie-card .card-body {
         text-align: center;
-        padding: 10px; /* 카드 내부 패딩 조정 */
+        padding: 10px;
     }
 
     .movie-card .card-title {
-        font-size: 1rem; /* 제목 크기 조정 */
+        font-size: 1rem;
         font-weight: bold;
-        white-space: nowrap; /* 텍스트 줄바꿈 방지 */
-        overflow: hidden; /* 넘치는 텍스트 숨김 */
-        text-overflow: ellipsis; /* 말줄임표(...) 추가 */
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .movie-card .card-text {
-        font-size: 0.8rem; /* 텍스트 크기 조정 */
+        font-size: 0.8rem;
     }
 
     .movie-card .btn {
         margin-top: 10px;
-        font-size: 0.8rem; /* 버튼 텍스트 크기 조정 */
-        padding: 5px 10px; /* 버튼 패딩 조정 */
+        font-size: 0.8rem;
+        padding: 5px 10px;
     }
 
     .rank {
-
         color: white;
         padding: 5px;
         margin-bottom: 10px;
@@ -91,34 +89,34 @@
         white-space: nowrap;
         width: auto;
         position: absolute;
-        padding: 7px 7px; /* 뱃지 크기 조정 */
-        font-size: 1.2rem; /* 뱃지 텍스트 크기 조정 */
-        border-radius: 0.75rem; /* 뱃지 둥글기 조정 */
-        color: white; /* 텍스트 색상 */
+        padding: 7px 7px;
+        font-size: 1.2rem;
+        border-radius: 0.75rem;
+        color: white;
         text-align: center;
-        line-height: 1.5rem; /* 텍스트를 가운데로 맞춤 */
+        line-height: 1.5rem;
     }
 
     .release-status {
         background-color: white;
         color: black;
-        padding: 2px 6px; /* 패딩 조정 */
-        border-radius: 4px; /* 둥근 모서리 */
-        display: inline-block; /* 인라인 블록 요소 */
-        font-size: 0.8rem; /* 텍스트 크기 조정 */
-        font-family: inherit; /* 상위 요소의 폰트 상속 */
+        padding: 2px 6px;
+        border-radius: 4px;
+        display: inline-block;
+        font-size: 0.8rem;
+        font-family: inherit;
         border: 2px solid #6c757d;
     }
 </style>
 
 <div class="container">
     <header class="d-flex justify-content-between align-items-center my-4">
-        <h1 class="header-title">무비차트</h1>
+        <h1 class="header-title">{{#isUpcoming}}상영 예정작{{/isUpcoming}}{{^isUpcoming}}무비차트{{/isUpcoming}}</h1>
         <nav class="navbar navbar-expand-lg navbar-light">
             <div class="collapse navbar-collapse">
                 <div class="navbar-nav-movie ml-auto">
-                    <a class="nav-link active" href="/movies/list">무비차트</a>
-                    <a class="nav-link" href="/movies/upcoming-list">상영예정작</a>
+                    <a class="nav-link {{^isUpcoming}}active{{/isUpcoming}}" href="/movies/list">무비차트</a>
+                    <a class="nav-link {{#isUpcoming}}active{{/isUpcoming}}" href="/movies/list?type=upcoming">상영예정작</a>
                 </div>
             </div>
         </nav>

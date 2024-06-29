@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -14,21 +15,38 @@ public class MovieController {
 
     private final MovieService movieService;
 
-    // 무비 차트(기본값 - 예매율순)
     @GetMapping("/movies/list")
-    public String list(HttpServletRequest request) {
-        List<MovieResponse.UserMovieChartDTO> movies = movieService.getMovieChart();
+    public String list(@RequestParam(defaultValue = "all") String type, HttpServletRequest request) {
+        List<MovieResponse.UserMovieChartDTO> movies;
+        boolean isAll = "all".equals(type);
+        boolean isUpcoming = "upcoming".equals(type);
+
+        if (isUpcoming) {
+            movies = movieService.getUpcomingMovieChart();
+        } else {
+            movies = movieService.getMovieChart();
+        }
+
         request.setAttribute("models", movies);
+        request.setAttribute("type", type);
         return "movie/list";
     }
 
-    // 상영 예정작(기본값 - 예매율순)
-    @GetMapping("/movies/upcoming-list")
-    public String getUpcomingChart(HttpServletRequest request){
-        List<MovieResponse.UserMovieChartDTO> movies = movieService.getUpcomingMovieChart();
-        request.setAttribute("models", movies);
-        return "movie/upcoming-list";
-    }
+//    // 무비 차트(기본값 - 예매율순)
+//    @GetMapping("/movies/list")
+//    public String list(HttpServletRequest request) {
+//        List<MovieResponse.UserMovieChartDTO> movies = movieService.getMovieChart();
+//        request.setAttribute("models", movies);
+//        return "movie/list";
+//    }
+//
+//    // 상영 예정작(기본값 - 예매율순)
+//    @GetMapping("/movies/upcoming-list")
+//    public String getUpcomingChart(HttpServletRequest request){
+//        List<MovieResponse.UserMovieChartDTO> movies = movieService.getUpcomingMovieChart();
+//        request.setAttribute("models", movies);
+//        return "movie/upcoming-list";
+//    }
 
     // 영화 상세 페이지
     @GetMapping("/movies/detail/{movieId}")

@@ -18,7 +18,6 @@ import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 import org.bytedeco.ffmpeg.global.avcodec;
-import org.bytedeco.javacv.CameraDevice;
 import org.bytedeco.javacv.FFmpegFrameGrabber;
 import org.bytedeco.javacv.FFmpegFrameRecorder;
 import org.bytedeco.javacv.Frame;
@@ -27,10 +26,8 @@ import org.example.metabox.movie_pic.MoviePic;
 import org.example.metabox.movie_pic.MoviePicRepository;
 import org.example.metabox.review.Review;
 import org.example.metabox.review.ReviewRepository;
-import org.example.metabox.seat.SeatBookRepository;
 import org.example.metabox.trailer.Trailer;
 import org.example.metabox.trailer.TrailerRepository;
-import org.example.metabox.trailer.TrailerService;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
@@ -343,59 +340,20 @@ public class MovieService {
         return masterPlaylistName; // 마스터 M3U8 파일 이름 반환
     }
 
-    // TODO: 시간 없어서 복붙함, 중복 코드라 나중에 리펙토링
     // 상영예정, 상영중인 모든 영화 차트
     public List<MovieResponse.UserMovieChartDTO> getMovieChart() {
-        // 상영 중 또는 개봉 예정인 영화를 예매율 순으로 조회
         List<Object[]> results = movieQueryRepository.getUserMovieChart();
-        List<MovieResponse.UserMovieChartDTO> userMovieChartDTOList = new ArrayList<>();
-
-        for (int rank = 0; rank < results.size(); rank++) {
-            Object[] result = results.get(rank);
-            int movieId = (Integer) result[0];
-            String title = (String) result[1];
-            String imgFilename = (String) result[2];
-            String info = (String) result[3];
-            Date startDate = (Date) result[4];
-            BigDecimal bookingRateBigDecimal = (BigDecimal) result[5];
-            Double bookingRate = bookingRateBigDecimal.multiply(BigDecimal.valueOf(100)).setScale(2, RoundingMode.HALF_UP).doubleValue();
-
-            // 상영 상태 계산 (예: 상영 중, D-날짜)
-            String releaseStatus = checkMovieReleaseStatus(startDate);
-
-            // 연령 정보 추출
-            String ageInfo;
-            String[] infoParts = info.split(",");  // 쉼표를 기준으로 분리
-            String firstPart = infoParts[0].trim();  // 첫 번째 부분 가져오기
-
-            if ("전체관람가".equals(firstPart)) {
-                ageInfo = firstPart.substring(0, 1);  // "전체관람가"를 "전"으로 변환
-            } else {
-                ageInfo = firstPart.substring(0, Math.min(2, firstPart.length()));  // 첫 두 글자 사용
-            }
-
-            // DTO 생성
-            MovieResponse.UserMovieChartDTO dto = new MovieResponse.UserMovieChartDTO(
-                    movieId,
-                    title,
-                    imgFilename,
-                    ageInfo,
-                    startDate,
-                    releaseStatus,
-                    bookingRate,
-                    rank + 1 // rank는 0부터 시작하므로 1을 더해줍니다.
-            );
-
-            userMovieChartDTOList.add(dto);
-        }
-        return userMovieChartDTOList;
+        return convertMovieChartDTO(results);
     }
 
-    // TODO: 시간 없어서 복붙함, 중복 코드라 나중에 리펙토링
     // 상영예정인 영화 차트
     public List<MovieResponse.UserMovieChartDTO> getUpcomingMovieChart() {
-        // 상영 중 또는 개봉 예정인 영화를 예매율 순으로 조회
         List<Object[]> results = movieQueryRepository.getUpcomingMovieChart();
+        return convertMovieChartDTO(results);
+    }
+
+    // 공통 메서드: 조회 결과를 DTO 리스트로 변환
+    public List<MovieResponse.UserMovieChartDTO> convertMovieChartDTO(List<Object[]> results) {
         List<MovieResponse.UserMovieChartDTO> userMovieChartDTOList = new ArrayList<>();
 
         for (int rank = 0; rank < results.size(); rank++) {
