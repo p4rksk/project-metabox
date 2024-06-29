@@ -41,7 +41,9 @@ spring:
         default_batch_fetch_size: 10
     defer-datasource-initialization: true
     open-in-view: false
-
+  session:
+    store-type: redis
+    timeout: 30m
   servlet:
     multipart:
       max-file-size: 50MB

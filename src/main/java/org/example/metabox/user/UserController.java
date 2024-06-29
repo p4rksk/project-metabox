@@ -119,6 +119,7 @@ public class UserController {
 //        System.out.println("코드 받나요 : " + code);
         SessionUser sessionUser = userService.loginKakao(code);
         rt.opsForValue().set("sessionUser", sessionUser);
+        session.setAttribute("sessionUser", sessionUser);
         return "redirect:/";
     }
 
@@ -127,6 +128,7 @@ public class UserController {
 //        System.out.println("네이버 코드 : " + code);
         SessionUser sessionUser = userService.loginNaver(code);
         rt.opsForValue().set("sessionUser", sessionUser);
+        session.setAttribute("sessionUser", sessionUser);
         return "redirect:/";
     }
 
