@@ -134,11 +134,13 @@ public class AdminController {
     // localhost:8080/admin-sales
     // 관리자 매출 페이지
     @GetMapping("/admin-sales-management")
-    public String getSales(HttpServletRequest request) {
+    public String getSales(@RequestParam(value = "type", defaultValue = "theater") String type, HttpServletRequest request) {
         AdminResponse.RootAdminResponseDTO resDTO = adminService.getRootAdmin();
         request.setAttribute("models", resDTO);
+        request.setAttribute("type", type);
         return "admin/admin-sales-management";
     }
+
 
     @GetMapping("/theater-save-form")
     public String theaterSaveForm() {

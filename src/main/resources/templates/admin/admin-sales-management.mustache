@@ -1,6 +1,5 @@
 {{> layout/header-admin}}
 <style>
-
     /* 카드 컴포넌트 스타일 */
     .card {
         border: 1px solid #ddd;
@@ -40,6 +39,28 @@
     .table th {
         background-color: #f4f4f4;
     }
+
+    /* 새 버튼 스타일 */
+    .btn-custom {
+        background-color: #f4f4f4;
+        color: black;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        margin-right: 10px;
+    }
+
+    .btn-custom.active {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .btn-custom .icon {
+        margin-right: 8px;
+    }
 </style>
 
 <!-- 메인 화면 -->
@@ -61,7 +82,7 @@
                     </table>
                 </div>
                 <!-- 검색 폼 -->
-                <form action="/api/admin-sales-manage" method="get" class="form-inline search-form float-right mb-3">
+                <form action="/admin-sales-management" method="get" class="form-inline search-form float-right mb-3">
                     <div class="form-group mr-2">
                         <select class="form-control" name="searchBy">
                             <option value="adminId">극장 이름</option>
@@ -71,12 +92,22 @@
                     <div class="form-group mr-2">
                         <input type="text" class="form-control" placeholder="검색명" name="keyword">
                     </div>
-                    <button type="submit" class="btn btn-primary">검색</button>
+                    <button type="submit" class="btn btn-primary">
+                        <span class="icon">&#128269;</span> 검색
+                    </button>
                 </form>
             </div>
 
-            <!-- 브랜드별 매출 목록 -->
-            <table class="table">
+            <div class="d-flex justify-content-between align-items-center mt-3">
+                <!-- 매출 유형 선택 버튼 -->
+                <div>
+                    <button id="theaterSalesButton" class="btn btn-custom" onclick="updateSalesView('theater')">극장별 매출</button>
+                    <button id="movieSalesButton" class="btn btn-custom" onclick="updateSalesView('movie')">영화별 매출</button>
+                </div>
+            </div>
+
+            <!-- 극장별 매출 목록 -->
+            <table id="theater-sales-table" class="table mt-3" style="display: none;">
                 <thead>
                 <tr>
                     <th>극장 이름</th>
@@ -87,18 +118,18 @@
                 </thead>
                 <tbody>
                 {{#models.theaterSales}}
-                <tr>
-                    <td>{{theaterName}}</td>
-                    <td>{{theaterAddress}}</td>
-                    <td>{{theaterTel}}</td>
-                    <td>{{theaterSales}}</td>
-                </tr>
+                    <tr>
+                        <td>{{theaterName}}</td>
+                        <td>{{theaterAddress}}</td>
+                        <td>{{theaterTel}}</td>
+                        <td>{{theaterSales}}</td>
+                    </tr>
                 {{/models.theaterSales}}
                 </tbody>
             </table>
 
             <!-- 영화별 매출 목록 -->
-            <table class="table">
+            <table id="movie-sales-table" class="table mt-3" style="display: none;">
                 <thead>
                 <tr>
                     <th>영화 이름</th>
@@ -123,5 +154,29 @@
         </div>
     </div>
 </div>
+
+<script>
+    function updateSalesView(type) {
+        const theaterSalesTable = document.getElementById('theater-sales-table');
+        const movieSalesTable = document.getElementById('movie-sales-table');
+
+        if (type === 'theater') {
+            theaterSalesTable.style.display = 'table';
+            movieSalesTable.style.display = 'none';
+            document.getElementById('theaterSalesButton').classList.add('active');
+            document.getElementById('movieSalesButton').classList.remove('active');
+        } else if (type === 'movie') {
+            theaterSalesTable.style.display = 'none';
+            movieSalesTable.style.display = 'table';
+            document.getElementById('theaterSalesButton').classList.remove('active');
+            document.getElementById('movieSalesButton').classList.add('active');
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const type = "{{type}}";
+        updateSalesView(type);
+    });
+</script>
 
 {{> layout/footer}}
