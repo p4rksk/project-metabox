@@ -42,7 +42,7 @@ public class TheaterRepositoryTest {
         for (Object[] result : results) {
             Integer theaterId = (Integer) result[0];
             String theaterName = (String) result[1];
-            Long theaterSales = (Long) result[2]; // ensure the type is Long
+            Long theaterSales = (Long) result[2];
 
             System.out.println("#####  극장 PK: " + theaterId);
             System.out.println("##### 극장 이름: " + theaterName);
@@ -74,4 +74,42 @@ public class TheaterRepositoryTest {
             System.out.println("==============================");
         }
     }
+
+    @Test
+    public void findTotalSales_Test(){
+        // given
+
+        // when
+        Long result = theaterRepository.findTotalSales();
+
+        // then
+        System.out.println("#####" + result);
+    }
+
+    @Test
+    public void findAllTheaterSalesByMovie_Test() {
+        // given
+
+        // when
+        List<Object[]> results = theaterRepository.findAllTheaterSalesByMovie();
+
+        // then
+        for (Object[] result : results) {
+            int movieId = (Integer) result[0];
+            String movieTitle = (String) result[1];
+            Date startDate = (Date) result[2];
+            Date endDate = (Date) result[3];
+            Long movieSales = (Long) result[4];
+            Long viewerCount = (Long) result[5];
+
+            System.out.println("######   영화 PK: " + movieId);
+            System.out.println("#####   영화 제목: " + movieTitle);
+            System.out.println("##### 영화 시작일: " + startDate);
+            System.out.println("##### 영화 종료일: " + endDate);
+            System.out.println("#####   영화 매출: " + movieSales);
+            System.out.println("#####   관객 수: " + viewerCount);
+            System.out.println("==============================");
+        }
+    }
+
 }

@@ -96,6 +96,30 @@
                 {{/models.theaterSales}}
                 </tbody>
             </table>
+
+            <!-- 영화별 매출 목록 -->
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>영화 이름</th>
+                    <th>상영 시작일</th>
+                    <th>상영 종료일</th>
+                    <th>판매 금액</th>
+                    <th>관객수</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{#models.movieSales}}
+                    <tr>
+                        <td>{{movieTitle}}</td>
+                        <td>{{startDate}}</td>
+                        <td>{{endDate}}</td>
+                        <td>{{movieSales}}</td>
+                        <td>{{viewerCount}}</td>
+                    </tr>
+                {{/models.movieSales}}
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

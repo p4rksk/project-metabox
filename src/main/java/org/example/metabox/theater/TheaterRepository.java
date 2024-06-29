@@ -78,4 +78,40 @@ public interface TheaterRepository extends JpaRepository<Theater, Integer> {
             ORDER BY movieSales DESC
             """)
     List<Object[]> findTheaterSalesByMovie(@Param("theaterId") int theaterId);
+
+    // 전체 매출 조회
+    @Query("""
+           SELECT SUM(CASE 
+                          WHEN se.type = 'HANDICAPPED' THEN sc.seatPrice - 5000 
+                          WHEN se.type = 'LIGHT' THEN sc.seatPrice - 1000 
+                          ELSE sc.seatPrice 
+                      END) AS totalSales 
+           FROM Theater t 
+           JOIN t.screeningList sc 
+           JOIN sc.screeningInfoList si 
+           JOIN si.seatBookList sb 
+           JOIN sb.seat se
+           """)
+    Long findTotalSales();
+
+    // 전 지점의 영화별 매출 및 관객수 조회
+    @Query("""
+           SELECT m.id, m.title AS movieTitle, m.startDate, m.endDate, 
+                  SUM(CASE 
+                      WHEN se.type = 'HANDICAPPED' THEN sc.seatPrice - 5000 
+                      WHEN se.type = 'LIGHT' THEN sc.seatPrice - 1000 
+                      ELSE sc.seatPrice 
+                  END) AS movieSales,
+                  COUNT(sb.id) AS viewerCount
+           FROM Theater t 
+           JOIN t.screeningList sc 
+           JOIN sc.screeningInfoList si 
+           JOIN si.seatBookList sb 
+           JOIN sb.seat se 
+           JOIN si.movie m 
+           GROUP BY m.id, m.title, m.startDate, m.endDate
+           ORDER BY movieSales DESC
+           """)
+    List<Object[]> findAllTheaterSalesByMovie();
 }
+
