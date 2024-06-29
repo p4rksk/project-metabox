@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
@@ -310,7 +311,7 @@ public class MovieService {
     // 상영예정, 상영중인 모든 영화 차트
     public Page<MovieResponse.UserMovieChartDTO> getMovieChart(Pageable pageable) {
         List<Object[]> results = movieQueryRepository.getUserMovieChart(pageable);
-        List<MovieResponse.UserMovieChartDTO> dtos = convertMovieChartDTO(results);
+        List<MovieResponse.UserMovieChartDTO> dtos = convertMovieChartDTO(results, pageable.getOffset());
 
         long total = movieRepository.countAllMovies(); // 전체 데이터 수를 얻는 쿼리
         return new PageImpl<>(dtos, pageable, total);
@@ -319,55 +320,59 @@ public class MovieService {
     // 상영예정인 영화 차트
     public Page<MovieResponse.UserMovieChartDTO> getUpcomingMovieChart(Pageable pageable) {
         List<Object[]> results = movieQueryRepository.getUpcomingMovieChart(pageable);
-        List<MovieResponse.UserMovieChartDTO> dtos = convertMovieChartDTO(results);
+        List<MovieResponse.UserMovieChartDTO> dtos = convertMovieChartDTO(results, pageable.getOffset());
 
         long total = movieRepository.countUpcomingMovies(); // 전체 데이터 수를 얻는 쿼리
         return new PageImpl<>(dtos, pageable, total);
     }
 
+    // DTO 변환 및 랭크 설정 메서드
+    private List<MovieResponse.UserMovieChartDTO> convertMovieChartDTO(List<Object[]> results, long offset) {
+        return IntStream.range(0, results.size())
+                .mapToObj(index -> {
+                    Object[] result = results.get(index);
+                    MovieResponse.UserMovieChartDTO dto = convertMovieChartDTO(result);
+                    dto.setRank((int) (offset + index + 1)); // 랭크 설정
+                    return dto;
+                })
+                .collect(Collectors.toList());
+    }
+
     // DTO변환 메서드
-    public List<MovieResponse.UserMovieChartDTO> convertMovieChartDTO(List<Object[]> results) {
-        List<MovieResponse.UserMovieChartDTO> userMovieChartDTOList = new ArrayList<>();
+    private MovieResponse.UserMovieChartDTO convertMovieChartDTO(Object[] result) {
+        int movieId = (Integer) result[0];
+        String title = (String) result[1];
+        String imgFilename = (String) result[2];
+        String info = (String) result[3];
+        Date startDate = (Date) result[4];
+        BigDecimal bookingRateBigDecimal = (BigDecimal) result[5];
+        Double bookingRate = bookingRateBigDecimal.multiply(BigDecimal.valueOf(100)).setScale(2, RoundingMode.HALF_UP).doubleValue();
 
-        for (int rank = 0; rank < results.size(); rank++) {
-            Object[] result = results.get(rank);
-            int movieId = (Integer) result[0];
-            String title = (String) result[1];
-            String imgFilename = (String) result[2];
-            String info = (String) result[3];
-            Date startDate = (Date) result[4];
-            BigDecimal bookingRateBigDecimal = (BigDecimal) result[5];
-            Double bookingRate = bookingRateBigDecimal.multiply(BigDecimal.valueOf(100)).setScale(2, RoundingMode.HALF_UP).doubleValue();
+        // 상영 상태 계산 (예: 상영 중, D-날짜)
+        String releaseStatus = checkMovieReleaseStatus(startDate);
 
-            // 상영 상태 계산 (예: 상영 중, D-날짜)
-            String releaseStatus = checkMovieReleaseStatus(startDate);
+        // 연령 정보 추출
+        String ageInfo;
+        String[] infoParts = info.split(",");  // 쉼표를 기준으로 분리
+        String firstPart = infoParts[0].trim();  // 첫 번째 부분 가져오기
 
-            // 연령 정보 추출
-            String ageInfo;
-            String[] infoParts = info.split(",");  // 쉼표를 기준으로 분리
-            String firstPart = infoParts[0].trim();  // 첫 번째 부분 가져오기
-
-            if ("전체관람가".equals(firstPart)) {
-                ageInfo = firstPart.substring(0, 1);  // "전체관람가"를 "전"으로 변환
-            } else {
-                ageInfo = firstPart.substring(0, Math.min(2, firstPart.length()));  // 첫 두 글자 사용
-            }
-
-            // DTO 생성
-            MovieResponse.UserMovieChartDTO dto = new MovieResponse.UserMovieChartDTO(
-                    movieId,
-                    title,
-                    imgFilename,
-                    ageInfo,
-                    startDate,
-                    releaseStatus,
-                    bookingRate,
-                    rank + 1 // rank는 0부터 시작하므로 1을 더해줍니다.
-            );
-
-            userMovieChartDTOList.add(dto);
+        if ("전체관람가".equals(firstPart)) {
+            ageInfo = firstPart.substring(0, 1);  // "전체관람가"를 "전"으로 변환
+        } else {
+            ageInfo = firstPart.substring(0, Math.min(2, firstPart.length()));  // 첫 두 글자 사용
         }
-        return userMovieChartDTOList;
+
+        // DTO 생성
+        return new MovieResponse.UserMovieChartDTO(
+                movieId,
+                title,
+                imgFilename,
+                ageInfo,
+                startDate,
+                releaseStatus,
+                bookingRate,
+                0  // 초기값
+        );
     }
 
     @Transactional

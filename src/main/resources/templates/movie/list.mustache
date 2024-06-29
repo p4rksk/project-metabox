@@ -171,11 +171,7 @@
     const totalPages = {{totalPages}};
 
     document.getElementById('load-more').addEventListener('click', function() {
-        if (currentPage + 1 < totalPages) {
-            loadMoreMovies(currentPage + 1);
-        } else {
-            alert('더 이상 영화가 없습니다.');
-        }
+        loadMoreMovies(currentPage + 1);
     });
 
     function loadMoreMovies(page) {
@@ -205,9 +201,16 @@
                         movieContainer.appendChild(movieElement);
                     });
                     currentPage = page;  // 현재 페이지 업데이트
-                    document.getElementById('load-more').setAttribute('data-current-page', page);
+                    if (currentPage + 1 >= totalPages) {
+                        document.getElementById('load-more').style.display = 'none'; // 더 이상 영화가 없으면 버튼 숨기기
+                    }
                 })
                 .catch(error => console.error('Error:', error));
+    }
+
+    // 페이지 로드 시 처음으로 '더 보기' 버튼 숨김 여부 확인
+    if (currentPage + 1 >= totalPages) {
+        document.getElementById('load-more').style.display = 'none'; // 더 이상 영화가 없으면 버튼 숨기기
     }
 </script>
 
