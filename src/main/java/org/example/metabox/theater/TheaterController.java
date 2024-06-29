@@ -39,7 +39,7 @@ public class TheaterController {
         SessionTheater sessionTheater = new SessionTheater(theater);
         session.setAttribute("sessionTheater", sessionTheater);
         // TODO: 임시 페이지로 리턴(극장 메인 페이지 현재 없음)
-        return "theater/sales-management";
+        return "index";
     }
 
     @GetMapping("/theaters/movie-schedule")
@@ -61,11 +61,12 @@ public class TheaterController {
     }
 
     @GetMapping("/theater/sales-management")
-    public String getSalesManagement(@RequestParam(value = "theaterId") int theaterId, HttpServletRequest request) {
+    public String getSalesManagement(HttpServletRequest request) {
         // 세션에서 로그인한 지점의 정보를 얻음
-        SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
-        TheaterResponse.TheaterInfoDTO respDTO = theaterService.theaterInfo(sessionUser, theaterId);
+//        SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
+//        TheaterResponse.TheaterInfoDTO respDTO = theaterService.theaterInfo(sessionUser, theaterId);
 
+        int theaterId = 2;
         TheaterResponse.TheaterSalesDTO theater = theaterService.getThearerSalesInfo(theaterId);
         request.setAttribute("model", theater);
         return "theater/sales-management";
