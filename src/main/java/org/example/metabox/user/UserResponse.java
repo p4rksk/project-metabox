@@ -209,9 +209,13 @@ public class UserResponse {
             private String name;        // 몇 관인지
             private String theaterName; // METABOX 어느 지점인지
             private Integer userId;
+            private String bookNum;
+            private String engTitle;
+            private String ageInfo;     // 전체, 12세, 15세, 19세
+            private String ageColor;
 
             @Builder
-            public TicketingDTO(Integer id, String title, String imgFilename, Date date, String startTime, String endTime, String name, String theaterName, Integer userId) {
+            public TicketingDTO(Integer id, String title, String imgFilename, Date date, String startTime, String endTime, String name, String theaterName, Integer userId, String bookNum, String engTitle, String ageInfo, String ageColor) {
                 this.id = id;
                 this.title = title;
                 this.imgFilename = imgFilename;
@@ -221,7 +225,28 @@ public class UserResponse {
                 this.name = name;
                 this.theaterName = theaterName;
                 this.userId = userId;
+                this.bookNum = bookNum;
+                this.engTitle = engTitle;
+                this.ageInfo = ageInfo;
+                this.ageColor = classColor();
             }
+
+
+            public String classColor() {
+                if ("12".equals(ageInfo)) {
+                    return "age-info-yellow";
+                } else if ("15".equals(ageInfo)) {
+                    return "age-info-blue";
+                } else if ("전".equals(ageInfo)) {
+                    return "age-info-green";
+                } else if ("19".equals(ageInfo)) {
+                    return "age-info-red";
+                } else {
+                    return "";
+                }
+
+            }
+
         }
 
         @Data
@@ -382,11 +407,12 @@ public class UserResponse {
             private String ageInfo;     // 전체, 12세, 15세, 19세
             private String ageColor;
             // 애 한 번 돌때 여러번 돌고, 일치하는 것만 나오게
+            private String bookNum;
             private Integer totalPrice;
             private List<String> seatCodes = new ArrayList<>();
 
             @Builder
-            public TicketingDTO(Integer id, String title, String imgFilename, String engTitle, Date date, String startTime, String endTime, String name, String theaterName, Integer userId, String ageInfo, List<TotalPriceDTO> totalPriceDTOS, List<SeatDTO> seatDTOS) {
+            public TicketingDTO(Integer id, String title, String imgFilename, String engTitle, Date date, String startTime, String endTime, String name, String theaterName, Integer userId, String ageInfo, List<TotalPriceDTO> totalPriceDTOS, List<SeatDTO> seatDTOS, String bookNum) {
                 this.id = id;
                 this.title = title;
                 this.imgFilename = imgFilename;
@@ -399,6 +425,7 @@ public class UserResponse {
                 this.userId = userId;
                 this.ageInfo = ageInfo;
                 this.ageColor = classColor();
+                this.bookNum = bookNum;
 
                 this.totalPrice = totalPriceDTOS.stream().filter(totalPrice -> totalPrice.getBookId().equals(this.id))
                         .map(totalPriceDTO -> totalPriceDTO.getTotalPrice())

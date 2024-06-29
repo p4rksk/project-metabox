@@ -224,14 +224,15 @@ public class MovieQueryRepository {
         String q = """
                     SELECT m.title, m.img_filename, m.eng_title, 
                     SUBSTRING(m.info, 1, 2), si.date as "관람일시", si.start_time as "시작시간",
-                    si.end_time as "종료시간", b.id, s.name, t.name, b.user_id as "유저"
+                    si.end_time as "종료시간", b.id, s.name, t.name, b.user_id as "유저", b.book_num
                     FROM book_tb b
                     INNER JOIN seat_book_tb sb ON sb.book_id = b.id
                     INNER JOIN screening_info_tb si ON sb.screening_info_id = si.id
                     INNER JOIN screening_tb s ON s.id = si.screening_id
                     INNER JOIN theater_tb t ON s.theater_id = t.id
                     INNER JOIN movie_tb m ON si.movie_id = m.id
-                    WHERE b.user_id = ? AND si.date >= CURRENT_DATE GROUP BY si.id
+                    WHERE b.user_id = ? AND si.date >= CURRENT_DATE GROUP BY si.id 
+                    ORDER BY b.id DESC;
                 """;
 
         Query query = em.createNativeQuery(q);
@@ -252,6 +253,7 @@ public class MovieQueryRepository {
             String name = (String) row[8];  // 몇관인지
             String theaterName = (String) row[9];  // 무슨 metabox 인지
             Integer userId = ((Number) row[10]).intValue();
+            String bookNum = (String) row[11];
 
             String ageInfo;
             if ("전체".equals(info)) {
@@ -274,6 +276,7 @@ public class MovieQueryRepository {
                     .userId(userId)
                     .totalPriceDTOS(totalPriceDTOs)
                     .seatDTOS(seatDTOS)
+                    .bookNum(bookNum)
                     .build();
 
             ticketingDTOList.add(ticketingDTO);
@@ -290,7 +293,8 @@ public class MovieQueryRepository {
     public List<UserResponse.MyPageHomeDTO.TicketingDTO> findMyTicketing(Integer sessionUserId) {
         String q = """
                 SELECT m.title, m.img_filename, si.date as "관람일시", si.start_time as "시작시간", 
-                si.end_time as "종료시간", b.id, s.name, t.name, b.user_id as "유저"
+                si.end_time as "종료시간", b.id, s.name, t.name, b.user_id as "유저", 
+                b.book_num, m.eng_title, SUBSTRING(m.info, 1, 2)
                 FROM book_tb b
                 INNER JOIN seat_book_tb sb ON sb.book_id = b.id
                 INNER JOIN screening_info_tb si ON sb.screening_info_id = si.id
@@ -299,7 +303,7 @@ public class MovieQueryRepository {
                 INNER JOIN movie_tb m ON si.movie_id = m.id
                 WHERE user_id = ?
                 AND b.created_at >= CURRENT_DATE - INTERVAL '1' MONTH
-                GROUP BY si.id          
+                GROUP BY si.id ORDER BY b.id DESC
                 """;
 
         Query query = em.createNativeQuery(q);
@@ -318,6 +322,16 @@ public class MovieQueryRepository {
             String name = (String) row[6];  // 몇관인지
             String theaterName = (String) row[7];  // 몇관인지
             Integer userId = ((Number) row[8]).intValue();
+            String bookNum = (String) row[9];  // 몇관인지
+            String entTitle = (String) row[10];
+            String info = (String) row[11];
+
+            String ageInfo;
+            if ("전체".equals(info)) {
+                ageInfo = info.substring(0, 1);  // "전체"의 첫 글자만 사용
+            } else {
+                ageInfo = info.substring(0, Math.min(2, info.length()));  // 첫 두 글자 사용
+            }
 
             UserResponse.MyPageHomeDTO.TicketingDTO ticketingDTO = UserResponse.MyPageHomeDTO.TicketingDTO.builder()
                     .title(title)
@@ -329,6 +343,9 @@ public class MovieQueryRepository {
                     .name(name)
                     .theaterName(theaterName)
                     .userId(userId)
+                    .bookNum(bookNum)
+                    .engTitle(entTitle)
+                    .ageInfo(ageInfo)
                     .build();
 
             ticketingDTOList.add(ticketingDTO);

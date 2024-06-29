@@ -5765,10 +5765,10 @@ values
 -- 상영정보 등록 끝
 -- 유저 등록
 insert into user_tb(nickname, img_filename, name, birth_year, provider, created_at, password, point)
-values ('kakao_3587969747', 'http://k.kakaocdn.net/dn/ML8Oz/btsF1tO0SFt/lDxdKk8EjuXx8K0Cfp8pYk/img_640x640.jpg	',
-        '박찬혁', '1997', 'kakao', now(), 'asdfdsa', 21000),
-       ('kakao_3586886160', 'http://k.kakaocdn.net/dn/bbhhIh/btsH8BwWtD7/VkichtT9KFwCLkmuucDNTk/img_640x640.jpg',
+values ('kakao_3586886160', 'http://k.kakaocdn.net/dn/bbhhIh/btsH8BwWtD7/VkichtT9KFwCLkmuucDNTk/img_640x640.jpg',
         '송채현', '1995', 'kakao', now(), 'asdfdsa', 21000),
+        ('kakao_3587969747', 'http://k.kakaocdn.net/dn/ML8Oz/btsF1tO0SFt/lDxdKk8EjuXx8K0Cfp8pYk/img_640x640.jpg	',
+        '박찬혁', '1997', 'kakao', now(), 'asdfdsa', 21000),
        ('kakao_3596460276', 'http://k.kakaocdn.net/dn/s5uAz/btsHXDJbWgx/eEg0CRsso6lVxkYCZFdSrK/img_640x640.jpg',
         '이서현', '2000', 'kakao', now(), 'asdfdsa', 21000),
        ('바끄선규', 'default.png', '박선규', '2000', 'kakao', now(), 'asdfdsa', 0),
@@ -5810,8 +5810,8 @@ values ('010-8489-2732', '1997-07-23', '0723', '박찬혁'),
        ('010-9209-3687', '1996-04-29', '0429', '설동훈');
 -- -- 회원 예매
 -- 1번 유저가 극장1의 1관에서 상영하는 인사이드 아웃2 E10, E11 좌석을 예매 (포인트 10%로 3000포인트 적립 더미수정)
-insert into book_tb(user_id, guest_id, total_price, created_at, point, used_point, book_price)
-values (1, null, 30000, now(), 3000, 0, 30000);
+insert into book_tb(user_id, guest_id, total_price, created_at, point, used_point, book_price, book_num)
+values (1, null, 30000, now(), 3000, 0, 30000, 202406170001);
 insert into seat_book_tb(book_id, seat_id, screening_info_id)
 values
 -- 1관 E10, 극장1 인사이드아웃2 12:00~13:50
@@ -5819,8 +5819,8 @@ values
 -- 1관 E11, 극장1 인사이드아웃2 12:00~13:50
 (1, 68, 3);
 -- 1번 유저가 극장1의 2관에서 상영하는 인사이드 아웃2 E4~ E15 좌석을 예매 (포인트 10%로 18000원 적립 더미 수정)
-insert into book_tb(user_id, guest_id, total_price, created_at, point, used_point, book_price)
-values (1, null, 180000, now(), 18000, 0, 180000);
+insert into book_tb(user_id, guest_id, total_price, created_at, point, used_point, book_price, book_num)
+values (1, null, 180000, now(), 18000, 0, 180000, 202406170002);
 insert into seat_book_tb(book_id, seat_id, screening_info_id)
 values
 -- 극장1 2관 E4~E15(172~183) 19:00~20:50 하이재킹

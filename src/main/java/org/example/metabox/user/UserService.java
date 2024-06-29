@@ -175,7 +175,7 @@ public class UserService {
 
         UserResponse.MyPageHomeDTO.UserDTO userDTO = new UserResponse.MyPageHomeDTO.UserDTO(userOP);
         List<UserResponse.MyPageHomeDTO.TicketingDTO> ticketingDTOS = movieQueryRepository.findMyTicketing(sessionUser.getId());
-//        System.out.println("ticketingDTOS = " + ticketingDTOS);
+        System.out.println("ticketingDTOS = " + ticketingDTOS);
 
         //개수파악 (0건 <- 여기 뿌릴라고)
         int ticketCount = ticketingDTOS.size();
