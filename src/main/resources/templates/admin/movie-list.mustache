@@ -112,12 +112,15 @@
 </style>
 <div class="container">
     <header class="d-flex justify-content-between align-items-center my-4">
-        <h1 class="header-title">무비차트</h1>
+        <h1 class="header-title">
+            {{#isUpcoming}}상영 예정작{{/isUpcoming}}
+            {{^isUpcoming}}무비차트{{/isUpcoming}}
+        </h1>
         <nav class="navbar navbar-expand-lg navbar-light">
             <div class="collapse navbar-collapse">
                 <div class="navbar-nav-movie ml-auto">
-                    <a class="nav-link active" href="/movies-list">무비차트</a>
-                    <a class="nav-link" href="/movie-list">상영예정작</a>
+                    <a class="nav-link {{^isUpcoming}}active{{/isUpcoming}}" href="/movie-list">무비차트</a>
+                    <a class="nav-link {{#isUpcoming}}active{{/isUpcoming}}" href="/movie-list?type=upcoming">상영예정작</a>
                 </div>
             </div>
         </nav>

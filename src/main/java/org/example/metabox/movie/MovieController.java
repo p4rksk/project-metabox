@@ -15,17 +15,17 @@ public class MovieController {
 
     private final MovieService movieService;
 
+    // 무비 차트
     @GetMapping("/movies/list")
     public String list(@RequestParam(defaultValue = "all") String type, HttpServletRequest request) {
         List<MovieResponse.UserMovieChartDTO> movies;
+        // 상영예정작 버튼 클릭 시
         boolean isUpcoming = "upcoming".equals(type);
 
         if (isUpcoming) {
             movies = movieService.getUpcomingMovieChart();
-            System.out.println("#####" + isUpcoming);
         } else {
             movies = movieService.getMovieChart();
-            System.out.println("#####" + isUpcoming);
         }
 
         request.setAttribute("models", movies);

@@ -46,11 +46,8 @@ public class MovieService {
     private final MovieQueryRepository movieQueryRepository;
     private final ReviewRepository reviewRepository;
 
-    // TODO: 중복코드 수정
-    // 관리자 무비차트
-    public List<MovieResponse.AdminMovieChartDTO> getAdminMovieChart(){
-        // 상영 중 또는 개봉 예정인 영화를 예매율 순으로 조회
-        List<Object[]> results = movieQueryRepository.getAdminMovieChart();
+    // 관리자 무비차트 변환 메서드
+    private List<MovieResponse.AdminMovieChartDTO> convertAdminMovieChartDTO(List<Object[]> results) {
         List<MovieResponse.AdminMovieChartDTO> adminMovieChartDTOList = new ArrayList<>();
 
         for (int rank = 0; rank < results.size(); rank++) {
@@ -92,50 +89,18 @@ public class MovieService {
         return adminMovieChartDTOList;
     }
 
-    // TODO: 중복코드 수정
     // 관리자 무비차트
-    public List<MovieResponse.AdminMovieChartDTO> getAdminUpcomingMovieChart(){
+    public List<MovieResponse.AdminMovieChartDTO> getAdminMovieChart() {
         // 상영 중 또는 개봉 예정인 영화를 예매율 순으로 조회
         List<Object[]> results = movieQueryRepository.getAdminMovieChart();
-        List<MovieResponse.AdminMovieChartDTO> adminMovieChartDTOList = new ArrayList<>();
+        return convertAdminMovieChartDTO(results);
+    }
 
-        for (int rank = 0; rank < results.size(); rank++) {
-            Object[] result = results.get(rank);
-            int movieId = (Integer) result[0];
-            String title = (String) result[1];
-            String imgFilename = (String) result[2];
-            String info = (String) result[3];
-            Date startDate = (Date) result[4];
-            BigDecimal bookingRateBigDecimal = (BigDecimal) result[5];
-            Double bookingRate = bookingRateBigDecimal.multiply(BigDecimal.valueOf(100)).setScale(2, RoundingMode.HALF_UP).doubleValue();
-
-            // 상영 상태 계산 (예: 상영 중, D-날짜)
-            String releaseStatus = checkMovieReleaseStatus(startDate);
-
-            // 연령 정보 추출
-            String ageInfo;
-            String[] infoParts = info.split(",");  // 쉼표를 기준으로 분리
-            String firstPart = infoParts[0].trim();  // 첫 번째 부분 가져오기
-
-            if ("전체관람가".equals(firstPart)) {
-                ageInfo = firstPart.substring(0, 1);  // "전체관람가"를 "전"으로 변환
-            } else {
-                ageInfo = firstPart.substring(0, Math.min(2, firstPart.length()));  // 첫 두 글자 사용
-            }
-
-            MovieResponse.AdminMovieChartDTO dto = new MovieResponse.AdminMovieChartDTO(
-                    movieId,
-                    title,
-                    imgFilename,
-                    ageInfo,
-                    startDate,
-                    releaseStatus,
-                    bookingRate,
-                    rank + 1 // rank는 0부터 시작하므로 1을 더해줍니다.
-            );
-            adminMovieChartDTOList.add(dto);
-        }
-        return adminMovieChartDTOList;
+    // 관리자 상영예정 무비차트
+    public List<MovieResponse.AdminMovieChartDTO> getAdminUpcomingMovieChart() {
+        // 상영 중 또는 개봉 예정인 영화를 예매율 순으로 조회
+        List<Object[]> results = movieQueryRepository.getAdminUpcomingMovieChart();
+        return convertAdminMovieChartDTO(results);
     }
 
     // 상영 상태를 확인하는 메서드
@@ -219,7 +184,6 @@ public class MovieService {
                 try {
                     String masterMp4FileName = uploadAndEncodeVideo(trailer);
                     String mp4FileName = trailer.getOriginalFilename();
-
 
 
                     Trailer movieTrailer = new Trailer();
@@ -333,7 +297,7 @@ public class MovieService {
             for (int bitrate : bitrates) {
                 String resolution = imageWidth + "x" + imageHeight; // 해상도 설정
                 writer.write("#EXT-X-STREAM-INF:BANDWIDTH=" + bitrate + ",RESOLUTION=" + resolution + "\n");
-                writer.write(baseName +"."+ bitrate + "m3u8\n");
+                writer.write(baseName + "." + bitrate + "m3u8\n");
             }
         }
 

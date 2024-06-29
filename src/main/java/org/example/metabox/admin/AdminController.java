@@ -10,10 +10,7 @@ import org.example.metabox.movie_pic.MoviePicRequest;
 import org.example.metabox.movie_pic.MoviePicService;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -45,18 +42,20 @@ public class AdminController {
 
     // 관리자 무비 차트(기본값 - 예매율순)
     @GetMapping("/movie-list")
-    public String movieList(HttpServletRequest request) {
-        List<MovieResponse.AdminMovieChartDTO> movies = movieService.getAdminMovieChart();
-        request.setAttribute("models", movies);
-        return "admin/movie-list";
-    }
+    public String movieList(@RequestParam(defaultValue = "all") String type, HttpServletRequest request) {
+        List<MovieResponse.AdminMovieChartDTO> movies;
+        // 상영예정작 버튼 클릭 시
+        boolean isUpcoming = "upcoming".equals(type);
 
-    // 관리자 무비 상영 예정 차트(기본값 - 예매율순)
-    @GetMapping("/movie-upcoming")
-    public String movieUpcomingList(HttpServletRequest request) {
-        List<MovieResponse.AdminMovieChartDTO> movies = movieService.getAdminUpcomingMovieChart();
+        if (isUpcoming) {
+            movies = movieService.getAdminUpcomingMovieChart();
+        } else {
+            movies = movieService.getAdminMovieChart();
+        }
+
         request.setAttribute("models", movies);
-        return "admin/movie-upcoming";
+        request.setAttribute("isUpcoming", isUpcoming);
+        return "admin/movie-list";
     }
 
     // 영화 상세 페이지

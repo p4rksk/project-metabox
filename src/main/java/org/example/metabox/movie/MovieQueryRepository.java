@@ -556,7 +556,7 @@ public class MovieQueryRepository {
             FROM movie_tb m
             LEFT JOIN screening_info_tb si ON m.id = si.movie_id
             LEFT JOIN seat_book_tb sb ON si.id = sb.screening_info_id
-            WHERE m.end_date >= CURRENT_DATE AND m.start_date >= CURRENT_DATE
+            WHERE m.end_date >= CURRENT_DATE
             GROUP BY m.id, m.title, m.img_filename, m.info, m.start_date
             ORDER BY bookingRate DESC;
             """;
@@ -584,7 +584,7 @@ public class MovieQueryRepository {
             FROM movie_tb m
             LEFT JOIN screening_info_tb si ON m.id = si.movie_id
             LEFT JOIN seat_book_tb sb ON si.id = sb.screening_info_id
-            WHERE m.end_date >= CURRENT_DATE
+            WHERE m.end_date >= CURRENT_DATE AND m.start_date >= CURRENT_DATE
             GROUP BY m.id, m.title, m.img_filename, m.info, m.start_date
             ORDER BY bookingRate DESC;
             """;
