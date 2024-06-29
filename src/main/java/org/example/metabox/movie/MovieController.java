@@ -22,6 +22,14 @@ public class MovieController {
         return "movie/list";
     }
 
+    // 상영 예정작(기본값 - 예매율순)
+    @GetMapping("/movies/upcoming-list")
+    public String getUpcomingChart(HttpServletRequest request){
+        List<MovieResponse.UserMovieChartDTO> movies = movieService.getUpcomingMovieChart();
+        request.setAttribute("models", movies);
+        return "movie/upcoming-list";
+    }
+
     // 영화 상세 페이지
     @GetMapping("/movies/detail/{movieId}")
     public String detail(@PathVariable("movieId") int movieId, HttpServletRequest request) {
@@ -29,4 +37,5 @@ public class MovieController {
         request.setAttribute("model", movieDetail);
         return "movie/detail";
     }
+
 }
