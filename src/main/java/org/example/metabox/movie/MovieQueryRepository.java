@@ -231,7 +231,8 @@ public class MovieQueryRepository {
                     INNER JOIN screening_tb s ON s.id = si.screening_id
                     INNER JOIN theater_tb t ON s.theater_id = t.id
                     INNER JOIN movie_tb m ON si.movie_id = m.id
-                    WHERE b.user_id = ? AND si.date >= CURRENT_DATE GROUP BY si.id
+                    WHERE b.user_id = ? AND si.date >= CURRENT_DATE GROUP BY si.id 
+                    ORDER BY b.id DESC;
                 """;
 
         Query query = em.createNativeQuery(q);
@@ -302,7 +303,7 @@ public class MovieQueryRepository {
                 INNER JOIN movie_tb m ON si.movie_id = m.id
                 WHERE user_id = ?
                 AND b.created_at >= CURRENT_DATE - INTERVAL '1' MONTH
-                GROUP BY si.id          
+                GROUP BY si.id ORDER BY b.id DESC
                 """;
 
         Query query = em.createNativeQuery(q);
