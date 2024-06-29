@@ -107,6 +107,12 @@
         font-family: inherit;
         border: 2px solid #6c757d;
     }
+
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
 </style>
 
 <div class="container">
@@ -135,7 +141,7 @@
             <button class="btn btn-secondary btn-sm">GO</button>
         </div>
     </div>
-    <div class="row justify-content-center">
+    <div class="row justify-content-center" id="movie-list">
         {{#models}}
             <div class="col-auto movie-card">
                 <div class="rank" style="background-color:#4E0929;">No.{{rank}}</div>
@@ -144,65 +150,65 @@
                         <img src="/image/movie/{{imgFilename}}" class="card-img-top">
                     </a>
                     <span class="{{ageInfoColor}}">{{ageInfo}}</span>
-
                     <div class="card-body">
                         <h5 class="card-title">{{title}}</h5>
                         <p class="card-text">{{bookingRate}} %</p>
                         <p class="release-date">{{startDate}} <span class="release-status">{{releaseStatus}}</span></p>
-                        <span><a href="/book-form" class="btn btn-danger">예매하기</a></span></div>
+                        <span><a href="/book-form" class="btn btn-danger">예매하기</a></span>
+                    </div>
                 </div>
             </div>
         {{/models}}
     </div>
-    <div class="container">
-        <div class="row" id="movie-list">
-            <!-- 영화 목록이 여기에 추가됩니다. -->
-        </div>
-        <div class="text-center">
-            <button id="load-more" class="btn btn-primary">더 보기</button>
-        </div>
+    <div class="text-center">
+        <button id="load-more" class="btn btn-primary">더 보기</button>
     </div>
 </div>
 
 <script>
-    let currentPage = 0;
-    const size = 20;
+    const isUpcoming = {{isUpcoming}}; // 서버에서 전달받은 boolean 값을 사용
+    let currentPage = {{currentPage}}; // let으로 변경하여 재할당 가능하게 함
+    const totalPages = {{totalPages}};
 
-    document.addEventListener('DOMContentLoaded', function () {
-        loadMovies();
-
-        document.getElementById('load-more').addEventListener('click', function () {
-            loadMovies();
-        });
+    document.getElementById('load-more').addEventListener('click', function() {
+        if (currentPage + 1 < totalPages) {
+            loadMoreMovies(currentPage + 1);
+        } else {
+            alert('더 이상 영화가 없습니다.');
+        }
     });
 
-    function loadMovies() {
-        fetch(`/api/movies/list?page=${currentPage}&size=${size}`)
+    function loadMoreMovies(page) {
+        const type = isUpcoming ? 'upcoming' : 'all'; // isUpcoming을 사용하여 type 결정
+        fetch(`/movies/list/data?type=${type}&page=${page}&size=4`) // JSON 데이터를 반환하는 새로운 엔드포인트 사용
                 .then(response => response.json())
                 .then(data => {
-                    const movieList = document.getElementById('movie-list');
-                    data.content.forEach(movie => {
-                        const movieDiv = document.createElement('div');
-                        movieDiv.className = 'col-md-3';
-                        movieDiv.innerHTML = `
-                            <div class="card mb-4">
-                                <img src="/image/movie/${movie.imgFilename}" class="card-img-top" alt="${movie.title}">
-                                <div class="card-body">
-                                    <h5 class="card-title">${movie.title}</h5>
-                                    <p class="card-text">${movie.ageInfo}</p>
-                                    <p class="card-text">${movie.bookingRate} %</p>
-                                    <p class="card-text">${movie.startDate} <span class="badge badge-secondary">${movie.releaseStatus}</span></p>
-                                    <a href="/book-form" class="btn btn-danger">예매하기</a>
-                                </div>
+                    const movieContainer = document.getElementById('movie-list');
+                    data.models.forEach(movie => {
+                        const movieElement = document.createElement('div');
+                        movieElement.className = 'col-auto movie-card';
+                        movieElement.innerHTML = `
+                        <div class="rank" style="background-color:#4E0929;">No.${movie.rank}</div>
+                        <div class="card">
+                            <a href="/movies/detail/${movie.id}">
+                                <img src="/image/movie/${movie.imgFilename}" class="card-img-top">
+                            </a>
+                            <span class="${movie.ageInfoColor}">${movie.ageInfo}</span>
+                            <div class="card-body">
+                                <h5 class="card-title">${movie.title}</h5>
+                                <p class="card-text">${movie.bookingRate} %</p>
+                                <p class="release-date">${movie.startDate} <span class="release-status">${movie.releaseStatus}</span></p>
+                                <span><a href="/book-form" class="btn btn-danger">예매하기</a></span>
                             </div>
-                        `;
-                        movieList.appendChild(movieDiv);
+                        </div>
+                    `;
+                        movieContainer.appendChild(movieElement);
                     });
-                    currentPage++;
-                    if (data.last) {
-                        document.getElementById('load-more').style.display = 'none';
-                    }
-                });
+                    currentPage = page;  // 현재 페이지 업데이트
+                    document.getElementById('load-more').setAttribute('data-current-page', page);
+                })
+                .catch(error => console.error('Error:', error));
     }
 </script>
+
 {{> layout/footer}}

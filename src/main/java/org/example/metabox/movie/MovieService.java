@@ -28,6 +28,9 @@ import org.example.metabox.review.Review;
 import org.example.metabox.review.ReviewRepository;
 import org.example.metabox.trailer.Trailer;
 import org.example.metabox.trailer.TrailerRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
@@ -305,15 +308,21 @@ public class MovieService {
     }
 
     // 상영예정, 상영중인 모든 영화 차트
-    public List<MovieResponse.UserMovieChartDTO> getMovieChart() {
-        List<Object[]> results = movieQueryRepository.getUserMovieChart();
-        return convertMovieChartDTO(results);
+    public Page<MovieResponse.UserMovieChartDTO> getMovieChart(Pageable pageable) {
+        List<Object[]> results = movieQueryRepository.getUserMovieChart(pageable);
+        List<MovieResponse.UserMovieChartDTO> dtos = convertMovieChartDTO(results);
+
+        long total = movieRepository.countAllMovies(); // 전체 데이터 수를 얻는 쿼리
+        return new PageImpl<>(dtos, pageable, total);
     }
 
     // 상영예정인 영화 차트
-    public List<MovieResponse.UserMovieChartDTO> getUpcomingMovieChart() {
-        List<Object[]> results = movieQueryRepository.getUpcomingMovieChart();
-        return convertMovieChartDTO(results);
+    public Page<MovieResponse.UserMovieChartDTO> getUpcomingMovieChart(Pageable pageable) {
+        List<Object[]> results = movieQueryRepository.getUpcomingMovieChart(pageable);
+        List<MovieResponse.UserMovieChartDTO> dtos = convertMovieChartDTO(results);
+
+        long total = movieRepository.countUpcomingMovies(); // 전체 데이터 수를 얻는 쿼리
+        return new PageImpl<>(dtos, pageable, total);
     }
 
     // DTO변환 메서드
