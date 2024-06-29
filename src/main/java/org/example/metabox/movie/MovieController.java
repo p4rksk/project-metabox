@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -14,11 +15,21 @@ public class MovieController {
 
     private final MovieService movieService;
 
-    // 무비 차트(기본값 - 예매율순)
+    // 무비 차트
     @GetMapping("/movies/list")
-    public String list(HttpServletRequest request) {
-        List<MovieResponse.UserMovieChartDTO> movies = movieService.getMovieChart();
+    public String list(@RequestParam(defaultValue = "all") String type, HttpServletRequest request) {
+        List<MovieResponse.UserMovieChartDTO> movies;
+        // 상영예정작 버튼 클릭 시
+        boolean isUpcoming = "upcoming".equals(type);
+
+        if (isUpcoming) {
+            movies = movieService.getUpcomingMovieChart();
+        } else {
+            movies = movieService.getMovieChart();
+        }
+
         request.setAttribute("models", movies);
+        request.setAttribute("isUpcoming", isUpcoming);
         return "movie/list";
     }
 
@@ -29,4 +40,5 @@ public class MovieController {
         request.setAttribute("model", movieDetail);
         return "movie/detail";
     }
+
 }

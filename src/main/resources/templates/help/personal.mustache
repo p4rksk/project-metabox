@@ -1,0 +1,109 @@
+{{> layout/header}}
+<head>
+    <link rel="stylesheet" href="/css/helpPersonal.css">
+</head>
+
+<div class="container">
+    <div class="row">
+        {{> layout/help-sidebar}}
+
+        <div class="col-md-9">
+            <div class="form-container">
+                <h1>1:1 문의</h1>
+                <p class="text-danger">고객님의 문의에 답변하는 직원은 고객 여러분이 가족 중 한 사람일 수 있습니다.<br>고객의 언어폭력(비방, 욕설, 협박, 성희롱 등)으로부터 직원을 보호하기 위해 관련 법에 따라 수사기관에 필요한
+                    조치를 요구할 수 있으며, 행위에 의해 처벌 대상이 될 수 있습니다.<br>문의하시기 전 FAQ를 확인하시면 궁금증을 더욱 빠르게 해결하실 수 있습니다.</p>
+                <div class="privacy-box">
+                    <h5>개인정보 수집에 대한 동의 [필수]</h5>
+                    <input type="checkbox" id="privacyConsent">
+                    <label for="privacyConsent">동의합니다</label>
+                    <p>귀하께서 문의하신 다음의 내역은 법령에 의거 개인정보 수집·이용에 대한 본인의 동의가 필요한 항목입니다.</p>
+                    <p><strong>1. 개인정보 수집 및 이용 목적:</strong> 문의 접수 및 답변을 위한 의사소통 경로 확보</p>
+                    <p><strong>2. 수집하려는 개인정보 항목:</strong> 이름, 휴대전화, 이메일, 문의 내용</p>
+                    <p><strong>3. 개인정보 보유 및 이용 기간:</strong> 문의 접수 ~ 처리 완료 후 3년</p>
+                    <p>(단, 관계법령의 규정에 의하여 보존할 필요성이 있는 경우에는 관계 법령에 따라 보존)</p>
+                    <p>자세한 내용은 '개인정보 처리방침'을 확인하시기 바랍니다.</p>
+                    <p>* 원활한 서비스 이용을 위한 최소한의 개인정보이므로 동의하지 않을 경우 서비스를 이용하실 수 없습니다.</p>
+                </div>
+
+                <form>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="regionSelect" class="required">지역 선택</label>
+                            <select id="regionSelect" class="form-control">
+                                <option selected>지역 선택</option>
+                                <option>서울</option>
+                                <option>경기</option>
+                                <option>인천</option>
+                                <!-- 추가 지역 옵션 -->
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="theaterSelect" class="required">극장 선택</label>
+                            <select id="theaterSelect" class="form-control">
+                                <option selected>극장 선택</option>
+                                <option>강남</option>
+                                <option>잠실</option>
+                                <option>코엑스</option>
+                                <!-- 추가 극장 옵션 -->
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="inquirySelect" class="required">문의 유형</label>
+                            <select id="inquirySelect" class="form-control">
+                                <option selected>문의 유형 선택</option>
+                                <option>예매</option>
+                                <option>환불</option>
+                                <option>기타</option>
+                                <!-- 추가 문의 유형 옵션 -->
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="nameInput" class="required">이름</label>
+                            <input type="text" class="form-control" id="nameInput" placeholder="이름">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="emailInput" class="required">이메일</label>
+                            <input type="email" class="form-control" id="emailInput" placeholder="이메일">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subjectInput" class="required">제목</label>
+                        <input type="text" class="form-control" id="subjectInput" placeholder="제목">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contentTextarea" class="required">내용</label>
+                        <textarea class="form-control" id="contentTextarea" rows="5" placeholder="문의 내용을 입력하세요"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="fileUpload">사진 첨부</label>
+                        <input type="file" class="form-control-file" id="fileUpload" multiple>
+                        <small class="form-text text-muted">JPEG, PNG 형식의 5M 이하의 파일만 첨부 가능합니다. (최대 5개)</small>
+                        <small class="form-text text-muted">개인정보가 포함된 이미지는 첨부하지 말아주세요.</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="passwordInput" class="required">비밀번호</label>
+                        <input type="password" class="form-control" id="passwordInput" placeholder="비밀번호">
+                        <small class="form-text text-muted">1:1 문의에 대한 고객정보 보호를 위해 비밀번호를 설정해주세요.</small>
+                    </div>
+
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-custom">등록</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+{{> layout/footer}}

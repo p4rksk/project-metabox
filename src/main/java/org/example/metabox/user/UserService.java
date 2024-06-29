@@ -90,6 +90,23 @@ public class UserService {
         return mainChartDTO;
     }
 
+    // 게스트 예매 조회
+    @Transactional
+    public UserResponse.GuestCheckDTO findGuestBook(UserRequest.GuestBookCheckDTO reqDTO) {
+        UserResponse.GuestCheckDTO.UserDTO guest = guestRepository.findByGuest(reqDTO.getName(), reqDTO.getPassword(), reqDTO.getPhone(), reqDTO.getBookNumb())
+                .orElseThrow(() -> new Exception404("잘못된 정보를 입력하셨습니다."));
+//        System.out.println("guest = " + guest);
+
+        List<UserResponse.GuestCheckDTO.SeatDTO> seatDTOs = movieQueryRepository.findGuestTicketV1(guest.getGuestId());
+        List<UserResponse.GuestCheckDTO.TotalPriceDTO> totalPriceDTOs = movieQueryRepository.findGuestTicketV3(guest.getGuestId());
+        List<UserResponse.GuestCheckDTO.TicketingDTO> ticketingDTOs = movieQueryRepository.findGuestTicketV2(guest.getGuestId(), totalPriceDTOs, seatDTOs);
+
+        UserResponse.GuestCheckDTO guestCheckDTO = new UserResponse.GuestCheckDTO(guest, ticketingDTOs);
+
+        return guestCheckDTO;
+
+    }
+
 
     // 마이페이지 detail-book의 today best 무비차트
     public UserResponse.DetailBookDTO findMyBookDetail(SessionUser sessionUser) {
@@ -158,7 +175,7 @@ public class UserService {
 
         UserResponse.MyPageHomeDTO.UserDTO userDTO = new UserResponse.MyPageHomeDTO.UserDTO(userOP);
         List<UserResponse.MyPageHomeDTO.TicketingDTO> ticketingDTOS = movieQueryRepository.findMyTicketing(sessionUser.getId());
-//        System.out.println("ticketingDTOS = " + ticketingDTOS);
+        System.out.println("ticketingDTOS = " + ticketingDTOS);
 
         //개수파악 (0건 <- 여기 뿌릴라고)
         int ticketCount = ticketingDTOS.size();
@@ -223,6 +240,7 @@ public class UserService {
             Guest newGuest = guestRepository.save(Guest.builder()
                     .birth(reqDTO.getBirth())
                     .password(reqDTO.getPassword())
+                    .name(reqDTO.getName())
                     .phone(reqDTO.getPhone())
                     .build());
 
@@ -422,5 +440,6 @@ public class UserService {
         userRepository.deleteByNickname(nickname);
 
     }
+
 
 }

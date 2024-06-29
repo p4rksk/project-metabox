@@ -18,7 +18,6 @@ import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 import org.bytedeco.ffmpeg.global.avcodec;
-import org.bytedeco.javacv.CameraDevice;
 import org.bytedeco.javacv.FFmpegFrameGrabber;
 import org.bytedeco.javacv.FFmpegFrameRecorder;
 import org.bytedeco.javacv.Frame;
@@ -27,10 +26,8 @@ import org.example.metabox.movie_pic.MoviePic;
 import org.example.metabox.movie_pic.MoviePicRepository;
 import org.example.metabox.review.Review;
 import org.example.metabox.review.ReviewRepository;
-import org.example.metabox.seat.SeatBookRepository;
 import org.example.metabox.trailer.Trailer;
 import org.example.metabox.trailer.TrailerRepository;
-import org.example.metabox.trailer.TrailerService;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
@@ -49,11 +46,8 @@ public class MovieService {
     private final MovieQueryRepository movieQueryRepository;
     private final ReviewRepository reviewRepository;
 
-
-    // 관리자 무비차트
-    public List<MovieResponse.AdminMovieChartDTO> getAdminMovieChart(){
-        // 상영 중 또는 개봉 예정인 영화를 예매율 순으로 조회
-        List<Object[]> results = movieQueryRepository.getAdminMovieChart();
+    // 관리자 무비차트 변환 메서드
+    private List<MovieResponse.AdminMovieChartDTO> convertAdminMovieChartDTO(List<Object[]> results) {
         List<MovieResponse.AdminMovieChartDTO> adminMovieChartDTOList = new ArrayList<>();
 
         for (int rank = 0; rank < results.size(); rank++) {
@@ -93,6 +87,20 @@ public class MovieService {
             adminMovieChartDTOList.add(dto);
         }
         return adminMovieChartDTOList;
+    }
+
+    // 관리자 무비차트
+    public List<MovieResponse.AdminMovieChartDTO> getAdminMovieChart() {
+        // 상영 중 또는 개봉 예정인 영화를 예매율 순으로 조회
+        List<Object[]> results = movieQueryRepository.getAdminMovieChart();
+        return convertAdminMovieChartDTO(results);
+    }
+
+    // 관리자 상영예정 무비차트
+    public List<MovieResponse.AdminMovieChartDTO> getAdminUpcomingMovieChart() {
+        // 상영 중 또는 개봉 예정인 영화를 예매율 순으로 조회
+        List<Object[]> results = movieQueryRepository.getAdminUpcomingMovieChart();
+        return convertAdminMovieChartDTO(results);
     }
 
     // 상영 상태를 확인하는 메서드
@@ -176,7 +184,6 @@ public class MovieService {
                 try {
                     String masterMp4FileName = uploadAndEncodeVideo(trailer);
                     String mp4FileName = trailer.getOriginalFilename();
-
 
 
                     Trailer movieTrailer = new Trailer();
@@ -290,16 +297,27 @@ public class MovieService {
             for (int bitrate : bitrates) {
                 String resolution = imageWidth + "x" + imageHeight; // 해상도 설정
                 writer.write("#EXT-X-STREAM-INF:BANDWIDTH=" + bitrate + ",RESOLUTION=" + resolution + "\n");
-                writer.write(baseName +"."+ bitrate + "m3u8\n");
+                writer.write(baseName + "." + bitrate + "m3u8\n");
             }
         }
 
         return masterPlaylistName; // 마스터 M3U8 파일 이름 반환
     }
 
+    // 상영예정, 상영중인 모든 영화 차트
     public List<MovieResponse.UserMovieChartDTO> getMovieChart() {
-        // 상영 중 또는 개봉 예정인 영화를 예매율 순으로 조회
         List<Object[]> results = movieQueryRepository.getUserMovieChart();
+        return convertMovieChartDTO(results);
+    }
+
+    // 상영예정인 영화 차트
+    public List<MovieResponse.UserMovieChartDTO> getUpcomingMovieChart() {
+        List<Object[]> results = movieQueryRepository.getUpcomingMovieChart();
+        return convertMovieChartDTO(results);
+    }
+
+    // DTO변환 메서드
+    public List<MovieResponse.UserMovieChartDTO> convertMovieChartDTO(List<Object[]> results) {
         List<MovieResponse.UserMovieChartDTO> userMovieChartDTOList = new ArrayList<>();
 
         for (int rank = 0; rank < results.size(); rank++) {

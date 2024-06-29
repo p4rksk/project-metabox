@@ -174,7 +174,7 @@
                         <p class="tit">최종결제금액 <!-- 최종결제금액 --></p>
 
                         <div class="money">
-                            <em id="finalPrice">15,000</em>
+                            <em id="finalPrice">0</em>
                             <span>원</span>
                         </div>
                     </div>
@@ -186,7 +186,7 @@
 
                 <div class="btn-group">
                     <a href="/seat-form" class="button" title="이전">이전 <!-- 이전 --></a>
-                    <button class="button active" onclick="KG_pay()">
+                    <button class="button active" onclick="requestPay()">
                         결제
                     </button>
                 </div>
@@ -194,9 +194,80 @@
         </div>
     </div>
 </div>
+<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 
 <script>
+    // 결제 api
 
+    function requestPay() {
+        console.log("결제 요청 호출됨");
+        IMP.init("imp14397622");
+        const merchantUid = 'order_' + new Date().getTime(); // 유니크한 주문 ID 생성
+
+        // 선택한 좌석 ID
+        var selectedSeatIds = [];
+        {{#model.selectedSeatDTOList}}
+            selectedSeatIds.push({{seatId}});
+        {{/model.selectedSeatDTOList}}
+        console.log('선택된 좌석 ID :' + selectedSeatIds);
+
+        var screeningInfoId = {{model.screeningInfoId}};
+
+
+        // 실제 결제 금액 파싱 15,000 -> 15000
+        let stringNumber = document.getElementById("finalPrice").textContent;
+        let intNumber = parseInt(stringNumber.replace(/,/g, ''), 10);
+        const usePoints = document.getElementById("usePoints").value;
+        const totalPrice = parseInt(document.getElementById("totalPrice").textContent.replace(/,/g, ''), 10);
+        console.log('총 금액 :' + totalPrice)
+        console.log('사용한 포인트 :' + usePoints);
+        console.log('최종결제금액 :' + intNumber);
+        IMP.request_pay({
+            pg: "html5_inicis.INIpayTest",
+            pay_method: "card",
+            merchant_uid: `${merchantUid}`,
+            name: "테스트 결제",
+            amount: 100,
+            buyer_tel: "010-0000-0000",
+        }, function (rsp) {
+            if (rsp.success) {
+                var msg = '결제가 완료되었습니다.';
+                msg += '고유ID :' + rsp.imp_uid;
+                msg += '상점 거래ID :' + rsp.merchant_uid;
+                alert(msg);
+                // 서버에 결제 완료 정보 전송
+                $.ajax({
+                    url: '/books/complete',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        impUid: rsp.imp_uid,
+                        merchantUid: rsp.merchant_uid,
+                        totalPrice: totalPrice,
+                        bookPrice: intNumber,
+                        usedPoint: usePoints,
+                        selectedSeatIds: selectedSeatIds,
+                        screeningInfoId: screeningInfoId
+                    }),
+                    success: function (data) {
+                        alert("홈페이지로 이동합니다.");
+                        console.log("결제 완료 응답:");
+                        window.location.href = data; // 서버에서 받은 URL로 리다이렉트
+                    },
+                    error: function (xhr, status, error) {
+                        alert("서버로 전송 중 오류 발생:" + error);
+                    }
+                });
+            } else {
+                var msg = '결제에 실패하였습니다.';
+                msg += '에러내용 :' + rsp.error_msg;
+                alert(msg);
+            }
+            console.log(rsp);
+        });
+    }
+
+    // 포인트 최종결제금액 적용
     document.addEventListener("DOMContentLoaded", function () {
         var allUseCheckbox = document.getElementById("allUse");
         var usePointsInput = document.getElementById("usePoints");

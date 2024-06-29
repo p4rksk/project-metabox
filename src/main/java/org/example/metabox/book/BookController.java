@@ -4,11 +4,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.example.metabox._core.util.FormatUtil;
+import org.example.metabox.user.SessionGuest;
 import org.example.metabox.user.SessionUser;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -19,6 +20,23 @@ import java.util.List;
 public class BookController {
     private final HttpSession session;
     private final BookService bookService;
+    private final RedisTemplate<String, Object> rt;
+
+    @PostMapping("/books/complete")
+    public ResponseEntity<?> completeBook(@RequestBody BookRequest.PaymentRequestDTO paymentRequestDTO) {
+        SessionUser sessionUser = (SessionUser) rt.opsForValue().get("sessionUser");
+        SessionGuest sessionGuest = (SessionGuest) rt.opsForValue().get("sessionGuest");
+        Integer userId;
+        if (sessionUser != null) {
+            userId = sessionUser.getId();
+            bookService.completeBook(paymentRequestDTO, userId);
+        } else {
+            userId = sessionGuest.getId();
+            bookService.completeBookGuest(paymentRequestDTO, userId);
+        }
+
+        return ResponseEntity.ok("/mypage/detail-book");
+    }
 
     //  TODO :  로그인 유저만 이용할 수 있도록 interceptor
     @GetMapping("/book-form")
@@ -51,7 +69,7 @@ public class BookController {
     public String bookForm(@RequestParam("id") int screeningInfoId, @RequestParam("ids") String ids, HttpServletRequest request) {
         // 콤마로 구분된 ID 문자열을 리스트로 변환
         List<String> idList = Arrays.asList(ids.split(","));
-        SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
+        SessionUser sessionUser = (SessionUser) rt.opsForValue().get("sessionUser");
         BookResponse.PaymentDTO respDTO = bookService.payment(idList, screeningInfoId, sessionUser.getId());
         request.setAttribute("model", respDTO);
         return "payment/payment-form";

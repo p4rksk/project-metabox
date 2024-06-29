@@ -1,0 +1,90 @@
+.layer-wrap {
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-general {
+    position: relative;
+    width: 100%;
+    height: 100%
+}
+
+.layer-wrap .popwrap, .popup-general .popwrap {
+    padding: 5px;
+    background-color: #333;
+    text-align: left;
+}
+
+.layer-wrap .popwrap > h1, .popup-general .popwrap > h1 {
+    height: 50px;
+    line-height: 50px;
+    padding-left: 19px;
+    border: 1px solid #707070;
+    color: #f2f0e5;
+    font-weight: 300;
+    font-size: 22px
+}
+
+.layer-wrap .popwrap > h4, .layer-wrap .popwrap > h5, .popup-general .popwrap > h4, .popup-general .popwrap > h5 {
+    height: 50px;
+    padding-left: 19px;
+    border: 1px solid #707070;
+    color: #f2f0e5;
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 50px;
+    text-align: left
+}
+
+.layer-wrap .pop-contents, .popup-general .pop-contents {
+    margin-top: 5px;
+    padding: 40px;
+    background-color: #f6f6f4;
+    color: #333
+}
+
+
+.my-gradepop .pop-contents {
+    padding: 20px;
+}
+
+.my-gradepop .grade-lst-light.scrollbox {
+    max-height: 214px;
+}
+
+.pop-contents .notitxt {
+    font-size: 15px;
+}
+
+.pop-contents .tb-desclist {
+    margin-top: 15px;
+    font-size: 11px;
+}
+
+/* S COMMON */
+/* S > POPUP */
+.pop_wrap .popup .btn_close {
+    cursor: pointer
+}
+
+/* S COMMON */
+
+.btn-close,
+.layer-wrap .popwrap button.btn-close {
+    display: block;
+    position: absolute;
+    top: 20px;
+    left: auto;
+    right: 20px;
+    width: 18px;
+    height: 18px;
+    border: none;
+    line-height: 0;
+    zoom: 1;
+    color: white;
+}

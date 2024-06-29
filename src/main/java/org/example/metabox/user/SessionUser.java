@@ -1,23 +1,14 @@
 package org.example.metabox.user;
 
-import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.example.metabox.book.Book;
-import org.example.metabox.movie_scrap.MovieScrap;
-import org.example.metabox.review.Review;
-import org.example.metabox.theater_scrap.TheaterScrap;
-import org.hibernate.annotations.CreationTimestamp;
 
-import java.security.Timestamp;
-import java.time.LocalDateTime;
-import java.util.List;
+import java.io.Serializable;
 
 @NoArgsConstructor
 @Data
-public class SessionUser {
-
+public class SessionUser implements Serializable {
+    private static final long serialVersionUID = 1L;
     private Integer id;
 
     private String nickname;

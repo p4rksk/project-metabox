@@ -46,8 +46,11 @@ public class Book {
     // 최종 결제 금액
     private Integer book_price;
 
+    // 예매번호
+    private String bookNum;
+
     @Builder
-    public Book(int id, User user, Guest guest, List<SeatBook> seatBookList, Integer totalPrice, LocalDateTime createdAt, Integer point, Integer used_point, Integer book_price) {
+    public Book(String bookNum, int id, User user, Guest guest, List<SeatBook> seatBookList, Integer totalPrice, LocalDateTime createdAt, Integer point, Integer used_point, Integer book_price) {
         this.id = id;
         this.user = user;
         this.guest = guest;
@@ -57,5 +60,6 @@ public class Book {
         this.point = point;
         this.used_point = used_point;
         this.book_price = book_price;
+        this.bookNum = bookNum;
     }
 }

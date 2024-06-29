@@ -6,6 +6,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 
 <div class="container">
@@ -54,7 +55,7 @@
                         <div class="col-md-3 boxed" style="background-color: white">
                             <img src="/image/movie/{{imgFilename}}" class="img-fluid"
                                  style="width: 100px; height: 150px">
-                            <p class="card-text">예매번호 이거 맞춰야합니다~</p>
+                            <p class="card-text">예매번호 {{bookNum}}</p>
                         </div>
 
                         <div class="col-md-9 boxed" style="padding-top: 5%; background-color: white">
@@ -238,7 +239,12 @@
             type: 'POST'
 
         }).done((res) => {
-            alert("자주가는 META BOX 설정이 완료되었습니다.");
+            swal({
+                text: "자주가는 META BOX 설정이 완료되었습니다.",
+                icon: "success",
+                button: "확인"
+            });
+
             closeModal();
             console.log("res", res); // body = 컬렉션 받기 [(id:1, name:건대), (id:2, name:홍대)]
             $("#theater-select-box").empty();       //비워줘야함
@@ -367,7 +373,14 @@
 
 
         if ($('.selected-theater div').length >= maxSelectedTheaters) {
-            alert('최대 5개의 극장만 선택할 수 있습니다.');
+            swal({
+                text: "최대 5개의 극장만 선택할 수 있습니다.",
+                icon: "warning",
+                button: "확인"
+            });
+            $(`.theater-list-name div[data-theater="${theaterName}"]`).css({
+                'background-color': '', // 배경색 초기화
+            });
             return;
         }
 

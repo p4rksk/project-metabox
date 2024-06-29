@@ -27,7 +27,7 @@ public class Review {
 
     private String comment;
     // TODO : Enum 처리?
-    private double rating;
+    private int rating;
 
     @CreationTimestamp
     private LocalDateTime createdAt;    // 댓글 작성 시간

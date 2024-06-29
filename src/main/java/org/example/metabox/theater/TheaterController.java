@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.metabox._core.util.ApiUtil;
 import org.example.metabox._core.util.FormatUtil;
 import org.example.metabox.user.SessionUser;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,10 +20,11 @@ import java.time.LocalDate;
 public class TheaterController {
     private final TheaterService theaterService;
     private final HttpSession session;
+    private final RedisTemplate<String, Object> rt;
 
     @GetMapping("/theaters/info")
     public String theatersInfo(HttpServletRequest request, @RequestParam(value = "theaterId", defaultValue = "1") Integer theaterId) {
-        SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
+        SessionUser sessionUser = (SessionUser) rt.opsForValue().get("sessionUser");
         TheaterResponse.TheaterInfoDTO respDTO = theaterService.theaterInfo(sessionUser, theaterId);
         request.setAttribute("model", respDTO);
         return "theater/info";
@@ -37,9 +39,8 @@ public class TheaterController {
     public String theaterLogin(TheaterRequest.LoginDTO reqDTO) {
         Theater theater = theaterService.login(reqDTO);
         SessionTheater sessionTheater = new SessionTheater(theater);
-        session.setAttribute("sessionTheater", sessionTheater);
-        // TODO: 임시 페이지로 리턴(극장 메인 페이지 현재 없음)
-        return "index";
+        rt.opsForValue().set("sessionTheater", sessionTheater);
+        return "/theater/main";
     }
 
     @GetMapping("/theaters/movie-schedule")
@@ -66,7 +67,7 @@ public class TheaterController {
 //        SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
 //        TheaterResponse.TheaterInfoDTO respDTO = theaterService.theaterInfo(sessionUser, theaterId);
 
-        int theaterId = 2;
+        int theaterId = 1;
         TheaterResponse.TheaterSalesDTO theater = theaterService.getThearerSalesInfo(theaterId);
         request.setAttribute("model", theater);
         return "theater/sales-management";

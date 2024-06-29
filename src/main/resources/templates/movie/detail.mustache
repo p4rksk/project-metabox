@@ -1,4 +1,5 @@
 {{> layout/header}}
+<link rel="stylesheet" media="all" type="text/css" href="/css/popup.css"/>
 <style>
 
     .movie-poster-container {
@@ -48,18 +49,18 @@
 
     .comment {
         display: flex;
-        align-items: flex-start;
         padding: 10px;
         border-bottom: 1px solid #e9ecef;
+        width: 100%;
+        justify-content: space-between;
     }
-
+    .comment-header{
+        display: flex;
+        align-content: flex-start;
+    }
     .comment img {
         border-radius: 50%;
         margin-right: 10px;
-    }
-
-    .comment-body {
-        flex: 1;
     }
 
     .comment-footer {
@@ -70,20 +71,21 @@
         color: #6c757d;
     }
 
-    .pagination {
-        display: flex;
-        justify-content: center;
-        margin-top: 20px;
+    .pagination a {
+        color: black;
+        float: left;
+        padding: 8px 16px;
+        text-decoration: none;
+        transition: background-color .3s;
+        margin :20px 0
     }
 
-    .page-item.active .page-link {
-        color: red;
-        text-decoration: underline;
+    .pagination a.active {
+        background-color: #4b1b3a;
+        color: white;
     }
 
-    .footer-text {
-        font-size: 0.8rem;
-    }
+    .pagination a:hover:not(.active) {background-color: #ddd;}
 
     .movie-detail {
         display: flex;
@@ -149,9 +151,6 @@
         height: 400px !important;
     }
 
-    .table-container {
-        margin-top: 40px;
-    }
 
     .table-container table {
         width: 100%;
@@ -265,6 +264,7 @@
     .btn-group {
         display: flex;
         gap: 10px;
+        z-index: 0;
     }
 
     .btn-custom {
@@ -281,8 +281,53 @@
         border-radius: 50%;
         margin-right: 10px;
     }
+
     .clicked {
         background-color: #4b1b3a; /* Change this to the desired background color */
+    }
+
+    #modalOpenButton, #modalCloseButton {
+        cursor: pointer;
+    }
+
+    #modalContainer {
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: rgba(0, 0, 0, 0.5);
+    }
+
+    #modalContainer.hidden {
+        display: none;
+    }
+
+    .rating {
+        display: flex;
+    }
+
+    .star {
+        appearance: none;
+        padding: 1px;
+    }
+
+    .star::after {
+        content: '☆';
+        color: hsl(60, 80%, 45%);
+        font-size: 20px;
+    }
+    .star:hover::after,
+    .star:has(~ .star:hover)::after,
+    .star:checked::after,
+    .star:has(~ .star:checked)::after {
+        content: '★';
+    }
+    .star:hover ~ .star::after {
+        content: '☆';
     }
 </style>
 
@@ -401,51 +446,92 @@
             <p>관람일 포함 7일 이내 관람평을 남기시면 <span class="highlight">20P</span>가 적립됩니다.</p>
             <p><strong>{{model.reviewCount}}</strong>명의 실관람객이 평가해주셨습니다.</p>
         </div>
+
         <div class="btn-group">
-            <button class="btn btn-danger btn-custom">평점작성</button>
+
+            <button class="btn btn-danger btn-custom" id="modalOpenButton">댓글작성</button>
             <button class="btn btn-secondary btn-custom">내 평점</button>
         </div>
     </div>
+    <form action="/review-save" method="post">
+        <input type="hidden" name="movieId" value="{{model.id}}">
+        <div id="modalContainer" class="hidden">
+            <div class="layer-contents on-shadow" style="width:710px;">
+                <div class="popup-general">
+                    <div class="popwrap">
+                        <h1>평점작성</h1>
+                        <div class="pop-contents">
+
+                            <div class="mygrade-cont">
+                                <div class="movietit"><strong id="regTitle">{{model.title}}</strong>
+                                </div>
+
+
+                                <div class="rating" style="margin-bottom: 10px">
+                                    <input type="radio" class="star" name="rating" value="1">
+                                    <input type="radio" class="star" name="rating" value="2">
+                                    <input type="radio" class="star" name="rating" value="3">
+                                    <input type="radio" class="star" name="rating" value="4">
+                                    <input type="radio" class="star" name="rating" value="5">
+                                </div>
+                                <div class="d-flex">
+                                    <div class="textbox">
+                            <textarea id="comment" name="comment" title="comment" cols="70" rows="2"
+                                      maxlength="280"
+                                      placeholder="운영원칙에 어긋나는 글은 제재 조치를 받을 수 있습니다."></textarea>
+                                    </div>
+                                    <div>
+                                        <button type="submit" class="btn-custom" style="width: 100px">작성완료</button>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+                        <button type="button" class="btn-close" id="modalCloseButton">X</button>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </form>
     <div class="container comment-section">
         {{#model.reviews}}
-        <div class="comment">
-            <img src="/image/user/{{userProfile}}" alt="User 1" class="profile-img">
-            <div class="comment-body">
-                <p><strong>{{reviewer}}: </strong>{{comment}}</p>
-                <div class="comment-footer">
-                    <span>2024.06.14</span>
+                <div class="comment">
+                    <div class="comment-header">
+                        <img src="{{userProfile}}" alt="User 1" class="profile-img">
+                        <div class="comment-body">
+                            <p><strong>{{reviewer}}: </strong>{{comment}}</p>
+                            <div class="comment-footer">
+                                <span>2024.06.14</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-right: 20px; ">
+                        <p>평점: {{rating}}</p>
+                    </div>
                 </div>
-            </div>
-        </div>
+
+
         {{/model.reviews}}
-        <nav aria-label="Page navigation">
-            <ul class="pagination">
-                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item"><a class="page-link" href="#">4</a></li>
-                <li class="page-item"><a class="page-link" href="#">5</a></li>
-                <li class="page-item"><a class="page-link" href="#">6</a></li>
-                <li class="page-item"><a class="page-link" href="#">7</a></li>
-                <li class="page-item"><a class="page-link" href="#">8</a></li>
-                <li class="page-item"><a class="page-link" href="#">9</a></li>
-                <li class="page-item"><a class="page-link" href="#">10</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Next">
-                        다음 10개
-                    </a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
+        <div class="pagination" style="justify-content: center;">
+            <a href="#">&laquo;</a>
+            <a class="active" href="#">1</a>
+            <a href="#">2</a>
+            <a href="#">3</a>
+            <a href="#">4</a>
+            <a href="#">5</a>
+            <a href="#">6</a>
+            <a href="#">&raquo;</a>
+        </div>
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
@@ -531,5 +617,34 @@
             }
         }
     }
+</script>
+<script>
+    const modalOpenButton = document.getElementById('modalOpenButton');
+    const modalCloseButton = document.getElementById('modalCloseButton');
+    const modal = document.getElementById('modalContainer');
+
+    modalOpenButton.addEventListener('click', () => {
+        modal.classList.remove('hidden');
+    });
+
+    modalCloseButton.addEventListener('click', () => {
+        modal.classList.add('hidden');
+    });
+</script>
+<script>
+    const stars = document.querySelectorAll('.star');
+
+    stars.forEach(star => {
+        star.addEventListener('change', function() {
+            const value = parseInt(this.value);
+            stars.forEach((s, index) => {
+                if (index < value) {
+                    s.nextElementSibling.textContent = '★';
+                } else {
+                    s.nextElementSibling.textContent = '☆';
+                }
+            });
+        });
+    });
 </script>
 {{> layout/footer}}

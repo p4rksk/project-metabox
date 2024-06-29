@@ -53,7 +53,7 @@ public class TheaterRepositoryTest {
     @Test
     public void findTheaterSalesByMovie_Test() {
         // given
-        int theaterId = 1;
+        int theaterId = 3;
 
         // when
         List<Object[]> results = theaterRepository.findTheaterSalesByMovie(theaterId);

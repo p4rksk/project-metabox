@@ -3,6 +3,7 @@
     <link rel="stylesheet" href="/css/mypageHome.css">
 </head>
 
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 <div class="container">
     <div class="profile-card">
@@ -75,12 +76,14 @@
                             <div class="col-md-3">
                                 <img src="/image/movie/{{imgFilename}}" class="img-fluid"
                                      style="width: 100px; height: 150px">
+                                <p class="card-text">예매번호 {{bookNum}}</p>
                             </div>
                             <div class="col-md-9" style="padding-top: 5%">
-                                <h5 class="card-title"><strong>{{title}}</strong></h5>
-                                <p class="card-text">관람극장 {{theaterName}} ({{name}})</p>
+                                <h5 class="card-title">
+                                    <strong><small class="{{ageColor}}">{{ageInfo}}</small>{{title}}
+                                        <small>({{engTitle}})</small></strong></h5>
                                 <p class="card-text">관람일시 {{date}} ({{startTime}} ~ {{endTime}})</p>
-                                <p class="card-text">예매번호 이거 맞춰야합니다~</p>
+                                <p class="card-text">관람극장 {{theaterName}} ({{name}})</p>
                             </div>
                         </div>
                     {{/model.ticketingDTO}}
@@ -191,7 +194,13 @@
             type: 'POST'
 
         }).done((res) => {
-            alert("자주가는 META BOX 설정이 완료되었습니다.");
+            // alert("자주가는 META BOX 설정이 완료되었습니다.");
+            swal({
+                text: "자주가는 META BOX 설정이 완료되었습니다.",
+                icon: "success",
+                button: "확인"
+            });
+
             closeModal();
             console.log("res", res); // body = 컬렉션 받기 [(id:1, name:건대), (id:2, name:홍대)]
             $("#theater-select-box").empty();       //비워줘야함
@@ -318,7 +327,14 @@
 
 
         if ($('.selected-theater div').length >= maxSelectedTheaters) {
-            alert('최대 5개의 극장만 선택할 수 있습니다.');
+            swal({
+                text: "최대 5개의 극장만 선택할 수 있습니다.",
+                icon: "warning",
+                button: "확인"
+            });
+            $(`.theater-list-name div[data-theater="${theaterName}"]`).css({
+                'background-color': '', // 배경색 초기화
+            });
             return;
         }
 

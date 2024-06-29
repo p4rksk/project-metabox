@@ -25,15 +25,18 @@ public class Guest {
 
     private String password;
 
+    private String name;    // 예매자 이름
+
     @Column(unique = true, nullable = false)
     private String phone;
 
     @Builder
-    public Guest(Integer id, List<Book> bookList, String birth, String password, String phone) {
+    public Guest(Integer id, List<Book> bookList, String birth, String password, String name, String phone) {
         this.id = id;
         this.bookList = bookList;
         this.birth = birth;
         this.password = password;
+        this.name = name;
         this.phone = phone;
     }
 }
