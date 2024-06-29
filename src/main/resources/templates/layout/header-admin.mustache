@@ -49,10 +49,18 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             </ul>
             <ul class="navbar-nav navbar-icons">
+                {{^sessionAdmin}}
                 <li class="nav-item">
                     <a class="nav-link nav-link-flex" href="#"><img class="nav-img"
                                                                     src="/image/layout/loginPassword.png"> 로그인</a>
                 </li>
+                {{/sessionAdmin}}
+                {{#sessionAdmin}}
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-flex" href="/logout"><img class="nav-img"
+                                                                              src="/image/layout/loginPassword.png">로그아웃</a>
+                    </li>
+                {{/sessionAdmin}}
                 <li class="nav-item">
                     <a class="nav-link nav-link-flex" href="#"><img class="nav-img"
                                                                     src="/image/layout/loginMember.png">
@@ -79,7 +87,7 @@
                     <a class="nav-link me-3" id="theater-save-form-link" href="/theater-save-form">영화관 등록</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link me-3" id="admin-sales-link" href="/admin-sales">매출 관리</a>
+                    <a class="nav-link me-3" id="admin-sales-link" href="/admin-sales-management">매출 관리</a>
                 </li>
             </ul>
             <ul class="navbar-nav mb-2 mb-lg-0">

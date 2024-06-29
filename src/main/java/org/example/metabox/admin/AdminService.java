@@ -9,6 +9,7 @@ import org.example.metabox.theater.Theater;
 import org.example.metabox.theater.TheaterRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,13 +33,11 @@ public class AdminService {
     // 최고 관리자 매출 페이지 DTO
     public AdminResponse.RootAdminResponseDTO getRootAdmin() {
         // 전체 매출 조회
-        Long totalSales = bookRepository.getTotalSales();
+        Long totalSales = theaterRepository.findTotalSales();
 
         // 지점별 매출 조회
-        List<Object[]> salesByTheater = bookRepository.findSalesByTheater();
-
-        // DTO로 변환
-        List<AdminResponse.TheaterSalesDTO> theaterSalesDTOList = salesByTheater.stream()
+        List<Object[]> salesByTheater = theaterRepository.findSalesByTheater();
+        List<AdminResponse.TheaterSalesDTO> theaterSalesDTO = salesByTheater.stream()
                 .map(result -> {
                     int theaterId = (int) result[0];
                     String theaterName = (String) result[1];
@@ -57,11 +56,33 @@ public class AdminService {
                 })
                 .collect(Collectors.toList());
 
+        // 영화별 매출 조회
+        List<Object[]> salesByMovie = theaterRepository.findAllTheaterSalesByMovie();
+        List<AdminResponse.MovieSalesDTO> SalesByMovieDTO = salesByMovie.stream()
+                .map(result -> {
+                    int movieId = (int) result[0];
+                    String movieTitle = (String) result[1];
+                    Date startDate = (Date) result[2];
+                    Date endDate = (Date) result[3];
+                    Long movieSales = (Long) result[4];
+                    Long viewerCount = (Long) result[5];
+
+                    return AdminResponse.MovieSalesDTO.builder()
+                            .movieId(movieId)
+                            .movieTitle(movieTitle)
+                            .startDate(startDate)
+                            .endDate(endDate)
+                            .movieSales(FormatUtil.moneyFormat(movieSales))
+                            .viewerCount(FormatUtil.viewerFormat(viewerCount))
+                            .build();
+                })
+                .collect(Collectors.toList());
+
         // RootAdminResponseDTO를 생성하여 반환
         return AdminResponse.RootAdminResponseDTO.builder()
-                // TODO: 더미데이터가 이상한 거 같음
                 .totalSales(FormatUtil.moneyFormat(totalSales))
-                .theaterSales(theaterSalesDTOList)
+                .theaterSales(theaterSalesDTO)
+                .movieSales(SalesByMovieDTO)
                 .build();
     }
 }

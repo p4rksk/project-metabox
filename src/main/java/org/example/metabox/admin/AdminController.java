@@ -31,9 +31,9 @@ public class AdminController {
     @PostMapping("/admin-login")
     public String adminLogin(AdminRequest.LoginDTO reqDTO) {
         Admin admin = adminService.login(reqDTO);
-
         SessionAdmin sessionAdmin = new SessionAdmin(admin.getId(), admin.getLoginId());
         rt.opsForValue().set("sessionAdmin", sessionAdmin);
+        session.setAttribute("sessionAdmin", sessionAdmin);
         return "redirect:movie-list";
     }
 
@@ -133,11 +133,12 @@ public class AdminController {
 
     // localhost:8080/admin-sales
     // 관리자 매출 페이지
-    @GetMapping("/admin-sales")
-    public String getSales(HttpServletRequest request) {
+    @GetMapping("/admin-sales-management")
+    public String getSales(@RequestParam(value = "type", defaultValue = "theater") String type, HttpServletRequest request) {
         AdminResponse.RootAdminResponseDTO resDTO = adminService.getRootAdmin();
         request.setAttribute("models", resDTO);
-        return "admin/admin-sales";
+        request.setAttribute("type", type);
+        return "admin/admin-sales-management";
     }
 
 

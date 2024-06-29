@@ -40,7 +40,10 @@ public class TheaterController {
         Theater theater = theaterService.login(reqDTO);
         SessionTheater sessionTheater = new SessionTheater(theater);
         rt.opsForValue().set("sessionTheater", sessionTheater);
-        return "/theater/main";
+        // 임시페이지로 리턴
+        return "redirect:/theater/sales-management";
+        // 기존 페이지(지금 없음)
+        // return "/theater/main";
     }
 
     @GetMapping("/theaters/movie-schedule")
@@ -48,7 +51,7 @@ public class TheaterController {
         if (date == null) {
             date = FormatUtil.currentDate();
         }
-        SessionUser sessionUser = (SessionUser) rt.opsForValue().get("sessionUser");
+        SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
         TheaterResponse.TheaterDTO respDTO = theaterService.movieSchedule(sessionUser, theaterId, date);
         request.setAttribute("model", respDTO);
         return "theater/movie-schedule";
@@ -60,4 +63,13 @@ public class TheaterController {
         System.out.println(ResponseEntity.ok(new ApiUtil<>(respDTO)));
         return ResponseEntity.ok(new ApiUtil<>(respDTO));
     }
+
+    @GetMapping("/theater/sales-management")
+    public String getSalesManagement(HttpServletRequest request) {
+        SessionTheater sessionTheater = (SessionTheater) rt.opsForValue().get("sessionTheater");
+        TheaterResponse.TheaterSalesDTO theater = theaterService.getThearerSalesInfo(sessionTheater.getId());
+        request.setAttribute("model", theater);
+        return "theater/sales-management";
+    }
+
 }
