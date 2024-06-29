@@ -316,7 +316,7 @@ public class MovieService {
         return convertMovieChartDTO(results);
     }
 
-    // 공통 메서드: 조회 결과를 DTO 리스트로 변환
+    // DTO변환 메서드
     public List<MovieResponse.UserMovieChartDTO> convertMovieChartDTO(List<Object[]> results) {
         List<MovieResponse.UserMovieChartDTO> userMovieChartDTOList = new ArrayList<>();
 
