@@ -154,5 +154,55 @@
             </div>
         {{/models}}
     </div>
+    <div class="container">
+        <div class="row" id="movie-list">
+            <!-- 영화 목록이 여기에 추가됩니다. -->
+        </div>
+        <div class="text-center">
+            <button id="load-more" class="btn btn-primary">더 보기</button>
+        </div>
+    </div>
 </div>
+
+<script>
+    let currentPage = 0;
+    const size = 20;
+
+    document.addEventListener('DOMContentLoaded', function () {
+        loadMovies();
+
+        document.getElementById('load-more').addEventListener('click', function () {
+            loadMovies();
+        });
+    });
+
+    function loadMovies() {
+        fetch(`/api/movies/list?page=${currentPage}&size=${size}`)
+                .then(response => response.json())
+                .then(data => {
+                    const movieList = document.getElementById('movie-list');
+                    data.content.forEach(movie => {
+                        const movieDiv = document.createElement('div');
+                        movieDiv.className = 'col-md-3';
+                        movieDiv.innerHTML = `
+                            <div class="card mb-4">
+                                <img src="/image/movie/${movie.imgFilename}" class="card-img-top" alt="${movie.title}">
+                                <div class="card-body">
+                                    <h5 class="card-title">${movie.title}</h5>
+                                    <p class="card-text">${movie.ageInfo}</p>
+                                    <p class="card-text">${movie.bookingRate} %</p>
+                                    <p class="card-text">${movie.startDate} <span class="badge badge-secondary">${movie.releaseStatus}</span></p>
+                                    <a href="/book-form" class="btn btn-danger">예매하기</a>
+                                </div>
+                            </div>
+                        `;
+                        movieList.appendChild(movieDiv);
+                    });
+                    currentPage++;
+                    if (data.last) {
+                        document.getElementById('load-more').style.display = 'none';
+                    }
+                });
+    }
+</script>
 {{> layout/footer}}
