@@ -1,4 +1,5 @@
 {{> layout/header}}
+<link rel="stylesheet" media="all" type="text/css" href="/css/popup.css"/>
 <style>
 
     .movie-poster-container {
@@ -48,18 +49,18 @@
 
     .comment {
         display: flex;
-        align-items: flex-start;
         padding: 10px;
         border-bottom: 1px solid #e9ecef;
+        width: 100%;
+        justify-content: space-between;
     }
-
+    .comment-header{
+        display: flex;
+        align-content: flex-start;
+    }
     .comment img {
         border-radius: 50%;
         margin-right: 10px;
-    }
-
-    .comment-body {
-        flex: 1;
     }
 
     .comment-footer {
@@ -70,20 +71,21 @@
         color: #6c757d;
     }
 
-    .pagination {
-        display: flex;
-        justify-content: center;
-        margin-top: 20px;
+    .pagination a {
+        color: black;
+        float: left;
+        padding: 8px 16px;
+        text-decoration: none;
+        transition: background-color .3s;
+        margin :20px 0
     }
 
-    .page-item.active .page-link {
-        color: red;
-        text-decoration: underline;
+    .pagination a.active {
+        background-color: #4b1b3a;
+        color: white;
     }
 
-    .footer-text {
-        font-size: 0.8rem;
-    }
+    .pagination a:hover:not(.active) {background-color: #ddd;}
 
     .movie-detail {
         display: flex;
@@ -149,9 +151,6 @@
         height: 400px !important;
     }
 
-    .table-container {
-        margin-top: 40px;
-    }
 
     .table-container table {
         width: 100%;
@@ -265,6 +264,7 @@
     .btn-group {
         display: flex;
         gap: 10px;
+        z-index: 0;
     }
 
     .btn-custom {
@@ -302,99 +302,37 @@
         background: rgba(0, 0, 0, 0.5);
     }
 
-    #modalContent {
-        position: absolute;
-        background-color: #ffffff;
-        width: 300px;
-        height: 250px;
-        padding: 15px;
-    }
-
     #modalContainer.hidden {
         display: none;
     }
 
-    .rating__input {
-        display: none; /* 라디오버튼 hide */
+    .rating {
+        display: flex;
     }
 
-    .rating__label {
-        width: 12px; /* 원본 사이즈/2 */
-        overflow: hidden;
-        cursor: pointer;
+    .star {
+        appearance: none;
+        padding: 1px;
     }
 
-    .rating__label .star-icon {
-        width: 12px; /* 원본 사이즈/2 */
-        height: 24px;
-        display: block;
-        position: relative;
-        left: 0;
-        background-image: url("/image/star-regular.svg");
-        background-repeat: no-repeat;
+    .star::after {
+        content: '☆';
+        color: hsl(60, 80%, 45%);
+        font-size: 20px;
     }
-
-    .rating__label--full .star-icon {
-        background-position: right;
+    .star:hover::after,
+    .star:has(~ .star:hover)::after,
+    .star:checked::after,
+    .star:has(~ .star:checked)::after {
+        content: '★';
     }
-
-    .rating__label--half .star-icon {
-        background-position: left;
+    .star:hover ~ .star::after {
+        content: '☆';
     }
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<!--<div class="layer-wrap">-->
-<!--    <div class="layer-contents on-shadow" style="width:710px;">-->
-<!--        <div class="popup-general">-->
-<!--            <div class="popwrap">-->
-<!--                <h1>평점작성</h1>-->
-<!--                <div class="pop-contents">-->
 
-<!--                    <div class="mygrade-cont">-->
-<!--                        <div class="movietit"><strong id="regTitle">파묘</strong></div>-->
-<!--                        <div class="likeornot">-->
-<!--                            <div class="writerinfo">-->
-<!--                                <div class="box-image">-->
-<!--									<span class="thumb-image">-->
-<!--										<img id="regUserPro"-->
-<!--                                             src="http://img.cgv.co.kr/R2014/images/common/default_profile.gif"-->
-<!--                                             alt="사용자 프로필" onerror="errorImage(this, {'type':'profile'})">-->
-
-<!--                                        <span class="profile-mask"></span>-->
-<!--									</span>-->
-<!--                                </div>-->
-<!--                            </div>-->
-
-<!--                        </div>-->
-
-<!--                        <div class="textbox">-->
-<!--                            <textarea id="textReviewContent" name="textReviewContent" title="영화평점 입력" cols="70" rows="2"-->
-<!--                                      maxlength="280"-->
-<!--                                      placeholder="운영원칙에 어긋나는 게시물로 판단되는 글은 제재 조치를 받을 수 있습니다."></textarea>-->
-<!--                        </div>-->
-
-<!--                        <div class="footbox">-->
-<!--							<span class="role">-->
-<!--								<a id="viewpopup" title="새창" href="javascript:void(0);" target="_blank">운영원칙 <img-->
-<!--                                        src="http://img.cgv.co.kr/R2014/images/common/ico/ico-question-mark.png"-->
-<!--                                        alt="?"></a>-->
-<!--							</span>-->
-
-<!--                            <div class="rbox">-->
-<!--                                <span class="count"><strong id="text_count">0</strong>/280(byte)</span>-->
-<!--                                <button type="button" class="round red on" id="regBtn"><span>작성완료!</span></button>-->
-<!--                            </div>-->
-<!--                        </div>-->
-
-<!--                    </div>-->
-
-<!--                </div>-->
-<!--                <button type="button" class="btn-close" id="regLayerClose">평점작성 팝업 닫기</button>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
 <div class="container">
     <hr>
     <div class="movie-detail">
@@ -512,110 +450,85 @@
         <div class="btn-group">
 
             <button class="btn btn-danger btn-custom" id="modalOpenButton">댓글작성</button>
-            <form action="/review-save" method="post">
-                <input type="hidden" name="movieId" value="{{model.id}}">
-                <div id="modalContainer" class="hidden">
-                    <div class="form-group" id="modalContent">
-                        <div class="comment">
-                            <label for="comment">한 줄 평</label>
-                            <input type="text" class="form-control" id="comment" name="comment"
-                                   placeholder="한 줄 평을 남겨주세요.">
+            <button class="btn btn-secondary btn-custom">내 평점</button>
+        </div>
+    </div>
+    <form action="/review-save" method="post">
+        <input type="hidden" name="movieId" value="{{model.id}}">
+        <div id="modalContainer" class="hidden">
+            <div class="layer-contents on-shadow" style="width:710px;">
+                <div class="popup-general">
+                    <div class="popwrap">
+                        <h1>평점작성</h1>
+                        <div class="pop-contents">
+
+                            <div class="mygrade-cont">
+                                <div class="movietit"><strong id="regTitle">{{model.title}}</strong>
+                                </div>
+
+
+                                <div class="rating" style="margin-bottom: 10px">
+                                    <input type="radio" class="star" name="rating" value="1">
+                                    <input type="radio" class="star" name="rating" value="2">
+                                    <input type="radio" class="star" name="rating" value="3">
+                                    <input type="radio" class="star" name="rating" value="4">
+                                    <input type="radio" class="star" name="rating" value="5">
+                                </div>
+                                <div class="d-flex">
+                                    <div class="textbox">
+                            <textarea id="comment" name="comment" title="comment" cols="70" rows="2"
+                                      maxlength="280"
+                                      placeholder="운영원칙에 어긋나는 글은 제재 조치를 받을 수 있습니다."></textarea>
+                                    </div>
+                                    <div>
+                                        <button type="submit" class="btn-custom" style="width: 100px">작성완료</button>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
                         </div>
-                        <div class="rating">
-                            <label class="rating__label rating__label--half" for="starhalf">
-                                <input type="radio" id="starhalf" class="rating__input" name="rating" value="">
-                                <span class="star-icon"></span>
-                            </label>
-                            <label class="rating__label rating__label--full" for="star1">
-                                <input type="radio" id="star1" class="rating__input" name="rating" value="">
-                                <span class="star-icon"></span>
-                            </label>
-                            <label class="rating__label rating__label--half" for="starhalf">
-                                <input type="radio" id="starhalf" class="rating__input" name="rating" value="">
-                                <span class="star-icon"></span>
-                            </label>
-                            <label class="rating__label rating__label--full" for="star1">
-                                <input type="radio" id="star1" class="rating__input" name="rating" value="">
-                                <span class="star-icon"></span>
-                            </label>
-                            <label class="rating__label rating__label--half" for="starhalf">
-                                <input type="radio" id="starhalf" class="rating__input" name="rating" value="">
-                                <span class="star-icon"></span>
-                            </label>
-                            <label class="rating__label rating__label--full" for="star1">
-                                <input type="radio" id="starhalf" class="rating__input" name="rating" value="">
-                                <span class="star-icon"></span>
-                            </label>
-                            <label class="rating__label rating__label--half" for="starhalf">
-                                <input type="radio" id="starhalf" class="rating__input" name="rating" value="">
-                                <span class="star-icon"></span>
-                            </label>
-                            <label class="rating__label rating__label--full" for="star1">
-                                <input type="radio" id="star1" class="rating__input" name="rating" value="">
-                                <span class="star-icon"></span>
-                            </label>
-                            <label class="rating__label rating__label--half" for="starhalf">
-                                <input type="radio" id="starhalf" class="rating__input" name="rating" value="">
-                                <span class="star-icon"></span>
-                            </label>
-                            <label class="rating__label rating__label--full" for="star1">
-                                <input type="radio" id="star1" class="rating__input" name="rating" value="">
-                                <span class="star-icon"></span>
-                            </label>
-                        </div>
-                        <button id="modalCloseButton">확인</button>
-                        <a href="/movie-detail/{{model.id}}" class="btn btn-secondary">취소</a>
+                        <button type="button" class="btn-close" id="modalCloseButton">X</button>
+
                     </div>
                 </div>
-            </form>
 
-            <button class="btn btn-secondary btn-custom">내 평점</button>
+            </div>
+
         </div>
 
 
-    </div>
+    </form>
     <div class="container comment-section">
         {{#model.reviews}}
-            <div class="d-flex justify-content-between">
                 <div class="comment">
-                    <img src="{{userProfile}}" alt="User 1" class="profile-img">
-                    <div class="comment-body">
-                        <p><strong>{{reviewer}}: </strong>{{comment}}</p>
-                        <div class="comment-footer">
-                            <span>2024.06.14</span>
+                    <div class="comment-header">
+                        <img src="{{userProfile}}" alt="User 1" class="profile-img">
+                        <div class="comment-body">
+                            <p><strong>{{reviewer}}: </strong>{{comment}}</p>
+                            <div class="comment-footer">
+                                <span>2024.06.14</span>
+                            </div>
                         </div>
                     </div>
+                    <div style="margin-right: 20px; ">
+                        <p>평점: {{rating}}</p>
+                    </div>
                 </div>
-                <div style="margin-right: 20px">
-                    <p>{{rating}}/5.0</p>
-                </div>
-            </div>
+
 
         {{/model.reviews}}
-        <nav aria-label="Page navigation">
-            <ul class="pagination">
-                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item"><a class="page-link" href="#">4</a></li>
-                <li class="page-item"><a class="page-link" href="#">5</a></li>
-                <li class="page-item"><a class="page-link" href="#">6</a></li>
-                <li class="page-item"><a class="page-link" href="#">7</a></li>
-                <li class="page-item"><a class="page-link" href="#">8</a></li>
-                <li class="page-item"><a class="page-link" href="#">9</a></li>
-                <li class="page-item"><a class="page-link" href="#">10</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Next">
-                        다음 10개
-                    </a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
+        <div class="pagination" style="justify-content: center;">
+            <a href="#">&laquo;</a>
+            <a class="active" href="#">1</a>
+            <a href="#">2</a>
+            <a href="#">3</a>
+            <a href="#">4</a>
+            <a href="#">5</a>
+            <a href="#">6</a>
+            <a href="#">&raquo;</a>
+        </div>
     </div>
 </div>
 
@@ -719,102 +632,19 @@
     });
 </script>
 <script>
-    const rateWrap = document.querySelectorAll('.rating'),
-            label = document.querySelectorAll('.rating .rating__label'),
-            input = document.querySelectorAll('.rating .rating__input'),
-            labelLength = label.length,
-            opacityHover = '0.5';
+    const stars = document.querySelectorAll('.star');
 
-    let stars = document.querySelectorAll('.rating .star-icon');
-
-    checkedRate();
-
-
-    rateWrap.forEach(wrap => {
-        wrap.addEventListener('mouseenter', () => {
-            stars = wrap.querySelectorAll('.star-icon');
-
-            stars.forEach((starIcon, idx) => {
-                starIcon.addEventListener('mouseenter', () => {
-                    if (wrap.classList.contains('readonly') == false) {
-                        initStars(); // 기선택된 별점 무시하고 초기화
-                        filledRate(idx, labelLength);  // hover target만큼 별점 active
-
-                        // hover 시 active된 별점의 opacity 조정
-                        for (let i = 0; i < stars.length; i++) {
-                            if (stars[i].classList.contains('filled')) {
-                                stars[i].style.opacity = opacityHover;
-                            }
-                        }
-                    }
-                });
-
-                starIcon.addEventListener('mouseleave', () => {
-                    if (wrap.classList.contains('readonly') == false) {
-                        starIcon.style.opacity = '1';
-                        checkedRate(); // 체크된 라디오 버튼 만큼 별점 active
-                    }
-                });
-
-                // rate wrap을 벗어날 때 active된 별점의 opacity = 1
-                wrap.addEventListener('mouseleave', () => {
-                    if (wrap.classList.contains('readonly') == false) {
-                        starIcon.style.opacity = '1';
-                    }
-                });
-
-                // readonnly 일 때 비활성화
-                wrap.addEventListener('click', (e) => {
-                    if (wrap.classList.contains('readonly')) {
-                        e.preventDefault();
-                    }
-                });
+    stars.forEach(star => {
+        star.addEventListener('change', function() {
+            const value = parseInt(this.value);
+            stars.forEach((s, index) => {
+                if (index < value) {
+                    s.nextElementSibling.textContent = '★';
+                } else {
+                    s.nextElementSibling.textContent = '☆';
+                }
             });
         });
     });
-
-    // target보다 인덱스가 낮은 .star-icon에 .filled 추가 (별점 구현)
-    function filledRate(index, length) {
-        if (index <= length) {
-            for (let i = 0; i <= index; i++) {
-                stars[i].classList.add('filled');
-            }
-        }
-    }
-
-    // 선택된 라디오버튼 이하 인덱스는 별점 active
-    function checkedRate() {
-        let checkedRadio = document.querySelectorAll('.rating input[type="radio"]:checked');
-
-
-        initStars();
-        checkedRadio.forEach(radio => {
-            let previousSiblings = prevAll(radio);
-
-            for (let i = 0; i < previousSiblings.length; i++) {
-                previousSiblings[i].querySelector('.star-icon').classList.add('filled');
-            }
-
-            radio.nextElementSibling.classList.add('filled');
-
-            function prevAll() {
-                let radioSiblings = [],
-                        prevSibling = radio.parentElement.previousElementSibling;
-
-                while (prevSibling) {
-                    radioSiblings.push(prevSibling);
-                    prevSibling = prevSibling.previousElementSibling;
-                }
-                return radioSiblings;
-            }
-        });
-    }
-
-    // 별점 초기화 (0)
-    function initStars() {
-        for (let i = 0; i < stars.length; i++) {
-            stars[i].classList.remove('filled');
-        }
-    }
 </script>
 {{> layout/footer}}

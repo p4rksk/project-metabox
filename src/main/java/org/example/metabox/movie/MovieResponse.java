@@ -156,7 +156,7 @@ public class MovieResponse {
         public static class ReviewDTO {
             private int id;
             private String comment;
-            private double rating;
+            private int rating;
             private String reviewer;
             private String userProfile;
             // TODO: 더미 데이터에 리뷰 작성일 null이라서 머스테치에 적용하면 에러남 더미 데이터 수정 후 적용
@@ -226,7 +226,7 @@ public class MovieResponse {
         public static class ReviewDTO {
             private int id;
             private String comment;
-            private double rating;
+            private int rating;
             private String reviewer;
             private String userProfile;
 

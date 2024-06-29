@@ -4,21 +4,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.example.metabox._core.util.ApiUtil;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-
-import java.io.IOException;
-
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.logging.Logger;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -26,9 +18,16 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final HttpSession session;
     private final UserService userService;
-    private final GuestRepository guestRepository;
+    private final RedisTemplate<String, Object> rt;
+    private final HttpSession session;
+
+    @GetMapping("/redis/test")
+    public @ResponseBody String redisTest() {
+        SessionUser sessionUser = (SessionUser) rt.opsForValue().get("sessionUser");
+        System.out.println("username : " + sessionUser.getName());
+        return "redis test";
+    }
 
 
     @GetMapping("/")
@@ -51,26 +50,35 @@ public class UserController {
     }
 
     @PostMapping("/guest/join")
-    public String login(UserRequest.JoinDTO reqDTO){
+    public String login(UserRequest.JoinDTO reqDTO) {
         Guest guest = userService.join(reqDTO);
 
         // 로그인 후 세션에 정보 저장
         SessionGuest sessionGuest = new SessionGuest(guest.getId(), guest.getBirth(), guest.getPhone());
-        session.setAttribute("sessionGuest", sessionGuest);
 
+        rt.opsForValue().set("sessionGuest", sessionGuest);
         return "book/book-form";
     }
 
     @GetMapping("/guest/book-check-form")
     public String nonMemberCheckForm() {
-
         return "user/non-member-check-form";
+    }
+
+    @PostMapping("/guest/book-check")
+    public ResponseEntity<?> nonMemberCheck(@RequestBody UserRequest.GuestBookCheckDTO reqDTO) {
+        System.out.println("비회원 reqDTO = " + reqDTO);
+        UserResponse.GuestCheckDTO guestCheckDTO = userService.findGuestBook(reqDTO);
+        System.out.println("guestCheckDTO = " + guestCheckDTO);
+
+        return ResponseEntity.ok(new ApiUtil<>(guestCheckDTO));
+//        return ResponseEntity.ok("Success");
     }
 
     @GetMapping("/mypage/home")
     public String mypageHome(HttpServletRequest request) {
         // user 타입 아니고 SessionUser 타입이니 조심! (sessionUser가 SessionUser 타입임)
-        SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
+        SessionUser sessionUser = (SessionUser) rt.opsForValue().get("sessionUser");
         UserResponse.MyPageHomeDTO homeDTO = userService.findMyPageHome(sessionUser);
         request.setAttribute("model", homeDTO);
 
@@ -80,9 +88,9 @@ public class UserController {
     // 컨트롤러는 하나의 서비스만 호출하기
     @PostMapping("/mypage/home/scrap")
     public ResponseEntity<?> mypageHomeScrap(HttpServletRequest request, @RequestBody List<UserRequest.TheaterScrapDTO> reqDTOs) {
-        SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
-        System.out.println("값 들어오나요 = " + reqDTOs);
-        List<UserResponse.TheaterNameDTO> theaterNameDTOS =  userService.myScrapSave(sessionUser.getId(), reqDTOs);
+        SessionUser sessionUser = (SessionUser) rt.opsForValue().get("sessionUser");
+
+        List<UserResponse.TheaterNameDTO> theaterNameDTOS = userService.myScrapSave(sessionUser.getId(), reqDTOs);
 
         System.out.println("theaterNameDTOS = " + theaterNameDTOS);
 
@@ -92,7 +100,8 @@ public class UserController {
 
     @GetMapping("/mypage/detail-book")
     public String myBookDetail(HttpServletRequest request) {
-        SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
+        SessionUser sessionUser = (SessionUser) rt.opsForValue().get("sessionUser");
+
         UserResponse.DetailBookDTO myBookDetail = userService.findMyBookDetail(sessionUser);
         request.setAttribute("model", myBookDetail);
 
@@ -109,7 +118,7 @@ public class UserController {
     public String oauthCallbackKakao(String code) {
 //        System.out.println("코드 받나요 : " + code);
         SessionUser sessionUser = userService.loginKakao(code);
-        session.setAttribute("sessionUser", sessionUser);
+        rt.opsForValue().set("sessionUser", sessionUser);
         return "redirect:/";
     }
 
@@ -117,7 +126,7 @@ public class UserController {
     public String oauthCallbackNaver(String code) {
 //        System.out.println("네이버 코드 : " + code);
         SessionUser sessionUser = userService.loginNaver(code);
-        session.setAttribute("sessionUser", sessionUser);
+        rt.opsForValue().set("sessionUser", sessionUser);
         return "redirect:/";
     }
 
@@ -125,15 +134,15 @@ public class UserController {
     @GetMapping("/logout")
     public String logout() {
         session.invalidate();
+        rt.delete("sessionUser");
         return "redirect:/";
     }
 
     // 회원탈퇴
     @GetMapping("/removeAccount")
     public String removeAccount() {
-        System.out.println("작동함?");
         //토큰을 session에서 받아옴
-        SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
+        SessionUser sessionUser = (SessionUser) rt.opsForValue().get("sessionUser");
         if (sessionUser.getProvider().equals("kakao")) {
             userService.removeAccountKakao(sessionUser.getAccessToken(), sessionUser.getNickname());
         }
@@ -143,9 +152,9 @@ public class UserController {
         }
 
         session.invalidate();
+        rt.delete("sessionUser");
         return "redirect:/";
     }
-
 
 
 }

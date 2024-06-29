@@ -229,8 +229,7 @@ V.I.A(Very Important Animal)를 만족시키기 위한
 두 사람은 괴생명체를 피해 지하철역부터 시가지,
 할렘까지 숨죽인 여정을 이어 나가는데…'),
 -- 12
-('태풍 클럽', 'Typhoon Club', '소마이 신지', '미카미 유이치 ,  쿠도 유키', '', '15세이상관람가, 115분, 일본', DATEADD('DAY', +3, CURRENT_TIMESTAMP),
- DATEADD('DAY', +34, CURRENT_TIMESTAMP), 'movie12.png',
+('태풍 클럽', 'Typhoon Club', '소마이 신지', '미카미 유이치 ,  쿠도 유키', '', '15세이상관람가, 115분, 일본', DATEADD('DAY', +3, CURRENT_TIMESTAMP), DATEADD('DAY', +34, CURRENT_TIMESTAMP), 'movie12.png',
  '태풍이 불어 닥친 날,
 
  미카미 쿄이치를 비롯한 6명의 중학생이 학교에 갇히고,
@@ -5770,6 +5769,8 @@ values ('kakao_3587969747', 'http://k.kakaocdn.net/dn/ML8Oz/btsF1tO0SFt/lDxdKk8E
         '박찬혁', '1997', 'kakao', now(), 'asdfdsa', 21000),
        ('kakao_3586886160', 'http://k.kakaocdn.net/dn/bbhhIh/btsH8BwWtD7/VkichtT9KFwCLkmuucDNTk/img_640x640.jpg',
         '송채현', '1995', 'kakao', now(), 'asdfdsa', 21000),
+       ('kakao_3596460276', 'http://k.kakaocdn.net/dn/s5uAz/btsHXDJbWgx/eEg0CRsso6lVxkYCZFdSrK/img_640x640.jpg',
+        '이서현', '2000', 'kakao', now(), 'asdfdsa', 21000),
        ('바끄선규', 'default.png', '박선규', '2000', 'kakao', now(), 'asdfdsa', 0),
        ('서르동훈', 'default.png', '설동훈', '1996', 'kakao', now(), 'fdsafdsa', 0),
        ('영화박사', 'default.png', '손세정', '1976', 'naver', now(), 'fdsafdsa', 0),
@@ -5803,14 +5804,14 @@ values (1, 1, now()),
        (2, 4, now()),
        (2, 5, now());
 -- 비회원 등록
-insert into guest_tb(phone, birth, password)
-values ('010-8489-2732', '1997-07-23', 'pakchan0723'),
-       ('010-3294-2321', '2000-04-25', 'sunkyu0425'),
-       ('010-9209-3687', '1996-04-29', 'donghun0429');
+insert into guest_tb(phone, birth, password, name)
+values ('010-8489-2732', '1997-07-23', '0723', '박찬혁'),
+       ('010-3294-2321', '2000-04-25', '0425', '박선규'),
+       ('010-9209-3687', '1996-04-29', '0429', '설동훈');
 -- -- 회원 예매
 -- 1번 유저가 극장1의 1관에서 상영하는 인사이드 아웃2 E10, E11 좌석을 예매 (포인트 10%로 3000포인트 적립 더미수정)
-insert into book_tb(user_id, guest_id, total_price, created_at, point, used_point, book_price, book_num)
-values (1, null, 30000, now(), 3000, 0, 30000, '202406160001');
+insert into book_tb(user_id, guest_id, total_price, created_at, point, used_point, book_price)
+values (1, null, 30000, now(), 3000, 0, 30000);
 insert into seat_book_tb(book_id, seat_id, screening_info_id)
 values
 -- 1관 E10, 극장1 인사이드아웃2 12:00~13:50
@@ -5818,8 +5819,8 @@ values
 -- 1관 E11, 극장1 인사이드아웃2 12:00~13:50
 (1, 68, 3);
 -- 1번 유저가 극장1의 2관에서 상영하는 인사이드 아웃2 E4~ E15 좌석을 예매 (포인트 10%로 18000원 적립 더미 수정)
-insert into book_tb(user_id, guest_id, total_price, created_at, point, used_point, book_price, book_num)
-values (1, null, 180000, now(), 18000, 0, 180000, '202406160002');
+insert into book_tb(user_id, guest_id, total_price, created_at, point, used_point, book_price)
+values (1, null, 180000, now(), 18000, 0, 180000);
 insert into seat_book_tb(book_id, seat_id, screening_info_id)
 values
 -- 극장1 2관 E4~E15(172~183) 19:00~20:50 하이재킹
@@ -5837,8 +5838,8 @@ values
 (2, 183, 12);
 -------------------------------- 이제부터 대충 짜야함 관계 다신경쓰면 못짬
 -- 2번 유저가 걍 무한으로 삼(예매 3번)
-insert into book_tb(user_id, guest_id, total_price, created_at, point, used_point, book_price, book_num)
-values (2, null, 0, now(), 0, 0, 0, '202406160003');
+insert into book_tb(user_id, guest_id, total_price, created_at, point, used_point, book_price)
+values (2, null, 0, now(), 0, 0, 0);
 insert into seat_book_tb(book_id, seat_id, screening_info_id)
 values (3, 31, 1),
        (3, 32, 1),
@@ -6231,13 +6232,13 @@ values (5, 41, 6),
 
 -- 리뷰 등록
 insert into review_tb(user_id, movie_id, comment, rating)
-values (1, 1, '너무너무 좋으다 강력추천 합니다, 아주 나이스 합니다,', 4.5),
+values (1, 1, '너무너무 좋으다 강력추천 합니다, 아주 나이스 합니다,', 5),
        (2, 1, '불안아... 아흑 ㅠㅡ', 4),
-       (3, 1, 'T한테는 별로인 영화. F한테는 감동', 3.5);
+       (3, 1, 'T한테는 별로인 영화. F한테는 감동', 3);
 insert into review_tb(user_id, movie_id, comment, rating)
 values (1, 2,
         '스토리는 뻔했지만 대부분 주요인물 위주로만 극이 흘러가는게 참 다행이었고 질질 끌지 않고 영화가 짧아서 깔끔했다. 배우들 연기는 역시 다 좋았는데 초반에 여진구만 이런 역할을 많이 안해봐서인지 다소 어색했었지만 클라이맥스로 갈수록 자연스러워져서 볼만 했다',
-        '4');
+        4);
 
 --트레일러 등록
 insert into trailer_tb(movie_id, streaming_filename, master_m3u8_filename)

@@ -19,6 +19,138 @@ import java.util.List;
 public class MovieQueryRepository {
     private final EntityManager em;
 
+
+    public List<UserResponse.GuestCheckDTO.TotalPriceDTO> findGuestTicketV3(Integer guestId) {
+        String q = """
+                select b.id, b.total_price from book_tb b
+                INNER JOIN seat_book_tb sb ON sb.book_id = b.id
+                INNER JOIN seat_tb s ON sb.seat_id = s.id
+                INNER JOIN screening_info_tb si ON sb.screening_info_id = si.id
+                WHERE b.guest_id = ? AND si.date >= CURRENT_DATE GROUP BY b.id
+            """;
+
+        Query query = em.createNativeQuery(q);
+        query.setParameter(1, guestId);
+
+        List<Object[]> rows = query.getResultList();
+        List<UserResponse.GuestCheckDTO.TotalPriceDTO> totalPriceDTOS  = new ArrayList<>();;
+
+        for (Object[] row : rows) {
+            Integer bookId = (Integer) row[0];
+            Integer totalPrice = (Integer) row[1];
+
+            UserResponse.GuestCheckDTO.TotalPriceDTO totalPriceDTO = UserResponse.GuestCheckDTO.TotalPriceDTO.builder()
+                    .bookId(bookId)
+                    .totalPrice(totalPrice)
+                    .build();
+
+            totalPriceDTOS.add(totalPriceDTO);
+        }
+
+        return totalPriceDTOS;
+    }
+
+
+//    //아직 관람 안한 영화 // 좌석, totalPrice 받기
+    public List<UserResponse.GuestCheckDTO.SeatDTO> findGuestTicketV1(Integer guestId) {
+        String q = """
+                select sb.book_id, s.code from book_tb b
+                INNER JOIN seat_book_tb sb ON sb.book_id = b.id
+                INNER JOIN seat_tb s ON sb.seat_id = s.id
+                INNER JOIN screening_info_tb si ON sb.screening_info_id = si.id
+                WHERE b.guest_id = ? AND si.date >= CURRENT_DATE
+            """;
+
+        Query query = em.createNativeQuery(q);
+        query.setParameter(1, guestId);
+
+        List<Object[]> rows = query.getResultList();
+        List<UserResponse.GuestCheckDTO.SeatDTO> seatDTOS = new ArrayList<>();
+
+        for (Object[] row : rows) {
+            Integer bookId = (Integer) row[0];
+            String code = (String) row[1];
+
+            UserResponse.GuestCheckDTO.SeatDTO seatDTO = UserResponse.GuestCheckDTO.SeatDTO.builder()
+                    .bookId(bookId)
+                    .seatCode(code)
+                    .build();
+
+            seatDTOS.add(seatDTO);
+        }
+
+        return seatDTOS;
+    }
+
+
+//    //아직 관람 안한 영화 // 나머지 받기
+    public List<UserResponse.GuestCheckDTO.TicketingDTO> findGuestTicketV2(Integer guestId, List<UserResponse.GuestCheckDTO.TotalPriceDTO> totalPriceDTOs, List<UserResponse.GuestCheckDTO.SeatDTO> seatDTOS) {
+        String q = """
+                    SELECT m.title, m.img_filename, m.eng_title,
+                    SUBSTRING(m.info, 1, 2), si.date as "관람일시", si.start_time as "시작시간",
+                    si.end_time as "종료시간", b.id, s.name, t.name, b.guest_id as "유저"
+                    FROM book_tb b
+                    INNER JOIN seat_book_tb sb ON sb.book_id = b.id
+                    INNER JOIN screening_info_tb si ON sb.screening_info_id = si.id
+                    INNER JOIN screening_tb s ON s.id = si.screening_id
+                    INNER JOIN theater_tb t ON s.theater_id = t.id
+                    INNER JOIN movie_tb m ON si.movie_id = m.id
+                    WHERE b.guest_id = ? AND si.date >= CURRENT_DATE GROUP BY si.id
+                """;
+
+        Query query = em.createNativeQuery(q);
+        query.setParameter(1, guestId);
+
+        List<Object[]> rows = query.getResultList();
+        List<UserResponse.GuestCheckDTO.TicketingDTO> ticketingDTOList = new ArrayList<>();
+
+        for (Object[] row : rows) {
+            String title = (String) row[0];
+            String imgFilename = (String) row[1];
+            String engTitle = (String) row[2];
+            String info = (String) row[3];
+            Date date = (Date) row[4];
+            String startTime = (String) row[5];
+            String endTime = (String) row[6];
+            Integer bookId = (Integer) row[7];
+            String name = (String) row[8];  // 몇관인지
+            String theaterName = (String) row[9];  // 무슨 metabox 인지
+            Integer userId = ((Number) row[10]).intValue();
+
+            String ageInfo;
+            if ("전체".equals(info)) {
+                ageInfo = info.substring(0, 1);  // "전체"의 첫 글자만 사용
+            } else {
+                ageInfo = info.substring(0, Math.min(2, info.length()));  // 첫 두 글자 사용
+            }
+
+            UserResponse.GuestCheckDTO.TicketingDTO ticketingDTO = UserResponse.GuestCheckDTO.TicketingDTO.builder()
+                    .title(title)
+                    .imgFilename(imgFilename)
+                    .engTitle(engTitle)
+                    .ageInfo(ageInfo)
+                    .date(date)
+                    .startTime(startTime)
+                    .endTime(endTime)
+                    .id(bookId)
+                    .name(name)
+                    .theaterName(theaterName)
+                    .userId(userId)
+                    .totalPriceDTOS(totalPriceDTOs)
+                    .seatDTOS(seatDTOS)
+                    .build();
+
+            ticketingDTOList.add(ticketingDTO);
+
+        }
+
+        return ticketingDTOList;
+
+
+    }
+
+
+
     // 현재 예매 뿌릴 쿼리 2개
 
     //테스트 O

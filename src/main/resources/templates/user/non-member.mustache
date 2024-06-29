@@ -93,7 +93,7 @@
             </thead>
             <tbody>
             <tr>
-                <td>법정생년월일, 휴대전화번호, 비밀번호</td>
+                <td>성명, 법정생년월일, 휴대전화번호, 비밀번호</td>
                 <td>- 비회원 예매서비스 제공<br>- 이용자 식별, 요금정산, 추심, 신규서비스 개발, 접속빈도 파악 등</td>
                 <td>수집일로부터 5년</td>
                 <td>
@@ -115,6 +115,13 @@
         <h4 class="mb-3">비회원 예매 정보 입력</h4>
         <p>개인정보를 입력하시면 예매확인/취소 및 티켓 발권이 가능합니다. 정확한 정보를 입력해주세요.</p>
         <form action="/guest/join" enctype="application/x-www-form-urlencoded" method="post">
+<!--            성명-->
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="icon"><i class="fas fa-user"></i></span>
+                    <input type="text" class="form-control" placeholder="성명" required name="name">
+                </div>
+            </div>
             <!-- 법정생년월일 입력 필드 -->
             <div class="form-group">
                 <div class="input-group">
@@ -126,19 +133,14 @@
             <div class="form-group">
                 <label for="phone" class="form-label">휴대전화번호</label>
                 <div class="input-group">
-                    <select class="form-select" id="phone-prefix" style="max-width: 90px;">
-                        <option value="010">010</option>
-                        <option value="011">011</option>
-                        <option value="016">016</option>
-                    </select>
-                    <input type="text" class="form-control" placeholder="전화번호" required name="phone">
+                    <input type="text" class="form-control" id="phone" placeholder="전화번호" required name="phone">
                 </div>
             </div>
             <!-- 비밀번호 입력 필드 -->
             <div class="form-group">
                 <div class="input-group">
                     <span class="icon"><i class="fas fa-lock"></i></span>
-                    <input type="password" class="form-control" placeholder="비밀번호(4자리)" required name="password">
+                    <input type="password" class="form-control" id="password" placeholder="비밀번호(4자리)" required name="password">
                 </div>
             </div>
             <!-- 비회원 예매하기 버튼 -->
@@ -163,4 +165,44 @@
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
+<script>
+
+    //     휴대전화 010-3333-3333 형식
+    function formatPhoneNumber(value) {
+        // 숫자만 남기기
+        value = value.replace(/\D/g, '');
+
+        // 010-xxxx-xxxx 형식 맞추기
+        if (value.length > 3 && value.length <= 7) {
+            value = value.replace(/(\d{3})(\d+)/, '$1-$2');
+        } else if (value.length > 7) {
+            value = value.replace(/(\d{3})(\d{4})(\d+)/, '$1-$2-$3');
+        }
+
+        return value;
+    }
+
+    $('#phone').on('input', function() {
+        let formattedValue = formatPhoneNumber($(this).val());
+        $(this).val(formattedValue);
+    });
+
+
+
+    //     비밀번호 4자리 제한
+    $('#password').on('input', function() {
+        let value = $(this).val();
+        // 숫자 이외의 문자 제거
+        value = value.replace(/\D/g, '');
+        // 4자리까지만 허용
+        if (value.length > 4) {
+            value = value.slice(0, 4);
+        }
+        $(this).val(value);
+    });
+
+</script>
+
+
 {{> layout/footer}}
