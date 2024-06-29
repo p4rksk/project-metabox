@@ -280,13 +280,15 @@ public class TheaterResponse {
             private Date startDate;
             private Date endDate;
             private String totalMovieSales;
+            private String viewerCount;
 
-            public MovieTotalSalesDTO(int id, String movieName, Date startDate, Date endDate, String totalMovieSales) {
+            public MovieTotalSalesDTO(int id, String movieName, Date startDate, Date endDate, String totalMovieSales, String viewerCount) {
                 this.id = id;
                 this.movieName = movieName;
                 this.startDate = startDate;
                 this.endDate = endDate;
                 this.totalMovieSales = totalMovieSales;
+                this.viewerCount = viewerCount;
             }
         }
     }

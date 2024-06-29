@@ -66,7 +66,8 @@ public interface TheaterRepository extends JpaRepository<Theater, Integer> {
                        WHEN se.type = 'HANDICAPPED' THEN sc.seatPrice - 5000 
                        WHEN se.type = 'LIGHT' THEN sc.seatPrice - 1000 
                        ELSE sc.seatPrice 
-                   END) AS movieSales 
+                   END) AS movieSales, 
+                   COUNT(sb.id) AS viewerCount
             FROM Theater t 
             JOIN t.screeningList sc 
             JOIN sc.screeningInfoList si 

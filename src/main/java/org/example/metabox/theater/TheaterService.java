@@ -111,6 +111,7 @@ public class TheaterService {
                         .startDate((Date) row[2])
                         .endDate((Date) row[3])
                         .totalMovieSales(FormatUtil.moneyFormat((Long) row[4]))
+                        .viewerCount(FormatUtil.viewerFormat((long) row[5]))
                         .build()
         ).collect(Collectors.toList());
 

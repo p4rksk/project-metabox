@@ -53,7 +53,7 @@ public class TheaterRepositoryTest {
     @Test
     public void findTheaterSalesByMovie_Test() {
         // given
-        int theaterId = 3;
+        int theaterId = 1;
 
         // when
         List<Object[]> results = theaterRepository.findTheaterSalesByMovie(theaterId);
@@ -65,12 +65,14 @@ public class TheaterRepositoryTest {
             Date startDate = (Date) result[2];
             Date endDate = (Date) result[3];
             Long movieSales = (Long) result[4];
+            Long viewerCount = (Long) result[5];
 
             System.out.println("######   영화 PK: " + movieId);
             System.out.println("#####   영화 매출: " + movieTitle);
             System.out.println("##### 영화 시작일: " + startDate);
             System.out.println("##### 영화 종료일: " + endDate);
             System.out.println("#####   영화 매출: " + movieSales);
+            System.out.println("######    관객 수: " + viewerCount);
             System.out.println("==============================");
         }
     }
