@@ -113,6 +113,21 @@
         flex-wrap: wrap;
         justify-content: center;
     }
+
+    .custom-btn {
+        background-color: #4E0929; /* 버튼 배경 색상 설정 */
+        color: white; /* 버튼 글자 색상 설정 */
+        font-weight: bold; /* 버튼 글자 볼드체 설정 */
+        border: none; /* 기본 버튼 테두리 제거 */
+        padding: 10px 20px; /* 버튼 크기 유지 */
+        font-size: 1rem; /* 버튼 글자 크기 유지 */
+        cursor: pointer; /* 커서를 포인터로 변경 */
+        border-radius: 5px; /* 버튼의 모서리 둥글게 설정 */
+    }
+
+    .custom-btn:hover {
+        background-color: #3a0721; /* 마우스 오버 시 색상 변경 */
+    }
 </style>
 
 <div class="container">
@@ -161,7 +176,7 @@
         {{/models}}
     </div>
     <div class="text-center">
-        <button id="load-more" class="btn btn-primary">더 보기</button>
+        <button id="load-more" class="btn custom-btn">더 보기</button>
     </div>
 </div>
 
