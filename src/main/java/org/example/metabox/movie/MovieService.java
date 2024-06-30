@@ -460,4 +460,9 @@ public class MovieService {
         movieRepository.deleteById(movieId);
     }
 
+    // 영화 검색
+    public int searchMoviesByTitle(String title) {
+        Movie movie = movieRepository.findByTitle(title);
+        return movie.getId();
+    }
 }

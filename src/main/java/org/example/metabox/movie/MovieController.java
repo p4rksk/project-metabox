@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RequiredArgsConstructor
@@ -77,4 +76,10 @@ public class MovieController {
         return "movie/detail";
     }
 
+    // 검색기능(영화만 검색 가능, cgv도 그러함)
+    @GetMapping("/search")
+    public String search(@RequestParam("query") String query, HttpServletRequest request) {
+        int movieId = movieService.searchMoviesByTitle(query);
+        return "redirect:/movie-detail/" + movieId;
+    }
 }
