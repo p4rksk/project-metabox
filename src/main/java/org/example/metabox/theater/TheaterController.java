@@ -76,4 +76,13 @@ public class TheaterController {
         System.out.println(ResponseEntity.ok(new ApiUtil<>(respDTO)));
         return ResponseEntity.ok(new ApiUtil<>(respDTO));
     }
+
+    @GetMapping("/theater/sales-management")
+    public String getSalesManagement(HttpServletRequest request) {
+        SessionTheater sessionTheater = (SessionTheater) rt.opsForValue().get("sessionTheater");
+        TheaterResponse.TheaterSalesDTO theater = theaterService.getThearerSalesInfo(sessionTheater.getId());
+        request.setAttribute("model", theater);
+        return "theater/sales-management";
+    }
+
 }

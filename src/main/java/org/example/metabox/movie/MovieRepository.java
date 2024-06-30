@@ -12,4 +12,10 @@ public interface MovieRepository extends JpaRepository<Movie, Integer> {
 
     @Query("select m from Movie m where m.endDate >= current date")
     List<Movie> findCurrentAndUpcomingMovies();
+
+    @Query("select count(*) from Movie m where m.endDate >= current date ")
+    long countAllMovies();
+
+    @Query("select count(*) from Movie m where m.endDate >= current date and m.startDate >= current date ")
+    long countUpcomingMovies();
 }

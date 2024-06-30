@@ -1,8 +1,5 @@
 package org.example.metabox._core.util;
 
-import org.springframework.cglib.core.Local;
-
-import java.text.NumberFormat;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.util.Locale;
@@ -22,5 +19,10 @@ public class FormatUtil {
     public static String getFormattedPrice(int price) {
         NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.KOREA);
         return numberFormat.format(price);
+    }
+
+    public static String viewerFormat(Long viewerCount) {
+        NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.KOREA);
+        return numberFormat.format(viewerCount) + "명";
     }
 }

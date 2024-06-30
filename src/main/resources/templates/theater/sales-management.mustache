@@ -49,30 +49,16 @@
     <div class="card mt-4">
         <div class="card-body">
             <div class="d-flex justify-content-between align-items-center">
-                <!-- 총 매출과 수수료 금액 확인 표 -->
                 <div class="mr-5">
                     <table class="table table-bordered">
                         <tbody>
                         <tr>
-                            <th scope="row">총 매출</th>
-                            <td>{{models.totalSales}}</td>
+                            <th scope="row">META BOX</th>
+                            <td>극장 정보</td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
-                <!-- 검색 폼 -->
-                <form action="/api/admin-sales-manage" method="get" class="form-inline search-form float-right mb-3">
-                    <div class="form-group mr-2">
-                        <select class="form-control" name="searchBy">
-                            <option value="adminId">극장 이름</option>
-                            <option value="brandName">영화 이름</option>
-                        </select>
-                    </div>
-                    <div class="form-group mr-2">
-                        <input type="text" class="form-control" placeholder="검색명" name="keyword">
-                    </div>
-                    <button type="submit" class="btn btn-primary">검색</button>
-                </form>
             </div>
 
             <!-- 브랜드별 매출 목록 -->
@@ -82,18 +68,51 @@
                     <th>극장 이름</th>
                     <th>극장 주소</th>
                     <th>극장 번호</th>
+                    <th>총 매출액</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>{{model.theaterName}}</td>
+                    <td>{{model.address}}</td>
+                    <td>{{model.theaterTel}}</td>
+                    <td>{{model.totalTheaterSales}}</td>
+                </tr>
+                </tbody>
+            </table>
+            <hr>
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="mr-5">
+                    <table class="table table-bordered">
+                        <tbody>
+                        <tr>
+                            <th scope="row">META BOX</th>
+                            <td>영화별 매출</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>영화 이름</th>
+                    <th>상영 시작일</th>
+                    <th>상영 종료일</th>
+                    <th>관객 수</th>
                     <th>판매 금액</th>
                 </tr>
                 </thead>
                 <tbody>
-                {{#models.theaterSales}}
-                <tr>
-                    <td>{{theaterName}}</td>
-                    <td>{{theaterAddress}}</td>
-                    <td>{{theaterTel}}</td>
-                    <td>{{theaterSales}}</td>
-                </tr>
-                {{/models.theaterSales}}
+                {{#model.movieSalesList}}
+                    <tr>
+                        <td>{{movieName}}</td>
+                        <td>{{startDate}}</td>
+                        <td>{{endDate}}</td>
+                        <td>{{viewerCount}}</td>
+                        <td>{{totalMovieSales}}</td>
+                    </tr>
+                {{/model.movieSalesList}}
                 </tbody>
             </table>
         </div>
