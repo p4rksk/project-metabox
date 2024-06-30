@@ -11,10 +11,7 @@ import org.example.metabox.seat.SeatBookRepository;
 import org.example.metabox.seat.SeatRepository;
 import org.example.metabox.theater.Theater;
 import org.example.metabox.theater.TheaterRepository;
-import org.example.metabox.user.Guest;
-import org.example.metabox.user.GuestRepository;
-import org.example.metabox.user.User;
-import org.example.metabox.user.UserRepository;
+import org.example.metabox.user.*;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -57,16 +54,18 @@ public class BookService {
 
     // 포인트 및 결제 페이지
     @Transactional
-    public BookResponse.PaymentDTO payment(List<String> idList, int screeningInfoId, int userId) {
+    public BookResponse.PaymentDTO payment(List<String> idList, int screeningInfoId, SessionUser sessionUser) {
         List<Seat> seatList = new ArrayList<>();
         for (int i = 0; i < idList.size(); i++) {
             Seat seat = seatRepository.findById(Integer.valueOf(idList.get(i))).orElseThrow(() -> new Exception404("좌석을 찾을 수 없습니다."));
             seatList.add(seat);
         }
         ScreeningInfo screeningInfo = screeningInfoRepository.findById(screeningInfoId).orElseThrow(() -> new Exception404("상영 정보를 찾을 수 없습니다."));
-
-        User user = userRepository.findById(userId).orElseThrow(() -> new Exception404("유저 정보를 찾을 수 없습니다."));
-        int point = user.getPoint();
+        int point = 0;
+        if (sessionUser != null) {
+            User user = userRepository.findById(sessionUser.getId()).orElseThrow(() -> new Exception404("유저 정보를 찾을 수 없습니다."));
+            point = user.getPoint();
+        }
         return new BookResponse.PaymentDTO(screeningInfo, seatList, point);
     }
 
@@ -138,5 +137,11 @@ public class BookService {
                     .seat(seat)
                     .build());
         }
+    }
+
+    @Transactional
+    public BookResponse.BookFinishDTO bookFinish(SessionGuest sessionGuest) {
+        List<SeatBook> seatBookList = seatBookRepository.findByGuestId(sessionGuest.getId());
+        return new BookResponse.BookFinishDTO(seatBookList);
     }
 }

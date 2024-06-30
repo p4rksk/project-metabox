@@ -30,12 +30,20 @@ public class BookController {
         if (sessionUser != null) {
             userId = sessionUser.getId();
             bookService.completeBook(paymentRequestDTO, userId);
+            return ResponseEntity.ok("redirect:/mypage/detail-book");
         } else {
             userId = sessionGuest.getId();
             bookService.completeBookGuest(paymentRequestDTO, userId);
+            return ResponseEntity.ok("redirect:/books/book-finish");
         }
+    }
 
-        return ResponseEntity.ok("/mypage/detail-book");
+    @GetMapping("/books/book-finish")
+    public String bookFinish(HttpServletRequest request) {
+        SessionGuest sessionGuest = (SessionGuest) rt.opsForValue().get("sessionGuest");
+        BookResponse.BookFinishDTO respDTO = bookService.bookFinish(sessionGuest);
+        request.setAttribute("model", respDTO);
+        return "book/book-finish";
     }
 
     //  TODO :  로그인 유저만 이용할 수 있도록 interceptor
@@ -70,7 +78,7 @@ public class BookController {
         // 콤마로 구분된 ID 문자열을 리스트로 변환
         List<String> idList = Arrays.asList(ids.split(","));
         SessionUser sessionUser = (SessionUser) rt.opsForValue().get("sessionUser");
-        BookResponse.PaymentDTO respDTO = bookService.payment(idList, screeningInfoId, sessionUser.getId());
+        BookResponse.PaymentDTO respDTO = bookService.payment(idList, screeningInfoId, sessionUser);
         request.setAttribute("model", respDTO);
         return "payment/payment-form";
     }

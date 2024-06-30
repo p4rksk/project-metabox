@@ -57,7 +57,7 @@ public class UserController {
         SessionGuest sessionGuest = new SessionGuest(guest.getId(), guest.getBirth(), guest.getPhone());
 
         rt.opsForValue().set("sessionGuest", sessionGuest);
-        return "book/book-form";
+        return "redirect:/theaters/movie-schedule";
     }
 
     @GetMapping("/guest/book-check-form")

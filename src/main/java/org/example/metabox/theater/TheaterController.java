@@ -40,10 +40,8 @@ public class TheaterController {
         Theater theater = theaterService.login(reqDTO);
         SessionTheater sessionTheater = new SessionTheater(theater);
         rt.opsForValue().set("sessionTheater", sessionTheater);
-        // 임시페이지로 리턴
-        return "redirect:/theater/sales-management";
-        // 기존 페이지(지금 없음)
-        // return "/theater/main";
+        session.setAttribute("sessionTheater", sessionTheater);
+        return "/theater/main";
     }
 
     @GetMapping("/theaters/movie-schedule")
@@ -51,10 +49,25 @@ public class TheaterController {
         if (date == null) {
             date = FormatUtil.currentDate();
         }
-        SessionUser sessionUser = (SessionUser) session.getAttribute("sessionUser");
-        TheaterResponse.TheaterDTO respDTO = theaterService.movieSchedule(sessionUser, theaterId, date);
+        SessionUser sessionUser = (SessionUser) rt.opsForValue().get("sessionUser");
+        Integer userId = null;
+        if (sessionUser != null) {
+            userId = sessionUser.getId();
+        }
+        TheaterResponse.TheaterDTO respDTO = theaterService.movieSchedule(userId, theaterId, date);
         request.setAttribute("model", respDTO);
         return "theater/movie-schedule";
+    }
+
+    @GetMapping("/theaters/guest/movie-schedule")
+    public String theatersGuestMovieSchedule(HttpServletRequest request, @RequestParam(value = "theaterId", defaultValue = "1") Integer theaterId, @RequestParam(value = "date", required = false) LocalDate date) {
+        if (date == null) {
+            date = FormatUtil.currentDate();
+        }
+        Integer userId = null;
+        TheaterResponse.TheaterDTO respDTO = theaterService.movieSchedule(userId, theaterId, date);
+        request.setAttribute("model", respDTO);
+        return "theater/movie-guest-schedule";
     }
 
     @GetMapping("/theaters/movie-schedule-ajax")
