@@ -723,4 +723,32 @@ public class MovieQueryRepository {
         return query.executeUpdate();
     }
 
+    public List<Object[]> searchMoviesByTitle(String title) {
+        String sql = """
+        SELECT
+            m.id,
+            m.title,
+            m.img_filename,
+            m.info,
+            m.start_date,
+            COUNT(sb.book_id) * 1.0 / (
+                                        SELECT COUNT(sb2.book_id)
+                                        FROM seat_book_tb sb2
+                                        JOIN screening_info_tb si2
+                                        ON sb2.screening_info_id = si2.id
+                                        WHERE si2.date >= CURRENT_DATE
+                                        ) AS bookingRate
+        FROM movie_tb m
+        LEFT JOIN screening_info_tb si ON m.id = si.movie_id
+        LEFT JOIN seat_book_tb sb ON si.id = sb.screening_info_id
+        WHERE m.title LIKE ?1
+        GROUP BY m.id, m.title, m.img_filename, m.info, m.start_date
+        ORDER BY bookingRate DESC, m.start_date ASC
+        """;
+        Query query = em.createNativeQuery(sql);
+        query.setParameter(1, "%" + title + "%");
+        List<Object[]> results = query.getResultList();
+        return results;
+    }
+
 }

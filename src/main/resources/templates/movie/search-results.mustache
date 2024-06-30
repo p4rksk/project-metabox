@@ -1,0 +1,151 @@
+{{> layout/header}}
+
+<style>
+    .header-title {
+        font-size: 2rem;
+        font-weight: bold;
+        text-align: left;
+        width: 200px;
+    }
+
+    .navbar-nav-movie .nav-link.active {
+        color: #ff4d4d;
+        font-weight: bold;
+    }
+
+    .navbar-nav-movie .nav-link::before {
+        content: '▶';
+        margin-right: 5px;
+    }
+
+    .navbar-nav-movie .nav-link.active::before {
+        content: '▶';
+        color: #ff4d4d;
+    }
+
+    .navbar-nav-movie {
+        margin-left: auto;
+        display: flex;
+        background-color: white;
+    }
+
+    .movie-card {
+        margin-bottom: 30px;
+        width: 250px;
+    }
+
+    .movie-card img {
+        width: 100%;
+        height: 250px;
+        position: relative;
+        object-fit: cover;
+    }
+
+    .movie-card .card-body {
+        text-align: center;
+        padding: 10px;
+    }
+
+    .movie-card .card-title {
+        font-size: 1rem;
+        font-weight: bold;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .movie-card .card-text {
+        font-size: 0.8rem;
+    }
+
+    .movie-card .btn {
+        margin-top: 10px;
+        font-size: 0.8rem;
+        padding: 5px 10px;
+    }
+
+    .rank {
+        color: white;
+        padding: 5px;
+        margin-bottom: 10px;
+        font-weight: bold;
+        width: 100%;
+        text-align: center;
+    }
+
+    .badge {
+        margin: 2px;
+        white-space: nowrap;
+        width: auto;
+        position: absolute;
+        padding: 7px 7px;
+        font-size: 1.2rem;
+        border-radius: 0.75rem;
+        color: white;
+        text-align: center;
+        line-height: 1.5rem;
+    }
+
+    .release-status {
+        background-color: white;
+        color: black;
+        padding: 2px 6px;
+        border-radius: 4px;
+        display: inline-block;
+        font-size: 0.8rem;
+        font-family: inherit;
+        border: 2px solid #6c757d;
+    }
+
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .custom-btn {
+        background-color: #4E0929;
+        color: white;
+        font-weight: bold;
+        border: none;
+        padding: 10px 20px;
+        font-size: 1rem;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    .custom-btn:hover {
+        background-color: #3a0721;
+    }
+</style>
+
+<div class="container">
+    <header class="d-flex justify-content-between align-items-center my-4">
+        <h1 class="header-title">검색 결과</h1>
+    </header>
+    <hr>
+    {{#message}}
+        <p>{{message}}</p>
+    {{/message}}
+    <div class="row justify-content-center" id="movie-list">
+        {{#models}}
+            <div class="col-auto movie-card">
+                <div class="rank" style="background-color:#4E0929;">No.{{rank}}</div>
+                <div class="card">
+                    <a href="/movies/detail/{{id}}">
+                        <img src="/image/movie/{{imgFilename}}" class="card-img-top">
+                    </a>
+                    <span class="{{ageInfoColor}}">{{ageInfo}}</span>
+                    <div class="card-body">
+                        <h5 class="card-title">{{title}}</h5>
+                        <p class="card-text">{{bookingRate}} %</p>
+                        <p class="release-date">{{startDate}} <span class="release-status">{{releaseStatus}}</span></p>
+                        <span><a href="/book-form" class="btn btn-danger">예매하기</a></span>
+                    </div>
+                </div>
+            </div>
+        {{/models}}
+    </div>
+</div>
+
+{{> layout/footer}}

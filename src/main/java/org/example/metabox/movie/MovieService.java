@@ -461,8 +461,8 @@ public class MovieService {
     }
 
     // 영화 검색
-    public int searchMoviesByTitle(String title) {
-        Movie movie = movieRepository.findByTitle(title);
-        return movie.getId();
+    public List<MovieResponse.UserMovieChartDTO> searchMoviesByTitle(String title) {
+        List<Object[]> results = movieQueryRepository.searchMoviesByTitle(title);
+        return convertMovieChartDTO(results, 0);
     }
 }
