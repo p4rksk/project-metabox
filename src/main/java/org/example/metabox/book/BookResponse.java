@@ -14,6 +14,30 @@ import static org.example.metabox._core.util.FormatUtil.getFormattedPrice;
 public class BookResponse {
 
     @Data
+    public static class BookFinishDTO {
+        private String name;
+        private String movieTitle;
+        private String theaterName;
+        private String screeningName;
+        private String screeningTime;
+        private String totalPrice;
+        private List<String> seatNumList;
+
+        public BookFinishDTO(List<SeatBook> seatBookList) {
+            this.name = seatBookList.getFirst().getBook().getGuest().getName();
+            this.movieTitle = seatBookList.getFirst().getScreeningInfo().getMovie().getTitle();
+            this.theaterName = seatBookList.getFirst().getScreeningInfo().getScreening().getTheater().getName();
+            this.screeningName = seatBookList.getFirst().getScreeningInfo().getScreening().getName();
+            this.screeningTime = seatBookList.getFirst().getScreeningInfo().getDate().toString();
+            this.totalPrice = getFormattedPrice(seatBookList.getFirst().getBook().getBook_price());
+            this.seatNumList = seatBookList.stream()
+                    .map(seatBook -> seatBook.getSeat().getCode())
+                    .collect(Collectors.toList());
+        }
+    }
+
+
+    @Data
     public static class PaymentDTO {
         private String movieTitle;
         private String theaterTitle;

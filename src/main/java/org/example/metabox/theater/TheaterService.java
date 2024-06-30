@@ -25,15 +25,15 @@ public class TheaterService {
     private final ScreeningInfoRepository screeningInfoRepository;
 
     @Transactional
-    public TheaterResponse.TheaterDTO movieSchedule(SessionUser sessionUser, Integer theaterId, LocalDate date) {
+    public TheaterResponse.TheaterDTO movieSchedule(Integer userId, Integer theaterId, LocalDate date) {
         // 1. 내가 Scrap한 목록 불러오기
         List<TheaterScrap> theaterScrapList = new ArrayList<>();
-        if (sessionUser == null) {
+        if (userId == null) {
 //            while (theaterScrapList.size() < 5) {
 //                theaterScrapList.add(TheaterScrap.builder().id(0).theater(Theater.builder().name("").build()).build());
 //            }
         } else {
-            theaterScrapList = theaterScrapRepository.findByUserId(sessionUser.getId());
+            theaterScrapList = theaterScrapRepository.findByUserId(userId);
             // 무조건 theaterScrapList의 사이즈가 5가 되도록 설정
 //            while (theaterScrapList.size() < 5) {
 //                theaterScrapList.add(TheaterScrap.builder().id(0).theater(Theater.builder().name("").build()).build());

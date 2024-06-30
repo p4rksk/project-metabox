@@ -1,0 +1,42 @@
+{{> layout/header}}
+
+<div class="modal-content align-items-center">
+    <div class="modal-header">
+        <h5 class="modal-title" id="reservationModalLabel">예매 정보 확인</h5>
+        <button type="button" class="close" aria-label="Close">
+            <span aria-hidden="true" style="color: white">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="value">
+            <p class="label mt-3">[ 예매자 ]</p>
+
+            <p id="modal-name">{{model.name}}</p>
+        </div>
+        <div class="value">
+            <p class="label">[ 영화 ]</p>
+            <p id="modal-movie">{{model.movieTitle}}</p>
+        </div>
+        <div class="value">
+            <p class="label">[ 극장 ]</p>
+            <p id="modal-theater">{{model.theaterName}}/{{model.screeningName}}</p>
+        </div>
+        <div class="value">
+            <p class="label">[ 상영일시 ]</p>
+            <p id="modal-datetime">{{model.screeningTime}}</p>
+        </div>
+        <div class="value">
+            <p class="label">[ 좌석번호 ]</p>
+            <p id="modal-seat">{{#model.seatNumList}}{{.}} {{/model.seatNumList}}</p>
+        </div>
+        <div class="value">
+            <p class="label">[ 결제금액 ]</p>
+            <p id="modal-price">{{model.totalPrice}}</p>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="modal-close-btn">닫기</button>
+    </div>
+</div>
+
+{{> layout/footer}}
