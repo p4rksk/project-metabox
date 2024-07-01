@@ -110,6 +110,7 @@ public class UserController {
 
     @GetMapping("/mypage/detail-saw")
     public String mySawDetail(HttpServletRequest request) {
+
         return "user/mypage-detail-saw";
     }
 
