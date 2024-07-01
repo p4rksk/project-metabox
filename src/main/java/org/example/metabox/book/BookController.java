@@ -30,11 +30,11 @@ public class BookController {
         if (sessionUser != null) {
             userId = sessionUser.getId();
             bookService.completeBook(paymentRequestDTO, userId);
-            return ResponseEntity.ok("redirect:/mypage/detail-book");
+            return ResponseEntity.ok("/mypage/detail-book");
         } else {
             userId = sessionGuest.getId();
             bookService.completeBookGuest(paymentRequestDTO, userId);
-            return ResponseEntity.ok("redirect:/books/book-finish");
+            return ResponseEntity.ok("/books/book-finish");
         }
     }
 
