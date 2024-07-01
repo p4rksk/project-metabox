@@ -93,4 +93,6 @@ public class MovieController {
         }
     }
 
+    // 영화 목록 가져오는 ajax
+
 }

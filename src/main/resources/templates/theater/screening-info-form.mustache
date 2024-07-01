@@ -1,0 +1,192 @@
+{{> layout/header-admin}}
+
+<style>
+    /* 여기에 필요한 스타일이 있을 경우 추가 */
+</style>
+
+<div class="container mt-5">
+    <h2>영화 상영 시간 등록</h2>
+    <hr>
+    <form action="/theaters/screening-info-save" style="user-select: none;" method="post" enctype="multipart/form-data" id="theaterForm">
+        <div class="d-flex" style="justify-content: space-between; column-gap: 20px;">
+            <div style="width: 100%;">
+                <div class="form-group">
+                    <label for="theaterId">상영 지점</label>
+                    <input type="text" class="form-control" id="theaterName" name="theaterName" value="{{sessionTheater.name}}" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="screeningTitle">상영관</label>
+                    <input type="text" class="form-control" id="screeningName" name="screeningName" placeholder="상영관을 선택하세요." readonly>
+                    <input type="hidden" class="form-control" id="screeningId" name="screeningId" value="">
+                </div>
+                <div class="form-group">
+                    <label for="startTime">상영 시작 시간</label>
+                    <input type="time" class="form-control" id="startTime" name="startTime">
+                </div>
+            </div>
+            <div style="width: 100%;">
+                <div class="form-group">
+                    <label for="movieInfo">상영 영화</label>
+                    <input type="text" class="form-control" id="movieName" name="movieName" value="영화를 선택하세요." readonly>
+                    <input type="hidden" class="form-control" id="movieId" name="movieId" value="">
+                    <input type="hidden" class="form-control" id="movieInfo" name="movieInfo">
+                    <input type="hidden" class="form-control" id="runtime" name="showtime">
+                </div>
+                <div class="form-group">
+                    <label for="screeningDate">상영일</label>
+                    <input type="date" class="form-control" id="screeningDate" name="screeningDate">
+                </div>
+                <div class="form-group">
+                    <label for="endTime">상영 종료 시간</label>
+                    <input type="time" class="form-control" id="endTime" name="endTime">
+                </div>
+            </div>
+        </div>
+
+        <button style="background-color: #4E0929; border: none; width: 100px;" type="submit" class="mb-3 btn btn-primary">등록</button>
+    </form>
+</div>
+
+<!-- 상영 영화 선택 모달 -->
+<div class="modal fade" id="movieModal" tabindex="-1" role="dialog" aria-labelledby="movieModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="movieModalLabel">상영 중인 영화 선택</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <ul class="list-group" id="movieList">
+                    <!-- 영화 목록이 여기에 동적으로 추가됩니다. -->
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 상영관 선택 모달 -->
+<div class="modal fade" id="screeningModal" tabindex="-1" role="dialog" aria-labelledby="screeningModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="screeningModalLabel">상영관 선택</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <ul class="list-group" id="screeningList">
+                    <!-- 상영관 목록이 여기에 동적으로 추가됩니다. -->
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    // 상영 영화 입력 필드 클릭 시 모달 열기
+    document.getElementById('movieName').addEventListener('click', function () {
+        // AJAX 요청을 통해 상영 중인 영화 목록 가져오기
+        $.ajax({
+            url: '/theaters/find-movie', // 실제 상영 중인 영화 목록을 가져오는 API 엔드포인트
+            method: 'GET',
+            success: function(data) {
+                var movieList = $('#movieList');
+                movieList.empty(); // 기존 목록 비우기
+
+                data.forEach(function(movie) {
+                    var listItem = '<li class="list-group-item movie-item" data-id="' + movie.movieId + '" data-info="' + movie.movieInfo + '">' + movie.movieName + ' (' + movie.movieInfo + ')</li>';
+                    movieList.append(listItem);
+                });
+
+                // 영화 항목 클릭 이벤트 추가
+                document.querySelectorAll('.movie-item').forEach(function (item) {
+                    item.addEventListener('click', function () {
+                        var movieId = this.getAttribute('data-id');
+                        var movieName = this.textContent;
+                        var movieInfo = this.getAttribute('data-info');
+                        document.getElementById('movieId').value = movieId;
+                        document.getElementById('movieName').value = movieName;
+                        document.getElementById('movieInfo').value = movieInfo;
+                        var infoParts = movieInfo.split(', ');
+                        var runtime = infoParts[1]; // 예: "96분"
+                        document.getElementById('runtime').value = runtime;
+                        $('#movieModal').modal('hide');
+                    });
+                });
+
+                $('#movieModal').modal('show'); // 모달 열기
+            },
+            error: function() {
+                alert('영화 목록을 가져오는 데 실패했습니다.');
+            }
+        });
+    });
+
+    // 상영관 입력 필드 클릭 시 모달 열기
+    document.getElementById('screeningName').addEventListener('click', function () {
+        // AJAX 요청을 통해 상영관 목록 가져오기
+        $.ajax({
+            url: '/theaters/find-screening',
+            method: 'GET',
+            success: function(data) {
+                var screeningList = $('#screeningList');
+                screeningList.empty(); // 기존 목록 비우기
+
+                data.forEach(function(screening) {
+                    var listItem = '<li class="list-group-item screening-item" data-id="' + screening.screeningId + '">' + screening.screeningName + ' (' + screening.screeningRank + ')</li>';
+                    screeningList.append(listItem);
+                });
+
+                // 상영관 항목 클릭 이벤트 추가
+                document.querySelectorAll('.screening-item').forEach(function (item) {
+                    item.addEventListener('click', function () {
+                        var screeningId = this.getAttribute('data-id');
+                        var screeningName = this.textContent;
+                        document.getElementById('screeningId').value = screeningId;
+                        document.getElementById('screeningName').value = screeningName;
+                        $('#screeningModal').modal('hide');
+                    });
+                });
+
+                $('#screeningModal').modal('show'); // 모달 열기
+            },
+            error: function() {
+                alert('상영관 목록을 가져오는 데 실패했습니다.');
+            }
+        });
+    });
+
+    // 상영 시작 시간을 선택하면 종료 시간을 계산하여 설정
+    document.getElementById('startTime').addEventListener('change', function () {
+        var startTime = this.value;
+        var movieInfo = document.getElementById('movieInfo').value;
+
+        // movieInfo에서 상영 시간을 추출
+        var infoParts = movieInfo.split(', ');
+        var runtime = infoParts[1]; // 예: "96분"
+
+        // 상영 시간(분)으로 변환
+        var runtimeMinutes = parseInt(runtime.replace('분', ''));
+
+        // 시작 시간을 Date 객체로 변환
+        var startDate = new Date('1970-01-01T' + startTime + ':00');
+
+        // 종료 시간 계산
+        var endDate = new Date(startDate.getTime() + runtimeMinutes * 60000);
+
+        // 종료 시간을 HH:MM 형식으로 변환
+        var endTime = endDate.toTimeString().substring(0, 5);
+
+        // 종료 시간을 입력 필드에 설정
+        document.getElementById('endTime').value = endTime;
+    });
+</script>
+
+{{> layout/footer}}

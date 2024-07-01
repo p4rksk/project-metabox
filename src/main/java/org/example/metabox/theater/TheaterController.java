@@ -5,6 +5,8 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.example.metabox._core.util.ApiUtil;
 import org.example.metabox._core.util.FormatUtil;
+import org.example.metabox.screening.ScreeningRepository;
+import org.example.metabox.screening.ScreeningResponse;
 import org.example.metabox.user.SessionUser;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Controller
@@ -41,7 +44,7 @@ public class TheaterController {
         SessionTheater sessionTheater = new SessionTheater(theater);
         rt.opsForValue().set("sessionTheater", sessionTheater);
         session.setAttribute("sessionTheater", sessionTheater);
-        return "redirect:/theater/sales-management";
+        return "redirect:/theater/screening-info-form";
     }
 
     @GetMapping("/theaters/movie-schedule")
@@ -80,9 +83,36 @@ public class TheaterController {
     @GetMapping("/theater/sales-management")
     public String getSalesManagement(HttpServletRequest request) {
         SessionTheater sessionTheater = (SessionTheater) rt.opsForValue().get("sessionTheater");
-        TheaterResponse.TheaterSalesDTO theater = theaterService.getThearerSalesInfo(sessionTheater.getId());
-        request.setAttribute("model", theater);
+        TheaterResponse.TheaterSalesDTO respDTO = theaterService.getThearerSalesInfo(sessionTheater.getId());
+        request.setAttribute("model", respDTO);
         return "theater/sales-management";
+    }
+
+    @GetMapping("/theater/screening-info-form")
+    public String theaterScreeningInfoForm(HttpServletRequest request) { return "theater/screening-info-form"; }
+
+    @GetMapping("/theaters/find-screening")
+    public ResponseEntity<List<TheaterResponse.ScreeningAjaxDTO>> getScreeningByTheater(HttpServletRequest request) {
+        // 세션에서 상영관 정보 가져오기
+        SessionTheater sessionTheater = (SessionTheater) rt.opsForValue().get("sessionTheater");
+
+        // 상영관 ID로 상영 정보 가져오기
+        List<TheaterResponse.ScreeningAjaxDTO> respDTO = theaterService.getThearerScreening(sessionTheater.getId());
+
+        // 응답 데이터 반환
+        return ResponseEntity.ok(respDTO);
+    }
+
+    @GetMapping("/theaters/find-movie")
+    public ResponseEntity<List<TheaterResponse.MovieAjaxDTO>> getMovies(HttpServletRequest request) {
+        List<TheaterResponse.MovieAjaxDTO> respDTO = theaterService.getMovie();
+        return ResponseEntity.ok(respDTO);
+    }
+
+    @PostMapping("/theaters/screening-info-save")
+    public String saveScreeningInfo(TheaterRequest.ScreeningInfoDTO reqDTO){
+        theaterService.saveScreeningInfo(reqDTO);
+        return "index";
     }
 
 }

@@ -5,7 +5,10 @@ import lombok.RequiredArgsConstructor;
 import org.example.metabox._core.errors.exception.Exception401;
 import org.example.metabox._core.errors.exception.Exception404;
 import org.example.metabox._core.util.FormatUtil;
+import org.example.metabox.movie.Movie;
 import org.example.metabox.movie.MovieRepository;
+import org.example.metabox.screening.Screening;
+import org.example.metabox.screening.ScreeningRepository;
 import org.example.metabox.screening_info.ScreeningInfo;
 import org.example.metabox.screening_info.ScreeningInfoRepository;
 import org.example.metabox.theater_scrap.TheaterScrap;
@@ -26,6 +29,7 @@ public class TheaterService {
     private final TheaterScrapRepository theaterScrapRepository;
     private final MovieRepository movieRepository;
     private final ScreeningInfoRepository screeningInfoRepository;
+    private final ScreeningRepository screeningRepository;
 
     @Transactional
     public TheaterResponse.TheaterDTO movieSchedule(Integer userId, Integer theaterId, LocalDate date) {
@@ -123,5 +127,61 @@ public class TheaterService {
                 .totalTheaterSales(FormatUtil.moneyFormat((Long) result[4]))
                 .movieSalesList(movieSalesList)
                 .build();
+    }
+
+    // 상영 등록에서 상영관 가져오기
+    public List<TheaterResponse.ScreeningAjaxDTO> getThearerScreening(int theaterId) {
+        // 상영 목록을 데이터베이스에서 가져오기
+        List<Screening> screeningList = theaterRepository.findScreeningBytheaterId(theaterId);
+
+        // Stream API를 사용하여 Screening 객체를 ScreeningAjaxDTO로 변환
+        List<TheaterResponse.ScreeningAjaxDTO> respDTO = screeningList.stream().map(screening -> {
+            TheaterResponse.ScreeningAjaxDTO dto = new TheaterResponse.ScreeningAjaxDTO();
+            dto.setScreeningId(screening.getId()); // 상영관 ID
+            dto.setScreeningName(screening.getName()); // 상영관 이름
+            dto.setScreeningRank(String.valueOf(screening.getScreeningRank())); // 상영관 등급
+            return dto;
+        }).collect(Collectors.toList());
+
+        // DTO 리스트를 반환합니다.
+        return respDTO;
+    }
+
+    // 상영 등록에서 영화 가져오기
+    public List<TheaterResponse.MovieAjaxDTO> getMovie() {
+        // 영화 목록 가져오기
+        List<Movie> movieList = movieRepository.findAll();
+
+        // Stream API를 사용하여 Movie 객체를 MovieAjaxDTO로 변환
+        List<TheaterResponse.MovieAjaxDTO> respDTO = movieList.stream().map(movie -> {
+            TheaterResponse.MovieAjaxDTO dto = new TheaterResponse.MovieAjaxDTO();
+            dto.setMovieId(movie.getId());
+            dto.setMovieName(movie.getTitle());
+            dto.setMovieInfo(movie.getInfo());
+            return dto;
+        }).collect(Collectors.toList());
+
+        return respDTO;
+    }
+
+    public void saveScreeningInfo(TheaterRequest.ScreeningInfoDTO reqDTO) {
+        ScreeningInfo screeningInfo = toEntity(reqDTO);
+        screeningInfoRepository.save(screeningInfo);
+    }
+
+    private ScreeningInfo toEntity(TheaterRequest.ScreeningInfoDTO dto) {
+        ScreeningInfo screeningInfo = new ScreeningInfo();
+        screeningInfo.setStartTime(dto.getStartTime());
+        screeningInfo.setEndTime(dto.getEndTime());
+        screeningInfo.setShowTime(dto.getShowtime());
+        screeningInfo.setDate(dto.getScreeningDate());
+
+        Screening screening = screeningRepository.findById(dto.getScreeningId()).orElseThrow(() -> new IllegalArgumentException("Invalid screening ID"));
+        Movie movie = movieRepository.findById(dto.getMovieId()).orElseThrow(() -> new IllegalArgumentException("Invalid movie ID"));
+
+        screeningInfo.setScreening(screening);
+        screeningInfo.setMovie(movie);
+
+        return screeningInfo;
     }
 }

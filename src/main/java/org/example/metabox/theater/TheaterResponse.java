@@ -292,4 +292,18 @@ public class TheaterResponse {
             }
         }
     }
+
+    @Data
+    public static class ScreeningAjaxDTO {
+        private int screeningId;
+        private String screeningName;
+        private String screeningRank;
+    }
+
+    @Data
+    public static class MovieAjaxDTO {
+        private int movieId;
+        private String movieName;
+        private String movieInfo;
+    }
 }

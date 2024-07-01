@@ -1,5 +1,6 @@
 package org.example.metabox.theater;
 
+import org.example.metabox.screening.Screening;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -114,4 +115,29 @@ public class TheaterRepositoryTest {
         }
     }
 
+    @Test
+    public void findScreeningBytheaterId_Test() {
+        // given
+        int theaterId = 1;
+
+        // when
+        List<Screening> results = theaterRepository.findScreeningBytheaterId(theaterId);
+
+        // then
+        for (Screening result : results) {
+            int Id = result.getId();
+            int seatCount = result.getSeatCount();
+            int seatPrice = result.getSeatPrice();
+            String name = result.getName();
+            Enum screeningRank = result.getScreeningRank();
+
+            System.out.println("######      PK: " + Id);
+            System.out.println("#####   좌석 수: " + seatCount);
+            System.out.println("##### 좌석 가격: " + seatPrice);
+            System.out.println("#####     몇 관: " + name);
+            System.out.println("#####    관 등급: " + screeningRank);
+            System.out.println("==============================");
+
+        }
+    }
 }

@@ -1,5 +1,6 @@
 package org.example.metabox.theater;
 
+import org.example.metabox.screening.Screening;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -114,5 +115,8 @@ public interface TheaterRepository extends JpaRepository<Theater, Integer> {
            ORDER BY movieSales DESC
            """)
     List<Object[]> findAllTheaterSalesByMovie();
+
+    @Query("select s from Screening s where s.theater.id = :theaterId")
+    List<Screening> findScreeningBytheaterId(int theaterId);
 }
 
