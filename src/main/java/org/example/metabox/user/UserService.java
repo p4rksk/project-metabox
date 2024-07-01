@@ -9,6 +9,10 @@ import org.example.metabox.book.BookRepository;
 import org.example.metabox.movie.Movie;
 import org.example.metabox.movie.MovieQueryRepository;
 import org.example.metabox.movie.MovieRepository;
+import org.example.metabox.movie_scrap.MovieScrap;
+import org.example.metabox.movie_scrap.MovieScrapRepository;
+import org.example.metabox.review.Review;
+import org.example.metabox.review.ReviewRepository;
 import org.example.metabox.review.ReviewResponse;
 import org.example.metabox.theater.Theater;
 import org.example.metabox.theater.TheaterRepository;
@@ -44,8 +48,8 @@ public class UserService {
     private final TheaterRepository theaterRepository;
     private final TheaterScrapRepository theaterScrapRepository;
     private final TrailerRepository trailerRepository;
-    private final BookRepository bookRepository;
-
+    private final ReviewRepository reviewRepository;
+    private final MovieScrapRepository movieScrapRepository;
 
     // 마이페이지의 theater Scrap save, update
     @Transactional
@@ -247,15 +251,13 @@ public class UserService {
     }
 
     //mypage/detail-saw
-    public List<UserResponse.TicketedDTO> getMovieSaw(SessionUser sessionUser) {
+    public UserResponse.MyPageDetailDTO getMovieSaw(SessionUser sessionUser) {
 
-        List<UserResponse.TicketedDTO> ticketedList = movieQueryRepository.findMyTicked(sessionUser.getId());
-
-        //개수파악 (0건 <- 여기 뿌릴라고)
-        int ticketCount = ticketedList.size();
-
-        return ticketedList;
+        List<UserResponse.MyPageDetailDTO.TicketedDTO> ticketedList = movieQueryRepository.findMyTicked(sessionUser.getId());
+        Integer ticketCount = ticketedList.size();
+        return new UserResponse.MyPageDetailDTO(ticketedList,ticketCount);
     }
+
 
     //비회원 회원가입
     public Guest join(UserRequest.JoinDTO reqDTO) {

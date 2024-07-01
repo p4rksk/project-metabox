@@ -1,0 +1,19 @@
+.movie-card {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.movie-poster {
+    width: 100px;
+    height: 150px;
+    margin-right: 20px;
+}
+.movie-info {
+    flex-grow: 1;
+}
+.movie-info h5 {
+    margin: 0 0 10px 0;
+}
+.movie-info p {
+    margin: 0 0 10px 0;
+}

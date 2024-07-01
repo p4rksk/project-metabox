@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.metabox._core.util.ScopeDeserializer;
 import org.example.metabox.movie.MovieResponse;
+import org.example.metabox.movie_scrap.MovieScrapResponse;
+import org.example.metabox.review.ReviewResponse;
 import org.example.metabox.theater.Theater;
 import org.example.metabox.theater_scrap.TheaterScrap;
 import org.example.metabox.trailer.Trailer;
@@ -291,9 +293,9 @@ public class UserResponse {
         }
 
         // 메인 트레일러 파트
-            @Data
-            @NoArgsConstructor
-            public static class TrailerDTO {
+        @Data
+        @NoArgsConstructor
+        public static class TrailerDTO {
             private int id;
             private String fileName;
             private String masterM3u8name;
@@ -634,32 +636,44 @@ public class UserResponse {
 
     // 내가 본 영화내역
     @Data
-    public static class TicketedDTO {
-        private Integer id;     // book pk
-        private String title;   //영화 제목
-        private String imgFilename;
-        private Date date;     // 관람일시 타입 확인 필요
-        private String startTime;   // 시작 시간
-        private String endTime;     // 종료 시간
-        private String name;        // 몇 관인지
-        private String theaterName; // METABOX 어느 지점인지
-        private Integer userId;
-        private String bookNum;
+    public static class MyPageDetailDTO {
+        private List<TicketedDTO> tickets;
+        private Integer tickedCount;
 
         @Builder
-        public TicketedDTO(Integer id, String title, String imgFilename, Date date, String startTime, String endTime, String name, String theaterName, Integer userId, String bookNum) {
-            this.id = id;
-            this.title = title;
-            this.imgFilename = imgFilename;
-            this.date = date;
-            this.startTime = startTime;
-            this.endTime = endTime;
-            this.name = name;
-            this.theaterName = theaterName;
-            this.userId = userId;
-            this.bookNum = bookNum;
+        public MyPageDetailDTO(List<TicketedDTO> tickets, Integer tickedCount) {
+            this.tickets = tickets;
+            this.tickedCount = tickedCount;
+        }
 
+        // 마이페이지 아직 관람 안한 예매내역
+        @Data
+        public static class TicketedDTO {
+            private Integer id;     // book pk
+            private String title;   //영화 제목
+            private String imgFilename;
+            private Date date;     // 관람일시 타입 확인 필요
+            private String startTime;   // 시작 시간
+            private String endTime;     // 종료 시간
+            private String name;        // 몇 관인지
+            private String theaterName; // METABOX 어느 지점인지
+            private Integer userId;
+            private String bookNum;
+
+            @Builder
+            public TicketedDTO(Integer id, String title, String imgFilename, Date date, String startTime, String endTime, String name, String theaterName, Integer userId, String bookNum) {
+                this.id = id;
+                this.title = title;
+                this.imgFilename = imgFilename;
+                this.date = date;
+                this.startTime = startTime;
+                this.endTime = endTime;
+                this.name = name;
+                this.theaterName = theaterName;
+                this.userId = userId;
+                this.bookNum = bookNum;
+
+            }
         }
     }
-
 }

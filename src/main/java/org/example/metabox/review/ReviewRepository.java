@@ -18,5 +18,5 @@ public interface ReviewRepository extends JpaRepository<Review, Integer> {
             join fetch r.user u
             where u.id =:userId
             """)
-    List<Review> findByUserIdAndMovie(@Param("userId") int userId);
+    List<ReviewResponse.MyReviewDTO.ReviewListDTO> findByUserIdAndMovie(@Param("userId") int userId);
 }

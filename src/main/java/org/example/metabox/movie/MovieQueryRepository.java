@@ -768,7 +768,7 @@ public class MovieQueryRepository {
         return results;
     }
 
-    public List<UserResponse.TicketedDTO> findMyTicked(Integer id) {
+    public List<UserResponse.MyPageDetailDTO.TicketedDTO> findMyTicked(Integer id) {
         String q = """
                 SELECT m.title, m.img_filename, si.date as "관람일시", si.start_time as "시작시간", 
                 si.end_time as "종료시간", b.id, s.name, t.name, b.user_id as "유저", 
@@ -788,7 +788,7 @@ public class MovieQueryRepository {
         query.setParameter(1, id);
 
         List<Object[]> rows = query.getResultList();
-        List<UserResponse.TicketedDTO> ticketedList = new ArrayList<>();
+        List<UserResponse.MyPageDetailDTO.TicketedDTO> ticketedList = new ArrayList<>();
 
         for (Object[] row : rows) {
             String title = (String) row[0];
@@ -803,7 +803,7 @@ public class MovieQueryRepository {
             String bookNum = (String) row[9];  // 몇관인지
 
 
-            UserResponse.TicketedDTO ticketedDTO = UserResponse.TicketedDTO.builder()
+            UserResponse.MyPageDetailDTO.TicketedDTO ticketedDTO = UserResponse.MyPageDetailDTO.TicketedDTO.builder()
                     .title(title)
                     .imgFilename(imgFilename)
                     .date(date)

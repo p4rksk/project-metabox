@@ -47,8 +47,10 @@ public class MovieScrapService {
         movieScrapRepository.delete(movieScrap);
     }
 
-    public List<MovieScrapResponse.ScrapMovieListDTO> movieScrapList(Integer userId) {
-        List<MovieScrap> movieScrapList = movieScrapRepository.findByUserAndMovie(userId);
-        return movieScrapList.stream().map(MovieScrapResponse.ScrapMovieListDTO::new).toList();
+    public MovieScrapResponse.MovieScrapDTO movieScrapList(Integer userId) {
+        List<MovieScrapResponse.MovieScrapDTO.ScrapMovieListDTO> movieScrapList = movieScrapRepository.findByUserAndMovie(userId);
+
+        MovieScrapResponse.MovieScrapDTO movieScrapDTO = new MovieScrapResponse.MovieScrapDTO(movieScrapList);
+        return movieScrapDTO;
     }
 }
