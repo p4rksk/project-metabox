@@ -35,7 +35,7 @@ public class MovieScrapController {
     @GetMapping("/scrap/movie-list")
     public String scrapDetailMovie(HttpServletRequest request) {
         SessionUser sessionUser = (SessionUser) rt.opsForValue().get("sessionUser");
-        List<MovieScrapResponse.ScrapMovieListDTO> movieScrapList = movieScrapService.movieScrapList(sessionUser.getId());
+       MovieScrapResponse.MovieScrapDTO movieScrapList = movieScrapService.movieScrapList(sessionUser.getId());
         request.setAttribute("movieScrapList", movieScrapList);
         return "user/mypage-detail-saw-scrap";
     }

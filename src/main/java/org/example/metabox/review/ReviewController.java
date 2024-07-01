@@ -31,7 +31,7 @@ public class ReviewController {
     @GetMapping("/review-list")
     public String reviewList(HttpServletRequest request) {
         SessionUser sessionUser = (SessionUser) rt.opsForValue().get("sessionUser");
-        List<ReviewResponse.ReviewListDTO> reviewList = reviewService.getReviewList(sessionUser);
+        ReviewResponse.MyReviewDTO reviewList = reviewService.getReviewList(sessionUser);
         request.setAttribute("reviewList", reviewList);
         return "user/mypage-detail-review";
     }

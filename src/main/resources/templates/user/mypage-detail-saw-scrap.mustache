@@ -1,28 +1,5 @@
 {{> layout/header}}
-<style>
-
-
-    .movie-card {
-        display: flex;
-        align-items: center;
-        margin-bottom: 20px;
-    }
-    .movie-poster {
-        width: 100px;
-        height: 150px;
-        margin-right: 20px;
-    }
-    .movie-info {
-        flex-grow: 1;
-    }
-    .movie-info h5 {
-        margin: 0 0 10px 0;
-    }
-    .movie-info p {
-        margin: 0 0 10px 0;
-    }
-</style>
-
+<link rel="stylesheet" href="/css/mypageDetailSaw.css">
 <div class="container">
     <!-- 유저 정보 -->
     <div class="row mt-4">
@@ -31,7 +8,7 @@
         <!--영화 리스트-->
         <div class="col-md-9">
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h4>찜한 영화 11건</h4>
+                <h4>찜한 영화 {{movieScrapList.scrapCount}}건</h4>
                 <div class="d-flex">
                     <select class="form-control mr-2" id="yearSelect">
                         <option value="">년도 선택</option>
@@ -41,7 +18,7 @@
                     <button class="btn btn-outline-danger form-control" onclick="searchMovies()">검색</button>
                 </div>
             </div>
-            {{#movieScrapList}}
+            {{#movieScrapList.scrapMovies}}
                 <div class="movie-card">
                     <img src="/image/movie/{{imgFilename}}" class="movie-poster" alt="Exhuma">
                     <div class="movie-info">
@@ -54,10 +31,10 @@
                         <button class="btn btn-danger">X</button>
                     </form>
                 </div>
-            {{/movieScrapList}}
-            {{^movieScrapList}}
+            {{/movieScrapList.scrapMovies}}
+            {{^movieScrapList.scrapMovies}}
                 <p>고객님의 찜한 내역이 존재하지 않습니다.</p>
-            {{/movieScrapList}}
+            {{/movieScrapList.scrapMovies}}
         </div>
     </div>
 </div>
