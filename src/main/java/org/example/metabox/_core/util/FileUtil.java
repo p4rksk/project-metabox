@@ -48,9 +48,48 @@ public class FileUtil {
         return saveFile("movie_pic", file);
     }
 
-    // 영화 홍보 영상 파일을 저장하는 메서드
-    public String saveMovieTrailer(MultipartFile file) throws IOException {
-        return saveFile("trailer", file);
+    //m3u8파일을 상대경로로 변환하는 메서드
+    public String getRelativePathToM3u8File(String fileName) {
+        try {
+            // upload 폴더 경로 설정
+            Path videoFolder = Paths.get(System.getProperty("user.dir"), "upload");
+
+            // upload 폴더 내에서 fileName으로 끝나는 첫 번째 .m3u8 파일 경로 찾기
+            Path m3u8FilePath = Files.walk(videoFolder)
+                    .filter(path -> path.getFileName().toString().endsWith(fileName))
+                    .findFirst()
+                    .orElseThrow(() -> new RuntimeException("해당 파일이 video 폴더 내에 존재하지 않습니다: " + fileName));
+
+            // upload 폴더로부터 상대 경로 생성
+            Path relativePath = videoFolder.relativize(m3u8FilePath);
+
+            // 상대 경로를 문자열로 반환
+            return relativePath.toString();
+        } catch (IOException e) {
+            throw new RuntimeException("video 폴더를 읽는 중 오류가 발생했습니다.", e);
+        }
     }
 
+
+    //mp4 파일을 상대경로로 변환하는 메서드
+    public String getRelativePathToMp4File(String fileName) {
+        try {
+            // upload 폴더 경로 설정
+            Path videoFolder = Paths.get(System.getProperty("user.dir"), "upload");
+
+            // upload 폴더 내에서 fileName으로 끝나는 첫 번째 .mp4 파일 경로 찾기
+            Path mp4FilePath = Files.walk(videoFolder)
+                    .filter(path -> path.getFileName().toString().endsWith(fileName))
+                    .findFirst()
+                    .orElseThrow(() -> new RuntimeException("해당 파일이 video 폴더 내에 존재하지 않습니다: " + fileName));
+
+            // upload 폴더로부터 상대 경로 생성
+            Path relativePath = videoFolder.relativize(mp4FilePath);
+
+            // 상대 경로를 문자열로 반환
+            return relativePath.toString();
+        } catch (IOException e) {
+            throw new RuntimeException("video 폴더를 읽는 중 오류가 발생했습니다.", e);
+        }
+    }
 }

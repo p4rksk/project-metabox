@@ -25,4 +25,16 @@ public class TrailerRepositoryTest {
         System.out.println("트레일러 " + trailer.isPresent());
         trailer.ifPresent(value -> System.out.println("트레일러 데이터: " + value));
     }
+
+    @Test
+    public void findTopBookingRateMovieId_test(){
+        // given
+
+        // when
+        Integer trailer = trailerRepository.findTopBookingRateMovieId();
+
+        // then
+        System.out.println("트레일러 " + trailer);
+
+    }
 }

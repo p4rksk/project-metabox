@@ -12,6 +12,8 @@ import org.example.metabox.theater.Theater;
 import org.example.metabox.theater.TheaterRepository;
 import org.example.metabox.theater_scrap.TheaterScrap;
 import org.example.metabox.theater_scrap.TheaterScrapRepository;
+import org.example.metabox.trailer.Trailer;
+import org.example.metabox.trailer.TrailerRepository;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -39,6 +41,7 @@ public class UserService {
     private final GuestRepository guestRepository;
     private final TheaterRepository theaterRepository;
     private final TheaterScrapRepository theaterScrapRepository;
+    private final TrailerRepository trailerRepository;
 
 
     // 마이페이지의 theater Scrap save, update
@@ -71,13 +74,27 @@ public class UserService {
 
     // 메인 페이지 무비차트, 상영예정작
     public UserResponse.MainChartDTO findMainMovie() {
+
+        //1위 영화
+        Integer topMovieId = movieQueryRepository.firstRankMovie();
+        System.out.println("영화 가져오기: " + topMovieId);
+
+        // 영화의 트레일러 찾기
+        Trailer oneTrailer = trailerRepository.findById(topMovieId)
+                .orElseThrow(() -> new RuntimeException("예매율 1위의 트레일러가 없습니다."));
+        System.out.println("트레일러 가져오기: ");
+
+
         List<UserResponse.MainChartDTO.MainMovieChartDTO> movieChartDTOS = movieQueryRepository.getMainMovieChart();
         System.out.println("쿼리 확인용 = " + movieChartDTOS);
+
+
 
         // 순위 계산
         for (int i = 0; i < movieChartDTOS.size(); i++) {
             movieChartDTOS.get(i).setRank(i + 1);
         }
+
 
         // 상영예정작
         List<UserResponse.MainChartDTO.ToBeChartDTO> toBeChartDTOS = movieQueryRepository.getToBeChart();
@@ -85,8 +102,10 @@ public class UserService {
 
         UserResponse.MainChartDTO mainChartDTO = UserResponse.MainChartDTO.builder()
                 .movieCharts(movieChartDTOS)
-                .toBeCharts(toBeChartDTOS).build();
-
+                .toBeCharts(toBeChartDTOS)
+                .trailerId(oneTrailer.getId())
+                .build();
+        System.out.println("예매율 1위 트레일러 ID:" + oneTrailer.getId());
         return mainChartDTO;
     }
 
@@ -106,6 +125,8 @@ public class UserService {
         return guestCheckDTO;
 
     }
+
+
 
 
     // 마이페이지 detail-book의 today best 무비차트

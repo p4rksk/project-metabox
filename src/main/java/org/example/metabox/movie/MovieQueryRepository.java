@@ -23,18 +23,19 @@ public class MovieQueryRepository {
 
     public List<UserResponse.GuestCheckDTO.TotalPriceDTO> findGuestTicketV3(Integer guestId) {
         String q = """
-                select b.id, b.total_price from book_tb b
-                INNER JOIN seat_book_tb sb ON sb.book_id = b.id
-                INNER JOIN seat_tb s ON sb.seat_id = s.id
-                INNER JOIN screening_info_tb si ON sb.screening_info_id = si.id
-                WHERE b.guest_id = ? AND si.date >= CURRENT_DATE GROUP BY b.id
-            """;
+                    select b.id, b.total_price from book_tb b
+                    INNER JOIN seat_book_tb sb ON sb.book_id = b.id
+                    INNER JOIN seat_tb s ON sb.seat_id = s.id
+                    INNER JOIN screening_info_tb si ON sb.screening_info_id = si.id
+                    WHERE b.guest_id = ? AND si.date >= CURRENT_DATE GROUP BY b.id
+                """;
 
         Query query = em.createNativeQuery(q);
         query.setParameter(1, guestId);
 
         List<Object[]> rows = query.getResultList();
-        List<UserResponse.GuestCheckDTO.TotalPriceDTO> totalPriceDTOS  = new ArrayList<>();;
+        List<UserResponse.GuestCheckDTO.TotalPriceDTO> totalPriceDTOS = new ArrayList<>();
+        ;
 
         for (Object[] row : rows) {
             Integer bookId = (Integer) row[0];
@@ -52,15 +53,15 @@ public class MovieQueryRepository {
     }
 
 
-//    //아직 관람 안한 영화 // 좌석, totalPrice 받기
+    //    //아직 관람 안한 영화 // 좌석, totalPrice 받기
     public List<UserResponse.GuestCheckDTO.SeatDTO> findGuestTicketV1(Integer guestId) {
         String q = """
-                select sb.book_id, s.code from book_tb b
-                INNER JOIN seat_book_tb sb ON sb.book_id = b.id
-                INNER JOIN seat_tb s ON sb.seat_id = s.id
-                INNER JOIN screening_info_tb si ON sb.screening_info_id = si.id
-                WHERE b.guest_id = ? AND si.date >= CURRENT_DATE
-            """;
+                    select sb.book_id, s.code from book_tb b
+                    INNER JOIN seat_book_tb sb ON sb.book_id = b.id
+                    INNER JOIN seat_tb s ON sb.seat_id = s.id
+                    INNER JOIN screening_info_tb si ON sb.screening_info_id = si.id
+                    WHERE b.guest_id = ? AND si.date >= CURRENT_DATE
+                """;
 
         Query query = em.createNativeQuery(q);
         query.setParameter(1, guestId);
@@ -84,7 +85,7 @@ public class MovieQueryRepository {
     }
 
 
-//    //아직 관람 안한 영화 // 나머지 받기
+    //    //아직 관람 안한 영화 // 나머지 받기
     public List<UserResponse.GuestCheckDTO.TicketingDTO> findGuestTicketV2(Integer guestId, List<UserResponse.GuestCheckDTO.TotalPriceDTO> totalPriceDTOs, List<UserResponse.GuestCheckDTO.SeatDTO> seatDTOS) {
         String q = """
                     SELECT m.title, m.img_filename, m.eng_title,
@@ -151,18 +152,17 @@ public class MovieQueryRepository {
     }
 
 
-
     // 현재 예매 뿌릴 쿼리 2개
 
     //테스트 O
     public List<UserResponse.DetailBookDTO.TotalPriceDTO> findUnwatchTicketV3(Integer sessionUserId) {
         String q = """
-                select b.id, b.total_price from book_tb b
-                INNER JOIN seat_book_tb sb ON sb.book_id = b.id
-                INNER JOIN seat_tb s ON sb.seat_id = s.id
-                INNER JOIN screening_info_tb si ON sb.screening_info_id = si.id
-                WHERE b.user_id = ? AND si.date >= CURRENT_DATE GROUP BY b.id
-            """;
+                    select b.id, b.total_price from book_tb b
+                    INNER JOIN seat_book_tb sb ON sb.book_id = b.id
+                    INNER JOIN seat_tb s ON sb.seat_id = s.id
+                    INNER JOIN screening_info_tb si ON sb.screening_info_id = si.id
+                    WHERE b.user_id = ? AND si.date >= CURRENT_DATE GROUP BY b.id
+                """;
 
         Query query = em.createNativeQuery(q);
         query.setParameter(1, sessionUserId);
@@ -190,12 +190,12 @@ public class MovieQueryRepository {
     //아직 관람 안한 영화 // 좌석, totalPrice 받기
     public List<UserResponse.DetailBookDTO.SeatDTO> findUnwatchTicketV1(Integer sessionUserId) {
         String q = """
-                select sb.book_id, s.code from book_tb b 
-                INNER JOIN seat_book_tb sb ON sb.book_id = b.id
-                INNER JOIN seat_tb s ON sb.seat_id = s.id
-                INNER JOIN screening_info_tb si ON sb.screening_info_id = si.id
-                WHERE b.user_id = ? AND si.date >= CURRENT_DATE
-            """;
+                    select sb.book_id, s.code from book_tb b 
+                    INNER JOIN seat_book_tb sb ON sb.book_id = b.id
+                    INNER JOIN seat_tb s ON sb.seat_id = s.id
+                    INNER JOIN screening_info_tb si ON sb.screening_info_id = si.id
+                    WHERE b.user_id = ? AND si.date >= CURRENT_DATE
+                """;
 
         Query query = em.createNativeQuery(q);
         query.setParameter(1, sessionUserId);
@@ -359,7 +359,6 @@ public class MovieQueryRepository {
     }
 
 
-
     // 테스트 O
     // 상영예정 영화 목록
     public List<UserResponse.MainChartDTO.ToBeChartDTO> getToBeChart() {
@@ -407,7 +406,6 @@ public class MovieQueryRepository {
         return movieChartDTOS;
 
     }
-
 
 
     // Main의 영화 받는 용 (테스트 코드 O)
@@ -511,27 +509,27 @@ public class MovieQueryRepository {
     public List<Object[]> getUserMovieChart(Pageable pageable) {
         // 페이징 적용
         String sql = """
-            SELECT
-                m.id,
-                m.title,
-                m.img_filename,
-                m.info,
-                m.start_date,
-                COUNT(sb.book_id) * 1.0 / (
-                                            SELECT COUNT(sb2.book_id)
-                                            FROM seat_book_tb sb2
-                                            JOIN screening_info_tb si2
-                                            ON sb2.screening_info_id = si2.id
-                                            WHERE si2.date >= CURRENT_DATE
-                                            ) AS bookingRate
-            FROM movie_tb m
-            LEFT JOIN screening_info_tb si ON m.id = si.movie_id
-            LEFT JOIN seat_book_tb sb ON si.id = sb.screening_info_id
-            WHERE m.end_date >= CURRENT_DATE
-            GROUP BY m.id, m.title, m.img_filename, m.info, m.start_date
-            ORDER BY bookingRate DESC, m.start_date ASC
-            LIMIT :limit OFFSET :offset
-            """;
+                SELECT
+                    m.id,
+                    m.title,
+                    m.img_filename,
+                    m.info,
+                    m.start_date,
+                    COUNT(sb.book_id) * 1.0 / (
+                                                SELECT COUNT(sb2.book_id)
+                                                FROM seat_book_tb sb2
+                                                JOIN screening_info_tb si2
+                                                ON sb2.screening_info_id = si2.id
+                                                WHERE si2.date >= CURRENT_DATE
+                                                ) AS bookingRate
+                FROM movie_tb m
+                LEFT JOIN screening_info_tb si ON m.id = si.movie_id
+                LEFT JOIN seat_book_tb sb ON si.id = sb.screening_info_id
+                WHERE m.end_date >= CURRENT_DATE
+                GROUP BY m.id, m.title, m.img_filename, m.info, m.start_date
+                ORDER BY bookingRate DESC, m.start_date ASC
+                LIMIT :limit OFFSET :offset
+                """;
         Query query = em.createNativeQuery(sql);
         query.setParameter("limit", pageable.getPageSize());
         query.setParameter("offset", pageable.getOffset());
@@ -542,27 +540,27 @@ public class MovieQueryRepository {
     public List<Object[]> getUpcomingMovieChart(Pageable pageable) {
         // 페이징 적용
         String sql = """
-            SELECT
-                m.id,
-                m.title,
-                m.img_filename,
-                m.info,
-                m.start_date,
-                COUNT(sb.book_id) * 1.0 / (
-                                            SELECT COUNT(sb2.book_id)
-                                            FROM seat_book_tb sb2
-                                            JOIN screening_info_tb si2
-                                            ON sb2.screening_info_id = si2.id
-                                            WHERE si2.date >= CURRENT_DATE
-                                            ) AS bookingRate
-            FROM movie_tb m
-            LEFT JOIN screening_info_tb si ON m.id = si.movie_id
-            LEFT JOIN seat_book_tb sb ON si.id = sb.screening_info_id
-            WHERE m.end_date >= CURRENT_DATE AND m.start_date >= CURRENT_DATE
-            GROUP BY m.id, m.title, m.img_filename, m.info, m.start_date
-            ORDER BY bookingRate DESC, m.start_date ASC
-            LIMIT :limit OFFSET :offset
-            """;
+                SELECT
+                    m.id,
+                    m.title,
+                    m.img_filename,
+                    m.info,
+                    m.start_date,
+                    COUNT(sb.book_id) * 1.0 / (
+                                                SELECT COUNT(sb2.book_id)
+                                                FROM seat_book_tb sb2
+                                                JOIN screening_info_tb si2
+                                                ON sb2.screening_info_id = si2.id
+                                                WHERE si2.date >= CURRENT_DATE
+                                                ) AS bookingRate
+                FROM movie_tb m
+                LEFT JOIN screening_info_tb si ON m.id = si.movie_id
+                LEFT JOIN seat_book_tb sb ON si.id = sb.screening_info_id
+                WHERE m.end_date >= CURRENT_DATE AND m.start_date >= CURRENT_DATE
+                GROUP BY m.id, m.title, m.img_filename, m.info, m.start_date
+                ORDER BY bookingRate DESC, m.start_date ASC
+                LIMIT :limit OFFSET :offset
+                """;
         Query query = em.createNativeQuery(sql);
         query.setParameter("limit", pageable.getPageSize());
         query.setParameter("offset", pageable.getOffset());
@@ -575,25 +573,25 @@ public class MovieQueryRepository {
         // PK, 순위, 연령, 포스터, 제목, 예매율, 개봉일, 상영 상태
         // TODO: WHERE si2.date >= '2024-06-21' -> CURRENT_DATE
         String sql = """
-            SELECT
-                m.id,
-                m.title,
-                m.img_filename,
-                m.info,
-                m.start_date,
-                COALESCE(COUNT(sb.book_id) * 1.0 / NULLIF((
-                                                            SELECT COUNT(sb2.book_id)
-                                                            FROM seat_book_tb sb2
-                                                            JOIN screening_info_tb si2 ON sb2.screening_info_id = si2.id
-                                                            WHERE si2.date >= '2024-06-21'
-                                                            ), 0), 0) AS bookingRate
-            FROM movie_tb m
-            LEFT JOIN screening_info_tb si ON m.id = si.movie_id
-            LEFT JOIN seat_book_tb sb ON si.id = sb.screening_info_id
-            WHERE m.end_date >= CURRENT_DATE
-            GROUP BY m.id, m.title, m.img_filename, m.info, m.start_date
-            ORDER BY bookingRate DESC;
-            """;
+                SELECT
+                    m.id,
+                    m.title,
+                    m.img_filename,
+                    m.info,
+                    m.start_date,
+                    COALESCE(COUNT(sb.book_id) * 1.0 / NULLIF((
+                                                                SELECT COUNT(sb2.book_id)
+                                                                FROM seat_book_tb sb2
+                                                                JOIN screening_info_tb si2 ON sb2.screening_info_id = si2.id
+                                                                WHERE si2.date >= '2024-06-21'
+                                                                ), 0), 0) AS bookingRate
+                FROM movie_tb m
+                LEFT JOIN screening_info_tb si ON m.id = si.movie_id
+                LEFT JOIN seat_book_tb sb ON si.id = sb.screening_info_id
+                WHERE m.end_date >= CURRENT_DATE
+                GROUP BY m.id, m.title, m.img_filename, m.info, m.start_date
+                ORDER BY bookingRate DESC;
+                """;
         Query query = em.createNativeQuery(sql);
         List<Object[]> results = query.getResultList();
         return results;
@@ -603,25 +601,25 @@ public class MovieQueryRepository {
         // PK, 순위, 연령, 포스터, 제목, 예매율, 개봉일, 상영 상태
         // TODO: WHERE si2.date >= '2024-06-21' -> CURRENT_DATE
         String sql = """
-            SELECT
-                m.id,
-                m.title,
-                m.img_filename,
-                m.info,
-                m.start_date,
-                COALESCE(COUNT(sb.book_id) * 1.0 / NULLIF((
-                                                            SELECT COUNT(sb2.book_id)
-                                                            FROM seat_book_tb sb2
-                                                            JOIN screening_info_tb si2 ON sb2.screening_info_id = si2.id
-                                                            WHERE si2.date >= '2024-06-21'
-                                                            ), 0), 0) AS bookingRate
-            FROM movie_tb m
-            LEFT JOIN screening_info_tb si ON m.id = si.movie_id
-            LEFT JOIN seat_book_tb sb ON si.id = sb.screening_info_id
-            WHERE m.end_date >= CURRENT_DATE AND m.start_date >= CURRENT_DATE
-            GROUP BY m.id, m.title, m.img_filename, m.info, m.start_date
-            ORDER BY bookingRate DESC;
-            """;
+                SELECT
+                    m.id,
+                    m.title,
+                    m.img_filename,
+                    m.info,
+                    m.start_date,
+                    COALESCE(COUNT(sb.book_id) * 1.0 / NULLIF((
+                                                                SELECT COUNT(sb2.book_id)
+                                                                FROM seat_book_tb sb2
+                                                                JOIN screening_info_tb si2 ON sb2.screening_info_id = si2.id
+                                                                WHERE si2.date >= '2024-06-21'
+                                                                ), 0), 0) AS bookingRate
+                FROM movie_tb m
+                LEFT JOIN screening_info_tb si ON m.id = si.movie_id
+                LEFT JOIN seat_book_tb sb ON si.id = sb.screening_info_id
+                WHERE m.end_date >= CURRENT_DATE AND m.start_date >= CURRENT_DATE
+                GROUP BY m.id, m.title, m.img_filename, m.info, m.start_date
+                ORDER BY bookingRate DESC;
+                """;
         Query query = em.createNativeQuery(sql);
         List<Object[]> results = query.getResultList();
         return results;
@@ -631,21 +629,21 @@ public class MovieQueryRepository {
     // 예매율을 계산하는 메서드
     public double getBookingRate(Integer movieId) {
         String sql = """
-            
-                SELECT
-                COUNT(sb.book_id) * 1.0 / (
-                                            SELECT COUNT(sb2.book_id)
-                                            FROM seat_book_tb sb2
-                                            JOIN screening_info_tb si2
-                                            ON sb2.screening_info_id = si2.id
-                                            WHERE si2.date >= '2024-06-21'
-                                            ) AS bookingRate
-            FROM movie_tb m
-            LEFT JOIN screening_info_tb si ON m.id = si.movie_id
-            LEFT JOIN seat_book_tb sb ON si.id = sb.screening_info_id
-            WHERE si.date >= '2024-06-21' AND si.movie_id = ?
-            GROUP BY si.movie_id;
-            """;
+                            
+                    SELECT
+                    COUNT(sb.book_id) * 1.0 / (
+                                                SELECT COUNT(sb2.book_id)
+                                                FROM seat_book_tb sb2
+                                                JOIN screening_info_tb si2
+                                                ON sb2.screening_info_id = si2.id
+                                                WHERE si2.date >= '2024-06-21'
+                                                ) AS bookingRate
+                FROM movie_tb m
+                LEFT JOIN screening_info_tb si ON m.id = si.movie_id
+                LEFT JOIN seat_book_tb sb ON si.id = sb.screening_info_id
+                WHERE si.date >= '2024-06-21' AND si.movie_id = ?
+                GROUP BY si.movie_id;
+                """;
         // 네이티브 쿼리 생성
         Query query = em.createNativeQuery(sql);
         query.setParameter(1, movieId);
@@ -670,6 +668,25 @@ public class MovieQueryRepository {
             // 예매 내역이 없는 경우
             return 0.0;
         }
+    }
+
+    public int firstRankMovie() {
+
+        String sql = """
+                 SELECT m.id as movieId
+                         FROM movie_tb m
+                         LEFT JOIN screening_info_tb si ON m.id = si.movie_id
+                         LEFT JOIN seat_book_tb sb ON si.id = sb.screening_info_id
+                         WHERE si.date >= '2024-06-21'
+                         GROUP BY m.id
+                         ORDER BY COUNT(sb.book_id) DESC 
+                         LIMIT 1;
+                """;
+
+        Query query = em.createNativeQuery(sql);
+
+
+        return (int) query.getSingleResult();
     }
 
     // 영화 테이블 업데이트
@@ -725,26 +742,26 @@ public class MovieQueryRepository {
 
     public List<Object[]> searchMoviesByTitle(String title) {
         String sql = """
-        SELECT
-            m.id,
-            m.title,
-            m.img_filename,
-            m.info,
-            m.start_date,
-            COUNT(sb.book_id) * 1.0 / (
-                                        SELECT COUNT(sb2.book_id)
-                                        FROM seat_book_tb sb2
-                                        JOIN screening_info_tb si2
-                                        ON sb2.screening_info_id = si2.id
-                                        WHERE si2.date >= CURRENT_DATE
-                                        ) AS bookingRate
-        FROM movie_tb m
-        LEFT JOIN screening_info_tb si ON m.id = si.movie_id
-        LEFT JOIN seat_book_tb sb ON si.id = sb.screening_info_id
-        WHERE m.title LIKE ?1
-        GROUP BY m.id, m.title, m.img_filename, m.info, m.start_date
-        ORDER BY bookingRate DESC, m.start_date ASC
-        """;
+                SELECT
+                    m.id,
+                    m.title,
+                    m.img_filename,
+                    m.info,
+                    m.start_date,
+                    COUNT(sb.book_id) * 1.0 / (
+                                                SELECT COUNT(sb2.book_id)
+                                                FROM seat_book_tb sb2
+                                                JOIN screening_info_tb si2
+                                                ON sb2.screening_info_id = si2.id
+                                                WHERE si2.date >= CURRENT_DATE
+                                                ) AS bookingRate
+                FROM movie_tb m
+                LEFT JOIN screening_info_tb si ON m.id = si.movie_id
+                LEFT JOIN seat_book_tb sb ON si.id = sb.screening_info_id
+                WHERE m.title LIKE ?1
+                GROUP BY m.id, m.title, m.img_filename, m.info, m.start_date
+                ORDER BY bookingRate DESC, m.start_date ASC
+                """;
         Query query = em.createNativeQuery(sql);
         query.setParameter(1, "%" + title + "%");
         List<Object[]> results = query.getResultList();

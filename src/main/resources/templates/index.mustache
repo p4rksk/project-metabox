@@ -10,10 +10,13 @@
 <div class="container-fluid p-0">
     <!-- Main Banner -->
     <div class="main-banner">
-        <video class="movie-main" autoplay loop muted>
-            <source src="video/index/하이재킹.mp4" type="video/mp4">
+        <video class="movie-main" id ="trailer" controls autoplay muted>
             Your browser does not support the video tag.
         </video>
+        <div class="content">
+            <h1>인사이드 아웃</h1>
+            <p>새로운 감정과 함께 돌아오다!!</p>
+        </div>
     </div>
 </div>
 
@@ -221,13 +224,46 @@
         </div>
     </div>
 </div>
-
+<!--트레일러 -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <!-- Swiper JS -->
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 <script>
-    //슬라이드 1
+    //트레일러
+    $(document).ready(function() {
+        var trailerId = '{{model.trailerId}}';
+        console.log(trailerId);
+        var videoElementId = 'trailer';
+        var video = document.getElementById(videoElementId);
+
+        var videoSrc = '/upload/' + encodeURIComponent(trailerId) + '/_master.m3u8';
+
+        $.ajax({
+            url: videoSrc,
+            method: 'GET',
+            success: function(data) {
+                if (Hls.isSupported()) {
+                    var hls = new Hls();
+                    hls.loadSource(encodeURI(videoSrc));
+                    hls.attachMedia(video);
+                    hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                        video.play();
+                    });
+                } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                    video.src = encodeURI(videoSrc);
+                    video.addEventListener('loadedmetadata', function() {
+                        video.play();
+                    });
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error loading video source:', error);
+            }
+        });
+    });
+
     var swiper1 = new Swiper('#movie-chart .swiper-container', {
         slidesPerView: 5,
         spaceBetween: 10,
