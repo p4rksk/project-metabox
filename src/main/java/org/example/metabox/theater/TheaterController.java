@@ -41,7 +41,7 @@ public class TheaterController {
         SessionTheater sessionTheater = new SessionTheater(theater);
         rt.opsForValue().set("sessionTheater", sessionTheater);
         session.setAttribute("sessionTheater", sessionTheater);
-        return "/theater/main";
+        return "redirect:/theater/sales-management";
     }
 
     @GetMapping("/theaters/movie-schedule")

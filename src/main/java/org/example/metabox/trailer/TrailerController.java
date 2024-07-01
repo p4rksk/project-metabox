@@ -70,9 +70,10 @@ public class TrailerController {
 
     //ts 파일들 반환
     @GetMapping("/{trailerId}/{filename:.+}")
-    public ResponseEntity<Resource> getTrailerSegmentFile(@PathVariable int trailerId, @PathVariable String filename) throws IOException {
+    public ResponseEntity<Resource> getSegmentFile(@PathVariable int trailerId, @PathVariable String filename) throws IOException {
         // 트레일러 정보를 데이터베이스에서 조회
-        Trailer topTrailer = trailerService.getTopTrailer();
+        Trailer trailer = trailerRepository.findById(trailerId)
+                .orElseThrow(() -> new RuntimeException("트레일러를 찾을 수 없습니다."));
 
         // 파일 이름을 URL 디코딩
         String decodedFilename = URLDecoder.decode(filename, StandardCharsets.UTF_8.toString());

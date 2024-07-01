@@ -335,8 +335,8 @@ public class UserService {
                     .password(UUID.randomUUID().toString())
 //                    .email(response2.getBody().getProperties().getNickname()+"@nate.com")
                     .imgFilename(response2.getBody().getProperties().getProfileImage())
-                    .birthYear("1997")
-                    .name("박찬혁")
+                    .birthYear("2000")
+                    .name("박선규")
                     .provider("kakao")
                     .build();
 
