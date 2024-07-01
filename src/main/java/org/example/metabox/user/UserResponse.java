@@ -632,4 +632,34 @@ public class UserResponse {
     }
 
 
+    // 내가 본 영화내역
+    @Data
+    public static class TicketedDTO {
+        private Integer id;     // book pk
+        private String title;   //영화 제목
+        private String imgFilename;
+        private Date date;     // 관람일시 타입 확인 필요
+        private String startTime;   // 시작 시간
+        private String endTime;     // 종료 시간
+        private String name;        // 몇 관인지
+        private String theaterName; // METABOX 어느 지점인지
+        private Integer userId;
+        private String bookNum;
+
+        @Builder
+        public TicketedDTO(Integer id, String title, String imgFilename, Date date, String startTime, String endTime, String name, String theaterName, Integer userId, String bookNum) {
+            this.id = id;
+            this.title = title;
+            this.imgFilename = imgFilename;
+            this.date = date;
+            this.startTime = startTime;
+            this.endTime = endTime;
+            this.name = name;
+            this.theaterName = theaterName;
+            this.userId = userId;
+            this.bookNum = bookNum;
+
+        }
+    }
+
 }

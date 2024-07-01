@@ -5,9 +5,11 @@ import org.example.metabox._core.errors.exception.Exception400;
 import org.example.metabox._core.errors.exception.Exception401;
 import org.example.metabox._core.errors.exception.Exception403;
 import org.example.metabox._core.errors.exception.Exception404;
+import org.example.metabox.book.BookRepository;
 import org.example.metabox.movie.Movie;
 import org.example.metabox.movie.MovieQueryRepository;
 import org.example.metabox.movie.MovieRepository;
+import org.example.metabox.review.ReviewResponse;
 import org.example.metabox.theater.Theater;
 import org.example.metabox.theater.TheaterRepository;
 import org.example.metabox.theater_scrap.TheaterScrap;
@@ -42,6 +44,7 @@ public class UserService {
     private final TheaterRepository theaterRepository;
     private final TheaterScrapRepository theaterScrapRepository;
     private final TrailerRepository trailerRepository;
+    private final BookRepository bookRepository;
 
 
     // 마이페이지의 theater Scrap save, update
@@ -243,6 +246,16 @@ public class UserService {
 
     }
 
+    //mypage/detail-saw
+    public List<UserResponse.TicketedDTO> getMovieSaw(SessionUser sessionUser) {
+
+        List<UserResponse.TicketedDTO> ticketedList = movieQueryRepository.findMyTicked(sessionUser.getId());
+
+        //개수파악 (0건 <- 여기 뿌릴라고)
+        int ticketCount = ticketedList.size();
+
+        return ticketedList;
+    }
 
     //비회원 회원가입
     public Guest join(UserRequest.JoinDTO reqDTO) {

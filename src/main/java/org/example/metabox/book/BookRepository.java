@@ -16,4 +16,5 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
 
     @Query("select count(*) from Book b where b.createdAt = :now")
     Integer findAllByDate(LocalDateTime now);
+
 }

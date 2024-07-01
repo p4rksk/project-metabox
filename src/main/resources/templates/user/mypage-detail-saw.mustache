@@ -40,16 +40,18 @@
                     <button class="btn btn-outline-danger form-control" onclick="searchMovies()">검색</button>
                 </div>
             </div>
-            <div class="movie-card">
-                <img src="https://via.placeholder.com/100x150" class="movie-poster" alt="Exhuma">
-                <div class="movie-info">
-                    <h5>파묘 (Exhuma)</h5>
-                    <p>2024.03.23 (토) 19:45 ~ 22:09</p>
-                    <p>CGV서면삼정타워 5관 13층 (리클라이너) / 2명</p>
-                    <p>이 영화를 평가해주세요</p>
+            {{#ticketedList}}
+                <div class="movie-card">
+                    <img src="/image/movie/{{imgFilename}}" class="movie-poster" alt="Exhuma">
+                    <div class="movie-info">
+                        <h5>{{title}}</h5>
+                        <p>관람일시 {{date}} ({{startTime}} ~ {{endTime}})</p>
+                        <p>관람극장 {{theaterName}} ({{name}})</p>
+                        <p>예매번호 {{bookNum}}</p>
+                    </div>
                 </div>
-                <button class="btn">X</button>
-            </div>
+            {{/ticketedList}}
+
         </div>
     </div>
 </div>

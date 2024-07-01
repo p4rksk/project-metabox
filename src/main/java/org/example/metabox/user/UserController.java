@@ -110,7 +110,9 @@ public class UserController {
 
     @GetMapping("/mypage/detail-saw")
     public String mySawDetail(HttpServletRequest request) {
-
+        SessionUser sessionUser = (SessionUser) rt.opsForValue().get("sessionUser");
+        List<UserResponse.TicketedDTO> ticketedList = userService.getMovieSaw(sessionUser);
+        request.setAttribute("ticketedList", ticketedList);
         return "user/mypage-detail-saw";
     }
 
