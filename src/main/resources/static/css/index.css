@@ -168,42 +168,43 @@
     justify-content: space-between;
 }
 
+.container-fluid {
+    width: 100%;
+    height: 100%;
+}
+
 .main-banner {
     position: relative;
-    height: 500px;
-    color: white;
-    text-align: center;
-    background-color: #000;
+    width: 100%;
+    height: 100vh; /* 전체 화면 높이로 설정 */
+    overflow: hidden; /* 비디오가 컨테이너를 벗어나지 않도록 설정 */
 }
 
 .main-banner .movie-main {
     width: 100%;
-    height: 100%;
-    overflow: hidden;
-}
-
-.main-banner .movie-main img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    height: 70%; /* 비디오를 전체 배너 크기에 맞춤 */
+    object-fit: cover; /* 비디오의 크기를 맞추기 위해 이 속성을 사용 */
 }
 
 .main-banner .content {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 2;
+    bottom: 410px;
+    left: 60px;
+    color: white;
+    text-align: left;
+    padding: 20px;
 }
 
+
 .main-banner h1 {
-    font-size: 3rem;
-    color: purple;
+    font-size: 2em;
+    margin: 0;
+    font-weight: bold;
 }
 
 .main-banner p {
-    font-size: 1.2rem;
-    color: red;
+    font-size: 1.2em;
+    margin: 10px 0 0;
 }
 
 .btn-custom {

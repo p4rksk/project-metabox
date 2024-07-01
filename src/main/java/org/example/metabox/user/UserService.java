@@ -72,6 +72,15 @@ public class UserService {
     // 메인 페이지 무비차트, 상영예정작
     public UserResponse.MainChartDTO findMainMovie() {
 
+        //1위 영화
+        Integer topMovieId = movieQueryRepository.firstRankMovie();
+        System.out.println("영화 가져오기: " + topMovieId);
+
+        // 영화의 트레일러 찾기
+        Trailer oneTrailer = trailerRepository.findById(topMovieId)
+                .orElseThrow(() -> new RuntimeException("예매율 1위의 트레일러가 없습니다."));
+        System.out.println("트레일러 가져오기: ");
+
 
         List<UserResponse.MainChartDTO.MainMovieChartDTO> movieChartDTOS = movieQueryRepository.getMainMovieChart();
 //        System.out.println("쿼리 확인용 = " + movieChartDTOS);
@@ -90,8 +99,10 @@ public class UserService {
 
         UserResponse.MainChartDTO mainChartDTO = UserResponse.MainChartDTO.builder()
                 .movieCharts(movieChartDTOS)
-                .toBeCharts(toBeChartDTOS).build();
-
+                .toBeCharts(toBeChartDTOS)
+                .trailerId(oneTrailer.getId())
+                .build();
+        System.out.println("예매율 1위 트레일러 ID:" + oneTrailer.getId());
         return mainChartDTO;
     }
 
