@@ -369,16 +369,7 @@
     <div class="synopsis">
         <pre>{{{model.description}}}</pre>
     </div>
-    <div class="row chart-container">
-        <div class="col-md-6">
-            <h3 class="section-title">성별 예매 분포</h3>
-            <canvas id="genderChart"></canvas>
-        </div>
-        <div class="col-md-6">
-            <h3 class="section-title">연령별 예매 분포</h3>
-            <canvas id="ageChart"></canvas>
-        </div>
-    </div>
+
     <div class="trailer-container">
         <div class="trailer-header">
             <span>트레일러</span>
@@ -471,6 +462,35 @@
             </div>
         </div>
     </form>
+    <div class="container comment-section">
+        {{#model.reviews}}
+            <div class="comment">
+                <div class="comment-header">
+                    <img src="{{userProfile}}" alt="User 1" class="profile-img">
+                    <div class="comment-body">
+                        <p><strong>{{reviewer}}: </strong>{{comment}}</p>
+                        <div class="comment-footer">
+                            <span>2024.06.14</span>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-right: 20px; ">
+                    <p>평점: {{rating}}</p>
+                </div>
+            </div>
+        {{/model.reviews}}
+
+        <div class="pagination" style="justify-content: center;">
+            <a href="#">&laquo;</a>
+            <a class="active" href="#">1</a>
+            <a href="#">2</a>
+            <a href="#">3</a>
+            <a href="#">4</a>
+            <a href="#">5</a>
+            <a href="#">6</a>
+            <a href="#">&raquo;</a>
+        </div>
+    </div>
 </div>
 <script>
     $(document).ready(function () {
@@ -505,58 +525,6 @@
             });
         });
     })
-
-    var ctxGender = document.getElementById('genderChart').getContext('2d');
-    var genderChart = new Chart(ctxGender, {
-        type: 'doughnut',
-        data: {
-            labels: ['남 33.8%', '여 66.2%'],
-            datasets: [{
-                data: [33.8, 66.2],
-                backgroundColor: ['#4e73df', '#e74a3b'],
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            legend: {
-                position: 'bottom',
-            },
-            title: {
-                display: false,
-            }
-        }
-    });
-
-    var ctxAge = document.getElementById('ageChart').getContext('2d');
-    var ageChart = new Chart(ctxAge, {
-        type: 'bar',
-        data: {
-            labels: ['10대', '20대', '30대', '40대', '50대'],
-            datasets: [{
-                label: '연령별 예매 분포',
-                data: [8.2, 29.5, 28.5, 24.7, 9.2],
-                backgroundColor: ['#6c757d', '#a0522d', '#6c757d', '#6c757d', '#6c757d'],
-                borderColor: ['#6c757d', '#a0522d', '#6c757d', '#6c757d', '#6c757d'],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            legend: {
-                display: false,
-            },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: {
-                        stepSize: 10
-                    }
-                }
-            }
-        }
-    });
 </script>
 <!--<script>-->
 <!--    document.addEventListener('DOMContentLoaded', function() {-->
@@ -570,7 +538,7 @@
     let isMovieScrapped = false;
 
     function scrapButton() {
-        if (isMovieScrapped) {
+        if (!isMovieScrapped) {
             if (confirm("찜하시겠습니까?")) {
                 document.getElementById('myButton').classList.add('clicked');
                 alert("기대되는 영화에 추가되었습니다.");
@@ -600,22 +568,6 @@
 
     modalCloseButton.addEventListener('click', () => {
         modal.classList.add('hidden');
-    });
-</script>
-<script>
-    const stars = document.querySelectorAll('.star');
-
-    stars.forEach(star => {
-        star.addEventListener('change', function () {
-            const value = parseInt(this.value);
-            stars.forEach((s, index) => {
-                if (index < value) {
-                    s.nextElementSibling.textContent = '★';
-                } else {
-                    s.nextElementSibling.textContent = '☆';
-                }
-            });
-        });
     });
 </script>
 {{> layout/footer}}

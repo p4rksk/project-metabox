@@ -1,25 +1,28 @@
 {{> layout/header}}
 <style>
 
-
     .movie-card {
         display: flex;
         align-items: center;
         margin-bottom: 20px;
     }
+
+    .movie-info {
+        flex-grow: 1;
+    }
+
+    .movie-info h5 {
+        margin: 0 0 10px 0;
+    }
+
+    .movie-info p {
+        margin: 0 0 10px 0;
+    }
+
     .movie-poster {
         width: 100px;
         height: 150px;
         margin-right: 20px;
-    }
-    .movie-info {
-        flex-grow: 1;
-    }
-    .movie-info h5 {
-        margin: 0 0 10px 0;
-    }
-    .movie-info p {
-        margin: 0 0 10px 0;
     }
 </style>
 
@@ -28,10 +31,11 @@
     <div class="row mt-4">
         {{> layout/mypage-detail-sidebar}}
 
+
         <!--영화 리스트-->
         <div class="col-md-9">
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h4>찜한 영화 11건</h4>
+                <h4>내가 쓴 한 줄 평 1건</h4>
                 <div class="d-flex">
                     <select class="form-control mr-2" id="yearSelect">
                         <option value="">년도 선택</option>
@@ -41,23 +45,23 @@
                     <button class="btn btn-outline-danger form-control" onclick="searchMovies()">검색</button>
                 </div>
             </div>
-            {{#movieScrapList}}
+            {{#reviewList}}
                 <div class="movie-card">
                     <img src="/image/movie/{{imgFilename}}" class="movie-poster" alt="Exhuma">
                     <div class="movie-info">
                         <h5>{{title}}</h5>
-                        <p>개봉일: {{startDate}}</p>
-                        <p>개봉마감일: {{endDate}}</p>
-                        <a href="#">예매하기</a>
+                        <p>상영일: {{startDate}}~{{endDate}}</p>
+                        <p>나의 댓글: {{comment}}</p>
+                        <p>나의 별점: {{rating}}</p>
                     </div>
-                    <form action="/scrap/{{id}}" method="post">
-                        <button class="btn btn-danger">X</button>
+                    <form action="/review/delete/{{id}}" method="post">
+                        <button class="btn">X</button>
                     </form>
                 </div>
-            {{/movieScrapList}}
-            {{^movieScrapList}}
-                <p>고객님의 찜한 내역이 존재하지 않습니다.</p>
-            {{/movieScrapList}}
+            {{/reviewList}}
+            {{^reviewList}}
+                <p>고객님의 댓글 내역이 존재하지 않습니다.</p>
+            {{/reviewList}}
         </div>
     </div>
 </div>
