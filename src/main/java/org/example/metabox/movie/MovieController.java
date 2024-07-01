@@ -86,7 +86,7 @@ public class MovieController {
             request.setAttribute("message", "검색 결과가 없습니다.");
             return "movie/search-results";  // 검색 결과가 없을 때
         } else if (movies.size() == 1) {
-            return "redirect:/movie-detail/" + movies.get(0).getId();  // 검색 결과가 하나일 때 상세 페이지로 리다이렉트
+            return "redirect:/movies/detail/" + movies.get(0).getId();  // 검색 결과가 하나일 때 상세 페이지로 리다이렉트
         } else {
             request.setAttribute("models", movies);
             return "movie/search-results";  // 검색 결과가 여러 건일 때
