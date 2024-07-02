@@ -1,10 +1,7 @@
 package org.example.metabox.user;
 
 import lombok.RequiredArgsConstructor;
-import org.example.metabox._core.errors.exception.Exception400;
-import org.example.metabox._core.errors.exception.Exception401;
-import org.example.metabox._core.errors.exception.Exception403;
-import org.example.metabox._core.errors.exception.Exception404;
+import org.example.metabox._core.errors.exception.*;
 import org.example.metabox.book.BookRepository;
 import org.example.metabox.movie.Movie;
 import org.example.metabox.movie.MovieQueryRepository;
@@ -119,20 +116,20 @@ public class UserService {
     // 게스트 예매 조회
     @Transactional
     public UserResponse.GuestCheckDTO findGuestBook(UserRequest.GuestBookCheckDTO reqDTO) {
-//        System.out.println("reqDTO33 = " + reqDTO);
+        System.out.println("reqDTO33 = " + reqDTO);
         UserResponse.GuestCheckDTO.UserDTO guest = guestRepository.findByGuest(reqDTO.getName(), reqDTO.getPassword(), reqDTO.getPhone(), reqDTO.getBookNumb())
-                .orElseThrow(() -> new Exception404("잘못된 정보를 입력하셨습니다."));
-//        System.out.println("guest44 = " + guest);
+                .orElseThrow(() -> new ApiException400("잘못된 정보를 입력하셨습니다."));
+        System.out.println("guest44 = " + guest);
 
         List<UserResponse.GuestCheckDTO.SeatDTO> seatDTOs = movieQueryRepository.findGuestTicketV1(guest.getGuestId());
-//        System.out.println("seatDTOs55 = " + seatDTOs);
+        System.out.println("seatDTOs55 = " + seatDTOs);
         List<UserResponse.GuestCheckDTO.TotalPriceDTO> totalPriceDTOs = movieQueryRepository.findGuestTicketV3(guest.getGuestId());
-//        System.out.println("totalPriceDTOs666 = " + totalPriceDTOs);
+        System.out.println("totalPriceDTOs666 = " + totalPriceDTOs);
         List<UserResponse.GuestCheckDTO.TicketingDTO> ticketingDTOs = movieQueryRepository.findGuestTicketV2(guest.getGuestId(), totalPriceDTOs, seatDTOs);
-//        System.out.println("ticketingDTOs77777 = " + ticketingDTOs);
+        System.out.println("ticketingDTOs77777 = " + ticketingDTOs);
 
         UserResponse.GuestCheckDTO guestCheckDTO = new UserResponse.GuestCheckDTO(guest, ticketingDTOs);
-//        System.out.println("guestCheckDTO8888 = " + guestCheckDTO);
+        System.out.println("guestCheckDTO8888 = " + guestCheckDTO);
 
         return guestCheckDTO;
 

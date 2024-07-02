@@ -67,6 +67,7 @@ public class UserController {
         return "user/non-member-check-form";
     }
 
+    // TODO: ApiException 필요할듯?
     @PostMapping("/guest/book-check")
     public ResponseEntity<?> nonMemberCheck(@Valid @RequestBody UserRequest.GuestBookCheckDTO reqDTO, Errors errors) {
 //        System.out.println("비회원 reqDTO = " + reqDTO);
