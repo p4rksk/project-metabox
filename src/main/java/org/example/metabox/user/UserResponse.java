@@ -545,16 +545,35 @@ public class UserResponse {
             private String imgFilename;
             private String title;
             private Date startDate;
+            private String ageInfo;     // 전체, 12세, 15세, 19세
+            private String ageColor;
 
             private Double ticketSales;     // 예매율 - 계산해서 가져오기
 
             @Builder
-            public MovieChartDTO(Integer movieId, String imgFilename, String title, Date startDate, Double ticketSales) {
+            public MovieChartDTO(Integer movieId, String imgFilename, String title, Date startDate, Double ticketSales, String ageInfo) {
                 this.movieId = movieId;
                 this.imgFilename = imgFilename;
                 this.title = title;
                 this.startDate = startDate;
                 this.ticketSales = ticketSales;
+                this.ageInfo = ageInfo;
+                this.ageColor = classColor();
+            }
+
+            public String classColor() {
+                if ("12".equals(ageInfo)) {
+                    return "age-info-yellow";
+                } else if ("15".equals(ageInfo)) {
+                    return "age-info-blue";
+                } else if ("전".equals(ageInfo)) {
+                    return "age-info-green";
+                } else if ("19".equals(ageInfo)) {
+                    return "age-info-red";
+                } else {
+                    return "";
+                }
+
             }
 
         }
