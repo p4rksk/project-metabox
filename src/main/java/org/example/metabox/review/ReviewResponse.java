@@ -5,6 +5,7 @@ import org.example.metabox.movie.Movie;
 import org.example.metabox.user.User;
 
 import java.sql.Date;
+import java.util.List;
 
 public class ReviewResponse {
 
@@ -22,23 +23,36 @@ public class ReviewResponse {
     }
 
     @Data
-    public static class ReviewListDTO {
-        private Integer id;
-        private String comment;
-        private String title;
-        private String imgFilename;
-        private Date startDate;
-        private Date endDate;
-        private Integer rating;
+    public static class MyReviewDTO {
+        private List<ReviewListDTO> reviews;
+        private Integer reviewCount;
 
-        public ReviewListDTO(Review review){
-            this.id = review.getId();
-            this.comment = review.getComment();
-            this.title = review.getMovie().getTitle();
-            this.imgFilename = review.getMovie().getImgFilename();
-            this.startDate = review.getMovie().getStartDate();
-            this.endDate = review.getMovie().getEndDate();
-            this.rating = review.getRating();
+        public MyReviewDTO(List<ReviewListDTO> reviews) {
+            this.reviews = reviews;
+            this.reviewCount = reviews.size();
+        }
+
+        @Data
+        public static class ReviewListDTO {
+            private Integer id;
+            private String comment;
+            private String title;
+            private String imgFilename;
+            private Date startDate;
+            private Date endDate;
+            private Integer rating;
+
+            public ReviewListDTO(Review review){
+                this.id = review.getId();
+                this.comment = review.getComment();
+                this.title = review.getMovie().getTitle();
+                this.imgFilename = review.getMovie().getImgFilename();
+                this.startDate = review.getMovie().getStartDate();
+                this.endDate = review.getMovie().getEndDate();
+                this.rating = review.getRating();
+            }
         }
     }
+
+
 }

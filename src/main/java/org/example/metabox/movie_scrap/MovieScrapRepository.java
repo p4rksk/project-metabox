@@ -16,7 +16,7 @@ public interface MovieScrapRepository extends JpaRepository<MovieScrap, Integer>
             join fetch ms.user u
             where u.id = :user_id
             """)
-    List<MovieScrap> findByUserAndMovie(@Param("user_id") Integer userId);
+    List<MovieScrapResponse.MovieScrapDTO.ScrapMovieListDTO> findByUserAndMovie(@Param("user_id") Integer userId);
 
     @Query("""
             select ms

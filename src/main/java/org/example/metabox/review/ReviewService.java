@@ -35,9 +35,10 @@ public class ReviewService {
         return new ReviewResponse.ReviewDTO(review,user);
     }
 
-   public List<ReviewResponse.ReviewListDTO> getReviewList(SessionUser user) {
-        List<Review> reviewList = reviewRepository.findByUserIdAndMovie(user.getId());
-        return reviewList.stream().map(ReviewResponse.ReviewListDTO::new).toList();
+   public ReviewResponse.MyReviewDTO getReviewList(SessionUser user) {
+        List<ReviewResponse.MyReviewDTO.ReviewListDTO> reviewList = reviewRepository.findByUserIdAndMovie(user.getId());
+        ReviewResponse.MyReviewDTO myReviewDTO = new ReviewResponse.MyReviewDTO(reviewList);
+        return myReviewDTO;
    }
 
    @Transactional
