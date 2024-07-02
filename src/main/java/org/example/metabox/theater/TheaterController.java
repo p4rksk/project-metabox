@@ -2,6 +2,7 @@ package org.example.metabox.theater;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.metabox._core.util.ApiUtil;
 import org.example.metabox._core.util.FormatUtil;
@@ -11,6 +12,7 @@ import org.example.metabox.user.SessionUser;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -39,7 +41,7 @@ public class TheaterController {
     }
 
     @PostMapping("/theaters-login")
-    public String theaterLogin(TheaterRequest.LoginDTO reqDTO) {
+    public String theaterLogin(@Valid TheaterRequest.LoginDTO reqDTO, Errors errors) {
         Theater theater = theaterService.login(reqDTO);
         SessionTheater sessionTheater = new SessionTheater(theater);
         rt.opsForValue().set("sessionTheater", sessionTheater);
@@ -110,7 +112,7 @@ public class TheaterController {
     }
 
     @PostMapping("/theaters/screening-info-save")
-    public String saveScreeningInfo(TheaterRequest.ScreeningInfoDTO reqDTO){
+    public String saveScreeningInfo(@Valid TheaterRequest.ScreeningInfoDTO reqDTO, Errors errors){
         SessionTheater sessionTheater = (SessionTheater) rt.opsForValue().get("sessionTheater");
         theaterService.saveScreeningInfo(reqDTO);
         return "redirect:/theaters/movie-schedule?theaterId=" + sessionTheater.getId();

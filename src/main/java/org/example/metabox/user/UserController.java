@@ -2,11 +2,13 @@ package org.example.metabox.user;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.metabox._core.util.ApiUtil;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -50,7 +52,7 @@ public class UserController {
     }
 
     @PostMapping("/guest/join")
-    public String login(UserRequest.JoinDTO reqDTO) {
+    public String login(@Valid UserRequest.JoinDTO reqDTO, Errors errors) {
         Guest guest = userService.join(reqDTO);
 
         // 로그인 후 세션에 정보 저장
@@ -65,8 +67,9 @@ public class UserController {
         return "user/non-member-check-form";
     }
 
+    // TODO: ApiException 필요할듯?
     @PostMapping("/guest/book-check")
-    public ResponseEntity<?> nonMemberCheck(@RequestBody UserRequest.GuestBookCheckDTO reqDTO) {
+    public ResponseEntity<?> nonMemberCheck(@Valid @RequestBody UserRequest.GuestBookCheckDTO reqDTO, Errors errors) {
 //        System.out.println("비회원 reqDTO = " + reqDTO);
         UserResponse.GuestCheckDTO guestCheckDTO = userService.findGuestBook(reqDTO);
         System.out.println("guestCheckDTO = " + guestCheckDTO);
