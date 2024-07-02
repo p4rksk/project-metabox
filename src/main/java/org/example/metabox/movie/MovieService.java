@@ -146,7 +146,7 @@ public class MovieService {
             posterFileName = fileUtil.saveMoviePoster(poster);
         } catch (IOException e) {
             // 파일 저장 중 예외 발생 시 런타임 예외로 전환
-            throw new RuntimeException("이미지 오류", e);
+
         }
 
         // Movie 객체 빌더 패턴으로 생성
