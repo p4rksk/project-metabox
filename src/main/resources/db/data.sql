@@ -6241,10 +6241,11 @@ values
 -- 상영정보 등록 끝
 -- 유저 등록
 insert into user_tb(nickname, img_filename, name, birth_year, provider, created_at, password, point)
-values ('kakao_3586886160', 'http://k.kakaocdn.net/dn/bbhhIh/btsH8BwWtD7/VkichtT9KFwCLkmuucDNTk/img_640x640.jpg',
-        '송채현', '1995', 'kakao', now(), 'asdfdsa', 21000),
+values
         ('kakao_3587969747', 'http://k.kakaocdn.net/dn/ML8Oz/btsF1tO0SFt/lDxdKk8EjuXx8K0Cfp8pYk/img_640x640.jpg	',
         '박찬혁', '1997', 'kakao', now(), 'asdfdsa', 21000),
+        ('kakao_3586886160', 'http://k.kakaocdn.net/dn/bbhhIh/btsH8BwWtD7/VkichtT9KFwCLkmuucDNTk/img_640x640.jpg',
+         '송채현', '1995', 'kakao', now(), 'asdfdsa', 21000),
        ('kakao_3596460276', 'http://k.kakaocdn.net/dn/s5uAz/btsHXDJbWgx/eEg0CRsso6lVxkYCZFdSrK/img_640x640.jpg',
         '이서현', '2000', 'kakao', now(), 'asdfdsa', 21000),
        ('바끄선규', 'default.png', '박선규', '2000', 'kakao', now(), 'asdfdsa', 0),
