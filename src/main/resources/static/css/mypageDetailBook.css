@@ -172,12 +172,21 @@
 .justify-content-between {
     justify-content: space-between;
 }
+/*.swiper-container {*/
+/*    width: 100%;*/
+/*    padding-top: 20px;*/
+/*    padding-bottom: 20px;*/
+/*    overflow: hidden;*/
+/*}*/
+
 .swiper-container {
     width: 100%;
     padding-top: 20px;
     padding-bottom: 20px;
     overflow: hidden;
+    position: relative; /* 추가 */
 }
+
 
 .swiper-slide {
     background: #fff;
@@ -223,8 +232,23 @@
     width: 12%;
 }
 
+/*.swiper-button-next, .swiper-button-prev {*/
+/*    color: #4E0929;*/
+/*}*/
+
 .swiper-button-next, .swiper-button-prev {
     color: #4E0929;
+    position: absolute; /* 추가 */
+    top: 40%; /* 중간 위치 */
+    transform: translateY(-50%); /* 중간으로 이동 */
+}
+
+.swiper-button-next {
+    right: 10px; /* 오른쪽 위치 */
+}
+
+.swiper-button-prev {
+    left: 10px; /* 왼쪽 위치 */
 }
 
 .modal {

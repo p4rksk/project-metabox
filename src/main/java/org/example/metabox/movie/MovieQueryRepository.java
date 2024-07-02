@@ -90,7 +90,7 @@ public class MovieQueryRepository {
         String q = """
                     SELECT m.title, m.img_filename, m.eng_title,
                     SUBSTRING(m.info, 1, 2), si.date as "관람일시", si.start_time as "시작시간",
-                    si.end_time as "종료시간", b.id, s.name, t.name, b.guest_id as "유저"
+                    si.end_time as "종료시간", b.id, s.name, t.name, b.guest_id as "유저", b.book_num
                     FROM book_tb b
                     INNER JOIN seat_book_tb sb ON sb.book_id = b.id
                     INNER JOIN screening_info_tb si ON sb.screening_info_id = si.id
@@ -118,6 +118,7 @@ public class MovieQueryRepository {
             String name = (String) row[8];  // 몇관인지
             String theaterName = (String) row[9];  // 무슨 metabox 인지
             Integer userId = ((Number) row[10]).intValue();
+            String bookNum = (String) row[11];
 
             String ageInfo;
             if ("전체".equals(info)) {
@@ -138,6 +139,7 @@ public class MovieQueryRepository {
                     .name(name)
                     .theaterName(theaterName)
                     .userId(userId)
+                    .bookNum(bookNum)
                     .totalPriceDTOS(totalPriceDTOs)
                     .seatDTOS(seatDTOS)
                     .build();
