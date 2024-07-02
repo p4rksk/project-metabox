@@ -22,6 +22,7 @@ public class BookResponse {
         private String screeningTime;
         private String totalPrice;
         private List<String> seatNumList;
+        private String bookNum;
 
         public BookFinishDTO(List<SeatBook> seatBookList) {
             this.name = seatBookList.getFirst().getBook().getGuest().getName();
@@ -33,6 +34,7 @@ public class BookResponse {
             this.seatNumList = seatBookList.stream()
                     .map(seatBook -> seatBook.getSeat().getCode())
                     .collect(Collectors.toList());
+            this.bookNum = seatBookList.getFirst().getBook().getBookNum();
         }
     }
 
