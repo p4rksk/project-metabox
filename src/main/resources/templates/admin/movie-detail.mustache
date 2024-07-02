@@ -352,11 +352,11 @@
     <div class="container comment-section">
         {{#model.reviews}}
         <div class="comment">
-            <img src="/image/user/{{userProfile}}" alt="User 1" class="profile-img">
+            <img src="{{userProfile}}" alt="User 1" class="profile-img">
             <div class="comment-body">
                 <p><strong>{{reviewer}}: </strong>{{comment}}</p>
                 <div class="comment-footer">
-                    <span>2024.06.14</span>
+                    <span>{{reviewDate}}</span>
                 </div>
             </div>
         </div>
