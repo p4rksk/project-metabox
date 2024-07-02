@@ -1,6 +1,8 @@
 package org.example.metabox.theater;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,11 +31,19 @@ public class TheaterRequest {
 
     @Data
     public class ScreeningInfoDTO {
-        private int screeningId;
-        private int movieId;
-        private String startTime;
-        private String endTime;
-        private String showtime;
+        @NotNull(message = "상영관은 필수 입력 항목입니다.")
+        private Integer screeningId;
+
+        @NotNull(message = "상영 영화는 필수 입력 항목입니다.")
+        private Integer movieId;
+
+        @NotEmpty(message = "시작 시간은 필수 입력 항목입니다.")
+        private String startTime;       //상영시작시간
+        @NotEmpty(message = "종료 시간은 필수 입력 항목입니다.")
+        private String endTime;         //상영종료시간
+        @NotEmpty(message = "상영 시간은 필수 입력 항목입니다.")
+        private String showtime;        //상영시간
+        @NotNull(message = "상영 일은 필수 입력 항목입니다.")
         private LocalDate screeningDate;
     }
 }
