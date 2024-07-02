@@ -1,5 +1,7 @@
 package org.example.metabox.movie;
 
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -10,7 +12,9 @@ public class MovieRequest {
     // 영화 등록
     @Data
     public static class MovieSavaFormDTO {
+        @NotEmpty(message = "비워둘 수 없습니다.")
         private String title;
+
         private String engTitle;
         private String director;
         private String actor;

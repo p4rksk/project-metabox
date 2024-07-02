@@ -2,6 +2,7 @@ package org.example.metabox.admin;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.metabox.movie.MovieRequest;
 import org.example.metabox.movie.MovieResponse;
@@ -14,10 +15,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.net.http.HttpRequest;
 import java.util.HashMap;
@@ -39,7 +42,7 @@ public class AdminController {
     }
 
     @PostMapping("/admin-login")
-    public String adminLogin(AdminRequest.LoginDTO reqDTO) {
+    public String adminLogin(@Valid AdminRequest.LoginDTO reqDTO, Errors errors) {
         Admin admin = adminService.login(reqDTO);
         SessionAdmin sessionAdmin = new SessionAdmin(admin.getId(), admin.getLoginId());
         rt.opsForValue().set("sessionAdmin", sessionAdmin);
@@ -113,7 +116,7 @@ public class AdminController {
 
     // 영화 등록을 처리하는 POST 요청 메서드
     @PostMapping("/movie-save")
-    public String movieAdd(MovieRequest.MovieSavaFormDTO reqDTO) {
+    public String movieAdd(@Valid MovieRequest.MovieSavaFormDTO reqDTO, Errors errors) {
         movieService.addMovie(reqDTO);
         return "redirect:movie-list";
     }
