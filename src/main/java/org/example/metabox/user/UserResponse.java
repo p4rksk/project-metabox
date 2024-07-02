@@ -96,15 +96,15 @@ public class UserResponse {
         public static class UserDTO {
             private Integer guestId;
             private String name;
-            private String phone;
             private String password;
+            private String phone;
             private String bookNum;
 
-            public UserDTO(Integer guestId, String name, String phone, String password, String bookNum) {
+            public UserDTO(Integer guestId, String name, String password, String phone, String bookNum) {
                 this.guestId = guestId;
                 this.name = name;
-                this.phone = phone;
                 this.password = password;
+                this.phone = phone;
                 this.bookNum = bookNum;
             }
         }

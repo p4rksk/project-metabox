@@ -13100,8 +13100,8 @@ values (4, 110, 6);
 insert into book_tb(user_id, guest_id, total_price, created_at, point, used_point, book_price, book_num)
 values (null, 2, 30000, now(), 0, 0, 30000, '202406160005');
 insert into seat_book_tb(book_id, seat_id, screening_info_id)
-values (5, 41, 6),
-       (5, 42, 6);
+values (44, 41, 6),
+       (44, 42, 6);
 
 -- 리뷰 등록
 insert into review_tb(user_id, movie_id, comment, rating)
