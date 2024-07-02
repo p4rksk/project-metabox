@@ -14,7 +14,7 @@ import org.springframework.validation.FieldError;
 public class MyValidationHandler {
     @Before("@annotation(org.springframework.web.bind.annotation.PostMapping)")
     // PointCut
-    public void hello(JoinPoint jp) {
+    public void myAOP(JoinPoint jp) {
         Object[] args = jp.getArgs(); // Args: 파라미터 -> object를 리턴
         System.out.println("크기 : " + args.length);
 
@@ -22,7 +22,7 @@ public class MyValidationHandler {
 
             if (arg instanceof Errors) {
                 Errors errors = (Errors) arg; // 에러스타입의 arg를 다운캐스팅
-
+                System.out.println("errors = " + errors);
                 if (errors.hasErrors()) {
                     for (FieldError error : errors.getFieldErrors()) {
                         System.out.println(error.getField());
@@ -32,6 +32,6 @@ public class MyValidationHandler {
                 }
             }
         }
-        System.out.println("MyValidationHandler: hello____________________");
+//        System.out.println("MyValidationHandler: hello____________________");
     }
 }

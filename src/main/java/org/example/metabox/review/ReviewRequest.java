@@ -1,5 +1,6 @@
 package org.example.metabox.review;
 
+import jakarta.validation.constraints.*;
 import lombok.Data;
 import org.example.metabox.movie.Movie;
 import org.example.metabox.theater.Theater;
@@ -12,7 +13,11 @@ public class ReviewRequest {
     public static class ReviewSaveDTO {
         private User user;
         private Movie movie;
+
+        @Min(value = 1, message = "별점은 1점 이상이어야 합니다.")
+        @Max(value = 5, message = "별점은 5점 이하여야 합니다.")
         private int rating;
+        @NotEmpty(message = "댓글은 필수 입력 항목입니다.")
         private String comment;
 
         public Review toEntity (User user, Movie movie) {

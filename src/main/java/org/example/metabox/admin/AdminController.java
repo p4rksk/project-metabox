@@ -131,7 +131,7 @@ public class AdminController {
 
     // 영화 수정
     @PostMapping("/movie-edit")
-    public String movieEdit(MovieRequest.MovieInfoEditDTO reqDTO) {
+    public String movieEdit(@Valid MovieRequest.MovieInfoEditDTO reqDTO, Errors errors) {
         int movieId = movieService.editMovieInfo(reqDTO);
         // 수정한 영화 페이지로 리다이렉트
         return "redirect:movie-detail/" + movieId;

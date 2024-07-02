@@ -52,9 +52,13 @@ public class MovieRequest {
     @Data
     public static class MovieInfoEditDTO {
         private int id;
+        @NotEmpty(message = "감독은 필수 입력 항목입니다.")
         private String director;
+        @NotEmpty(message = "배우는 필수 입력 항목입니다.")
         private String actor;
+        @NotEmpty(message = "장르는 필수 입력 항목입니다.")
         private String genre;
+        @NotEmpty(message = "정보는 필수 입력 항목입니다.")
         private String info;
         private Date startDate;
         private Date endDate;
