@@ -16,7 +16,7 @@ public class UserRequest {
         private Integer theaterNameId;
         private Integer userId;
 
-        public TheaterScrap toEntity (Theater theaterNameId, User userId) {
+        public TheaterScrap toEntity(Theater theaterNameId, User userId) {
             return TheaterScrap.builder()
                     .theater(theaterNameId)
                     .user(userId)
@@ -27,10 +27,20 @@ public class UserRequest {
     // 비회원 예매 조회
     @Data
     public static class GuestBookCheckDTO {
-            private String name;
-            private String phone;
-            private String password;
-            private String bookNumb;
+        @NotEmpty(message = "이름을 입력해주세요.")
+        private String name;
+
+        @NotEmpty(message = "전화번호를 입력해주세요.")
+        @Size(min = 13, max = 13, message = "전화번호는 13글자여야 합니다.")
+        @Pattern(regexp = "^010-\\d{4}-\\d{4}$", message = "전화번호는 010으로 시작해야 합니다.")
+        private String phone;
+
+        @NotEmpty(message = "비밀번호를 입력해주세요.")
+        @Size(min = 4, max = 4, message = "비밀번호는 4글자여야 합니다.")
+        private String password;
+
+        @NotEmpty(message = "예매번호를 입력해주세요.")
+        private String bookNumb;
     }
 
 
