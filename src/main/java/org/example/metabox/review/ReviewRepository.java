@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface ReviewRepository extends JpaRepository<Review, Integer> {
 
-    @Query("select r from Review r where r.movie.id =:movieId ")
+    @Query("select r from Review r where r.movie.id =:movieId order by r.createdAt desc")
     List<Review> findByMovieId(@Param("movieId") int movieId);
 
     @Query("""

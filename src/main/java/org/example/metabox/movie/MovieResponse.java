@@ -3,6 +3,7 @@ package org.example.metabox.movie;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import org.example.metabox._core.util.FormatUtil;
 import org.example.metabox.movie_pic.MoviePic;
 import org.example.metabox.review.Review;
 import org.example.metabox.trailer.Trailer;
@@ -160,7 +161,7 @@ public class MovieResponse {
             private String reviewer;
             private String userProfile;
             // TODO: 더미 데이터에 리뷰 작성일 null이라서 머스테치에 적용하면 에러남 더미 데이터 수정 후 적용
-            private LocalDateTime reviewDate;
+            private String reviewDate;
 
             public static ReviewDTO fromEntity(Review review) {
                 ReviewDTO dto = new ReviewDTO();
@@ -169,7 +170,7 @@ public class MovieResponse {
                 dto.rating = review.getRating();
                 dto.reviewer = review.getUser().getNickname();
                 dto.userProfile = review.getUser().getImgFilename();
-                dto.reviewDate = review.getCreatedAt();
+                dto.reviewDate = FormatUtil.timeFormat(review.getCreatedAt());
                 return dto;
             }
         }
