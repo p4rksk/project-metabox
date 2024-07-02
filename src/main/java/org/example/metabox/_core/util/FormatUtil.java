@@ -2,6 +2,8 @@ package org.example.metabox._core.util;
 
 import java.text.NumberFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 public class FormatUtil {
@@ -24,5 +26,12 @@ public class FormatUtil {
     public static String viewerFormat(Long viewerCount) {
         NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.KOREA);
         return numberFormat.format(viewerCount) + "명";
+    }
+
+    public static String timeFormat(LocalDateTime time) {
+        // 포맷 지정
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yy.MM.dd HH:mm");
+        // 포맷팅된 문자열 반환
+        return time.format(formatter);
     }
 }
