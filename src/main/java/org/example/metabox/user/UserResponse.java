@@ -50,11 +50,12 @@ public class UserResponse {
             private String ageInfo;     // 전체, 12세, 15세, 19세
             private String ageColor;
             // 애 한 번 돌때 여러번 돌고, 일치하는 것만 나오게
+            private String bookNum;
             private Integer totalPrice;
             private List<String> seatCodes = new ArrayList<>();
 
             @Builder
-            public TicketingDTO(Integer id, String title, String imgFilename, String engTitle, Date date, String startTime, String endTime, String name, String theaterName, Integer userId, String ageInfo, List<TotalPriceDTO> totalPriceDTOS, List<SeatDTO> seatDTOS) {
+            public TicketingDTO(Integer id, String title, String imgFilename, String engTitle, Date date, String startTime, String endTime, String name, String theaterName, Integer userId, String ageInfo, String bookNum, List<TotalPriceDTO> totalPriceDTOS, List<SeatDTO> seatDTOS) {
                 this.id = id;
                 this.title = title;
                 this.imgFilename = imgFilename;
@@ -65,6 +66,7 @@ public class UserResponse {
                 this.name = name;
                 this.theaterName = theaterName;
                 this.userId = userId;
+                this.bookNum = bookNum;
                 this.ageInfo = ageInfo;
                 this.ageColor = classColor();
 

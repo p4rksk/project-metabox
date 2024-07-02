@@ -46,6 +46,10 @@
             </div>
             <div class="modal-body">
                 <div class="value">
+                    <p class="label mt-3">[ 예매번호 ]</p>
+                    <p id="modal-book-num"></p>
+                </div>
+                <div class="value">
                     <p class="label mt-3">[ 예매자 ]</p>
                     <p id="modal-name"></p>
                 </div>
@@ -144,6 +148,7 @@
             // alert("예매 확인이 성공적으로 완료되었습니다.");
 
             // 모달창에 값 표시
+            $('#modal-book-num').text(res.body.ticketingDTO[0].bookNum);
             $('#modal-name').text(res.body.userDTO.name);
             $('#modal-movie').text(res.body.ticketingDTO[0].title + ' (' + res.body.ticketingDTO[0].engTitle + ')');
             $('#modal-theater').text(res.body.ticketingDTO[0].theaterName + ' ' + res.body.ticketingDTO[0].name);

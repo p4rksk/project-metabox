@@ -67,7 +67,7 @@ public class UserController {
 
     @PostMapping("/guest/book-check")
     public ResponseEntity<?> nonMemberCheck(@RequestBody UserRequest.GuestBookCheckDTO reqDTO) {
-        System.out.println("비회원 reqDTO = " + reqDTO);
+//        System.out.println("비회원 reqDTO = " + reqDTO);
         UserResponse.GuestCheckDTO guestCheckDTO = userService.findGuestBook(reqDTO);
         System.out.println("guestCheckDTO = " + guestCheckDTO);
 
