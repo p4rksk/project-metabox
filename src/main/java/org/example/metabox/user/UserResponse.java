@@ -50,11 +50,12 @@ public class UserResponse {
             private String ageInfo;     // 전체, 12세, 15세, 19세
             private String ageColor;
             // 애 한 번 돌때 여러번 돌고, 일치하는 것만 나오게
+            private String bookNum;
             private Integer totalPrice;
             private List<String> seatCodes = new ArrayList<>();
 
             @Builder
-            public TicketingDTO(Integer id, String title, String imgFilename, String engTitle, Date date, String startTime, String endTime, String name, String theaterName, Integer userId, String ageInfo, List<TotalPriceDTO> totalPriceDTOS, List<SeatDTO> seatDTOS) {
+            public TicketingDTO(Integer id, String title, String imgFilename, String engTitle, Date date, String startTime, String endTime, String name, String theaterName, Integer userId, String ageInfo, String bookNum, List<TotalPriceDTO> totalPriceDTOS, List<SeatDTO> seatDTOS) {
                 this.id = id;
                 this.title = title;
                 this.imgFilename = imgFilename;
@@ -65,6 +66,7 @@ public class UserResponse {
                 this.name = name;
                 this.theaterName = theaterName;
                 this.userId = userId;
+                this.bookNum = bookNum;
                 this.ageInfo = ageInfo;
                 this.ageColor = classColor();
 
@@ -96,15 +98,15 @@ public class UserResponse {
         public static class UserDTO {
             private Integer guestId;
             private String name;
-            private String phone;
             private String password;
+            private String phone;
             private String bookNum;
 
-            public UserDTO(Integer guestId, String name, String phone, String password, String bookNum) {
+            public UserDTO(Integer guestId, String name, String password, String phone, String bookNum) {
                 this.guestId = guestId;
                 this.name = name;
-                this.phone = phone;
                 this.password = password;
+                this.phone = phone;
                 this.bookNum = bookNum;
             }
         }
@@ -545,16 +547,35 @@ public class UserResponse {
             private String imgFilename;
             private String title;
             private Date startDate;
+            private String ageInfo;     // 전체, 12세, 15세, 19세
+            private String ageColor;
 
             private Double ticketSales;     // 예매율 - 계산해서 가져오기
 
             @Builder
-            public MovieChartDTO(Integer movieId, String imgFilename, String title, Date startDate, Double ticketSales) {
+            public MovieChartDTO(Integer movieId, String imgFilename, String title, Date startDate, Double ticketSales, String ageInfo) {
                 this.movieId = movieId;
                 this.imgFilename = imgFilename;
                 this.title = title;
                 this.startDate = startDate;
                 this.ticketSales = ticketSales;
+                this.ageInfo = ageInfo;
+                this.ageColor = classColor();
+            }
+
+            public String classColor() {
+                if ("12".equals(ageInfo)) {
+                    return "age-info-yellow";
+                } else if ("15".equals(ageInfo)) {
+                    return "age-info-blue";
+                } else if ("전".equals(ageInfo)) {
+                    return "age-info-green";
+                } else if ("19".equals(ageInfo)) {
+                    return "age-info-red";
+                } else {
+                    return "";
+                }
+
             }
 
         }
