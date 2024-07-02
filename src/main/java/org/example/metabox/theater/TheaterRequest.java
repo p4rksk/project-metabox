@@ -2,8 +2,8 @@ package org.example.metabox.theater;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.sql.Date;
 import java.time.LocalDate;
 
 public class TheaterRequest {
@@ -28,5 +28,18 @@ public class TheaterRequest {
         private String endTime;
         private String showtime;
         private LocalDate screeningDate;
+    }
+
+    @Data
+    public class theaterSaveDTO {
+        private String theaterAddress; //
+        private String areaCode; //
+        private String areaName;
+        private MultipartFile imgFilename; //
+        private String theaterId; //
+        private String theaterName; //
+        private String theaterTel; //
+        private String password; //
+        private String url;
     }
 }

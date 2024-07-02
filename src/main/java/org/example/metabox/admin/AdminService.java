@@ -3,12 +3,15 @@ package org.example.metabox.admin;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.metabox._core.errors.exception.Exception401;
+import org.example.metabox._core.util.FileUtil;
 import org.example.metabox._core.util.FormatUtil;
 import org.example.metabox.book.BookRepository;
 import org.example.metabox.theater.Theater;
 import org.example.metabox.theater.TheaterRepository;
+import org.example.metabox.theater.TheaterRequest;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,7 +23,9 @@ public class AdminService {
 
     private final AdminRepository adminRepository;
     private final BookRepository bookRepository; ;
-    private final TheaterRepository theaterRepository; ;
+    private final TheaterRepository theaterRepository;
+    private final FileUtil fileUtil;
+    ;
 
     //로그인
     public Admin login(AdminRequest.LoginDTO reqDTO){
@@ -84,5 +89,33 @@ public class AdminService {
                 .theaterSales(theaterSalesDTO)
                 .movieSales(SalesByMovieDTO)
                 .build();
+    }
+
+    public void saveTheater(TheaterRequest.theaterSaveDTO reqDTO) {
+        Theater theater = toEntity(reqDTO);
+        theaterRepository.save(theater);
+    }
+
+    private Theater toEntity(TheaterRequest.theaterSaveDTO reqDTO) {
+        String imgFileName = null;
+
+        try {
+            imgFileName = fileUtil.saveTheaterImage(reqDTO.getImgFilename());
+        } catch (IOException e) {
+            throw new RuntimeException("이미지 오류", e);
+        }
+
+        Theater theater = Theater.builder()
+                .address(reqDTO.getTheaterAddress())
+                .areaCode(String.valueOf(reqDTO.getAreaCode()))
+                .areaName(reqDTO.getAreaName())
+                .imgFilename(imgFileName)
+                .loginId(reqDTO.getTheaterId())
+                .name(reqDTO.getTheaterName())
+                .number(reqDTO.getTheaterTel())
+                .password(reqDTO.getPassword())
+                .url(reqDTO.getUrl())
+                .build();
+        return theater;
     }
 }

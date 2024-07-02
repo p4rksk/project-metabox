@@ -61,17 +61,21 @@
             <div style="width: 100%;">
                 <div class="form-group">
                     <label for="theaterTitle">극장 이름</label>
-                    <input type="text" class="form-control" id="theaterTitle" name="title" placeholder="극장 이름을 입력하세요">
+                    <input type="text" class="form-control" id="theaterTitle" name="theaterName" placeholder="극장 이름을 입력하세요">
                 </div>
                 <div class="form-group">
                     <label for="address">극장 주소</label>
-                    <input type="text" class="form-control" id="address" name="info" placeholder="기본 정보를 입력하세요">
+                    <input type="text" class="form-control" id="address" name="theaterAddress" placeholder="기본 정보를 입력하세요">
                 </div>
                 <div class="form-group">
                     <label for="number">전화 번호</label>
                     <input type="text" class="form-control" id="director" maxlength="8" oninput="oninputPhone(this)"
-                           name="number"
+                           name="theaterTel"
                            placeholder="1588-1234">
+                </div>
+                <div class="form-group">
+                    <label for="address">극장 지역</label>
+                    <input type="text" class="form-control" id="areaName" name="areaName" placeholder="지역를 입력하세요">
                 </div>
 
             </div>
@@ -82,13 +86,17 @@
                 </div>
                 <div class="form-group">
                     <label for="password">극장 비밀번호</label>
-                    <input type="password" class="form-control" id="password" name="engTitle"
+                    <input type="password" class="form-control" id="password" name="password"
                            placeholder="사용할 극장 비밀번호를 입력해주세요">
                 </div>
                 <div class="form-group">
-                    <label for="password">극장 비밀번호 확인</label>
-                    <input type="password" class="form-control" id="password" name="engTitle"
-                           placeholder="극장 비밀번호를 한번 더 입력해주세요">
+                    <label for="theaterId">극장 URL</label>
+                    <input type="text" class="form-control" id="url" name="url" placeholder="극장 url을 입력해주세요.">
+                </div>
+                <div class="form-group">
+                    <label for="">극장 지역 코드</label>
+                    <input type="text" class="form-control" id="areaCode" name="areaCode"
+                           placeholder="지역 코드를 입력하세요.">
                 </div>
             </div>
         </div>

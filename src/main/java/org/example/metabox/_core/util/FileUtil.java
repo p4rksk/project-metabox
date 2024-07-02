@@ -48,6 +48,11 @@ public class FileUtil {
         return saveFile("movie_pic", file);
     }
 
+    // 극장 사진을 저장하는 메서드
+    public String saveTheaterImage(MultipartFile file) throws IOException {
+        return saveFile("theater", file);
+    }
+
     //m3u8파일을 상대경로로 변환하는 메서드
     public String getRelativePathToM3u8File(String fileName) {
         try {

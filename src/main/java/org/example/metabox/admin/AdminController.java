@@ -8,6 +8,7 @@ import org.example.metabox.movie.MovieResponse;
 import org.example.metabox.movie.MovieService;
 import org.example.metabox.movie_pic.MoviePicRequest;
 import org.example.metabox.movie_pic.MoviePicService;
+import org.example.metabox.theater.TheaterRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -180,9 +181,14 @@ public class AdminController {
         return "admin/admin-sales-management";
     }
 
-
     @GetMapping("/theater-save-form")
     public String theaterSaveForm() {
         return "admin/theater-save-form";
+    }
+
+    @PostMapping("/theater-save")
+    public String saveTheater(TheaterRequest.theaterSaveDTO reqDTO) {
+        adminService.saveTheater(reqDTO);
+        return "redirect:theaters/info";
     }
 }
