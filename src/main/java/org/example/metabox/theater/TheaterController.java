@@ -111,8 +111,9 @@ public class TheaterController {
 
     @PostMapping("/theaters/screening-info-save")
     public String saveScreeningInfo(TheaterRequest.ScreeningInfoDTO reqDTO){
+        SessionTheater sessionTheater = (SessionTheater) rt.opsForValue().get("sessionTheater");
         theaterService.saveScreeningInfo(reqDTO);
-        return "index";
+        return "redirect:/theaters/movie-schedule?theaterId=" + sessionTheater.getId();
     }
 
 }
