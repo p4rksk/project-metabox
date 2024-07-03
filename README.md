@@ -19,8 +19,8 @@
 
 # 📚 발표자료
 ![image](https://github.com/cowcat0722/project-metabox/assets/153695703/7830fa82-ffa7-4fbb-ab75-ceb6160c8bf7)
+[META BOX.pdf](https://github.com/user-attachments/files/16077639/META.BOX.pdf)
 
-[3조PPT 리드미.pptx](https://github.com/user-attachments/files/16077610/3.PPT.pptx)
 
 <br>
 
