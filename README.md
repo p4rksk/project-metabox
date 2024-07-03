@@ -60,7 +60,7 @@
 ![JavaScript](https://img.shields.io/badge/JavaScript-%23323330.svg?style=flat&logo=javascript&logoColor=white)
 ![Java](https://img.shields.io/badge/Java-%23ED8B00.svg?style=flat&logo=openjdk&logoColor=white)
 ![CSS](https://img.shields.io/badge/-CSS3-blue?logo=css3&logoColor=white)
-![Bootstrap](https://img.shields.io/badge/BootStrap-%238511FA.svg?style=flat&logo=bootstrap&logoColor=white)
+
 
 ### FrameWork
 
@@ -71,6 +71,7 @@
 ![FFmpeg](https://img.shields.io/badge/FFmpeg-green?logo=ffmpeg&logoColor=white)
 ![jQuery](https://img.shields.io/badge/jQuery-blue?logo=jquery&logoColor=white)
 ![JUnit](https://img.shields.io/badge/JUnit-green?logo=junit5&logoColor=white)
+![Bootstrap](https://img.shields.io/badge/BootStrap-%238511FA.svg?style=flat&logo=bootstrap&logoColor=white)
 
 ### DB
 
