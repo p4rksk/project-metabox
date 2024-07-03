@@ -20,7 +20,7 @@
 # 📚 발표자료
 ![image](https://github.com/cowcat0722/project-metabox/assets/153695703/7830fa82-ffa7-4fbb-ab75-ceb6160c8bf7)
 
-[3조PPT 리드미.pptx](https://github.com/user-attachments/files/16077565/3.PPT.pptx)
+[3조PPT.pptx](https://github.com/user-attachments/files/16077565/3.PPT.pptx)
 
 <br>
 
