@@ -55,18 +55,21 @@
 ![IntelliJ IDEA](https://img.shields.io/badge/-IntelliJ%20IDEA-blue?logo=intellij-idea&logoColor=white)
 ![Cursor AI](https://img.shields.io/badge/-Cursor%20AI-black?logo=coursera&logoColor=white)
 
+### Language
+
+![JavaScript](https://img.shields.io/badge/JavaScript-%23323330.svg?style=flat&logo=javascript&logoColor=white)
+![Java](https://img.shields.io/badge/Java-%23ED8B00.svg?style=flat&logo=openjdk&logoColor=white)
+![CSS](https://img.shields.io/badge/-CSS3-blue?logo=css3&logoColor=white)
+![Bootstrap](https://img.shields.io/badge/BootStrap-%238511FA.svg?style=flat&logo=bootstrap&logoColor=white)
+
 ### FrameWork
 
 ![Spring Boot](https://img.shields.io/badge/-Spring%20Boot-brightgreen?logo=spring&logoColor=white)
-![CSS](https://img.shields.io/badge/-CSS3-blue?logo=css3&logoColor=white)
-![Bootstrap](https://img.shields.io/badge/BootStrap-%238511FA.svg?style=flat&logo=bootstrap&logoColor=white)
 ![Redis](https://img.shields.io/badge/Redis-black?logo=redis&logoColor=white)
 ![React](https://img.shields.io/badge/React-blue?logo=react&logoColor=white)
 ![JPA](https://img.shields.io/badge/JPA-red?logo=spring&logoColor=white)
 ![FFmpeg](https://img.shields.io/badge/FFmpeg-green?logo=ffmpeg&logoColor=white)
 ![jQuery](https://img.shields.io/badge/jQuery-blue?logo=jquery&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-%23323330.svg?style=flat&logo=javascript&logoColor=white)
-![Java](https://img.shields.io/badge/Java-%23ED8B00.svg?style=flat&logo=openjdk&logoColor=white)
 ![JUnit](https://img.shields.io/badge/JUnit-green?logo=junit5&logoColor=white)
 
 ### DB
