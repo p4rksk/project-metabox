@@ -19,7 +19,7 @@
 
 # 📚 발표자료
 추가 예정
-[3조_PPT.pdf](url)
+[3조PPT 리드미.pptx](https://github.com/user-attachments/files/16077565/3.PPT.pptx)
 
 <br>
 
