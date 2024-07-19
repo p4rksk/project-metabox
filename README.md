@@ -14,8 +14,17 @@
 <br>
 
 # 📽️ 시연영상
+![영화등록](https://github.com/user-attachments/assets/ff6664d2-864d-4c41-8c16-d3b565a02b82)
+![영화수정](https://github.com/user-attachments/assets/5c51d87a-0f9a-4e49-a76e-2668c49e1ee1)
+![영화삭제](https://github.com/user-attachments/assets/93ae0142-727b-4523-abec-edd45922b86e)
+![극장등록](https://github.com/user-attachments/assets/f958d863-844e-408d-8f11-3f4ccd96603d)
+![상영시간등록](https://github.com/user-attachments/assets/345154e1-14c5-4c8e-8edc-8bcf1fd09e38)
+![예매및결제](https://github.com/user-attachments/assets/76b6842b-2b8e-4bf2-a23f-99875359400a)
+![관람평작성](https://github.com/user-attachments/assets/ea08ac29-2640-4f37-a598-8fc859f19cb3)
+![영화검색및스크랩](https://github.com/user-attachments/assets/25db3f8d-ad69-4066-98c1-4c503a65dc64)
 
-추가 예정
+
+
 
 # 📚 발표자료
 ![image](https://github.com/cowcat0722/project-metabox/assets/153695703/7830fa82-ffa7-4fbb-ab75-ceb6160c8bf7)
