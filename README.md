@@ -1,7 +1,7 @@
 # I am
 | 이름 | 사진 | 역할 |  
 |:--:|:--:|:---------------:|
-| 박선규   |<img src="https://github.com/p4rksk/miniproject-jobala-v2-ssr/assets/153582360/cf8fd9c6-50d9-40b5-9914-09527344bf92" width="100">  | 팀장<br/>테이블 설계, 프로젝트 초기 세팅<br/> 트레일러,등록 재생<br/> 비회원 회원가입시 자동로그인, 비회원 예매<br/> 시연영상 촬영, PPT제작, 발표|
+| 박선규   |<img src="https://github.com/p4rksk/miniproject-jobala-v2-ssr/assets/153582360/cf8fd9c6-50d9-40b5-9914-09527344bf92" width="100">  | 팀장<br/>테이블 설계, 프로젝트 초기 세팅<br/> 트레일러 샘플링,등록, 재생<br/> 비회원 회원가입시 자동로그인, 비회원 예매<br/> 시연영상 촬영, PPT제작, 발표|
 ---
 
 # 🎬 [영화 예매 플랫폼] METABOX.
