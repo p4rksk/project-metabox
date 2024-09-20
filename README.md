@@ -59,11 +59,10 @@
 
 
 ### Team-Member
-
-|                                                   박선규(팀장)                                                    |                                                   송채현                                                    |                                                  이서현                                                   |                                                   임준식                                                    |
-|:--------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------:| :-------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------:| 
-| <img src="https://avatars.githubusercontent.com/u/153582360?v=4" alt="profile" width="100" height="100"> | <img src="https://avatars.githubusercontent.com/u/148741097?v=4" alt="profile" width="100" height="100"> |  <img src="https://avatars.githubusercontent.com/u/153695703?v=4" alt="profile" width="100" height="100"> | <img src="https://avatars.githubusercontent.com/u/81667935?v=4" alt="profile" width="100" height="100"> | 
-|                                    [@p4rksk](https://github.com/p4rksk)                                    |                              [@codingbb](https://github.com/codingbb)                              |                             [@hyeonnnit](https://github.com/hyeonnnit)                               |                               [@sik2Boii](https://github.com/sik2Boii)                               |
+|                                                   송채현                                                    |                                                  이서현                                                   |                                                   임준식                                                    |
+|:--------------------------------------------------------------------------------------------------------:| :-------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------:| 
+ | <img src="https://avatars.githubusercontent.com/u/148741097?v=4" alt="profile" width="100" height="100"> |  <img src="https://avatars.githubusercontent.com/u/153695703?v=4" alt="profile" width="100" height="100"> | <img src="https://avatars.githubusercontent.com/u/81667935?v=4" alt="profile" width="100" height="100"> | 
+|                              [@codingbb](https://github.com/codingbb)                              |                             [@hyeonnnit](https://github.com/hyeonnnit)                               |                               [@sik2Boii](https://github.com/sik2Boii)                               |
 
 <br>
 
