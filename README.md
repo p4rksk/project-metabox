@@ -49,8 +49,6 @@
 
 ### Team-Leader
 
-### Team-Leader
-
 |                       박찬혁(팀장)                        |                      박선규(팀장)                      |
 |:------------------------------------------------------:|:--------------------------------------------------:|
 | <img src="https://avatars.githubusercontent.com/u/153582126?v=4" alt="profile" width="100" height="100"> | <img src="https://avatars.githubusercontent.com/u/153582360?v=4" alt="profile" width="100" height="100"> |
